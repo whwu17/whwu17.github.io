@@ -2,6 +2,10 @@ source 'https://rubygems.org'
 
 gem 'jekyll', '3.9.2'
 
+# Required to run `jekyll serve` on Ruby 3.x (webrick was removed from
+# Ruby's default gems starting with Ruby 3.0).
+gem 'webrick', '~> 1.8'
+
 group :jekyll_plugins do
   gem 'jekyll-archives', '2.1.1'
   gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
