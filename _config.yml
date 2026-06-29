@@ -2,6 +2,7 @@
 # Site
 
 title: "Wenhan's Home"
+description: "Personal homepage of Wu Wenhan — a fast, minimal space for my profile, notes, useful links and projects."
 url: "https://whwu17.github.io"
 baseurl:
 
@@ -15,10 +16,12 @@ author:
   avatar           : "/images/profile.png"
   position         : "Student @ ECNU"
   location         : "East China Normal University"
+  location_url     : "https://www.ecnu.edu.cn"
   employer         :
   pubmed           : 
   googlescholar    : "https://scholar.google.com/citations?user=NBSeJLkAAAAJ&hl=en&oi=sra"
-  email            :  "1020645987@qq.com"
+  email            :  "whwu17@foxmail.com"
+  blog             :  "https://blog.51cto.com/u_13647519"
   researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
   github           : "ivyee17"
   impactstory      : #"https://profiles.impactstory.org/u/xxxx-xxxx-xxxx-xxxx"
@@ -45,11 +48,6 @@ author:
 
 Timezone: Etc/UTC
 
-collections:
-  sections:
-    output: true
-  
-  
 paginate: 10
 permalink: pretty
 
