@@ -1,0 +1,27 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{% if page.title %}{{ page.title }} · {{ site.author.name }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name="description"
+    content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+  <meta name="author" content="{{ site.author.name }}">
+  <meta name="theme-color" content="#4f46e5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b0f17" media="(prefers-color-scheme: dark)">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{% if page.title %}{{ page.title }} · {{ site.author.name }}{% else %}{{ site.title }}{% endif %}">
+  <meta property="og:description"
+    content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+  <meta property="og:image" content="{{ site.url }}{{ site.author.avatar }}">
+
+  <link rel="icon" href="/assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
+
+  <link rel="preload" href="/assets/css/main.css" as="style">
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  {% feed_meta %}
+</head>
