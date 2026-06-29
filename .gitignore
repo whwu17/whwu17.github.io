@@ -3,3 +3,6 @@ _site/
 .jekyll-metadata
 .vscode/
 .idea/
+.bundle/
+vendor/
+.jekyll-cache/
