@@ -4,87 +4,32 @@ section_id: 'resumes'
 css_logo_class: 'bx-food-menu'
 priority: 20
 ---
-<style>
-.resume .{{page.section_id}}-title {
-  font-size: 26px;
-  font-weight: 700;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  color: #45505b;
-}
-.{{page.section_id}} .{{page.section_id}}-item {
-  padding: 0 0 20px 20px;
-  margin-top: -2px;
-  border-left: 2px solid #0563bb;
-  position: relative;
-}
-.{{page.section_id}} .{{page.section_id}}-item h4 {
-  line-height: 18px;
-  font-size: 18px;
-  font-weight: 600;
-  text-transform: uppercase;
-  font-family: "Poppins", sans-serif;
-  color: #0563bb;
-  margin-bottom: 10px;
-}
-.{{page.section_id}} .{{page.section_id}}-item h5 {
-  font-size: 16px;
-  background: #f7f8f9;
-  padding: 5px 15px;
-  display: inline-block;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-.{{page.section_id}} .{{page.section_id}}-item ul {
-  padding-left: 20px;
-}
-.{{page.section_id}} .{{page.section_id}}-item ul li {
-  padding-bottom: 10px;
-}
-.{{page.section_id}} .{{page.section_id}}-item:last-child {
-  padding-bottom: 0;
-}
-.{{page.section_id}} .{{page.section_id}}-item::before {
-  content: "";
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  border-radius: 50px;
-  left: -9px;
-  top: 0;
-  background: #fff;
-  border: 2px solid #0563bb;
-}
-</style>
+<section class="section" id="{{ page.section_id }}">
+  <div class="container reveal">
+    <span class="eyebrow"><span class="dot"></span> Resumes</span>
+    <h2>Want to know more about me?</h2>
+    <p class="lead">Choose one of my resumes to explore — each is tailored to a different role.</p>
+    <p class="danger">* Not all pages are listed here. Some resumes are kept private for personal use only.</p>
 
-<section id="{{page.section_id}}" class="{{page.section_id}}" style="background-image: url(./images/resume-bg.jpg);background-color: grey;">
-    <div class="container " style="padding-top: 60px;">
-      <div class="row align-items-center">
-        <div class="col-md-8 col-lg-5">
-          <svg t="1654340450655" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-            p-id="1509" width="50" height="50" style="margin-bottom:20px">
-            <path
-              d="M775.7 204.5h-20.3v-22.8c0-61.6-67.4-66-67.4-66l-282.6 0.6c-11.7 0-23 4.6-31.4 12.6L194.3 302.3c-8.6 8.3-13.4 19.6-13.4 31.4v419.8c0 63 67.4 66 67.4 66h20.3v22.7c0 63 67.4 66 67.4 66h439.8c64.4 0 67.4-66 67.4-66V270.5c0-61.6-67.5-66-67.5-66z m-402.5-14v92.3c0 21-22.5 22-22.5 22h-95.4l117.9-114.3z m-124.9 585s-22.5 0.1-22.5-22V348.9h124.9s67.4-5 67.4-66v-23-100.1H688s22.5 1.5 22.5 22V753.5s-1.5 22-22.5 22H248.3z m549.9 66.7s-1.5 22-22.5 22H335.9s-22.5 0.1-22.5-22v-22.7H688c64.4 0 67.4-66 67.4-66V248.6h20.3s22.5 1.5 22.5 22v571.6z"
-              p-id="1510"></path>
-            <path
-              d="M310.2 438h316c11 0 20-9 20-20s-9-20-20-20h-316c-11 0-20 9-20 20s8.9 20 20 20zM310.2 556.4h316c11 0 20-9 20-20s-9-20-20-20h-316c-11 0-20 9-20 20s8.9 20 20 20zM502.3 654.7c0-11-9-20-20-20H310.2c-11 0-20 9-20 20s9 20 20 20h172.2c11 0 19.9-8.9 19.9-20z"
-              p-id="1511"></path>
-          </svg>
-          <h1 data-aos="fade-left">Resume</h1>
-          <p data-aos="fade-left" data-aos-duration="1500">Want to know more about me? Choose one to
-            explore!</p>
-          <p class="text-danger" data-aos="fade-left" data-aos-duration="1500">* Not all pages are listed
-            here. Some resumes might be hidden for private use only!</p>
-          <div data-aos="fade-left" data-aos-duration="2000">
-            <ul class="actions">
-              <li><a href="resumes/developer">Developer</a></li>
-              <!-- <li><a href="resumes/developer-en" class="button">Developer (en)</a></li> -->
-              <li><a href="resumes/data" class="button">Data Analyst (Python-based)</a></li>
-              <li><a href="resumes/teacher" class="button">Instructor</a></li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
+    <ul class="linklist">
+      <li>
+        <a href="{{ '/resumes/developer' | relative_url }}">
+          Developer
+          <svg class="ll-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+        </a>
+      </li>
+      <li>
+        <a href="{{ '/resumes/data' | relative_url }}">
+          Data Analyst (Python-based)
+          <svg class="ll-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+        </a>
+      </li>
+      <li>
+        <a href="{{ '/resumes/teacher' | relative_url }}">
+          Instructor
+          <svg class="ll-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>

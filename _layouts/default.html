@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <link href="/assets/img/favicon.png" rel="icon">
+  <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="{{ '/assets/css/site.css' | relative_url }}" rel="stylesheet">
+
+  <script>
+    /* Apply persisted theme before paint to avoid flashing. */
+    (function () {
+      try {
+        var t = localStorage.getItem('site-theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+  {% seo %}
+</head>
+
+<body>
+  <div class="aurora" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  {% include site-nav.html %}
+
+  <main id="top">
+    {{ content }}
+  </main>
+
+  {% include site-footer.html %}
+
+  <button class="to-top" id="to-top" type="button" aria-label="Back to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg>
+  </button>
+
+  <script>
+    (function () {
+      var html = document.documentElement;
+
+      /* Theme toggle */
+      var toggle = document.getElementById('theme-toggle');
+      if (toggle) toggle.addEventListener('click', function () {
+        var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        html.setAttribute('data-theme', next);
+        try { localStorage.setItem('site-theme', next); } catch (e) {}
+      });
+
+      /* Mobile nav */
+      var nav = document.getElementById('site-nav');
+      var navToggle = document.getElementById('nav-toggle');
+      if (navToggle) navToggle.addEventListener('click', function () {
+        var open = nav.classList.toggle('open');
+        navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      document.querySelectorAll('#nav-links a').forEach(function (a) {
+        a.addEventListener('click', function () { nav.classList.remove('open'); });
+      });
+
+      /* Reveal on scroll */
+      var reveals = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window && reveals.length) {
+        var ro = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (en.isIntersecting) { en.target.classList.add('in'); ro.unobserve(en.target); }
+          });
+        }, { threshold: 0.12 });
+        reveals.forEach(function (el) { ro.observe(el); });
+      } else {
+        reveals.forEach(function (el) { el.classList.add('in'); });
+      }
+
+      /* Scrollspy for nav links */
+      var spies = document.querySelectorAll('[data-spy]');
+      var sections = [];
+      spies.forEach(function (link) {
+        var sec = document.getElementById(link.getAttribute('data-spy'));
+        if (sec) sections.push({ link: link, sec: sec });
+      });
+      if (sections.length && 'IntersectionObserver' in window) {
+        var so = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (en.isIntersecting) {
+              spies.forEach(function (l) { l.classList.remove('active'); });
+              var match = sections.find(function (s) { return s.sec === en.target; });
+              if (match) match.link.classList.add('active');
+            }
+          });
+        }, { rootMargin: '-45% 0px -50% 0px' });
+        sections.forEach(function (s) { so.observe(s.sec); });
+      }
+
+      /* Back to top */
+      var toTop = document.getElementById('to-top');
+      window.addEventListener('scroll', function () {
+        toTop.classList.toggle('show', window.scrollY > 600);
+      }, { passive: true });
+      toTop.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      /* Live clock chip (hero) */
+      var clock = document.getElementById('clock');
+      if (clock) {
+        var tick = function () {
+          var d = new Date();
+          var p = function (n) { return ('0' + n).slice(-2); };
+          clock.textContent = p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+        };
+        tick(); setInterval(tick, 1000);
+      }
+    })();
+  </script>
+</body>
+
+</html>

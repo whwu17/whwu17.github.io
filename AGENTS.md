@@ -2,16 +2,18 @@
 
 ## Cursor Cloud specific instructions
 
-This repository is a **Jekyll 3.9.2 static site** (personal homepage). There is
+This repository is a **Jekyll 4.x static site** (personal homepage). There is
 no backend or database — the only "service" is the Jekyll dev server.
 
-### Ruby version (important gotcha)
-- Jekyll 3.9.2 pulls in `liquid 4.0.3`, which calls `Object#tainted?`. That
-  method was **removed in Ruby 3.2**, so the site cannot build/serve on the
-  system Ruby (3.2). The environment is set up to use **Ruby 3.1.7** instead,
-  exposed as the default `ruby`/`gem`/`bundle` via symlinks in `/usr/local/bin`
-  (which precede `/usr/bin` in `PATH`). Run `ruby -v` to confirm `3.1.7` before
-  debugging build errors.
+### Ruby / Jekyll version
+- Runs on **Ruby 3.4.9** + **Jekyll 4.4**. Ruby 3.4.9 is compiled via rbenv and
+  exposed as the default `ruby`/`gem`/`bundle` through symlinks in
+  `/usr/local/bin` (which precede `/usr/bin`, where the distro's Ruby 3.2 lives).
+  Run `ruby -v` to confirm `3.4.9` before debugging build errors.
+- This is a "distributed" site: the homepage links to sub-pages that live in
+  **separate repos/deployments** (e.g. `/academic`, `/notes`, `/resumes/*`,
+  `/musics/*`, `/proses/*`). Those URLs 404 locally but are valid in production —
+  do **not** treat a local 404 on them as a bug or remove the links.
 
 ### Gems / bundle location
 - Gems are installed to an isolated bundle path **outside the source tree**

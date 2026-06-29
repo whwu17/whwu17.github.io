@@ -4,34 +4,17 @@ section_id: 'note'
 css_logo_class: 'bx-note'
 priority: 35
 ---
-<style>
-    section#{{page.section_id}} *{
-        color: white;
-    }
-    
-</style>
-<section id="{{page.section_id}}" class="{{page.section_id}}" style="background-image: url(./images/notes-bg.jpg);">
-    <div class="p-4">
-      <div class="container">
-        <div class="row text-left align-items-center">
-          <div class="col-8 m-auto m-lg-0 col-lg-4" data-aos="fade-left" data-aos-duration="1000">
-            <img alt="image" class="img-fluid" src="./images/notes-svg.svg">
-          </div>
+<section class="section" id="{{ page.section_id }}">
+  <div class="container reveal">
+    <span class="eyebrow"><span class="dot"></span> Notes</span>
+    <h2>Notes</h2>
+    <p class="lead">A space for sharing perspectives, discussions and ideas.</p>
 
-          <div class="col-lg-7 offset-lg-1 pt-4 pt-lg-0">
-            <div data-aos="fade-down" data-aos-duration="2000">
-              <h1 class="pt-4 pb-3">Notes</h1>
-              <h4 class="pb-3" style="line-height: 1.5;">A space for sharing perspectives, discussions and ideas.</h4>
-              
-            </div>
-            <div class="col-12 col-sm-12 pt-sm-4" data-aos="fade-left"
-                data-aos-duration="2000">
-                <ul class="actions white">
-                  <li><a href="notes" class="button">Visit My Notes</a></li>
-                </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="btns">
+      <a class="btn btn-primary" href="{{ '/notes' | relative_url }}">
+        Visit my notes
+        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+      </a>
     </div>
-  </section><!-- End academic Section -->
+  </div>
+</section>

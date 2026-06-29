@@ -4,36 +4,20 @@ section_id: 'music'
 css_logo_class: 'bx-music'
 priority: 60
 ---
-<style>
-  section#{{page.section_id}} {
-        background-image: url(./images/music-bg.jpg);
-      }
+<section class="section" id="{{ page.section_id }}">
+  <div class="container reveal">
+    <span class="eyebrow"><span class="dot"></span> Music</span>
+    <h2>Music Player</h2>
+    <p class="lead">Feeling tired? Have some fun.</p>
+    <p class="muted">For personal and study use only — reusing the music resources in these players is strictly not allowed.</p>
 
-      section#{{page.section_id}} * {
-        color: slategrey;
-      }
-
-</style>
-<section id="{{page.section_id}}">
-    <div class="container p-4">
-      <div class="row text-left">
-        <div class="col-lg-7 pt-4 pt-lg-0">
-          <div data-aos="fade-down" data-aos-duration="2000">
-            <h1>Music Player</h1>
-            <h5>Feeling tired? Have some fun!</h5>
-          </div>
-
-          <div data-aos="fade-up" data-aos-duration="2000">
-            <p>Only for personal and study use. Reusing the music resources in these players are strictly not
-              allowed!</p>
-          </div>
-          <div data-aos="fade-left" style="padding-right: 40px;" data-aos-delay="1000" data-aos-duration="4000">
-            <ul class="actions">
-              <li><a href="musics/ceye" class="button">Sample - Book Leaf One</a></li>
-            </ul>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </section>
+    <ul class="linklist">
+      <li>
+        <a href="{{ '/musics/ceye' | relative_url }}">
+          Sample — Book Leaf One
+          <svg class="ll-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>

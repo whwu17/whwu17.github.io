@@ -1,38 +1,27 @@
 ---
 name: 'Home'
 section_id: 'intro'
-priority: 10
 css_logo_class: 'bx-user'
+priority: 10
 ---
-<section id="{{page.section_id}}" class="{{page.section_id}}" style="background-image: url(./images/self-bg.jfif);">
-    <div class="container p-4 p-md-5" data-aos="fade-up" data-aos-duration="1000" style="background: #ffffffbb;">
-
-      <div class="pb-4 row text-center justify-content-center " data-aos="fade-left" data-aos-delay="1000"
-        data-aos-duration="1000">
-        <div class="col">
-          <h1 class="major">Welcome to my chan... personal page!</h1>
-          <p>Glad to meet you here with an upcoming nice experience. </p>
-        </div>
+<section class="section" id="{{ page.section_id }}">
+  <div class="container">
+    <div class="profile-row reveal">
+      <div class="avatar-ring">
+        <img src="{{ site.author.avatar | relative_url }}" alt="{{ site.author.name }}" onerror="this.style.display='none'">
       </div>
-
-
-      <div class="row justify-content-center text-left" data-aos-delay="1000" data-aos-duration="1000"
-        data-aos="fade-right">
-
-        <div class="col-6 col-md-4 col-lg-3 col-xl-2 m-auto">
-          <img alt="image" class="image img-fluid rounded-circle" src="{{ site.author.avatar }}">
-        </div>
-
-        <div class="col-12 col-md-8 me-auto ms-auto mt-4 mt-md-0 mb-4">
-          <p class="h3 mt-3"><strong>{{ site.author.name }}</strong></p>
-          <p class="mb-4"><em>{{site.author.position}}</em></p>
-          <p>
-            {{site.slogen}}
-          </p>
-          <ul class="actions">
-            <li> <a href="about">See My Information</a></li>
-          </ul>
+      <div class="profile-info">
+        <span class="eyebrow"><span class="dot"></span> Welcome</span>
+        <h2>Hi, I'm {{ site.author.name }}</h2>
+        <p class="lead">{{ site.author.position }} · {{ site.author.location }}</p>
+        <p class="muted" style="max-width:60ch">{{ site.slogen }}</p>
+        <div class="btns">
+          <a class="btn btn-primary" href="{{ '/about/' | relative_url }}">
+            See my information
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+          </a>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>

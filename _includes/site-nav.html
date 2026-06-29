@@ -1,0 +1,32 @@
+<nav class="nav" id="site-nav">
+  <a class="brand" href="{{ '/' | relative_url }}">
+    <span class="spark" aria-hidden="true"></span>
+    {{ site.author.name | default: site.title }}
+  </a>
+
+  <div class="nav-links" id="nav-links">
+    {% assign secs = site.sections | sort: 'priority' %}
+    {% for s in secs %}
+    <a href="{{ '/#' | append: s.section_id | relative_url }}" data-spy="{{ s.section_id }}">{{ s.name }}</a>
+    {% endfor %}
+    <a href="{{ '/about/' | relative_url }}">About</a>
+    <a href="{{ '/contact/' | relative_url }}">Contact</a>
+  </div>
+
+  <div class="nav-actions">
+    <button class="icon-btn" id="theme-toggle" type="button" aria-label="Toggle color theme">
+      <svg class="sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+      </svg>
+      <svg class="moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+      </svg>
+    </button>
+    <button class="icon-btn nav-toggle" id="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16"></path>
+      </svg>
+    </button>
+  </div>
+</nav>

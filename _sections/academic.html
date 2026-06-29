@@ -4,53 +4,28 @@ section_id: 'academic'
 css_logo_class: 'bxs-school'
 priority: 30
 ---
-<style>
-    section#{{page.section_id}} *{
-        color: white;
-    }
-    
-</style>
-<section id="{{page.section_id}}" class="{{page.section_id}}" style="background: #666;
-background-image: url(./images/academic-bg.jpg);
-">
-    <div class="p-4" style="background:#0007">
-      <div class="container">
-        <div class="row text-left align-items-center">
-          <div class="col-4 m-auto m-lg-0 col-lg-4" data-aos="fade-left" data-aos-duration="1000">
-            <img alt="image" class="img-fluid" src="./images/opened.svg">
-          </div>
+<section class="section" id="{{ page.section_id }}">
+  <div class="container reveal">
+    <span class="eyebrow"><span class="dot"></span> Academic</span>
+    <h2>Academic Home</h2>
+    <p class="lead">A place to engage with state-of-the-art technology and trends.</p>
 
-          <div class="col-lg-7 offset-lg-1 pt-4 pt-lg-0">
-            <div data-aos="fade-down" data-aos-duration="2000">
-              <h1>Academic Home</h1>
-              <p>Academic encourages people participate into the-state-of-art technology
-                and
-                trends.
-              </p>
-            </div>
-            <div class="row mt-5" data-aos="fade-up" data-aos-duration="2000">
-              <div class="col-12 col-sm-6">
-                <h3><strong>GitHub</strong></h3>
-                <p>Academic page also provides my Github introduction, which is used as
-                  code cooperation platform. Feel free to get inspirations from those projects.</p>
-              </div>
-
-              <div class="col-12 col-sm-6 pt-3 pt-sm-0">
-                <h3><strong>Essay / Blog</strong></h3>
-                <p>Several tips and tricks are recorded here to prevent from felling into
-                  the trouble again. Essays are also linked here for understanding and communications.
-                </p>
-              </div>
-              <div class="col-12 col-sm-12 pt-sm-4" data-aos="fade-left"
-                style=" display: flex; justify-content: flex-end;" 
-                data-aos-duration="2000">
-                <ul class="actions white">
-                  <li><a href="academic" class="button">View Here</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div class="grid grid-2" style="margin-top:28px">
+      <div class="card">
+        <h3>GitHub</h3>
+        <p>My GitHub serves as a code collaboration platform. Feel free to draw inspiration from those projects.</p>
+      </div>
+      <div class="card">
+        <h3>Essay / Blog</h3>
+        <p>Tips and tricks recorded here to avoid stumbling into the same trouble twice — plus essays for understanding and discussion.</p>
       </div>
     </div>
-  </section><!-- End academic Section -->
+
+    <div class="btns">
+      <a class="btn btn-primary" href="{{ '/academic' | relative_url }}">
+        View here
+        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+      </a>
+    </div>
+  </div>
+</section>
