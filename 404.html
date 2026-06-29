@@ -1,16 +1,38 @@
 ---
-title: "Page Not Found"
-excerpt: "Page not found. Your pixels are in another canvas."
-sitemap: false
 permalink: /404.html
+title: "Page not found — Wu Wenhan"
+description: "The page you were looking for could not be found."
+sitemap: false
 ---
+{%- include head.html -%}
+<body>
 
-Sorry, but the page you were trying to view does not exist --- perhaps you can try searching for it below.
+<header class="topnav">
+  <div class="container topnav-inner">
+    <a href="/" class="brand">Wenhan<span>.</span></a>
+    <nav>
+      <ul class="topnav-links">
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#pursuits">Pursuits</a></li>
+        <li><a href="/links">Links</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-<script type="text/javascript">
-  var GOOG_FIXURL_LANG = 'en';
-  var GOOG_FIXURL_SITE = '{{ site.url }}'
-</script>
-<script type="text/javascript"
-  src="//linkhelp.clients.google.com/tbproxy/lh/wm/fixurl.js">
-</script>
+<main class="error-page">
+  <div>
+    <p class="code">404</p>
+    <h2 style="font-family:var(--font-display);font-weight:400;margin-top:8px;">This page wandered off.</h2>
+    <p>The link you followed might be old, or I might have moved things around. Try heading home, or send me the broken link so I can fix it.</p>
+    <div class="cta-row" style="justify-content:center;margin-top:24px;">
+      <a href="/" class="btn">Back to home</a>
+      <a href="/contact" class="btn btn-ghost">Tell me what's broken</a>
+    </div>
+  </div>
+</main>
+
+{% include footer.html %}
+</body>
+</html>

@@ -1,90 +1,51 @@
-# ----
+# ---------------------------------------------------------------
 # Site
+# ---------------------------------------------------------------
 
-title: "Wenhan's Home"
+title: "Wu Wenhan — Home"
+description: "The personal home of Wu Wenhan — software engineer, researcher, and curator of small useful things."
 url: "https://whwu17.github.io"
-baseurl:
+baseurl: ""
 
-# ---
+# ---------------------------------------------------------------
 # Author
+# ---------------------------------------------------------------
 
-slogen: "Life is not a check-list of acquisition or achievement. Your qualifications, your CV, are not your life. Life is difficult, and complicated, and beyond anyone’s total control, and the humility to know that will enable you to survive its vicissitudes."
+slogen: "Less a portfolio, more a small living room. Welcome in."
 
 author:
-  name             : "Wu Wenhan"
-  avatar           : "/images/profile.png"
-  position         : "Student @ ECNU"
-  location         : "East China Normal University"
-  employer         :
-  pubmed           : 
-  googlescholar    : "https://scholar.google.com/citations?user=NBSeJLkAAAAJ&hl=en&oi=sra"
-  email            :  "1020645987@qq.com"
-  researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
-  github           : "ivyee17"
-  impactstory      : #"https://profiles.impactstory.org/u/xxxx-xxxx-xxxx-xxxx"
-  lastfm           :
-  linkedin         : "https://www.linkedin.cn/injobs/in/wu-wenhan-52453a206"
-  orcid            : # "http://orcid.org/yourorcidurl"
-  pinterest        :
-  soundcloud       :
-  stackoverflow    : # http://stackoverflow.com/users/123456/username
-  steam            :
-  tumblr           :
-  twitter          : # "replacethistwitterhandle"
-  vine             :
-  weibo            : # "weibo.com"
-  xing             :
-  youtube          : # "youtube.com"
-  wikipedia        :
-  gitee            : "wenhan17" ## self-defined val!! not compat with academic-page sidebar!
+  name           : "Wu Wenhan"
+  avatar         : "/images/profile.png"
+  position       : "Software engineer · researcher"
+  location       : "Shanghai, China"
+  email          : "whwu17@foxmail.com"
+  github         : "whwu17"
+  googlescholar  : "https://scholar.google.com/citations?user=NBSeJLkAAAAJ&hl=en&oi=sra"
+  linkedin       : "https://www.linkedin.cn/injobs/in/wu-wenhan-52453a206"
+  gitee          : "wenhan17"
 
-
-
-# -----
+# ---------------------------------------------------------------
 # Build
+# ---------------------------------------------------------------
 
-Timezone: Etc/UTC
-
-collections:
-  sections:
-    output: true
-  
-  
-paginate: 10
+timezone: Asia/Shanghai
 permalink: pretty
 
-# defaults:
-#   - scope:
-#       path: ""
-#       type: publications
-#     values:
-#       layout: academic-page/single
-#       author_profile: true
-#       share: true
-#       comments: true
-
-
-# ---
-# Jekyll Config
-
-jekyll-archives:
-  enabled:
-    - categories
-
 plugins:
-  - jekyll-archives
   - jekyll-sitemap
   - jekyll-seo-tag
   - jekyll-feed
-  - jekyll-paginate
   - jekyll-redirect-from
 
 exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
-  - LICENCE
+  - LICENSE
+  - node_modules
+  - vendor
+  - "*.log"
 
 sass:
-  sass_dir: .
+  sass_dir: assets/css
   style: compressed

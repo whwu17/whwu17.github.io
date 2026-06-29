@@ -1,0 +1,33 @@
+{%- assign page_title = page.title | default: site.title -%}
+{%- assign page_description = page.description | default: site.description -%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#0f1115" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)">
+
+  <title>{{ page_title }}</title>
+  <meta name="description" content="{{ page_description }}">
+  <meta name="author" content="{{ site.author.name }}">
+
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:description" content="{{ page_description }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:image" content="{{ site.url }}{{ site.author.avatar }}">
+  <meta name="twitter:card" content="summary">
+
+  <!-- Favicons -->
+  <link rel="icon" href="{{ site.author.avatar }}" type="image/png">
+  <link rel="apple-touch-icon" href="{{ site.author.avatar }}">
+
+  <!-- Preload critical CSS -->
+  <link rel="preload" as="style" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>

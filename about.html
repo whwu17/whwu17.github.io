@@ -1,92 +1,107 @@
 ---
-
+permalink: /about/
+title: "About — Wu Wenhan"
+description: "A longer-form introduction to Wu Wenhan: background, work, hobbies, and how to reach me."
 ---
-<head>
+{%- include head.html -%}
+<body>
 
-	<title>My Introduction</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<header class="topnav">
+  <div class="container topnav-inner">
+    <a href="/" class="brand">Wenhan<span>.</span></a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav>
+      <ul class="topnav-links">
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#pursuits">Pursuits</a></li>
+        <li><a href="/links">Links</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-	<!-- bootstrap includes -->
-	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
-	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  <!-- design blocks includes -->
-	<!-- <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i"
-		rel="stylesheet"> -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-	<link type="text/css" rel="stylesheet"
-		href="https://cdnjs.cloudflare.com/ajax/libs/froala-design-blocks/2.0.1/css/froala_blocks.min.css">
+<main>
+  <section class="hero" style="padding-block:80px 40px;">
+    <div class="container hero-content reveal">
+      <p class="eyebrow">About</p>
+      <h1>A short biography, told <em>plainly</em>.</h1>
+      <p class="hero-lede">
+        I'm Wu Wenhan — a software engineer based in Shanghai with a soft spot for clean systems,
+        considered writing, and long espresso conversations.
+      </p>
+    </div>
+  </section>
 
+  <section class="section" style="border-top:0;padding-top:0;">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-prose reveal">
+          <h2>Where I come from</h2>
+          <p>
+            I studied software engineering at <a href="https://www.sei.ecnu.edu.cn/" rel="noopener" target="_blank">ECNU's Software Engineering Institute</a>,
+            where I learned to love the boring parts of the craft: writing tests, naming things,
+            and building things small enough to throw away. My research interests drift around
+            intelligent systems, learning analytics, and the messy middle of human–computer
+            interaction.
+          </p>
 
+          <h2 style="margin-top:48px;">What I work on</h2>
+          <p>
+            I build backend services and data tooling for the day job, and side-projects for the
+            soul. I am most useful in the seam between research prototypes and production
+            systems — the place where a paper becomes an API that does not crash on a Sunday.
+          </p>
 
+          <h2 style="margin-top:48px;">Off the clock</h2>
+          <p>
+            I read more non-fiction than is probably healthy, brew pour-over coffee with
+            embarrassing seriousness, and write short prose when the city goes quiet. I have
+            been slowly learning to draw, mostly badly.
+          </p>
 
-</head>
-<style media=print type="text/css">
-	#noprint {
-		visibility: hidden;
+          <h2 style="margin-top:48px;">How to reach me</h2>
+          <p>
+            Email is best for anything that wants thought; you can find the address in the card
+            on the right. For quick public threads, GitHub or LinkedIn work well. I generally
+            reply within a few days.
+          </p>
 
-	}
+          <p style="margin-top:36px;">
+            <a href="/contact" class="btn">Write me a note
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </p>
+        </div>
 
-	.fdb-block {
-		overflow-y: hidden !important;
-	}
-</style>
-<style>
+        <aside class="about-card reveal">
+          <div class="avatar">
+            <img src="{{ site.author.avatar }}" alt="Portrait of Wu Wenhan" width="92" height="92" loading="lazy" decoding="async">
+          </div>
+          <h3>{{ site.author.name }}</h3>
+          <p class="role">{{ site.author.position }}</p>
+          <dl>
+            <dt>Based in</dt><dd>Shanghai, China</dd>
+            <dt>Alma mater</dt><dd>East China Normal University</dd>
+            <dt>Email</dt><dd><a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a></dd>
+            {% if site.author.github %}<dt>GitHub</dt><dd><a href="https://github.com/{{ site.author.github }}" rel="noopener" target="_blank">@{{ site.author.github }}</a></dd>{% endif %}
+            {% if site.author.googlescholar %}<dt>Scholar</dt><dd><a href="{{ site.author.googlescholar }}" rel="noopener" target="_blank">Google Scholar</a></dd>{% endif %}
+            {% if site.author.linkedin %}<dt>LinkedIn</dt><dd><a href="{{ site.author.linkedin }}" rel="noopener" target="_blank">Profile</a></dd>{% endif %}
+          </dl>
+          <div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="/images/vCards.vcf" class="btn btn-ghost" style="padding:9px 14px;font-size:.85rem;">Save vCard</a>
+            <a href="/images/e-card-1.pdf" class="btn btn-ghost" style="padding:9px 14px;font-size:.85rem;">E-card (PDF)</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</main>
 
-</style>
-<section class="fdb-block" style="background-image: url(../images/contact-bg.svg);height:100vh;overflow-y: scroll;">
-	<div class="container">
-		<div class="fdb-box">
-			<div class="row align-items-center justify-content-center">
-				<div class="col-10 col-sm-6 col-md-4 col-lg-4 col-xl-2 m-auto">
-					<img alt="image" class="img-fluid rounded-circle" src="{{ site.author.avatar }}">
-				</div>
+{% include footer.html %}
 
-				<div class="col-12 col-md-6 ml-auto mr-auto mt-4 mt-md-0">
-
-
-					<p class="h3 mt-1"><strong>{{site.author.name}}</strong></p>
-					<p><em>{{site.author.position}}</em></p>
-					<nav class="nav flex-column-2">
-						<p class="nav-link col-3 p-0 pb-2" href="https://www.froala.com">Address</p>
-						<p class="nav-link col-9 p-0 pb-2">Room B1008, Science Building, 3663 North Zhongshan Rd., Putuo
-							District, Shanghai, 200062, China mainland</p>
-						<p class="nav-link col-3 p-0 pb-2" href="https://www.froala.com">Phone</p>
-						<p class="nav-link col-9 p-0 pb-2">(+86) 18516523459</p>
-						<p class="nav-link col-3 p-0 pb-2" href="https://www.froala.com">Work Email</p>
-						<a class="nav-link col-9 p-0 pb-2" href="mailto://whwu17@foxmail.com">whwu17@foxmail.com</a>
-					</nav>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="container  mt-3 " id="noprint">
-		<div class="fdb-box p-4" style="overflow: visible;">
-			<div class="row ">
-				<div class="col-12 col-lg-4 p-2">
-					<a href="/images/vCards.vcf"><button class="col-12 btn btn-outline-info">Save to contacts</button></a>
-				</div>
-				<div class="dropup btn-group col-12 col-lg-4 p-2">
-					
-						<button type="button" class="col-12 btn btn-outline-info dropdown-toggle" data-toggle="dropdown">Print This Card
-							<span class="caret"></span>
-						</button>
-						<div class="dropdown-menu" >
-							 <a class="dropdown-item" href="javascript:window.print()">Print this card</a>
-							<a class="dropdown-divider"></a>
-							<a class="dropdown-item" href="/images/e-card-1.pdf" download="e-card.pdf">Download my e-card v1 (.pdf)</a>
-							<a class="dropdown-item" href="/images/e-card-2.pdf" download="e-card.pdf">Download my e-card v2 (.pdf)</a>
-
-						</div>
-					
-				</div>
-				<div class="col-12 col-lg-4 p-2">
-					<a href="/resumes/developer?home"><button class="col-12 btn btn-outline-info">My Resume</button></a>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>
