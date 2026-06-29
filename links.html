@@ -24,6 +24,10 @@ permalink: /links.html
     (function () {
       var q = (location.search || '').replace(/^\?/, '');
       if (q === 'me') document.documentElement.classList.add('is-unlocked');
+      try {
+        var t = localStorage.getItem('site-theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
     })();
   </script>
 
@@ -453,15 +457,15 @@ permalink: /links.html
         return;
       }
 
-      /* ---- Theme toggle (persisted) ---- */
+      /* ---- Theme toggle (persisted, shared with the rest of the site) ---- */
       var saved = null;
-      try { saved = localStorage.getItem('links-theme'); } catch (e) {}
+      try { saved = localStorage.getItem('site-theme'); } catch (e) {}
       if (saved) html.setAttribute('data-theme', saved);
       var toggle = document.getElementById('theme-toggle');
       toggle.addEventListener('click', function () {
         var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
         html.setAttribute('data-theme', next);
-        try { localStorage.setItem('links-theme', next); } catch (e) {}
+        try { localStorage.setItem('site-theme', next); } catch (e) {}
       });
 
       /* ---- Pointer-follow glow on cards ---- */
