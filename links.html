@@ -291,21 +291,45 @@ permalink: /links.html
     }
     .fav img { width: 22px; height: 22px; display: block; }
 
+    /* Stretched hit-area so the whole card opens the link, while the
+       copy button stays independently clickable above it. */
+    .card-hit { position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
+    .card-hit:focus-visible { outline: none; box-shadow: var(--ring); }
+
     .card-body { min-width: 0; flex: 1; }
     .card-name {
       font-size: 14.5px; font-weight: 600;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-    .card-host {
+    .card-url {
+      display: block;
       font-size: 12px; color: var(--text-faint);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-      margin-top: 2px;
+      margin-top: 3px;
+      line-height: 1.45;
+      word-break: break-all;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden;
     }
-    .card-arrow {
-      flex: none; color: var(--text-faint);
-      transition: transform .2s, color .2s;
+    .card-link:hover .card-url { color: var(--text-dim); }
+
+    .copy-btn {
+      position: relative; z-index: 2;
+      flex: none;
+      width: 36px; height: 36px;
+      display: grid; place-items: center;
+      color: var(--text-faint);
+      background: var(--surface-strong);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform .15s, color .2s, border-color .2s, background .2s;
     }
-    .card-link:hover .card-arrow { transform: translate(2px, -2px); color: var(--text); }
+    .copy-btn:hover { color: var(--text); border-color: var(--border-strong); transform: translateY(-1px); }
+    .copy-btn:focus-visible { outline: none; box-shadow: var(--ring); }
+    .copy-btn .check { display: none; }
+    .copy-btn.copied { color: var(--accent-2); border-color: color-mix(in srgb, var(--accent-2) 45%, transparent); }
+    .copy-btn.copied .copy { display: none; }
+    .copy-btn.copied .check { display: block; }
 
     .empty {
       display: none;
@@ -397,22 +421,31 @@ permalink: /links.html
         <div class="grid">
           {% for ele in el.links %}
           {% assign host = ele.ref | split: '//' | last | split: '/' | first %}
-          <a class="card-link reveal" href="{{ ele.ref }}" target="_blank" rel="noopener noreferrer"
-             data-name="{{ ele.name | downcase }}" data-host="{{ host | downcase }}"
-             style="animation-delay: {{ forloop.index | times: 40 }}ms">
+          <div class="card-link reveal"
+               data-name="{{ ele.name | downcase }}" data-host="{{ host | downcase }}" data-url="{{ ele.ref }}"
+               style="animation-delay: {{ forloop.index | times: 40 }}ms">
+            <a class="card-hit" href="{{ ele.ref }}" target="_blank" rel="noopener noreferrer"
+               aria-label="Open {{ ele.name }}"></a>
             <span class="fav" aria-hidden="true">
               <img src="https://www.google.com/s2/favicons?domain={{ host }}&sz=64" alt="" loading="lazy"
                    onerror="this.remove();this.parentNode.textContent='{{ ele.name | strip | slice: 0 | upcase }}';">
             </span>
             <span class="card-body">
               <span class="card-name">{{ ele.name }}</span>
-              <span class="card-host">{{ host }}</span>
+              <span class="card-url" title="{{ ele.ref }}">{{ ele.ref }}</span>
             </span>
-            <svg class="card-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M7 17L17 7M9 7h8v8"></path>
-            </svg>
-          </a>
+            <button class="copy-btn" type="button" aria-label="Copy URL for {{ ele.name }}">
+              <svg class="copy" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 6 9 17l-5-5"></path>
+              </svg>
+            </button>
+          </div>
           {% endfor %}
         </div>
       </section>
@@ -453,6 +486,36 @@ permalink: /links.html
           var r = c.getBoundingClientRect();
           c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
           c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+        });
+      });
+
+      /* ---- Copy full URL to clipboard ---- */
+      function copyText(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          return navigator.clipboard.writeText(text);
+        }
+        return new Promise(function (resolve, reject) {
+          var ta = document.createElement('textarea');
+          ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select();
+          try { document.execCommand('copy'); resolve(); }
+          catch (e) { reject(e); }
+          finally { document.body.removeChild(ta); }
+        });
+      }
+      document.querySelectorAll('.copy-btn').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          var url = btn.closest('.card-link').getAttribute('data-url');
+          copyText(url).then(function () {
+            btn.classList.add('copied');
+            btn.setAttribute('aria-label', 'Copied!');
+            setTimeout(function () {
+              btn.classList.remove('copied');
+              btn.setAttribute('aria-label', 'Copy URL');
+            }, 1400);
+          });
         });
       });
 
