@@ -31,8 +31,20 @@ no backend or database — the only "service" is the Jekyll dev server.
 - There is **no separate lint step** configured in this repo; `jekyll doctor`
   and a clean `jekyll build` are the closest checks.
 
+### Site architecture (framework-free)
+- UI is **pure Liquid + vanilla CSS/JS** — no React/Vue/Bootstrap/jQuery/AOS.
+  Shared shell is `_layouts/default.html` (+ `_includes/site-nav.html`,
+  `_includes/site-footer.html`); the single design system is
+  `assets/css/site.css` (dark-first, light via `[data-theme="light"]`).
+- The homepage (`index.html`) is a one-page scroll that renders the `sections`
+  collection (`_sections/*`, ordered by front-matter `priority`). The nav and
+  scrollspy are generated from that same collection, so adding a section file
+  automatically adds a nav entry.
+- `links.html` is intentionally a **standalone, self-contained** page (its own
+  inline styles/scripts) gated behind `?me` — keep it independent of the layout.
+
 ### Notes
 - `webrick` is required for `jekyll serve` on Ruby 3.x (removed from Ruby's
   default gems in 3.0); it is declared in the `Gemfile`.
-- The `Gemfile.lock` carries the original Windows `x64-mingw32` platform plus
-  the `x86_64-linux` platforms needed here — keep both.
+- `Gemfile.lock` is generated with Bundler 4.x and lists many platforms for
+  portability — keep `x86_64-linux` (and `ruby`) at minimum.
