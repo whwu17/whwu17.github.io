@@ -1,92 +1,75 @@
 ---
-
+permalink: /about/
+title: "About"
+description: "Who I am, what I focus on, and how to reach me."
 ---
-<head>
+<!DOCTYPE html>
+<html lang="en">
+{% include head.html %}
 
-	<title>My Introduction</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<body>
+  {% include nav.html prefix="/#" %}
 
-	<!-- bootstrap includes -->
-	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
-	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  <!-- design blocks includes -->
-	<!-- <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i"
-		rel="stylesheet"> -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-	<link type="text/css" rel="stylesheet"
-		href="https://cdnjs.cloudflare.com/ajax/libs/froala-design-blocks/2.0.1/css/froala_blocks.min.css">
+  <div class="page-shell">
+    <section>
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">About</span>
+          <h2>Profile</h2>
+          <p>The short version of who I am and the best ways to get in touch.</p>
+        </div>
 
+        <div class="about-grid">
+          <div class="panel reveal">
+            <div style="display:flex; align-items:center; gap:20px; margin-bottom:20px;">
+              <img src="{{ site.author.avatar }}" width="96" height="96"
+                alt="{{ site.author.name }}"
+                style="width:96px;height:96px;border-radius:50%;object-fit:cover;box-shadow:var(--shadow-md);">
+              <div>
+                <h3 style="margin-bottom:2px;">{{ site.author.name }}</h3>
+                <p style="margin:0;color:var(--text-muted);">{{ site.author.position }}</p>
+              </div>
+            </div>
+            <div class="prose">
+              <p>Hi! I'm {{ site.author.name }}, based in Shanghai and affiliated with
+                {{ site.author.location }}. I like building useful things, learning across
+                software, data and design, and writing down what I discover.</p>
+              <p>Outside of study and code you'll usually find me reading, listening to music,
+                or tinkering with a side-project. Always happy to swap ideas — feel free to
+                reach out.</p>
+            </div>
+            <div class="hero-cta" style="margin-top:1rem;">
+              <a class="btn btn-primary" href="/contact">Write to me</a>
+              <a class="btn btn-ghost" href="/links">Useful links</a>
+            </div>
+          </div>
 
+          <ul class="fact-list reveal">
+            <li>
+              <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1 3 3 6 3s6-2 6-3v-5"/></svg></span>
+              <div><span class="k">Affiliation</span><a class="v" href="{{ site.author.location_url }}" rel="noopener" target="_blank">{{ site.author.location }}</a></div>
+            </li>
+            <li>
+              <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>
+              <div><span class="k">Location</span><span class="v">Shanghai, China</span></div>
+            </li>
+            <li>
+              <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+              <div><span class="k">Email</span><a class="v" href="mailto:{{ site.author.email }}">{{ site.author.email }}</a></div>
+            </li>
+            {% if site.author.github %}
+            <li>
+              <span class="icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.5A10.5 10.5 0 0 0 8.7 22c.5.1.7-.2.7-.5v-2c-2.9.6-3.5-1.3-3.5-1.3-.5-1.2-1.2-1.5-1.2-1.5-1-.6 0-.6 0-.6 1 .1 1.6 1.1 1.6 1.1.9 1.6 2.5 1.1 3.1.9.1-.7.4-1.1.7-1.4-2.3-.3-4.7-1.1-4.7-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .9-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .6 1.4.2 2.4.1 2.7.7.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.5 10.5 0 0 0 12 1.5Z"/></svg></span>
+              <div><span class="k">GitHub</span><a class="v" href="https://github.com/{{ site.author.github }}" rel="noopener" target="_blank">@{{ site.author.github }}</a></div>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
 
+  {% include footer.html %}
+</body>
 
-</head>
-<style media=print type="text/css">
-	#noprint {
-		visibility: hidden;
-
-	}
-
-	.fdb-block {
-		overflow-y: hidden !important;
-	}
-</style>
-<style>
-
-</style>
-<section class="fdb-block" style="background-image: url(../images/contact-bg.svg);height:100vh;overflow-y: scroll;">
-	<div class="container">
-		<div class="fdb-box">
-			<div class="row align-items-center justify-content-center">
-				<div class="col-10 col-sm-6 col-md-4 col-lg-4 col-xl-2 m-auto">
-					<img alt="image" class="img-fluid rounded-circle" src="{{ site.author.avatar }}">
-				</div>
-
-				<div class="col-12 col-md-6 ml-auto mr-auto mt-4 mt-md-0">
-
-
-					<p class="h3 mt-1"><strong>{{site.author.name}}</strong></p>
-					<p><em>{{site.author.position}}</em></p>
-					<nav class="nav flex-column-2">
-						<p class="nav-link col-3 p-0 pb-2" href="https://www.froala.com">Address</p>
-						<p class="nav-link col-9 p-0 pb-2">Room B1008, Science Building, 3663 North Zhongshan Rd., Putuo
-							District, Shanghai, 200062, China mainland</p>
-						<p class="nav-link col-3 p-0 pb-2" href="https://www.froala.com">Phone</p>
-						<p class="nav-link col-9 p-0 pb-2">(+86) 18516523459</p>
-						<p class="nav-link col-3 p-0 pb-2" href="https://www.froala.com">Work Email</p>
-						<a class="nav-link col-9 p-0 pb-2" href="mailto://whwu17@foxmail.com">whwu17@foxmail.com</a>
-					</nav>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="container  mt-3 " id="noprint">
-		<div class="fdb-box p-4" style="overflow: visible;">
-			<div class="row ">
-				<div class="col-12 col-lg-4 p-2">
-					<a href="/images/vCards.vcf"><button class="col-12 btn btn-outline-info">Save to contacts</button></a>
-				</div>
-				<div class="dropup btn-group col-12 col-lg-4 p-2">
-					
-						<button type="button" class="col-12 btn btn-outline-info dropdown-toggle" data-toggle="dropdown">Print This Card
-							<span class="caret"></span>
-						</button>
-						<div class="dropdown-menu" >
-							 <a class="dropdown-item" href="javascript:window.print()">Print this card</a>
-							<a class="dropdown-divider"></a>
-							<a class="dropdown-item" href="/images/e-card-1.pdf" download="e-card.pdf">Download my e-card v1 (.pdf)</a>
-							<a class="dropdown-item" href="/images/e-card-2.pdf" download="e-card.pdf">Download my e-card v2 (.pdf)</a>
-
-						</div>
-					
-				</div>
-				<div class="col-12 col-lg-4 p-2">
-					<a href="/resumes/developer?home"><button class="col-12 btn btn-outline-info">My Resume</button></a>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
+</html>

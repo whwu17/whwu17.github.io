@@ -1,86 +1,213 @@
 ---
 permalink: /index.html
-introduction: Hey!
-details: Great to see you! How's your day?
 ---
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>Wenhan's Home</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Favicons -->
-  <!-- <link href="/assets/img/favicon.png" rel="icon"> -->
-  <!-- <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon"> -->
-
-  <!-- Vendor CSS Files -->
-  <link href="/assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <!-- <link href="/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet"> -->
-  <!-- <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet"> -->
-
-  <!-- Template Main CSS File -->
-  <link href="/assets/css/style.css" rel="stylesheet">
-
-</head>
+{% include head.html %}
 
 <body>
+  {% include nav.html prefix="#" %}
 
-  {% include navbar.html %}
-  {% include header.html %}
+  <main>
+    <!-- ===== Hero ===== -->
+    <section id="home" class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-intro reveal">
+            <span class="eyebrow">{{ site.author.position }}</span>
+            <h1>Hi, I'm <span class="gradient-text">{{ site.author.name }}</span></h1>
+            <p class="lead">Welcome to my corner of the web — a calm, fast space to explore what
+              I study, build and write about.</p>
 
-  <main id="main">
-    <style>
-      /* section.lazy{
-        background-image: none;
-        background-color: #F1F1FA;
-      } */
-      section {
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-blend-mode: screen;
-      }
-    </style>
+            <div class="hero-cta">
+              <a class="btn btn-primary" href="#explore">Explore my world
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+              </a>
+              <a class="btn btn-ghost" href="/contact">Get in touch</a>
+            </div>
 
-    {% for collection in site.collections %}
-    {% if collection.label == "sections" %}
-    {% assign docs = collection.docs | sort: 'priority' %}
-    {% for post in docs %}
-    {{ post.content }}
-    {% endfor %}
-    {%endif%}
-    {% endfor %}
+            <div class="badge-row">
+              <span class="badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                {{ site.author.location }}
+              </span>
+              <span class="badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m22 4-10 10-3-3"/></svg>
+                Open to collaboration
+              </span>
+            </div>
 
+            <blockquote class="slogan">{{ site.slogen }}</blockquote>
+          </div>
+
+          <div class="hero-portrait reveal">
+            <img src="{{ site.author.avatar }}" width="300" height="300"
+              alt="Portrait of {{ site.author.name }}" loading="eager" fetchpriority="high">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== About ===== -->
+    <section id="about">
+      <div class="container">
+        <div class="about-grid">
+          <div class="reveal">
+            <span class="eyebrow">About</span>
+            <h2 style="font-size: clamp(1.6rem,3.5vw,2.3rem); margin-top:.6rem;">A little about me</h2>
+            <p>I'm {{ site.author.name }}, currently {{ site.author.position | downcase }} at
+              {{ site.author.location }}. I enjoy turning ideas into things people can use — from
+              software and data work to writing and the occasional creative side-project.</p>
+            <p>This site keeps everything in one place: a quick profile, resources I find useful,
+              notes I publish, and a few private utilities. No clutter, no heavy page loads.</p>
+            <a class="btn btn-ghost" href="/about" style="margin-top:.5rem;">View full profile
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+            </a>
+          </div>
+
+          <ul class="fact-list reveal">
+            <li>
+              <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1 3 3 6 3s6-2 6-3v-5"/></svg></span>
+              <div><span class="k">Affiliation</span><span class="v">{{ site.author.location }}</span></div>
+            </li>
+            <li>
+              <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></span>
+              <div><span class="k">Focus</span><span class="v">Software · Data · Writing</span></div>
+            </li>
+            <li>
+              <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>
+              <div><span class="k">Based in</span><span class="v">Shanghai, China</span></div>
+            </li>
+            <li>
+              <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+              <div><span class="k">Email</span><a class="v" href="mailto:{{ site.author.email }}">{{ site.author.email }}</a></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Explore ===== -->
+    <section id="explore">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Explore</span>
+          <h2>Places to wander</h2>
+          <p>Everything worth visiting on this site, grouped so you can jump straight in.</p>
+        </div>
+
+        <div class="card-grid">
+          <a class="card reveal" href="/about">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></span>
+            <h3>Profile</h3>
+            <p>A focused card with who I am, where to find me and how to say hello.</p>
+            <span class="card-link">Open profile
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+            </span>
+          </a>
+
+          {% if site.author.blog %}
+          <a class="card reveal" href="{{ site.author.blog }}" rel="noopener" target="_blank">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11l5 5v11H4z"/><path d="M14 4v5h5"/><path d="M8 13h7M8 17h7"/></svg></span>
+            <h3>Notes &amp; Blog</h3>
+            <p>Tips, write-ups and ideas I record so I don't fall into the same trap twice.</p>
+            <span class="card-link">Read the blog
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </span>
+          </a>
+          {% endif %}
+
+          <a class="card reveal" href="/links">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg></span>
+            <h3>Useful Links</h3>
+            <p>A curated stash of resources I keep coming back to — tools, study and hobbies.</p>
+            <span class="card-link">Browse links
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+            </span>
+          </a>
+
+          {% if site.author.github %}
+          <a class="card reveal" href="https://github.com/{{ site.author.github }}" rel="noopener" target="_blank">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.5A10.5 10.5 0 0 0 8.7 22c.5.1.7-.2.7-.5v-2c-2.9.6-3.5-1.3-3.5-1.3-.5-1.2-1.2-1.5-1.2-1.5-1-.6 0-.6 0-.6 1 .1 1.6 1.1 1.6 1.1.9 1.6 2.5 1.1 3.1.9.1-.7.4-1.1.7-1.4-2.3-.3-4.7-1.1-4.7-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .9-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .6 1.4.2 2.4.1 2.7.7.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.5 10.5 0 0 0 12 1.5Z"/></svg></span>
+            <h3>Open Source</h3>
+            <p>Projects and experiments on GitHub. Feel free to fork, star or get inspired.</p>
+            <span class="card-link">View GitHub
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </span>
+          </a>
+          {% endif %}
+
+          <a class="card reveal" href="/encrypt">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
+            <h3>Private Vault <span class="pill">key</span></h3>
+            <p>Personal credentials behind a passphrase — useful only to me, secure for everyone else.</p>
+            <span class="card-link">Unlock with key
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+            </span>
+          </a>
+
+          <a class="card reveal" href="/contact">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+            <h3>Say Hello</h3>
+            <p>Have an idea, a question or just want to chat? My inbox is always open.</p>
+            <span class="card-link">Contact me
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Connect ===== -->
+    <section id="connect">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Connect</span>
+          <h2>Let's stay in touch</h2>
+          <p>Find me across the web — pick whichever platform suits you best.</p>
+        </div>
+
+        <div class="social-grid reveal">
+          {% if site.author.github %}
+          <a class="social-card" href="https://github.com/{{ site.author.github }}" rel="noopener" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.5A10.5 10.5 0 0 0 8.7 22c.5.1.7-.2.7-.5v-2c-2.9.6-3.5-1.3-3.5-1.3-.5-1.2-1.2-1.5-1.2-1.5-1-.6 0-.6 0-.6 1 .1 1.6 1.1 1.6 1.1.9 1.6 2.5 1.1 3.1.9.1-.7.4-1.1.7-1.4-2.3-.3-4.7-1.1-4.7-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .9-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .6 1.4.2 2.4.1 2.7.7.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.5 10.5 0 0 0 12 1.5Z"/></svg>
+            <span>GitHub<small>@{{ site.author.github }}</small></span>
+          </a>
+          {% endif %}
+          {% if site.author.googlescholar %}
+          <a class="social-card" href="{{ site.author.googlescholar }}" rel="noopener" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 9l11 6 9-4.9V17h2V9L12 3Z"/><path d="M6 13.4V17c0 1.7 2.7 3 6 3s6-1.3 6-3v-3.6l-6 3.3-6-3.3Z"/></svg>
+            <span>Scholar<small>Publications</small></span>
+          </a>
+          {% endif %}
+          {% if site.author.linkedin %}
+          <a class="social-card" href="{{ site.author.linkedin }}" rel="noopener" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0ZM.3 8h4.4v13H.3V8Zm7.3 0h4.2v1.8h.1c.6-1.1 2-2.2 4-2.2 4.3 0 5.1 2.8 5.1 6.5V21h-4.4v-5.8c0-1.4 0-3.2-2-3.2s-2.3 1.5-2.3 3.1V21H7.6V8Z"/></svg>
+            <span>LinkedIn<small>Professional</small></span>
+          </a>
+          {% endif %}
+          {% if site.author.gitee %}
+          <a class="social-card" href="https://gitee.com/{{ site.author.gitee }}" rel="noopener" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm5.2 9.3v4.4c0 .3-.2.5-.5.5H8.3a3.5 3.5 0 0 1 0-7h6a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6a1.5 1.5 0 0 0 0 3h6.2v-1.4h-3.7a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h5.6c.5 0 1 .4 1 1Z"/></svg>
+            <span>Gitee<small>@{{ site.author.gitee }}</small></span>
+          </a>
+          {% endif %}
+          {% if site.author.blog %}
+          <a class="social-card" href="{{ site.author.blog }}" rel="noopener" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11l5 5v11H4z"/><path d="M14 4v5h5"/><path d="M8 13h7M8 17h7"/></svg>
+            <span>Blog<small>Notes &amp; essays</small></span>
+          </a>
+          {% endif %}
+          <a class="social-card" href="mailto:{{ site.author.email }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            <span>Email<small>{{ site.author.email }}</small></span>
+          </a>
+        </div>
+      </div>
+    </section>
   </main>
 
   {% include footer.html %}
-
-  <div id="preloader"></div>
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-      class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Vendor JS Files -->
-  <script src="/assets/vendor/purecounter/purecounter.js"></script>
-  <script src="/assets/vendor/aos/aos.js"></script>
-  <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <!-- <script src="/assets/vendor/glightbox/js/glightbox.min.js"></script> -->
-  <script src="/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <!-- <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script> -->
-  <script src="/assets/vendor/typed.js/typed.min.js"></script>
-  <script src="/assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="/assets/vendor/php-email-form/validate.js"></script>
-
-  <!-- Template Main JS File -->
-  <script src="/assets/js/main.js"></script>
-
-
 </body>
 
 </html>
