@@ -112,6 +112,7 @@ body.theme-beach .aurora {
   color: var(--theme-accent);
   background: color-mix(in srgb, var(--theme-accent) 12%, transparent);
 }
+.theme-panel .world-clock,
 .theme-panel .clock-chip {
   background: var(--theme-surface);
   border: 0.5px solid var(--theme-border);

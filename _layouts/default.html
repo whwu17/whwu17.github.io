@@ -105,15 +105,62 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
 
-      /* Live clock chip (hero) */
-      var clock = document.getElementById('clock');
-      if (clock) {
-        var tick = function () {
-          var d = new Date();
-          var p = function (n) { return ('0' + n).slice(-2); };
-          clock.textContent = p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+      /* World clock (hero) — Shanghai + visitor or UTC */
+      var homeTz = 'Asia/Shanghai';
+      var greetingEl = document.getElementById('clock-greeting');
+      var clockB = document.getElementById('clock-b');
+      if (clockB) {
+        var localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        var secondTz = localTz !== homeTz ? localTz : 'UTC';
+        var secondLabel = document.getElementById('clock-label-b');
+        var cityFromTz = function (tz) {
+          if (tz === 'UTC') return 'UTC';
+          var part = tz.split('/').pop() || tz;
+          return part.replace(/_/g, ' ');
         };
-        tick(); setInterval(tick, 1000);
+        if (secondLabel) {
+          secondLabel.textContent = localTz !== homeTz ? cityFromTz(localTz) : 'UTC';
+        }
+
+        var timeFmt = function (tz) {
+          return new Intl.DateTimeFormat('en-GB', {
+            timeZone: tz,
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+          });
+        };
+        var dateFmt = function (tz) {
+          return new Intl.DateTimeFormat('en-GB', {
+            timeZone: tz,
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric'
+          });
+        };
+        var hourFmt = new Intl.DateTimeFormat('en-GB', {
+          timeZone: homeTz,
+          hour: 'numeric',
+          hour12: false
+        });
+
+        var tick = function () {
+          var now = new Date();
+          var shaTime = document.getElementById('clock-sha');
+          var shaDate = document.getElementById('date-sha');
+          var bDate = document.getElementById('date-b');
+          if (shaTime) shaTime.textContent = timeFmt(homeTz).format(now);
+          if (shaDate) shaDate.textContent = dateFmt(homeTz).format(now);
+          clockB.textContent = timeFmt(secondTz).format(now);
+          if (bDate) bDate.textContent = dateFmt(secondTz).format(now);
+
+          if (greetingEl) {
+            var h = parseInt(hourFmt.format(now), 10);
+            greetingEl.textContent = h < 5 ? 'Good night' : h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+          }
+        };
+        tick();
+        setInterval(tick, 1000);
       }
     })();
   </script>

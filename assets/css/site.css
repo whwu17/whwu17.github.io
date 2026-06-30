@@ -496,54 +496,93 @@ h1, h2, h3 {
   padding: clamp(48px, 10vh, 96px) 0;
 }
 .hero-inner {
-  max-width: 720px;
+  max-width: 680px;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   min-height: min(72vh, 640px);
 }
-.hero .clock-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 20px;
-  padding: 6px 12px;
-  border-radius: var(--pill);
-  font-family: var(--font-mono);
-  font-size: 12px;
+
+/* World clock — Shanghai + visitor (or UTC) */
+.world-clock {
+  align-self: flex-start;
+  margin-bottom: clamp(24px, 4vh, 36px);
+  padding: 16px 20px;
+  border-radius: var(--r-xl);
+  min-width: min(100%, 320px);
+}
+.world-clock__greeting {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink-muted);
+}
+.world-clock__grid {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+}
+.world-clock__divider {
+  width: 1px;
+  background: var(--hairline);
+  flex: none;
+}
+.world-clock__zone {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+.world-clock__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+}
+.world-clock__time {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 6vw, 36px);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--ink);
+}
+.world-clock__date {
+  font-size: 13px;
   color: var(--ink-subtle);
   font-variant-numeric: tabular-nums;
 }
-.hero .clock-chip .pulse {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--success);
-  animation: pulse 2s ease-in-out infinite;
+@media (max-width: 400px) {
+  .world-clock__grid { flex-direction: column; gap: 12px; }
+  .world-clock__divider { width: 100%; height: 1px; }
 }
-@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
-.hero h1 {
-  font-size: clamp(40px, 8vw, 72px);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1.05;
+
+.hero-name {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 6vw, 48px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0;
+  color: var(--ink);
 }
-.hero h1 .grad { color: var(--accent); }
-.hero .sub {
-  font-size: clamp(19px, 2.5vw, 24px);
+.hero-quote {
+  margin: clamp(20px, 3vh, 28px) 0 0;
+  padding: 0 0 0 18px;
+  border: none;
+  border-left: 3px solid color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.hero-quote p {
+  margin: 0;
+  font-size: clamp(17px, 2.2vw, 20px);
+  line-height: 1.58;
+  letter-spacing: -0.018em;
   color: var(--ink-muted);
-  margin: 12px 0 0;
-  font-weight: 400;
-  letter-spacing: -0.022em;
-  line-height: 1.33;
-}
-.hero .tagline {
-  font-size: 17px;
-  color: var(--ink-subtle);
-  max-width: 56ch;
-  margin: 20px 0 0;
-  line-height: 1.47;
+  font-style: normal;
 }
 .hero .socials { display: flex; gap: 10px; margin-top: 28px; }
 .hero .socials a:hover { color: var(--ink); transform: translateY(-1px); }
