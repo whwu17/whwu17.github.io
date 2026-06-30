@@ -1,0 +1,5 @@
+{% assign asset_v = site.assets_version | default: site.github.build_revision | default: '1' %}
+<link href="{{ '/assets/css/site.css' | relative_url }}?v={{ asset_v }}" rel="stylesheet">
+<link href="{{ '/assets/css/clock.css' | relative_url }}?v={{ asset_v }}" rel="stylesheet">
+<link href="{{ '/assets/css/glass.css' | relative_url }}?v={{ asset_v }}" rel="stylesheet">
+<link href="{{ '/assets/css/themes.css' | relative_url }}?v={{ asset_v }}" rel="stylesheet">

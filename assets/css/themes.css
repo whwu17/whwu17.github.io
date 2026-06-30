@@ -55,9 +55,7 @@ body.theme-beach .aurora {
   --glass-blur-subtle: blur(28px) saturate(200%) brightness(1.05);
   --glass-border: color-mix(in srgb, var(--theme-accent) 6%, rgba(255, 255, 255, 0.62));
   --glass-sheen-opacity: 0.9;
-  --glass-halo:
-    0 0 0 0.5px rgba(255, 255, 255, 0.68),
-    0 1px 3px rgba(15, 23, 42, 0.07);
+  --glass-halo: 0 0 0 0.5px rgba(255, 255, 255, 0.68);
   --glass-shadow: 0 4px 20px color-mix(in srgb, var(--theme-accent) 5%, rgba(0, 0, 0, 0.05));
 }
 
@@ -116,10 +114,9 @@ body.theme-beach .aurora {
 .theme-panel :is(a.btn, button.btn, .linklist a, .ctrl.ctrl--glass:not(.to-top)) {
   border-width: 1px;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    inset 0 -0.5px 0 rgba(15, 23, 42, 0.06),
-    0 0 0 0.5px rgba(255, 255, 255, 0.65),
-    0 1px 4px color-mix(in srgb, var(--theme-accent) 8%, rgba(0, 0, 0, 0.08));
+    inset 0 1px 0 rgba(255, 255, 255, 0.88),
+    inset 0 -0.5px 0 rgba(15, 23, 42, 0.05),
+    0 0 0 0.5px rgba(255, 255, 255, 0.62);
 }
 .theme-panel :is(a.btn, button.btn, .linklist a, .ctrl.ctrl--glass:not(.to-top))::after {
   opacity: 0.88;
@@ -154,9 +151,7 @@ body.theme-beach .aurora {
   --theme-border: rgba(234, 88, 12, 0.16);
   --ring: 0 0 0 3px color-mix(in srgb, #ea580c 35%, transparent);
   --glass-border: rgba(255, 255, 255, 0.85);
-  --glass-halo:
-    0 0 0 0.5px rgba(255, 255, 255, 0.75),
-    0 1px 3px rgba(120, 53, 15, 0.1);
+  --glass-halo: 0 0 0 0.5px rgba(255, 255, 255, 0.75);
   background: var(--theme-bg) !important;
 }
 .theme-hero .eyebrow { color: var(--theme-accent); }
@@ -169,10 +164,9 @@ body.theme-beach .aurora {
 .theme-hero :is(a.btn, button.btn, .ctrl.ctrl--glass:not(.to-top)) {
   border: 1px solid rgba(255, 255, 255, 0.88);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    inset 0 -0.5px 0 rgba(194, 65, 12, 0.12),
-    0 0 0 0.5px rgba(255, 255, 255, 0.62),
-    0 2px 5px rgba(120, 53, 15, 0.12);
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 -0.5px 0 rgba(194, 65, 12, 0.1),
+    0 0 0 0.5px rgba(255, 255, 255, 0.58);
 }
 .theme-hero :is(a.btn, button.btn, .ctrl.ctrl--glass:not(.to-top))::after {
   opacity: 0.92;
@@ -300,9 +294,7 @@ body.theme-beach .aurora {
     inset 0 -0.5px 0 rgba(255, 255, 255, 0.12),
     inset 0.5px 0 0 rgba(255, 255, 255, 0.28),
     inset -0.5px 0 0 rgba(255, 255, 255, 0.28);
-  --glass-halo:
-    0 0 0 0.5px rgba(255, 255, 255, 0.42),
-    0 1px 3px rgba(0, 0, 0, 0.18);
+  --glass-halo: 0 0 0 0.5px rgba(255, 255, 255, 0.4);
   --glass-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
 }
 

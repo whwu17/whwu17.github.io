@@ -159,7 +159,7 @@ a { color: inherit; }
   padding-top: env(safe-area-inset-top, 0px);
   --nav-pill-gap: 8px;
   --nav-ease: cubic-bezier(0.32, 0.72, 0, 1);
-  --nav-duration: 0.38s;
+  --nav-duration: 0.45s;
 }
 
 .nav__slot {
@@ -168,12 +168,12 @@ a { color: inherit; }
   margin-left: auto;
 }
 
-/* Stack lives outside .nav — same top-right anchor open or closed */
+/* Stack — always fixed (no absolute↔fixed flip; that kills iOS transitions) */
 .nav__stack {
-  position: absolute;
+  position: fixed;
   z-index: 52;
   right: var(--gutter);
-  top: calc((var(--nav-h) - var(--ctrl-size)) / 2);
+  top: calc(env(safe-area-inset-top, 0px) + (var(--nav-h) - var(--ctrl-size)) / 2);
   width: var(--ctrl-size);
   display: flex;
   flex-direction: column;
@@ -186,8 +186,6 @@ a { color: inherit; }
 
 .site-header.is-nav-open .nav__stack,
 .site-header:has(.nav.open) .nav__stack {
-  position: fixed;
-  top: calc(env(safe-area-inset-top, 0px) + (var(--nav-h) - var(--ctrl-size)) / 2);
   width: min(280px, calc(100vw - var(--gutter) * 2));
 }
 
@@ -197,9 +195,7 @@ a { color: inherit; }
   --glass-blur-subtle: blur(22px) saturate(195%) brightness(1.05);
   --glass-border: rgba(255, 255, 255, 0.72);
   --glass-sheen-opacity: 0.9;
-  --glass-halo:
-    0 0 0 0.5px rgba(255, 255, 255, 0.72),
-    0 1px 2px rgba(0, 0, 0, 0.06);
+  --glass-halo: 0 0 0 0.5px rgba(255, 255, 255, 0.72);
   --glass-shadow: none;
 }
 
@@ -286,34 +282,35 @@ a { color: inherit; }
 .nav.open .nav__menu-bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
 .nav.open .nav__menu-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* Drawer — animated expand/collapse from menu button */
+/* Drawer — grid 0fr→1fr expand (reliable on iOS Safari) */
 .nav__drawer {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 0;
+  display: grid;
+  grid-template-rows: 0fr;
   margin: 0;
   padding: 0;
   background: transparent;
   border: none;
   box-shadow: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  max-height: 0;
   opacity: 0;
   overflow: hidden;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
   pointer-events: none;
   transition:
-    max-height var(--nav-duration) var(--nav-ease),
-    opacity 0.28s var(--ease-out),
-    gap 0.32s var(--nav-ease);
+    grid-template-rows var(--nav-duration) var(--nav-ease),
+    opacity 0.34s var(--ease-out);
+}
+.nav__drawer-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nav-pill-gap);
+  min-height: 0;
+  overflow: hidden;
+  max-height: calc(100dvh - var(--nav-h) - env(safe-area-inset-top, 0px) - var(--ctrl-size) - 20px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .site-header.is-nav-open .nav__drawer,
 .site-header:has(.nav.open) .nav__drawer {
-  gap: var(--nav-pill-gap);
-  max-height: calc(100dvh - var(--nav-h) - env(safe-area-inset-top, 0px) - var(--ctrl-size) - 24px);
+  grid-template-rows: 1fr;
   opacity: 1;
   pointer-events: auto;
 }
@@ -335,43 +332,42 @@ a { color: inherit; }
   font-weight: 500;
   white-space: nowrap;
   opacity: 0;
-  transform: translateY(-8px) scale(0.98);
+  transform: translateY(-10px);
   transition:
-    opacity 0.26s var(--ease-out),
-    transform 0.3s var(--nav-ease),
-    color 0.2s ease,
-    box-shadow var(--glass-press-duration, 0.48s) var(--glass-ease, ease);
+    opacity 0.3s var(--ease-out),
+    transform 0.36s var(--nav-ease),
+    color 0.2s ease;
   transition-delay: 0s;
 }
 .site-header.is-nav-open .nav__drawer a,
 .site-header:has(.nav.open) .nav__drawer a {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 .site-header.is-nav-open .nav__drawer a:nth-child(1),
-.site-header:has(.nav.open) .nav__drawer a:nth-child(1) { transition-delay: 0.04s; }
+.site-header:has(.nav.open) .nav__drawer a:nth-child(1) { transition-delay: 0.06s; }
 .site-header.is-nav-open .nav__drawer a:nth-child(2),
-.site-header:has(.nav.open) .nav__drawer a:nth-child(2) { transition-delay: 0.07s; }
+.site-header:has(.nav.open) .nav__drawer a:nth-child(2) { transition-delay: 0.09s; }
 .site-header.is-nav-open .nav__drawer a:nth-child(3),
-.site-header:has(.nav.open) .nav__drawer a:nth-child(3) { transition-delay: 0.10s; }
+.site-header:has(.nav.open) .nav__drawer a:nth-child(3) { transition-delay: 0.12s; }
 .site-header.is-nav-open .nav__drawer a:nth-child(4),
-.site-header:has(.nav.open) .nav__drawer a:nth-child(4) { transition-delay: 0.13s; }
+.site-header:has(.nav.open) .nav__drawer a:nth-child(4) { transition-delay: 0.15s; }
 .site-header.is-nav-open .nav__drawer a:nth-child(5),
-.site-header:has(.nav.open) .nav__drawer a:nth-child(5) { transition-delay: 0.16s; }
+.site-header:has(.nav.open) .nav__drawer a:nth-child(5) { transition-delay: 0.18s; }
 .site-header.is-nav-open .nav__drawer a:nth-child(6),
-.site-header:has(.nav.open) .nav__drawer a:nth-child(6) { transition-delay: 0.19s; }
+.site-header:has(.nav.open) .nav__drawer a:nth-child(6) { transition-delay: 0.21s; }
 .site-header.is-nav-open .nav__drawer a:nth-child(7),
-.site-header:has(.nav.open) .nav__drawer a:nth-child(7) { transition-delay: 0.22s; }
+.site-header:has(.nav.open) .nav__drawer a:nth-child(7) { transition-delay: 0.24s; }
 .site-header.is-nav-open .nav__drawer a:nth-child(8),
-.site-header:has(.nav.open) .nav__drawer a:nth-child(8) { transition-delay: 0.25s; }
+.site-header:has(.nav.open) .nav__drawer a:nth-child(8) { transition-delay: 0.27s; }
 .site-header.is-nav-open .nav__drawer a:nth-child(9),
-.site-header:has(.nav.open) .nav__drawer a:nth-child(9) { transition-delay: 0.28s; }
+.site-header:has(.nav.open) .nav__drawer a:nth-child(9) { transition-delay: 0.30s; }
 .site-header.is-nav-open .nav__drawer a:nth-child(10),
-.site-header:has(.nav.open) .nav__drawer a:nth-child(10) { transition-delay: 0.31s; }
+.site-header:has(.nav.open) .nav__drawer a:nth-child(10) { transition-delay: 0.33s; }
 .site-header.is-nav-open .nav__drawer a:nth-child(11),
-.site-header:has(.nav.open) .nav__drawer a:nth-child(11) { transition-delay: 0.34s; }
+.site-header:has(.nav.open) .nav__drawer a:nth-child(11) { transition-delay: 0.36s; }
 .site-header.is-nav-open .nav__drawer a:nth-child(12),
-.site-header:has(.nav.open) .nav__drawer a:nth-child(12) { transition-delay: 0.37s; }
+.site-header:has(.nav.open) .nav__drawer a:nth-child(12) { transition-delay: 0.39s; }
 
 @media (prefers-reduced-motion: reduce) {
   .nav__stack,

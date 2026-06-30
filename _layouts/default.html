@@ -8,10 +8,7 @@
   <link href="/assets/img/favicon.png" rel="icon">
   <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-  <link href="{{ '/assets/css/site.css' | relative_url }}" rel="stylesheet">
-  <link href="{{ '/assets/css/clock.css' | relative_url }}" rel="stylesheet">
-  <link href="{{ '/assets/css/glass.css' | relative_url }}" rel="stylesheet">
-  <link href="{{ '/assets/css/themes.css' | relative_url }}" rel="stylesheet">
+  {% include stylesheets.html %}
 
   {% seo %}
 </head>
@@ -46,7 +43,7 @@
       var navLinks = document.getElementById('nav-links');
       var navScrim = document.getElementById('nav-scrim');
       var navCloseTimer = null;
-      var NAV_ANIM_MS = 400;
+      var NAV_ANIM_MS = 480;
       function setNavOpen(open) {
         if (!nav || !navToggle) return;
         clearTimeout(navCloseTimer);
@@ -54,8 +51,10 @@
           if (navLinks) navLinks.setAttribute('aria-hidden', 'false');
           if (navScrim) navScrim.setAttribute('aria-hidden', 'false');
           requestAnimationFrame(function () {
-            nav.classList.add('open');
-            if (header) header.classList.add('is-nav-open');
+            requestAnimationFrame(function () {
+              nav.classList.add('open');
+              if (header) header.classList.add('is-nav-open');
+            });
           });
         } else {
           nav.classList.remove('open');
