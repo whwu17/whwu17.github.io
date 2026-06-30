@@ -191,10 +191,18 @@ a { color: inherit; }
   align-items: center;
   gap: 12px;
   padding: 0 var(--gutter);
+}
+.nav:not(.liquid-glass) {
   background: color-mix(in srgb, var(--canvas) 72%, transparent);
   border-bottom: 0.5px solid var(--hairline);
   backdrop-filter: var(--material);
   -webkit-backdrop-filter: var(--material);
+}
+.nav.liquid-glass {
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-top: none;
 }
 .nav .brand {
   font-weight: 600;
@@ -405,7 +413,7 @@ h1, h2, h3 {
   backdrop-filter: var(--glass-blur, none);
   -webkit-backdrop-filter: var(--glass-blur, none);
   border: 0.5px solid var(--glass-border, var(--hairline));
-  box-shadow: var(--glass-highlight, var(--edge)), var(--glass-shadow, none);
+  box-shadow: var(--glass-rim, none), var(--glass-shadow, none);
   transition: transform var(--motion) var(--ease-out), box-shadow var(--motion) var(--ease-out);
   cursor: pointer;
 }
@@ -457,7 +465,6 @@ h1, h2, h3 {
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--ink-subtle);
-  background: var(--surface-1);
   font-variant-numeric: tabular-nums;
 }
 .hero .clock-chip .pulse {
@@ -498,11 +505,10 @@ h1, h2, h3 {
   place-items: center;
   border-radius: 50%;
   color: var(--ink-subtle);
-  background: var(--surface-1);
   text-decoration: none;
-  transition: color .2s, background .2s;
+  transition: color .2s, transform .2s;
 }
-.hero .socials a:hover { color: var(--ink); background: var(--surface-2); }
+.hero .socials a:hover { color: var(--ink); transform: translateY(-1px); }
 .hero .socials svg { width: 18px; height: 18px; }
 
 /* ---------- Profile ---------- */
@@ -534,7 +540,7 @@ h1, h2, h3 {
   backdrop-filter: var(--glass-blur, none);
   -webkit-backdrop-filter: var(--glass-blur, none);
   border: 0.5px solid var(--glass-border, var(--hairline));
-  box-shadow: var(--glass-highlight, var(--edge)), var(--glass-shadow, none);
+  box-shadow: var(--glass-rim, none), var(--glass-shadow, none);
 }
 .kv {
   display: grid;

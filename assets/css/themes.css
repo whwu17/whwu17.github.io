@@ -73,13 +73,16 @@ body.theme-beach .aurora {
 .theme-panel .card,
 .theme-panel .info-card,
 .theme-panel .linklist a {
-  background: var(--theme-surface);
-  border: 0.5px solid var(--theme-border);
+  background: var(--glass-fill, var(--theme-surface));
+  border: 0.5px solid var(--glass-border, var(--theme-border));
   color: var(--theme-ink);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: var(--glass-blur, blur(16px) saturate(170%));
+  -webkit-backdrop-filter: var(--glass-blur, blur(16px) saturate(170%));
+  box-shadow: var(--glass-rim, none), var(--glass-shadow, none);
 }
-.theme-panel .linklist a:hover { background: var(--theme-surface-raised); }
+.theme-panel .linklist a:hover {
+  background: color-mix(in srgb, var(--glass-fill, var(--theme-surface)) 70%, var(--theme-surface-raised));
+}
 .theme-panel .btn-primary {
   background: var(--theme-accent);
   color: var(--theme-on-accent, #fff);
@@ -193,6 +196,18 @@ body.theme-beach .aurora {
   --theme-font-display: ui-monospace, "SF Mono", Menlo, monospace;
 }
 
+/* Dark themed sections — glass over rich backgrounds */
+.theme-music,
+.theme-encrypt {
+  --glass-fill: rgba(255, 255, 255, 0.1);
+  --glass-fill-subtle: rgba(255, 255, 255, 0.07);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-rim:
+    inset 0 0.5px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -0.5px 0 rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+}
+
 /* —— Music: vinyl lounge —— */
 .theme-music {
   --theme-photo: url("/images/music-bg.jpg");
@@ -291,11 +306,16 @@ body.theme-beach .aurora {
   --beach-sand: #f7f0e5;
   --beach-sky: #dbeafe;
   --beach-sea: #0891b2;
-  --beach-seafoam: #5eead4;
   --beach-ink: #155e75;
   --beach-ink-soft: rgba(21, 94, 117, 0.72);
-  --beach-glass: rgba(255, 255, 255, 0.55);
-  --beach-glass-border: rgba(255, 255, 255, 0.65);
+  /* Align beach page glass with iOS 26.1 light default */
+  --glass-fill: rgba(255, 255, 255, 0.58);
+  --glass-fill-chrome: rgba(255, 255, 255, 0.74);
+  --glass-fill-subtle: rgba(255, 255, 255, 0.48);
+  --glass-blur: blur(22px) saturate(160%) brightness(1.04);
+  --glass-blur-chrome: blur(30px) saturate(165%) brightness(1.03);
+  --glass-border: rgba(255, 255, 255, 0.55);
+  --glass-border-chrome: rgba(255, 255, 255, 0.62);
   color: var(--beach-ink);
   background: linear-gradient(180deg, var(--beach-sky) 0%, var(--beach-sand) 55%, #fef3c7 100%);
 }
@@ -313,13 +333,6 @@ body.theme-beach .aurora {
   );
 }
 
-.theme-beach .liquid-glass,
-.theme-beach .liquid-glass--chrome,
-.theme-beach .liquid-glass--subtle {
-  background: var(--beach-glass);
-  border-color: var(--beach-glass-border);
-}
-
 .theme-beach .intro-title,
 .theme-beach .chapter-meta h2 {
   color: var(--beach-ink);
@@ -327,9 +340,7 @@ body.theme-beach .aurora {
 }
 
 .theme-beach .link-url {
-  background: rgba(255, 255, 255, 0.55);
   color: var(--beach-ink-soft);
-  border-color: rgba(8, 145, 178, 0.15);
 }
 
 @media (max-width: 720px) {

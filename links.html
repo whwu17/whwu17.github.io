@@ -633,13 +633,9 @@ permalink: /links.html
       word-break: break-all;
       overflow-wrap: anywhere;
       hyphens: auto;
-      background: rgba(255, 255, 255, 0.42);
-      border: 1px solid var(--line);
-      border-radius: 10px;
       font-variant-numeric: tabular-nums;
     }
     [data-theme="dark"] .link-url {
-      background: rgba(0, 0, 0, 0.22);
       color: rgba(245, 245, 247, 0.72);
     }
 
@@ -723,6 +719,7 @@ permalink: /links.html
 </head>
 
 <body class="theme-beach">
+  {% include liquid-glass-svg.html %}
   <a class="skip-link" href="#intro" data-i18n="links.skip">Skip to content</a>
   <div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar" id="scroll-progress-bar"></span></div>
 
@@ -848,7 +845,7 @@ permalink: /links.html
                   </svg>
                 </button>
               </div>
-              <code class="link-url" title="{{ link_url }}">{{ link_url }}</code>
+              <code class="link-url liquid-glass-inset" title="{{ link_url }}">{{ link_url }}</code>
             </article>
             {% endfor %}
           </div>
