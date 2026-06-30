@@ -160,16 +160,44 @@ a { color: inherit; }
   --nav-pill-gap: 8px;
 }
 
+.nav__slot {
+  flex: none;
+  width: var(--ctrl-size);
+  margin-left: auto;
+}
+
+/* Stack lives outside .nav — same top-right anchor open or closed */
+.nav__stack {
+  position: absolute;
+  z-index: 52;
+  right: var(--gutter);
+  top: calc((var(--nav-h) - var(--ctrl-size)) / 2);
+  width: var(--ctrl-size);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--nav-pill-gap);
+  pointer-events: none;
+}
+.nav__stack > * { pointer-events: auto; }
+
+.site-header.is-nav-open .nav__stack,
+.site-header:has(.nav.open) .nav__stack {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + (var(--nav-h) - var(--ctrl-size)) / 2);
+  width: min(280px, calc(100vw - var(--gutter) * 2));
+}
+
 .site-header.is-nav-open,
 .site-header:has(.nav.open) {
   --glass-fill-subtle: rgba(255, 255, 255, 0.09);
   --glass-blur-subtle: blur(22px) saturate(195%) brightness(1.05);
-  --glass-border: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.72);
   --glass-sheen-opacity: 0.9;
   --glass-halo:
-    0 0 0 0.75px rgba(255, 255, 255, 0.72),
-    0 0 1px rgba(255, 255, 255, 0.4),
-    0 0 18px rgba(255, 255, 255, 0.16);
+    0 0 0 1px rgba(255, 255, 255, 0.8),
+    0 0 1px rgba(255, 255, 255, 0.45),
+    0 0 20px rgba(255, 255, 255, 0.18);
   --glass-shadow: none;
 }
 
@@ -212,16 +240,6 @@ a { color: inherit; }
   text-overflow: ellipsis;
 }
 
-/* Menu + drawer stack */
-.nav__stack {
-  flex: none;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: var(--nav-pill-gap);
-  margin-left: auto;
-}
-
 .nav__menu {
   flex: none;
   width: var(--ctrl-size);
@@ -234,26 +252,9 @@ a { color: inherit; }
   cursor: pointer;
   display: grid;
   place-items: center;
-  align-self: flex-end;
+  align-self: stretch;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
-}
-.nav__menu:focus-visible { outline: none; box-shadow: var(--ring); }
-
-/* Open: whole stack floats — close pill + links, equal gaps */
-.site-header.is-nav-open .nav__stack,
-.site-header:has(.nav.open) .nav__stack {
-  position: fixed;
-  z-index: 51;
-  right: var(--gutter);
-  top: calc(var(--nav-h) + env(safe-area-inset-top, 0px) + 8px);
-  width: min(280px, calc(100vw - var(--gutter) * 2));
-}
-
-.site-header.is-nav-open .nav__menu,
-.site-header:has(.nav.open) .nav__menu {
-  width: 100%;
-  align-self: stretch;
 }
 
 .nav__menu-icon {
@@ -271,6 +272,13 @@ a { color: inherit; }
   transition: transform 0.28s var(--ease-out), opacity 0.2s;
   transform-origin: center;
 }
+.site-header.is-nav-open .nav__menu,
+.site-header:has(.nav.open) .nav__menu {
+  width: 100%;
+}
+
+.nav__menu:focus-visible { outline: none; box-shadow: var(--ring); }
+
 .nav.open .nav__menu-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav.open .nav__menu-bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
 .nav.open .nav__menu-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
