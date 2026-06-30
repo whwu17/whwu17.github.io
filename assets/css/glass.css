@@ -381,7 +381,7 @@
 }
 
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::after {
-  z-index: 1;
+  z-index: -1;
   transition: opacity calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
 }
 
