@@ -43,6 +43,7 @@
       var nav = document.getElementById('site-nav');
       var navToggle = document.getElementById('nav-toggle');
       var navLinks = document.getElementById('nav-links');
+      var navScrim = document.getElementById('nav-scrim');
       function setNavOpen(open) {
         if (!nav || !navToggle) return;
         nav.classList.toggle('open', open);
@@ -53,6 +54,7 @@
       if (navToggle && nav) navToggle.addEventListener('click', function () {
         setNavOpen(!nav.classList.contains('open'));
       });
+      if (navScrim) navScrim.addEventListener('click', function () { setNavOpen(false); });
       if (navLinks) navLinks.querySelectorAll('a').forEach(function (a) {
         a.addEventListener('click', function () { setNavOpen(false); });
       });
