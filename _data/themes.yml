@@ -1,0 +1,15 @@
+# Page themes manifest — CSS in assets/css/themes.css
+
+pages:
+  hero: { class: theme-hero, mood: Warm welcome sunrise }
+  intro: { class: theme-intro, mood: Soft portrait garden }
+  resume: { class: theme-resume, mood: Professional blue-gray }
+  academic: { class: theme-academic, mood: Scholarly paper navy }
+  notes: { class: theme-notes, mood: Notebook amber }
+  encrypt: { class: theme-encrypt, mood: Secure slate }
+  music: { class: theme-music, mood: Vinyl lounge violet }
+  novel: { class: theme-novel, mood: Literary sepia }
+  links_home: { class: theme-links, mood: Beach preview sky/sand }
+  links_page: { class: theme-beach, mood: Full coastal airy }
+  about: { class: theme-about, mood: Calm studio teal }
+  contact: { class: theme-contact, mood: Correspondence mint }

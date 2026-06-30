@@ -1,17 +1,21 @@
 source 'https://rubygems.org'
 
-gem 'jekyll', '3.9.2'
+# Latest Jekyll (4.x). Runs on modern Ruby (3.2+).
+gem 'jekyll', '~> 4.4'
+
+# Required to run `jekyll serve` on Ruby 3.x (webrick was removed from
+# Ruby's default gems starting with Ruby 3.0).
+gem 'webrick', '~> 1.9'
 
 group :jekyll_plugins do
-  gem 'jekyll-archives', '2.1.1'
-  gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-  gem 'jekyll-feed', '0.15.1'
-  gem 'jekyll-paginate', '1.1.0'
-  gem 'jekyll-seo-tag', '2.4.0'
-  gem 'jekyll-sitemap', '1.4.0'
-  gem 'jekyll-redirect-from', '0.16.0'
-  gem 'kramdown-parser-gfm', '1.1.0'
-  gem 'kramdown', '2.3.2'
-  gem 'eventmachine', '1.2.7', git: 'https://github.com/eventmachine/eventmachine.git', tag: 'v1.2.7'
-  gem 'wdm', '>= 0.1.0' if Gem.win_platform?
+  gem 'jekyll-feed', '~> 0.17'
+  gem 'jekyll-sitemap', '~> 1.4'
+  gem 'jekyll-seo-tag', '~> 2.8'
+  gem 'jekyll-paginate', '~> 1.1'
+  gem 'jekyll-redirect-from', '~> 0.16'
+  gem 'jekyll-archives', '~> 2.3'
 end
+
+# Windows / JRuby support (no-op on Linux/macOS).
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'wdm', '>= 0.1.0', platforms: [:mingw, :mswin, :x64_mingw]

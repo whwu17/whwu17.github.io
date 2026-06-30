@@ -4,33 +4,43 @@ section_id: 'links'
 css_logo_class: 'bx-link'
 priority: 70
 ---
-<style>
-      section#{{page.section_id}} {
-        background-image: url(./images/links-bg.jpg);
-      }
-</style>
-<section id="{{page.section_id}}" >
-    <div class="container p-4">
-      <div class="row text-left">      
-        <div class="col-lg-7 pt-4 pt-lg-0">
-          <div class="beta">beta</div>
-          <div data-aos="fade-down" data-aos-duration="2000">
-            <h1>Useful Links</h1>
-            <p>Some links to backup.</p>
-          </div>
+<section class="section theme-panel theme-links section--list" id="{{ page.section_id }}">
+  <div class="container reveal">
+    <span class="eyebrow"><span class="dot"></span> Links</span>
+    <h2>Useful Links</h2>
+    <p class="lead">Tools and sites I use often — you might find something useful here too.</p>
 
-          <div data-aos="fade-left" style="padding-right: 40px;" data-aos-delay="1000" data-aos-duration="4000">
-            <ul class="actions">
-              <li><a href="https://music.myepoch.cn/" class="button">Music downloader</a></li>
-              <li><a href="https://www.musicenc.com/" class="button">Single Song Search</a></li>
-              <li><a href="https://www.wotianna.com/" class="button">Albums Download</a></li>
-              <li><a href="https://github.com/tiansh/reader" class="button">Novel Reader (iOS style)</a></li>
-          
-              <li><a href="links" class="button">More</a></li>
-            </ul>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </section>
+    <ul class="linklist">
+      <li>
+        <a href="https://music.myepoch.cn/" target="_blank" rel="noopener noreferrer">
+          Music downloader
+          <svg class="ll-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+        </a>
+      </li>
+      <li>
+        <a href="https://www.musicenc.com/" target="_blank" rel="noopener noreferrer">
+          Single Song Search
+          <svg class="ll-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+        </a>
+      </li>
+      <li>
+        <a href="https://www.wotianna.com/" target="_blank" rel="noopener noreferrer">
+          Albums Download
+          <svg class="ll-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/tiansh/reader" target="_blank" rel="noopener noreferrer">
+          Novel Reader (iOS style)
+          <svg class="ll-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+        </a>
+      </li>
+      <li>
+        <a href="{{ '/links' | relative_url }}">
+          More
+          <svg class="ll-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,348 @@
+/* =========================================================================
+   Per-page / per-section themes — each major area has its own mood.
+   Apply .theme-panel on sections; .theme-beach on links.html body.
+   ========================================================================= */
+
+/* Hide global aurora wash when sections carry their own mood */
+body:has(.theme-panel) .aurora,
+body.theme-beach .aurora {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.theme-panel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: min(92dvh, 920px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-top: none !important;
+  color: var(--theme-ink);
+  background: var(--theme-bg);
+  --accent: var(--theme-accent);
+  --accent-hover: var(--theme-accent-hover, var(--theme-accent));
+  --ink: var(--theme-ink);
+  --ink-muted: var(--theme-ink-muted);
+  --ink-subtle: var(--theme-ink-subtle);
+  --ink-tertiary: var(--theme-ink-faint);
+  --surface-1: var(--theme-surface);
+  --surface-2: var(--theme-surface-raised);
+  --hairline: var(--theme-border);
+}
+
+.theme-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--theme-photo, none) center / cover no-repeat;
+  opacity: var(--theme-photo-opacity, 0);
+  pointer-events: none;
+}
+
+.theme-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--theme-overlay, transparent);
+  pointer-events: none;
+}
+
+.theme-panel > .container,
+.theme-panel > .hero-inner,
+.theme-panel > .frame {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.theme-panel .eyebrow { color: var(--theme-accent); }
+.theme-panel .lead { color: var(--theme-ink-muted); }
+.theme-panel .muted,
+.theme-panel .danger { color: var(--theme-ink-subtle); }
+.theme-panel h1,
+.theme-panel h2,
+.theme-panel h3 {
+  color: var(--theme-ink);
+  font-family: var(--theme-font-display, var(--font-display));
+}
+.theme-panel .grad { color: var(--theme-accent); }
+.theme-panel .card,
+.theme-panel .info-card,
+.theme-panel .linklist a {
+  background: var(--glass-fill, var(--theme-surface));
+  border: 0.5px solid var(--glass-border, var(--theme-border));
+  color: var(--theme-ink);
+  backdrop-filter: var(--glass-blur, blur(16px) saturate(170%));
+  -webkit-backdrop-filter: var(--glass-blur, blur(16px) saturate(170%));
+  box-shadow: var(--glass-rim, none), var(--glass-shadow, none);
+}
+.theme-panel .linklist a:hover {
+  background: color-mix(in srgb, var(--glass-fill, var(--theme-surface)) 70%, var(--theme-surface-raised));
+}
+.theme-panel .btn-primary {
+  background: var(--theme-accent);
+  color: var(--theme-on-accent, #fff);
+}
+.theme-panel .btn-primary:hover { background: var(--theme-accent-hover, var(--theme-accent)); }
+.theme-panel .btn-ghost {
+  color: var(--theme-accent);
+  background: color-mix(in srgb, var(--theme-accent) 12%, transparent);
+}
+.theme-panel .clock-chip {
+  background: var(--theme-surface);
+  border: 0.5px solid var(--theme-border);
+  color: var(--theme-ink-subtle);
+}
+
+/* —— Hero: warm welcome —— */
+.theme-hero {
+  --theme-bg: linear-gradient(165deg, #fff9f5 0%, #fceee3 48%, #f6e4d8 100%);
+  --theme-accent: #c2410c;
+  --theme-accent-hover: #ea580c;
+  --theme-ink: #292524;
+  --theme-ink-muted: rgba(41, 37, 36, 0.72);
+  --theme-ink-subtle: rgba(41, 37, 36, 0.55);
+  --theme-ink-faint: rgba(41, 37, 36, 0.38);
+  --theme-surface: rgba(255, 255, 255, 0.72);
+  --theme-surface-raised: rgba(255, 255, 255, 0.88);
+  --theme-border: rgba(194, 65, 12, 0.12);
+  background: var(--theme-bg) !important;
+}
+
+/* —— Intro: soft portrait —— */
+.theme-intro {
+  --theme-photo: url("/images/links-me-bg.jpg");
+  --theme-photo-opacity: 0.22;
+  --theme-overlay: linear-gradient(90deg, rgba(250, 246, 241, 0.92) 0%, rgba(250, 246, 241, 0.75) 100%);
+  --theme-bg: #faf6f1;
+  --theme-accent: #5f7a61;
+  --theme-ink: #2c2925;
+  --theme-ink-muted: rgba(44, 41, 37, 0.72);
+  --theme-ink-subtle: rgba(44, 41, 37, 0.55);
+  --theme-surface: rgba(255, 255, 255, 0.78);
+  --theme-surface-raised: rgba(255, 255, 255, 0.92);
+  --theme-border: rgba(95, 122, 97, 0.15);
+}
+
+/* —— Resume: professional —— */
+.theme-resume {
+  --theme-photo: url("/images/resume-bg.jpg");
+  --theme-photo-opacity: 0.16;
+  --theme-overlay: linear-gradient(180deg, rgba(240, 244, 248, 0.94), rgba(226, 232, 240, 0.88));
+  --theme-bg: #eef2f6;
+  --theme-accent: #1d4ed8;
+  --theme-ink: #0f172a;
+  --theme-ink-muted: rgba(15, 23, 42, 0.72);
+  --theme-ink-subtle: rgba(15, 23, 42, 0.55);
+  --theme-surface: rgba(255, 255, 255, 0.85);
+  --theme-surface-raised: #ffffff;
+  --theme-border: rgba(29, 78, 216, 0.12);
+}
+
+/* —— Academic: scholarly paper —— */
+.theme-academic {
+  --theme-photo: url("/images/academic-bg.jpg");
+  --theme-photo-opacity: 0.2;
+  --theme-overlay: linear-gradient(135deg, rgba(247, 244, 237, 0.93) 0%, rgba(237, 232, 220, 0.86) 100%);
+  --theme-bg: #f7f4ed;
+  --theme-accent: #1e3a5f;
+  --theme-accent-hover: #1e40af;
+  --theme-ink: #1c1917;
+  --theme-ink-muted: rgba(28, 25, 23, 0.72);
+  --theme-ink-subtle: rgba(28, 25, 23, 0.55);
+  --theme-surface: rgba(255, 255, 255, 0.8);
+  --theme-surface-raised: rgba(255, 255, 255, 0.95);
+  --theme-border: rgba(30, 58, 95, 0.14);
+  --theme-font-display: Georgia, "Songti SC", "STSong", serif;
+  --theme-font-body: Georgia, "Songti SC", "STSong", serif;
+  font-family: var(--theme-font-body);
+  letter-spacing: 0.01em;
+}
+.theme-academic .card {
+  border-radius: 2px;
+  box-shadow: 0 1px 0 rgba(30, 58, 95, 0.06);
+}
+
+/* —— Notes: notebook —— */
+.theme-notes {
+  --theme-photo: url("/images/notes-bg.jpg");
+  --theme-photo-opacity: 0.1;
+  --theme-overlay: linear-gradient(180deg, rgba(255, 251, 235, 0.94), rgba(254, 243, 199, 0.82));
+  --theme-bg: #fffbeb;
+  --theme-accent: #b45309;
+  --theme-ink: #422006;
+  --theme-ink-muted: rgba(66, 32, 6, 0.72);
+  --theme-ink-subtle: rgba(66, 32, 6, 0.55);
+  --theme-surface: rgba(255, 255, 255, 0.82);
+  --theme-surface-raised: #ffffff;
+  --theme-border: rgba(180, 83, 9, 0.15);
+  --theme-font-display: Georgia, "Kaiti SC", serif;
+}
+
+/* —— Encryption: secure slate —— */
+.theme-encrypt {
+  --theme-bg: linear-gradient(160deg, #334155 0%, #1e293b 100%);
+  --theme-accent: #7dd3fc;
+  --theme-ink: #f8fafc;
+  --theme-ink-muted: rgba(248, 250, 252, 0.78);
+  --theme-ink-subtle: rgba(248, 250, 252, 0.58);
+  --theme-surface: rgba(255, 255, 255, 0.1);
+  --theme-surface-raised: rgba(255, 255, 255, 0.16);
+  --theme-border: rgba(255, 255, 255, 0.14);
+  --theme-font-display: ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+/* Dark themed sections — glass over rich backgrounds */
+.theme-music,
+.theme-encrypt {
+  --glass-fill: rgba(255, 255, 255, 0.1);
+  --glass-fill-subtle: rgba(255, 255, 255, 0.07);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-rim:
+    inset 0 0.5px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -0.5px 0 rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+}
+
+/* —— Music: vinyl lounge —— */
+.theme-music {
+  --theme-photo: url("/images/music-bg.jpg");
+  --theme-photo-opacity: 0.45;
+  --theme-overlay: linear-gradient(180deg, rgba(26, 20, 35, 0.55) 0%, rgba(45, 27, 62, 0.72) 100%);
+  --theme-bg: #1a1423;
+  --theme-accent: #e879f9;
+  --theme-accent-hover: #f0abfc;
+  --theme-ink: #faf5ff;
+  --theme-ink-muted: rgba(250, 245, 255, 0.78);
+  --theme-ink-subtle: rgba(250, 245, 255, 0.58);
+  --theme-surface: rgba(255, 255, 255, 0.1);
+  --theme-surface-raised: rgba(255, 255, 255, 0.16);
+  --theme-border: rgba(232, 121, 249, 0.22);
+  --theme-font-display: "Avenir Next", "SF Pro Display", system-ui, sans-serif;
+}
+.theme-music .linklist a {
+  border-radius: 999px;
+  font-weight: 500;
+}
+.theme-music .eyebrow .dot {
+  background: var(--theme-accent);
+  box-shadow: 0 0 12px rgba(232, 121, 249, 0.55);
+}
+
+/* —— Novel: literary sepia —— */
+.theme-novel {
+  --theme-photo: url("/images/novel-bg.jpg");
+  --theme-photo-opacity: 0.28;
+  --theme-overlay: linear-gradient(180deg, rgba(243, 235, 227, 0.9), rgba(231, 219, 203, 0.85));
+  --theme-bg: #f3ebe3;
+  --theme-accent: #92400e;
+  --theme-accent-hover: #b45309;
+  --theme-ink: #3f2e22;
+  --theme-ink-muted: rgba(63, 46, 34, 0.72);
+  --theme-ink-subtle: rgba(63, 46, 34, 0.55);
+  --theme-surface: rgba(255, 252, 248, 0.82);
+  --theme-surface-raised: rgba(255, 252, 248, 0.96);
+  --theme-border: rgba(146, 64, 14, 0.14);
+  --theme-font-display: Georgia, "Songti SC", serif;
+}
+
+/* —— Links teaser (homepage): beach preview —— */
+.theme-links {
+  --theme-photo: url("/images/links-bg.jpg");
+  --theme-photo-opacity: 0.35;
+  --theme-overlay: linear-gradient(180deg, rgba(224, 242, 254, 0.88) 0%, rgba(247, 240, 229, 0.82) 55%, rgba(254, 243, 199, 0.75) 100%);
+  --theme-bg: linear-gradient(180deg, #e0f2fe 0%, #f7f0e5 55%, #fef3c7 100%);
+  --theme-accent: #0891b2;
+  --theme-accent-hover: #0e7490;
+  --theme-ink: #155e75;
+  --theme-ink-muted: rgba(21, 94, 117, 0.75);
+  --theme-ink-subtle: rgba(21, 94, 117, 0.58);
+  --theme-surface: rgba(255, 255, 255, 0.62);
+  --theme-surface-raised: rgba(255, 255, 255, 0.88);
+  --theme-border: rgba(8, 145, 178, 0.18);
+}
+.theme-links .linklist a {
+  border-radius: 16px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* —— About: calm studio —— */
+.theme-about {
+  --theme-photo: url("/images/self-bg.jfif");
+  --theme-photo-opacity: 0.14;
+  --theme-overlay: linear-gradient(180deg, rgba(249, 247, 244, 0.94), rgba(241, 237, 231, 0.9));
+  --theme-bg: #f9f7f4;
+  --theme-accent: #0d9488;
+  --theme-ink: #1c1917;
+  --theme-ink-muted: rgba(28, 25, 23, 0.72);
+  --theme-ink-subtle: rgba(28, 25, 23, 0.55);
+  --theme-surface: rgba(255, 255, 255, 0.82);
+  --theme-surface-raised: #ffffff;
+  --theme-border: rgba(13, 148, 136, 0.14);
+}
+
+/* —— Contact: correspondence —— */
+.theme-contact {
+  --theme-bg: linear-gradient(165deg, #f0fdf4 0%, #ecfdf5 50%, #d1fae5 100%);
+  --theme-accent: #059669;
+  --theme-accent-hover: #047857;
+  --theme-ink: #14532d;
+  --theme-ink-muted: rgba(20, 83, 45, 0.72);
+  --theme-ink-subtle: rgba(20, 83, 45, 0.55);
+  --theme-surface: rgba(255, 255, 255, 0.85);
+  --theme-surface-raised: #ffffff;
+  --theme-border: rgba(5, 150, 105, 0.14);
+}
+
+/* =========================================================================
+   Links full page — beach / coastal airy theme
+   ========================================================================= */
+.theme-beach {
+  --beach-sand: #f7f0e5;
+  --beach-sky: #dbeafe;
+  --beach-sea: #0891b2;
+  --beach-ink: #155e75;
+  --beach-ink-soft: rgba(21, 94, 117, 0.72);
+  /* Align beach page glass with iOS 26.1 light default */
+  --glass-fill: rgba(255, 255, 255, 0.58);
+  --glass-fill-chrome: rgba(255, 255, 255, 0.74);
+  --glass-fill-subtle: rgba(255, 255, 255, 0.48);
+  --glass-blur: blur(22px) saturate(160%) brightness(1.04);
+  --glass-blur-chrome: blur(30px) saturate(165%) brightness(1.03);
+  --glass-border: rgba(255, 255, 255, 0.55);
+  --glass-border-chrome: rgba(255, 255, 255, 0.62);
+  color: var(--beach-ink);
+  background: linear-gradient(180deg, var(--beach-sky) 0%, var(--beach-sand) 55%, #fef3c7 100%);
+}
+
+.theme-beach .panel__bg--mesh {
+  background: linear-gradient(175deg, rgba(224, 242, 254, 0.9) 0%, rgba(247, 240, 229, 0.85) 100%);
+}
+
+.theme-beach .panel__scrim {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.08) 45%,
+    rgba(8, 145, 178, 0.12) 100%
+  );
+}
+
+.theme-beach .intro-title,
+.theme-beach .chapter-meta h2 {
+  color: var(--beach-ink);
+  text-shadow: 0 1px 12px rgba(255, 255, 255, 0.6);
+}
+
+.theme-beach .link-url {
+  color: var(--beach-ink-soft);
+}
+
+@media (max-width: 720px) {
+  .theme-panel { min-height: auto; padding: clamp(64px, 10vh, 96px) 0; }
+}

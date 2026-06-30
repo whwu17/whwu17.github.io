@@ -2,203 +2,984 @@
 permalink: /links.html
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
   <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>links · me</title>
+  <meta name="description" content="A private collection of useful links.">
+  <meta name="robots" content="noindex, nofollow">
 
-  <title>Wenhan's Home</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+  <link href="/assets/img/favicon-link.png" rel="icon">
+  <link href="/assets/img/apple-icon-link.png" rel="apple-touch-icon">
 
-  <!-- Favicons -->
-  <link href="/assets/img/favicon-link.png" rel="icon"> 
-  <link href="/assets/img/apple-icon-link.png" rel="apple-touch-icon"> 
+  <link href="/assets/css/glass.css" rel="stylesheet">
+  <link href="/assets/css/themes.css" rel="stylesheet">
 
+  <script>
+    (function () {
+      var q = (location.search || '').replace(/^\?/, '');
+      if (q === 'me') document.documentElement.classList.add('is-unlocked');
+      try {
+        var t = localStorage.getItem('site-theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+        var l = localStorage.getItem('site-lang');
+        if (l) document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
+      } catch (e) {}
+    })();
+  </script>
+  <script>window.__I18N__ = {{ site.data.i18n | jsonify }};</script>
 
-  <!-- Vendor CSS Files -->
-  <link href="/assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <!-- <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet"> -->
-  <link href="/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <!-- <link href="/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet"> -->
-  <!-- <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet"> -->
-
-  <!-- Template Main CSS File -->
-  <link href="/assets/css/style.css" rel="stylesheet">
-
-</head>
-
-<body>
-
-
-  <main id="main">
-
-    <style>
-      section {
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-blend-mode: screen;
-      }
-
-      
-      section#useful-links {
-        background-image: url(./images/links-me-bg.jpg);
-      }
-    </style>
-    
-
-    <section id="useful-links" >
-      <div class="container p-4">
-        <div class="row text-left">
-          <div class="col-lg-7 py-4 pt-lg-0">
-            <div data-aos="fade-down" data-aos-duration="2000">
-              <h1>Useful Links</h1>
-              <p>Some links to backup.</p>
-            </div>
-            {% for el in site.data.useful-links %}
-            <div data-aos="fade-left" style="padding-right: 40px;" data-aos-delay="1000" data-aos-duration="4000">
-              <h5>{{ el.type }}</h5>
-              <ul class="actions">
-                {%for ele in el.links %}
-                <li><a href="{{ele.ref}}" class="button">{{ele.name}}</a></li>
-                {%endfor%}
-              </ul>
-            </div>
-            {%endfor%}
-
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-  </main>
-
-  <!-- ======= Footer ======= -->
   <style>
-    footer * {
-      color: black;
-      font-weight: 400;
-      text-decoration-line: none;
+    :root {
+      --snow: #ffffff;
+      --ink: #1d1d1f;
+      --ink-soft: rgba(29, 29, 31, 0.72);
+      --ink-faint: rgba(29, 29, 31, 0.5);
+      --scrim: rgba(255, 255, 255, 0.2);
+      --scrim-heavy: rgba(255, 255, 255, 0.35);
+      --line: rgba(0, 0, 0, 0.08);
+      --line-strong: rgba(0, 0, 0, 0.12);
+      --accent: #007aff;
+      --accent-2: #34c759;
+      --chip: rgba(255, 255, 255, 0.45);
+      --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --content-max: 980px;
+      --gutter: clamp(20px, 4vw, 32px);
+      --chrome-h: 44px;
+      --material: saturate(180%) blur(24px);
+      --ring: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
     }
 
-    footer strong {
-      font-size: 15pt;
-      line-height: 2;
+    [data-theme="dark"] {
+      --snow: #f5f5f7;
+      --ink: #f5f5f7;
+      --ink-soft: rgba(245, 245, 247, 0.78);
+      --ink-faint: rgba(245, 245, 247, 0.55);
+      --scrim: rgba(0, 0, 0, 0.2);
+      --scrim-heavy: rgba(0, 0, 0, 0.32);
+      --line: rgba(255, 255, 255, 0.14);
+      --line-strong: rgba(255, 255, 255, 0.22);
+      --accent: #0a84ff;
+      --accent-2: #30d158;
+      --chip: rgba(255, 255, 255, 0.1);
     }
 
-    footer p,
-    footer a {
-      margin: 0;
-      text-decoration-line: revert;
-      /* padding-left: 0; */
+    [data-theme="light"] {
+      --snow: #1d1d1f;
+      --ink: #1d1d1f;
+      --ink-soft: rgba(29, 29, 31, 0.72);
+      --ink-faint: rgba(29, 29, 31, 0.5);
+      --scrim: rgba(255, 255, 255, 0.25);
+      --scrim-heavy: rgba(255, 255, 255, 0.4);
+      --line: rgba(0, 0, 0, 0.08);
+      --line-strong: rgba(0, 0, 0, 0.12);
+      --accent: #007aff;
+      --accent-2: #34c759;
+      --chip: rgba(255, 255, 255, 0.5);
     }
 
-    .footer-block {
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+
+    body {
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 17px;
+      line-height: 1.47;
+      letter-spacing: -0.022em;
+      background: transparent;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-rendering: optimizelegibility;
-      padding: 7.5rem 0;
-      position: relative;
-      background-size: cover;
-      background-color: #FFF;
+      text-rendering: optimizeLegibility;
+      overflow: hidden;
     }
 
-    .mxx {
-      margin-right: 1.3rem !important;
-      margin-left: 0rem !important;
-      font-size: 16pt;
-      line-height: 1.7;
+    /* Shared horizontal frame — chrome and panels use the same left edge */
+    .frame {
+      width: 100%;
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding-left: var(--gutter);
+      padding-right: var(--gutter);
+    }
+
+    /* ---------- Access gate ---------- */
+    .denied {
+      display: flex;
+      min-height: 100dvh;
+      align-items: center;
+      justify-content: center;
+      padding: calc(24px + var(--safe-top)) calc(24px + var(--safe-right)) calc(24px + var(--safe-bottom)) calc(24px + var(--safe-left));
+      text-align: center;
+      background: #06080f;
+    }
+    .denied .card {
+      max-width: 380px;
+      padding: 40px 30px;
+      border-radius: 20px;
+      background: rgba(18, 22, 34, 0.92);
+      border: 1px solid var(--line);
+    }
+    .denied h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin: 12px 0 8px;
+    }
+    .denied p { color: var(--ink-soft); margin: 0; font-size: 0.95rem; }
+
+    .app { display: none; }
+    html.is-unlocked .app { display: block; }
+    html.is-unlocked .denied { display: none; }
+
+    /* ---------- Full-screen deck ---------- */
+    .deck {
+      height: 100dvh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scroll-snap-type: y mandatory;
+      overscroll-behavior-y: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .panel {
+      position: relative;
+      min-height: 100dvh;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      display: flex;
+      flex-direction: column;
+      isolation: isolate;
+    }
+
+    .panel__bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: center / cover no-repeat;
+      transform: scale(1.03);
+    }
+    .panel__bg--mesh { z-index: 0; }
+    .panel__bg--photo { z-index: 1; }
+    .panel__scrim { z-index: 2; }
+
+    .panel__inner {
+      position: relative;
+      z-index: 3;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      min-height: 100dvh;
+      padding-top: calc(var(--chrome-h) + 16px + var(--safe-top));
+      padding-bottom: calc(24px + var(--safe-bottom));
+      padding-left: var(--safe-left);
+      padding-right: var(--safe-right);
+    }
+    .panel__inner > .frame {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100dvh - var(--chrome-h) - 40px - var(--safe-top) - var(--safe-bottom));
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 8px;
+      z-index: 100;
+      padding: 10px 16px;
+      border-radius: 12px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .skip-link:focus { left: 16px; outline: none; box-shadow: var(--ring); }
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      z-index: 45;
+      background: rgba(255, 255, 255, 0.06);
+      pointer-events: none;
+    }
+    .scroll-progress__bar {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), #5e6ad2);
+      transition: width 120ms linear;
+    }
+
+    /* Chapter accent from data */
+    .chapter-meta h2 {
+      font-family: var(--font-display);
+      color: var(--chapter-accent, var(--snow));
+      letter-spacing: -0.028em;
+      text-shadow: 0 1px 16px rgba(0, 0, 0, 0.28);
+    }
+    .intro-title {
+      font-family: var(--font-display);
+      letter-spacing: -0.035em;
+      text-shadow: 0 1px 16px rgba(0, 0, 0, 0.25);
+    }
+
+    .lang-btn {
+      flex: none;
+      min-width: 40px;
+      height: var(--chrome-h);
+      padding: 0 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--snow);
+      background: transparent;
+      border: none;
+      border-radius: var(--chrome-h);
+      cursor: pointer;
+    }
+    [data-theme="light"] .lang-btn { color: var(--ink); }
+
+    .link-card { cursor: pointer; transition: transform 300ms var(--ease-out); }
+    .copy-btn { cursor: pointer; }
+    .icon-btn { cursor: pointer; }
+
+    /* ---------- Fixed chrome ---------- */
+    .chrome {
+      position: fixed;
+      top: calc(12px + var(--safe-top));
+      left: 0;
+      right: 0;
+      z-index: 40;
+      pointer-events: none;
+    }
+    .chrome .frame {
+      display: flex;
+      gap: 10px;
+      align-items: stretch;
+      pointer-events: auto;
+    }
+
+    .search {
+      flex: 1;
+      min-width: 0;
+      position: relative;
+    }
+    .search svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--ink-faint);
+      pointer-events: none;
+    }
+    .search input {
+      width: 100%;
+      height: var(--chrome-h);
+      padding: 0 14px 0 42px;
+      font: inherit;
+      font-size: 0.95rem;
+      color: var(--snow);
+      background: transparent;
+      border: none;
+      border-radius: var(--chrome-h);
+      outline: none;
+    }
+    .search.liquid-glass { border-radius: var(--chrome-h); }
+    .search input::placeholder { color: var(--ink-faint); }
+    .search input:focus { box-shadow: var(--ring); }
+    [data-theme="light"] .search input { color: var(--ink); }
+
+    .icon-btn {
+      flex: none;
+      width: var(--chrome-h);
+      height: var(--chrome-h);
+      display: grid;
+      place-items: center;
+      color: var(--snow);
+      background: transparent;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform .15s;
+    }
+    [data-theme="light"] .icon-btn { color: var(--ink); }
+    .icon-btn:hover { transform: translateY(-1px); border-color: var(--line-strong); }
+    .icon-btn:focus-visible { outline: none; box-shadow: var(--ring); }
+    .icon-btn .moon { display: none; }
+    [data-theme="light"] .icon-btn .sun { display: none; }
+    [data-theme="light"] .icon-btn .moon { display: block; }
+
+    .dots {
+      position: fixed;
+      right: calc(10px + var(--safe-right));
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 40;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .dots a {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.28);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      text-indent: -9999px;
+      overflow: hidden;
+      transition: transform .2s, background .2s;
+    }
+    [data-theme="light"] .dots a {
+      background: rgba(16, 21, 28, 0.18);
+      border-color: rgba(16, 21, 28, 0.28);
+    }
+    .dots a:hover,
+    .dots a.is-active {
+      transform: scale(1.25);
+      background: var(--accent);
+      border-color: transparent;
+    }
+    @media (max-width: 640px) {
+      .dots { display: none; }
+    }
+
+    /* ---------- Intro panel — hero title + lower glass card ---------- */
+    .panel--intro .frame {
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      gap: clamp(20px, 5vh, 40px);
+    }
+
+    .intro-display {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 0;
+      padding-top: clamp(12px, 4vh, 32px);
+    }
+
+    .intro-title {
+      margin: 0;
+      font-size: clamp(2.75rem, 11vw, 5.5rem);
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      color: var(--ink);
+      max-width: 12ch;
+    }
+
+    .intro-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      margin: 0 0 14px;
+    }
+
+    .intro-glass {
+      padding: clamp(20px, 4vw, 28px);
+      border-radius: 22px;
+      width: 100%;
+      max-width: 640px;
+    }
+
+    .intro-head {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+    .avatar {
+      flex: none;
+      width: clamp(72px, 18vw, 96px);
+      height: clamp(72px, 18vw, 96px);
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.35), rgba(126,200,227,0.45));
+    }
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      background: #1a2030;
+    }
+
+    .intro-head h1 {
+      margin: 0;
+      font-size: clamp(1.35rem, 4vw, 1.75rem);
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--snow);
+    }
+    [data-theme="light"] .intro-head h1 { color: var(--ink); }
+
+    .intro-role {
+      margin: 0 0 6px;
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+    }
+    .intro-lead {
+      margin: 0;
+      max-width: 42ch;
+      font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+      line-height: 1.55;
+      color: var(--ink-soft);
+    }
+
+    .scroll-hint {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--ink-faint);
+    }
+    .scroll-hint span {
+      width: 1px;
+      height: 36px;
+      background: linear-gradient(180deg, var(--accent), transparent);
+      animation: pulse-line 2s ease-in-out infinite;
+    }
+    @keyframes pulse-line {
+      0%, 100% { opacity: 0.35; transform: scaleY(0.7); }
+      50% { opacity: 1; transform: scaleY(1); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-hint span { animation: none; }
+    }
+
+    /* ---------- Chapter panels — sparse vs dense layouts ---------- */
+    .panel--sparse .frame,
+    .panel--dense .frame {
+      justify-content: center;
+    }
+
+    .panel--sparse .frame {
+      gap: clamp(24px, 5vh, 44px);
+    }
+
+    .panel--dense .frame {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: clamp(16px, 3vh, 24px);
+      min-height: calc(100dvh - var(--chrome-h) - 40px - var(--safe-top) - var(--safe-bottom));
+    }
+
+    .panel--dense .chapter-meta {
+      flex: none;
+      align-self: stretch;
+      padding-top: 0;
+    }
+
+    .panel--dense .link-grid {
+      flex: 0 1 auto;
+      align-self: stretch;
+      align-content: start;
+      max-height: min(62dvh, calc(100dvh - 200px - var(--safe-top) - var(--safe-bottom)));
+      overflow-y: auto;
+    }
+
+    .panel--dense .panel-footer {
+      flex: none;
+    }
+
+    .panel--sparse .chapter-meta {
+      margin-bottom: 0;
+      max-width: 28ch;
+    }
+
+    .panel--sparse .chapter-meta h2 {
+      font-size: clamp(2.25rem, 7vw, 3.5rem);
+    }
+
+    .panel--sparse .link-grid {
+      flex: none;
+      max-height: none;
+      overflow: visible;
+      width: 100%;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: 14px;
+      align-content: center;
+    }
+
+    .panel--sparse .link-card {
+      min-height: auto;
+      padding: 16px;
+    }
+
+    .chapter-meta {
+      margin-bottom: 20px;
+    }
+    .chapter-meta h2 {
+      margin: 0 0 4px;
+      font-size: clamp(1.75rem, 5.5vw, 2.75rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+    .chapter-meta p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+    }
+
+    .link-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      align-content: start;
+      max-height: calc(100dvh - 200px - var(--safe-top) - var(--safe-bottom));
+      overflow-y: auto;
+      padding-right: 2px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.25) transparent;
+    }
+    .link-grid::-webkit-scrollbar { width: 5px; }
+    .link-grid::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.22);
+      border-radius: 999px;
+    }
+
+    .link-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: auto;
+      padding: 14px 14px 12px;
+      border-radius: 16px;
+      transition: transform 300ms var(--ease-out);
+      cursor: pointer;
+    }
+    .link-card:hover { transform: translateY(-2px); }
+
+    .link-card__head {
+      display: grid;
+      grid-template-columns: 40px 1fr 36px;
+      column-gap: 12px;
+      align-items: center;
+    }
+
+    .fav {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--chip);
+      border: 1px solid var(--line);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--accent);
+      overflow: hidden;
+      flex: none;
+    }
+    .fav img { width: 20px; height: 20px; display: block; }
+
+    .link-hit {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      border-radius: inherit;
+    }
+    .link-hit:focus-visible { outline: none; box-shadow: var(--ring); }
+
+    .link-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.35;
+      min-width: 0;
+    }
+
+    .link-url {
+      position: relative;
+      z-index: 2;
+      display: block;
+      width: 100%;
+      margin: 0;
+      padding: 10px 12px;
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      line-height: 1.55;
+      letter-spacing: 0.01em;
+      color: var(--ink-faint);
+      word-break: break-all;
+      overflow-wrap: anywhere;
+      hyphens: auto;
+      font-variant-numeric: tabular-nums;
+    }
+    [data-theme="dark"] .link-url {
+      color: rgba(245, 245, 247, 0.72);
+    }
+
+    .copy-btn {
+      position: relative;
+      z-index: 3;
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      color: var(--ink-faint);
+      background: var(--chip);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: color 300ms var(--ease-out), border-color 300ms var(--ease-out), background 300ms var(--ease-out);
+      flex: none;
+    }
+    .copy-btn:hover { color: var(--snow); border-color: var(--line-strong); }
+    [data-theme="light"] .copy-btn:hover { color: var(--ink); }
+    .copy-btn:focus-visible { outline: none; box-shadow: var(--ring); }
+    .copy-btn .check { display: none; }
+    .copy-btn.copied {
+      color: var(--accent-2);
+      border-color: color-mix(in srgb, var(--accent-2) 45%, transparent);
+    }
+    .copy-btn.copied .copy { display: none; }
+    .copy-btn.copied .check { display: block; }
+
+    .empty {
+      display: none;
+      min-height: 100dvh;
+      scroll-snap-align: start;
+      place-content: center;
+      text-align: center;
+      padding: calc(100px + var(--safe-top)) 24px 40px;
+      color: var(--ink-soft);
+      background: #06080f;
+    }
+    .empty.show { display: grid; }
+
+    .panel-footer {
+      margin-top: 16px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+
+    @media (max-width: 720px) {
+      .panel--sparse .link-grid,
+      .panel--dense .link-grid,
+      .link-grid {
+        grid-template-columns: 1fr;
+      }
+      .panel--dense .link-grid {
+        max-height: calc(100dvh - 220px - var(--safe-top) - var(--safe-bottom));
+      }
+    }
+
+    @media (max-width: 480px) {
+      :root { --gutter: 16px; --chrome-h: 44px; }
+      .intro-head {
+        grid-template-columns: 1fr;
+        justify-items: start;
+      }
+      .avatar { width: 64px; height: 64px; }
+      .intro-title { font-size: clamp(2.25rem, 14vw, 3.25rem); }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .panel--chapter .link-card {
+        opacity: 0;
+        transform: translateY(10px);
+        animation: rise .5s cubic-bezier(.2,.7,.3,1) forwards;
+      }
+      @keyframes rise { to { opacity: 1; transform: none; } }
     }
   </style>
+</head>
 
-  <footer class="footer-block">
-    <div class="container">
-      <div class="row align-items-top text-center mb-5">
-        <div class="col-12 col-lg-5 ms-auto text-lg-left mt-4 mt-lg-0 text-start">
-          <h3><strong>Contact</strong></h3>
-          <nav class="nav flex-column-2">
-            <p class="col-3 p-0 pb-2">Address</p>
-            <a class="col-9 p-0 pb-2" href="https://www.ecnu.edu.cn">East China Normal University</a>
-            <p class="col-3 p-0 pb-2">Phone</p>
-            <p class="col-9 p-0 pb-2">(+86) 18516523459</p>
-            <p class="col-3 p-0 pb-2">Email</p>
-            <a class="col-9 p-0 pb-2" href="mailto://whwu17@foxmail.com">whwu17@foxmail.com</a>
-          </nav>
-        </div>
+<body class="theme-beach">
+  {% include liquid-glass-svg.html %}
+  <a class="skip-link" href="#intro" data-i18n="links.skip">Skip to content</a>
+  <div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar" id="scroll-progress-bar"></span></div>
 
-        <div class="col-12 col-lg-4 ms-auto text-lg-left mt-4 mt-lg-0 text-start">
-          <h3><strong>Write to me</strong></h3>
-          <p>Welcome to communicate with me! Feel free to contact me with following link. </p>
-          <!-- <br> -->
-          <ul class="actions" style="margin-top:15px">
-            <li><a href="contact" style="text-decoration-line:none">Write to me</a></li>
-          </ul>
-        </div>
+  <div class="denied">
+    <div class="card liquid-glass" style="border-radius:24px;padding:40px 32px">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--accent);margin-bottom:8px">
+        <rect x="5" y="11" width="14" height="10" rx="2"></rect>
+        <path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
+      </svg>
+      <h1 style="font-family:var(--font-display)" data-i18n="links.private_title">Private page</h1>
+      <p data-i18n="links.private_body">This area isn't open to visitors. You'll be redirected shortly.</p>
+    </div>
+  </div>
 
-        <div class="col-12 col-lg-2 ms-auto text-lg-left mt-4 mt-lg-0 text-start ">
-          <h3><strong>Follow me</strong></h3>
-          <p>
-            <a href="{{site.author.googlescholar}}" class="mxx"><i class="bx bxs-graduation" aria-hidden="true"></i></a>
-            <a href="{{site.author.linkedin}}" class="mxx"><i class="bx bxl-linkedin-square" aria-hidden="true"></i></a>
-            <a href="https://github.com/ivyee17" class="mxx"><i class="bx bxl-github" aria-hidden="true"></i></a>
-            <a href="https://www.froala.com" class="mxx" aria-disabled="true"><i class="bx bxl-twitter"
-                aria-hidden="true"></i></a>
-            <a href="https://www.froala.com" class="mxx" aria-disabled="true"><i class="bx bxl-facebook"
-                aria-hidden="true"></i></a>
-            <a href="https://www.froala.com" class="mxx" aria-disabled="true"><i class="bx bxl-instagram" aria-hidden="true"></i></a>
-          </p>
+  {% assign hub = site.data.useful-links %}
+  {% assign groups = hub.groups %}
+  <main class="app">
+    <div class="chrome">
+      <div class="frame">
+        <div class="search liquid-glass liquid-glass--chrome">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input id="q" type="search" data-i18n-placeholder="links.search_placeholder" data-i18n-aria="links.search_aria" placeholder="Search by name or site…" autocomplete="off" aria-label="Search links">
         </div>
-
-      </div>
-      <div class="row mt-3">
-        <div class="col text-center mx-lg-4">
-          &copy; Wu Wenhan. Inspired by <a href="www.froala.com/design-blocks">design-blocks</a> and <a
-            href="https://bootstrapmade.com/">BootstrapMade</a>.
-          Template based on <a href="https://html5up.net">Stellar</a> and <a
-            href="http://startbootstrap.github.io/startbootstrap-clean-blog-jekyll/">jekyll clean theme</a>.
-          Animations export
-          from <a href="http://michalsnik.github.io/aos/">AOS</a>, based on
-          <a href="https://wowjs.uk/">wow.js</a> and <a href="https://animate.style/">animate.js</a> under <a
-            href="https://github.com/twbs/bootstrap/blob/v4.0.0/LICENSE">Bootstrap license</a>. Photo by form <a
-            href="https://pxhere.com/">PxHere</a>. Free for
-          personal and commercial use under the <a href="https://html5up.net/license">CCA 3.0</a>
-          and
-          <a href="https://spdx.org/licenses/MIT">MIT license</a>.
-        </div>
+        <button class="lang-btn liquid-glass liquid-glass--chrome" type="button" data-lang-toggle>中文</button>
+        <button class="icon-btn liquid-glass liquid-glass--chrome" id="theme-toggle" type="button" data-i18n-aria="links.theme" aria-label="Toggle appearance">
+        <svg class="sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+        </svg>
+        <svg class="moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+        </svg>
+      </button>
       </div>
     </div>
-  </footer>
 
-  <div id="preloader"></div>
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-      class="bi bi-arrow-up-short"></i></a>
+    <nav class="dots" aria-label="Sections">
+      <a href="#intro" data-dot="intro">Intro</a>
+      {% for el in groups %}
+      <a href="#section-{{ el.id }}" data-dot="section-{{ el.id }}" data-bilingual-en="{{ el.title.en }}" data-bilingual-zh="{{ el.title.zh }}">{{ el.title.en }}</a>
+      {% endfor %}
+    </nav>
 
-  <!-- Vendor JS Files -->
-  <script src="/assets/vendor/purecounter/purecounter.js"></script>
-  <script src="/assets/vendor/aos/aos.js"></script>
-  <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <!-- <script src="/assets/vendor/glightbox/js/glightbox.min.js"></script> -->
-  <script src="/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <!-- <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script> -->
-  <script src="/assets/vendor/typed.js/typed.min.js"></script>
-  <script src="/assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="/assets/vendor/php-email-form/validate.js"></script>
+    <div class="deck" id="deck">
+      <section class="panel panel--intro" id="intro" data-group="intro"
+        style="--panel-g1: {{ hub.intro.gradient.from }}; --panel-g2: {{ hub.intro.gradient.via }}; --panel-photo-opacity: {{ hub.intro.photo_opacity }};">
+        <div class="panel__bg--mesh" aria-hidden="true"></div>
+        {% if hub.intro.cover %}
+        <div class="panel__bg--photo" style="background-image: url('{{ hub.intro.cover | relative_url }}');" aria-hidden="true"></div>
+        {% endif %}
+        <div class="panel__scrim"></div>
+        <div class="panel__inner">
+          <div class="frame">
+          <div class="intro-display">
+            <p class="intro-eyebrow" id="greeting" data-i18n="links.greeting">Good morning — welcome</p>
+            <h1 class="intro-title">{{ site.author.name | default: "My Links" }}</h1>
+          </div>
+          <div class="intro-glass liquid-glass">
+          <div class="intro-head">
+            <div class="avatar">
+              <img src="{{ site.author.avatar | relative_url }}" alt="{{ site.author.name }}"
+                   onerror="this.style.display='none'">
+            </div>
+            <div>
+              <h1>{{ site.author.position }}</h1>
+              <p class="intro-role" data-i18n="links.role">Curated links</p>
+            </div>
+          </div>
+          <p class="intro-lead" data-i18n="links.lead">Tools and sites I use often, grouped by topic. Scroll to browse, or search if you have access.</p>
+          <div class="scroll-hint" aria-hidden="true">
+            <span></span>
+            <span data-i18n="links.scroll_hint">Keep scrolling</span>
+          </div>
+          </div>
+          </div>
+        </div>
+      </section>
 
-  <!-- Template Main JS File -->
-  <script src="/assets/js/main.js"></script>
+      {% for el in groups %}
+      <section class="panel panel--chapter{% if el.links.size <= 3 %} panel--sparse{% else %} panel--dense{% endif %}"
+        id="section-{{ el.id }}" data-group style="--chapter-accent: {{ el.accent }}; --panel-g1: {{ el.bg.gradient[0] }}; --panel-g2: {{ el.bg.gradient[1] }}; --panel-photo-opacity: {{ el.bg.photo_opacity }};">
+        <div class="panel__bg--mesh" aria-hidden="true"></div>
+        {% if el.bg.photo %}
+        <div class="panel__bg--photo" style="background-image: url('{{ el.bg.photo | relative_url }}');" aria-hidden="true"></div>
+        {% endif %}
+        <div class="panel__scrim"></div>
+        <div class="panel__inner">
+          <div class="frame">
+          <header class="chapter-meta">
+            <h2 data-bilingual-en="{{ el.title.en }}" data-bilingual-zh="{{ el.title.zh }}">{{ el.title.en }}</h2>
+            <p data-i18n-count data-link-count="{{ el.links.size }}" data-bilingual-sub-en="{{ el.subtitle.en }}" data-bilingual-sub-zh="{{ el.subtitle.zh }}">{{ el.subtitle.en }} · {{ el.links.size }} links</p>
+          </header>
 
+          <div class="link-grid">
+            {% for ele in el.links %}
+            {% assign link_url = ele.url | default: ele.ref %}
+            {% assign host = link_url | split: '//' | last | split: '/' | first %}
+            <article class="link-card liquid-glass liquid-glass--subtle"
+                     data-name="{{ ele.name | downcase }}" data-host="{{ host | downcase }}" data-url="{{ link_url }}"
+                     style="animation-delay: {{ forloop.index | times: 50 }}ms">
+              <a class="link-hit" href="{{ link_url }}" target="_blank" rel="noopener noreferrer"
+                 aria-label="Open {{ ele.name }}"></a>
+              <div class="link-card__head">
+                <span class="fav" aria-hidden="true">
+                  <img src="https://www.google.com/s2/favicons?domain={{ host }}&sz=64" alt="" loading="lazy"
+                       onerror="this.remove();this.parentNode.textContent='{{ ele.name | strip | slice: 0 | upcase }}';">
+                </span>
+                <span class="link-name">{{ ele.name }}</span>
+                <button class="copy-btn" type="button" aria-label="Copy URL for {{ ele.name }}">
+                  <svg class="copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <svg class="check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                       stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M20 6 9 17l-5-5"></path>
+                  </svg>
+                </button>
+              </div>
+              <code class="link-url liquid-glass-inset" title="{{ link_url }}">{{ link_url }}</code>
+            </article>
+            {% endfor %}
+          </div>
+
+          {% if forloop.last %}
+          <p class="panel-footer">&copy; {{ site.time | date: '%Y' }} {{ site.author.name }}</p>
+          {% endif %}
+          </div>
+        </div>
+      </section>
+      {% endfor %}
+
+      <div class="empty" id="empty">
+        <p data-i18n="links.empty">No matching links. Try another keyword.</p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var html = document.documentElement;
+
+      if (!html.classList.contains('is-unlocked')) {
+        setTimeout(function () { window.location.href = './404'; }, 3500);
+        return;
+      }
+
+      var saved = null;
+      try { saved = localStorage.getItem('site-theme'); } catch (e) {}
+      if (saved) html.setAttribute('data-theme', saved);
+
+      document.getElementById('theme-toggle').addEventListener('click', function () {
+        var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        html.setAttribute('data-theme', next);
+        try { localStorage.setItem('site-theme', next); } catch (e) {}
+      });
+
+      function legacyCopy(text) {
+        return new Promise(function (resolve, reject) {
+          var ta = document.createElement('textarea');
+          ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.focus(); ta.select();
+          var ok = false;
+          try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+          document.body.removeChild(ta);
+          ok ? resolve() : reject();
+        });
+      }
+      function copyText(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          return navigator.clipboard.writeText(text).catch(function () { return legacyCopy(text); });
+        }
+        return legacyCopy(text);
+      }
+      document.querySelectorAll('.copy-btn').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          var url = btn.closest('.link-card').getAttribute('data-url');
+          copyText(url).then(function () {
+            btn.classList.add('copied');
+            btn.setAttribute('aria-label', window.SiteI18n ? SiteI18n.t('links.copied') : 'Copied!');
+            setTimeout(function () {
+              btn.classList.remove('copied');
+              btn.setAttribute('aria-label', window.SiteI18n ? SiteI18n.t('links.copy') : 'Copy URL');
+            }, 2400);
+          });
+        });
+      });
+
+      var deck = document.getElementById('deck');
+      var progressBar = document.getElementById('scroll-progress-bar');
+      if (deck && progressBar) {
+        deck.addEventListener('scroll', function () {
+          var max = deck.scrollHeight - deck.clientHeight;
+          progressBar.style.width = (max > 0 ? (deck.scrollTop / max) * 100 : 0) + '%';
+        }, { passive: true });
+      }
+
+      var input = document.getElementById('q');
+      var cards = Array.prototype.slice.call(document.querySelectorAll('.link-card'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('.panel[data-group]'));
+      var empty = document.getElementById('empty');
+      var dots = Array.prototype.slice.call(document.querySelectorAll('.dots a'));
+
+      function applyFilter() {
+        var term = input.value.trim().toLowerCase();
+        var anyVisible = false;
+        cards.forEach(function (c) {
+          var hit = !term ||
+            c.getAttribute('data-name').indexOf(term) !== -1 ||
+            c.getAttribute('data-host').indexOf(term) !== -1;
+          c.style.display = hit ? '' : 'none';
+          if (hit) anyVisible = true;
+        });
+        panels.forEach(function (p) {
+          if (p.getAttribute('data-group') === 'intro') {
+            p.style.display = term ? 'none' : '';
+            return;
+          }
+          var visible = p.querySelectorAll('.link-card:not([style*="display: none"])').length;
+          p.style.display = visible ? '' : 'none';
+        });
+        empty.classList.toggle('show', term && !anyVisible);
+      }
+      input.addEventListener('input', applyFilter);
+
+      function setActiveDot(id) {
+        dots.forEach(function (d) {
+          d.classList.toggle('is-active', d.getAttribute('href') === '#' + id);
+        });
+      }
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting && entry.intersectionRatio > 0.45) {
+              setActiveDot(entry.target.id);
+            }
+          });
+        }, { root: deck, threshold: [0.45, 0.6] });
+        document.querySelectorAll('.panel, .empty').forEach(function (p) { observer.observe(p); });
+      }
+
+      dots.forEach(function (dot) {
+        dot.addEventListener('click', function (e) {
+          e.preventDefault();
+          var target = document.querySelector(dot.getAttribute('href'));
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    })();
+  </script>
+  <script src="/assets/js/i18n.js" defer></script>
 </body>
 
 </html>
-<script>
-  let test = window.location.href;
-  let  base = test.split('?')[0];
-    test = test.split('?')[1];
-    if(test!='me'){
-      document.getElementsByTagName('body')[0].innerHTML='<p>You have no permission to visit this page. Return to the previous one, thanks!</p>'
-      setTimeout("window.location.href='./404'",4000)
-    }
-</script>

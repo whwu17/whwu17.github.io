@@ -1,36 +1,94 @@
-- type: Music Related
-  links:
-  - name: Music downloader (Netease)
-    ref: https://music.myepoch.cn/
-  - name: Single Song Search
-    ref: https://www.musicenc.com/
-  - name: Albums Download
-    ref: https://www.wotianna.com/
-- type: Coding Platform
-  links:
-  - name: Leetcode
-    ref: https://cn.leetcode.com/
-  - name: Java Guide
-    ref: https://github.com/Snailclimb/JavaGuide
-- type: Hobbies
-  links:
-  - name: Da Vinci (Click the colorist guide)
-    ref: https://www.blackmagicdesign.com/products/davinciresolve/training
-  - name: Adobe CP (delayed)
-    ref: http://www.adobeacp.com/portal/subject.html
-  - name: NTCE Enrollment Link
-    ref: https://www.jszg.edu.cn/portal/qualification_cert/dynamics?id=21691
-  - name: SCA
-    ref: https://sca.coffee/
-  - name: Java SE Programmer I (1Z0-808)
-    ref: https://education.oracle.com/oracle-certified-associate-java-se-8-programmer/trackp_333
-  - name: Java SE Programmer II (1Z0-809)
-    ref: https://education.oracle.com/oracle-certified-professional-java-se-8-programmer/trackp_357
-- type: Magazine Download
-  links:
-  - name: freemagazinepdf (pdf-directly)
-    ref: https://freemagazinepdf.com/
-  - name: freemagazines.top (backup)
-    ref: https://freemagazines.top/
-  - name: magazinebis (beautified, from blackhole)
-    ref: https://magazinebis.com/
+# Links hub — beach / coastal theme (full page)
+
+intro:
+  cover: /images/links-bg.jpg
+  photo_opacity: 0.82
+  gradient:
+    from: "#e0f2fe"
+    via: "#f7f0e5"
+    to: "#fef3c7"
+
+groups:
+  - id: music
+    title:
+      en: Music Related
+      zh: 音乐相关
+    subtitle:
+      en: Songs, singles & albums
+      zh: 找歌、单曲与专辑资源
+    accent: "#38bdf8"
+    bg:
+      gradient: ["#e0f2fe", "#f7f0e5"]
+      photo: /images/music-bg.jpg
+      photo_opacity: 0.78
+    links:
+      - name: Music downloader (Netease)
+        url: https://music.myepoch.cn/
+      - name: Single Song Search
+        url: https://www.musicenc.com/
+      - name: Albums Download
+        url: https://www.wotianna.com/
+
+  - id: coding
+    title:
+      en: Coding Platform
+      zh: 编程学习
+    subtitle:
+      en: Practice, docs & open source
+      zh: 刷题、文档与开源参考
+    accent: "#0891b2"
+    bg:
+      gradient: ["#dbeafe", "#f0f9ff"]
+      photo: /images/academic-bg.jpg
+      photo_opacity: 0.75
+    links:
+      - name: Leetcode
+        url: https://cn.leetcode.com/
+      - name: Java Guide
+        url: https://github.com/Snailclimb/JavaGuide
+
+  - id: hobbies
+    title:
+      en: Hobbies
+      zh: 兴趣爱好
+    subtitle:
+      en: Editing, certs & everyday interests
+      zh: 剪辑、考证与兴趣站点
+    accent: "#f59e0b"
+    bg:
+      gradient: ["#fef3c7", "#fde68a"]
+      photo: /images/self-bg.jfif
+      photo_opacity: 0.76
+    links:
+      - name: Da Vinci (Click the colorist guide)
+        url: https://www.blackmagicdesign.com/products/davinciresolve/training
+      - name: Adobe CP (delayed)
+        url: http://www.adobeacp.com/portal/subject.html
+      - name: NTCE Enrollment Link
+        url: https://www.jszg.edu.cn/portal/qualification_cert/dynamics?id=21691
+      - name: SCA
+        url: https://sca.coffee/
+      - name: Java SE Programmer I (1Z0-808)
+        url: https://education.oracle.com/oracle-certified-associate-java-se-8-programmer/trackp_333
+      - name: Java SE Programmer II (1Z0-809)
+        url: https://education.oracle.com/oracle-certified-professional-java-se-8-programmer/trackp_357
+
+  - id: magazine
+    title:
+      en: Magazine Download
+      zh: 杂志下载
+    subtitle:
+      en: PDF magazines & mirrors
+      zh: PDF 杂志与备份源
+    accent: "#2dd4bf"
+    bg:
+      gradient: ["#ccfbf1", "#f0fdfa"]
+      photo: /images/novel-bg.jpg
+      photo_opacity: 0.74
+    links:
+      - name: freemagazinepdf (pdf-directly)
+        url: https://freemagazinepdf.com/
+      - name: freemagazines.top (backup)
+        url: https://freemagazines.top/
+      - name: magazinebis (beautified, from blackhole)
+        url: https://magazinebis.com/

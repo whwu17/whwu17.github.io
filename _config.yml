@@ -84,6 +84,8 @@ exclude:
   - Gemfile.lock
   - README.md
   - LICENCE
+  - DESIGN.md
+  - AGENTS.md
 
 sass:
   sass_dir: .
