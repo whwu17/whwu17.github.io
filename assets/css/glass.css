@@ -14,16 +14,18 @@
   --glass-fill-chrome: rgba(255, 255, 255, 0.16);
   --glass-fill-subtle: rgba(255, 255, 255, 0.08);
 
-  --glass-border: rgba(255, 255, 255, 0.38);
-  --glass-border-chrome: rgba(255, 255, 255, 0.44);
+  --glass-border: rgba(255, 255, 255, 0.22);
+  --glass-border-chrome: rgba(255, 255, 255, 0.28);
 
-  /* Luminous rim + outer halo — edge read like iOS Weather bar */
+  /* Inset rim + soft edge bloom (not a hard outline ring) */
   --glass-rim:
-    inset 0 1px 0 rgba(255, 255, 255, 0.68),
-    inset 0 -0.5px 0 rgba(255, 255, 255, 0.14),
-    inset 0.5px 0 0 rgba(255, 255, 255, 0.32),
-    inset -0.5px 0 0 rgba(255, 255, 255, 0.32);
-  --glass-halo: 0 0 0 0.5px rgba(255, 255, 255, 0.5);
+    inset 0 1px 0 rgba(255, 255, 255, 0.62),
+    inset 0 -0.5px 0 rgba(255, 255, 255, 0.1),
+    inset 0.5px 0 0 rgba(255, 255, 255, 0.22),
+    inset -0.5px 0 0 rgba(255, 255, 255, 0.22);
+  --glass-halo:
+    0 0 4px rgba(255, 255, 255, 0.28),
+    0 0 10px rgba(255, 255, 255, 0.1);
   --glass-edge-sheen:
     radial-gradient(90% 65% at 14% -12%, rgba(255, 255, 255, 0.44) 0%, transparent 58%),
     radial-gradient(72% 42% at 50% 112%, rgba(255, 255, 255, 0.18) 0%, transparent 54%),
@@ -55,16 +57,19 @@
   --glass-fill-chrome: rgba(255, 255, 255, 0.18);
   --glass-fill-subtle: rgba(255, 255, 255, 0.09);
 
-  /* Bright white edge + subtle dark falloff — reads on peach/cream backgrounds */
-  --glass-border: rgba(255, 255, 255, 0.82);
-  --glass-border-chrome: rgba(255, 255, 255, 0.88);
+  /* Soft luminous edge — bloom not border */
+  --glass-border: rgba(255, 255, 255, 0.28);
+  --glass-border-chrome: rgba(255, 255, 255, 0.34);
 
   --glass-rim:
-    inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    inset 0 -0.5px 0 rgba(255, 255, 255, 0.32),
-    inset 0.5px 0 0 rgba(255, 255, 255, 0.55),
-    inset -0.5px 0 0 rgba(255, 255, 255, 0.55);
-  --glass-halo: 0 0 0 0.5px rgba(255, 255, 255, 0.72);
+    inset 0 1px 0 rgba(255, 255, 255, 0.88),
+    inset 0 -0.5px 0 rgba(255, 255, 255, 0.22),
+    inset 0.5px 0 0 rgba(255, 255, 255, 0.38),
+    inset -0.5px 0 0 rgba(255, 255, 255, 0.38);
+  --glass-halo:
+    0 0 3px rgba(255, 255, 255, 0.42),
+    0 0 9px rgba(255, 255, 255, 0.14),
+    0 1px 4px rgba(15, 23, 42, 0.05);
   --glass-edge-sheen:
     radial-gradient(90% 65% at 14% -12%, rgba(255, 255, 255, 0.62) 0%, transparent 56%),
     radial-gradient(72% 42% at 50% 112%, rgba(255, 255, 255, 0.26) 0%, transparent 52%),
@@ -314,7 +319,7 @@
   background: var(--glass-fill-subtle);
   backdrop-filter: var(--glass-blur-subtle);
   -webkit-backdrop-filter: var(--glass-blur-subtle);
-  border: 1px solid var(--glass-border);
+  border: 0.5px solid var(--glass-border);
   box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
   isolation: isolate;
 }
@@ -328,14 +333,14 @@
   pointer-events: none;
   opacity: var(--glass-sheen-opacity);
   background:
-    radial-gradient(90% 65% at 14% -12%, rgba(255, 255, 255, 0.55) 0%, transparent 58%),
-    radial-gradient(72% 42% at 50% 112%, rgba(255, 255, 255, 0.22) 0%, transparent 54%),
+    radial-gradient(92% 70% at 16% -14%, rgba(255, 255, 255, 0.5) 0%, transparent 54%),
+    radial-gradient(68% 38% at 50% 108%, rgba(255, 255, 255, 0.16) 0%, transparent 56%),
     radial-gradient(
-      ellipse 98% 98% at 50% 50%,
-      transparent 72%,
-      rgba(255, 255, 255, 0.14) 84%,
-      rgba(255, 255, 255, 0.32) 90%,
-      transparent 96%
+      ellipse 100% 100% at 50% 50%,
+      transparent 80%,
+      rgba(255, 255, 255, 0.06) 90%,
+      rgba(255, 255, 255, 0.18) 95%,
+      transparent 100%
     );
 }
 
