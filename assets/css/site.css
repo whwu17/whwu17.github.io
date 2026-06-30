@@ -199,8 +199,8 @@ a { color: inherit; }
 .site-header.is-nav-open,
 .site-header:has(.nav.open) {
   --glass-fill-subtle: transparent;
-  --glass-blur-subtle: blur(3px) saturate(145%);
-  --glass-blur-pill: blur(2px) saturate(140%);
+  --glass-blur-subtle: blur(5px) saturate(148%);
+  --glass-blur-pill: blur(4px) saturate(145%);
   --glass-border: rgba(255, 255, 255, 0.36);
   --glass-sheen-opacity: 0.14;
   --glass-rim:
@@ -239,12 +239,9 @@ a { color: inherit; }
     0 4px 16px rgba(0, 0, 0, 0.22);
 }
 
-.site-header[data-nav-tone="light"] .nav__drawer-label {
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
-}
-
+.site-header[data-nav-tone="light"] .nav__drawer-label,
 .site-header[data-nav-tone="dark"] .nav__drawer-label {
-  text-shadow: 0 0.5px 1px rgba(255, 255, 255, 0.55);
+  text-shadow: none;
 }
 
 .nav {

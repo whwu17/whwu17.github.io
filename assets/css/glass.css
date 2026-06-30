@@ -41,11 +41,11 @@
 }
 
 [data-theme="light"] {
-  /* iOS 26 clear glass — lensing at edges, minimal center blur */
-  --glass-blur: blur(4px) saturate(148%);
-  --glass-blur-chrome: blur(6px) saturate(152%);
-  --glass-blur-subtle: blur(3px) saturate(145%);
-  --glass-blur-pill: blur(2px) saturate(140%);
+  /* iOS 26 clear — light center blur, edge lensing carries material */
+  --glass-blur: blur(6px) saturate(150%);
+  --glass-blur-chrome: blur(8px) saturate(154%);
+  --glass-blur-subtle: blur(5px) saturate(148%);
+  --glass-blur-pill: blur(4px) saturate(145%);
 
   --glass-fill: transparent;
   --glass-fill-chrome: transparent;
@@ -87,9 +87,9 @@
   transition: background 280ms var(--glass-ease), box-shadow 280ms var(--glass-ease);
 }
 
-.liquid-glass > * {
+.liquid-glass:not(.glass-interactive) > * {
   position: relative;
-  z-index: 1;
+  z-index: 0;
 }
 
 /* Blur layer — clipped inside border-radius (avoids rectangular backdrop bleed) */
@@ -97,7 +97,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: -2;
   border-radius: inherit;
   pointer-events: none;
   backdrop-filter: var(--glass-backdrop, var(--glass-blur));
@@ -117,12 +117,12 @@
   box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
 }
 
-/* Specular glint — separate layer, not a muddy fill gradient */
+/* Specular glint — behind text (z-index -1 within isolated shell) */
 .liquid-glass::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: -1;
   border-radius: inherit;
   pointer-events: none;
   opacity: var(--glass-sheen-opacity);
@@ -167,14 +167,15 @@
   background: rgba(255, 255, 255, 0.26);
 }
 
-/* Sheen stays above wash, below content */
+/* Sheen stays above blur, below all content */
 .liquid-glass.glass-interactive::after {
-  z-index: 1;
+  z-index: -1;
   transition: opacity calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
 }
 
 .liquid-glass.glass-interactive > * {
-  z-index: 2;
+  position: relative;
+  z-index: 0;
 }
 
 /* Pressed — scale + brighter fill + tighter shadow (iOS glass squeeze) */
@@ -325,7 +326,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: -2;
   border-radius: inherit;
   pointer-events: none;
   backdrop-filter: var(--glass-blur-subtle);
@@ -336,7 +337,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: -1;
   border-radius: inherit;
   pointer-events: none;
   opacity: 0.14;
@@ -345,9 +346,9 @@
     radial-gradient(68% 38% at 50% 108%, rgba(255, 255, 255, 0.04) 0%, transparent 52%);
 }
 
-:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu) > * {
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card, .theme-panel .welcome-quote) > * {
   position: relative;
-  z-index: 2;
+  z-index: 0;
 }
 
 /* Interactive press — pills & menu rows */
@@ -370,7 +371,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: -2;
   border-radius: inherit;
   pointer-events: none;
   backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
@@ -385,7 +386,7 @@
 }
 
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::after {
-  z-index: 1;
+  z-index: -1;
   transition: opacity calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
 }
 
@@ -438,7 +439,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: -1;
   border-radius: inherit;
   pointer-events: none;
   opacity: var(--glass-sheen-opacity);
@@ -448,7 +449,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: -2;
   border-radius: inherit;
   pointer-events: none;
   backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
@@ -459,7 +460,7 @@
 }
 .to-top.ctrl--glass svg {
   position: relative;
-  z-index: 2;
+  z-index: 0;
 }
 .to-top.ctrl--glass.show {
   opacity: 1;
