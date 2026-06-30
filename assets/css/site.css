@@ -199,7 +199,8 @@ a { color: inherit; }
 .site-header.is-nav-open,
 .site-header:has(.nav.open) {
   --glass-fill-subtle: transparent;
-  --glass-blur-subtle: blur(6px) saturate(155%);
+  --glass-blur-subtle: blur(3px) saturate(145%);
+  --glass-blur-pill: blur(2px) saturate(140%);
   --glass-border: rgba(255, 255, 255, 0.36);
   --glass-sheen-opacity: 0.14;
   --glass-rim:
