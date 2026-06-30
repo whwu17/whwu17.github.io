@@ -100,15 +100,15 @@
   box-shadow: var(--glass-rim), 0 2px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Touch / press — standalone glass controls only (not nav toolbar) */
-button.liquid-glass:not(.nav-btn),
-a.liquid-glass:not(.nav-btn) {
+/* Touch / press — glass icon controls (not toolbar hits on nav) */
+button.liquid-glass:not(.ctrl--toolbar),
+a.liquid-glass:not(.ctrl--toolbar) {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
 
-button.liquid-glass:not(.nav-btn):active,
-a.liquid-glass:not(.nav-btn):active,
+button.liquid-glass:not(.ctrl--toolbar):active,
+a.liquid-glass:not(.ctrl--toolbar):active,
 .liquid-glass--chrome:not(.nav):active,
 .liquid-glass--subtle:active {
   transform: scale(0.98);

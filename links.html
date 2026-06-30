@@ -14,6 +14,7 @@ permalink: /links.html
   <link href="/assets/img/favicon-link.png" rel="icon">
   <link href="/assets/img/apple-icon-link.png" rel="apple-touch-icon">
 
+  <link href="/assets/css/site.css" rel="stylesheet">
   <link href="/assets/css/glass.css" rel="stylesheet">
   <link href="/assets/css/themes.css" rel="stylesheet">
 
@@ -235,9 +236,6 @@ permalink: /links.html
       letter-spacing: -0.035em;
       text-shadow: 0 1px 16px rgba(0, 0, 0, 0.25);
     }
-
-    .icon-btn.liquid-glass { border-radius: 50%; }
-    .icon-btn:focus-visible { outline: none; box-shadow: var(--ring); }
 
     /* ---------- Fixed chrome ---------- */
     .chrome {
@@ -601,16 +599,9 @@ permalink: /links.html
     .copy-btn {
       position: relative;
       z-index: 3;
-      width: 36px;
-      height: 36px;
-      display: grid;
-      place-items: center;
       color: var(--ink-faint);
-      border-radius: 10px;
       padding: 0;
       flex: none;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
     }
     .copy-btn:focus-visible { outline: none; box-shadow: var(--ring); }
     .copy-btn .check { display: none; }
@@ -777,7 +768,7 @@ permalink: /links.html
                        onerror="this.remove();this.parentNode.textContent='{{ ele.name | strip | slice: 0 | upcase }}';">
                 </span>
                 <span class="link-name">{{ ele.name }}</span>
-                <button class="copy-btn liquid-glass liquid-glass--subtle" type="button" aria-label="Copy URL for {{ ele.name }}">
+                <button class="ctrl ctrl--squircle ctrl--glass copy-btn liquid-glass liquid-glass--subtle" type="button" aria-label="Copy URL for {{ ele.name }}">
                   <svg class="copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <rect x="9" y="9" width="13" height="13" rx="2"></rect>
