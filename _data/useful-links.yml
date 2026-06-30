@@ -1,12 +1,12 @@
-# Links hub — beach / coastal theme (full page)
+# Links hub — contact mint theme (full page)
 
 intro:
   cover: /images/links-bg.jpg
-  photo_opacity: 0.82
+  photo_opacity: 0.45
   gradient:
-    from: "#e0f2fe"
-    via: "#f7f0e5"
-    to: "#fef3c7"
+    from: "#f0fdf4"
+    via: "#ecfdf5"
+    to: "#d1fae5"
 
 groups:
   - id: music
@@ -16,11 +16,11 @@ groups:
     subtitle:
       en: Songs, singles & albums
       zh: 找歌、单曲与专辑资源
-    accent: "#38bdf8"
+    accent: "#059669"
     bg:
-      gradient: ["#e0f2fe", "#f7f0e5"]
+      gradient: ["#064e3b", "#0f766e"]
       photo: /images/music-bg.jpg
-      photo_opacity: 0.78
+      photo_opacity: 0.5
     links:
       - name: Music downloader (Netease)
         url: https://music.myepoch.cn/
@@ -36,11 +36,11 @@ groups:
     subtitle:
       en: Practice, docs & open source
       zh: 刷题、文档与开源参考
-    accent: "#0891b2"
+    accent: "#0d9488"
     bg:
-      gradient: ["#dbeafe", "#f0f9ff"]
+      gradient: ["#ecfdf5", "#ccfbf1"]
       photo: /images/academic-bg.jpg
-      photo_opacity: 0.75
+      photo_opacity: 0.4
     links:
       - name: Leetcode
         url: https://cn.leetcode.com/
@@ -54,11 +54,11 @@ groups:
     subtitle:
       en: Editing, certs & everyday interests
       zh: 剪辑、考证与兴趣站点
-    accent: "#f59e0b"
+    accent: "#65a30d"
     bg:
-      gradient: ["#fef3c7", "#fde68a"]
+      gradient: ["#f0fdf4", "#dcfce7"]
       photo: /images/self-bg.jfif
-      photo_opacity: 0.76
+      photo_opacity: 0.42
     links:
       - name: Da Vinci (Click the colorist guide)
         url: https://www.blackmagicdesign.com/products/davinciresolve/training
@@ -80,11 +80,11 @@ groups:
     subtitle:
       en: PDF magazines & mirrors
       zh: PDF 杂志与备份源
-    accent: "#2dd4bf"
+    accent: "#059669"
     bg:
-      gradient: ["#ccfbf1", "#f0fdfa"]
+      gradient: ["#ecfdf5", "#d1fae5"]
       photo: /images/novel-bg.jpg
-      photo_opacity: 0.74
+      photo_opacity: 0.38
     links:
       - name: freemagazinepdf (pdf-directly)
         url: https://freemagazinepdf.com/
