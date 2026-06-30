@@ -48,9 +48,7 @@ Timezone: Etc/UTC
 collections:
   sections:
     output: true
-  
-  
-paginate: 10
+
 permalink: pretty
 
 # defaults:
@@ -67,17 +65,10 @@ permalink: pretty
 # ---
 # Jekyll Config
 
-jekyll-archives:
-  enabled:
-    - categories
-
 plugins:
-  - jekyll-archives
   - jekyll-sitemap
   - jekyll-seo-tag
   - jekyll-feed
-  - jekyll-paginate
-  - jekyll-redirect-from
 
 exclude:
   - Gemfile

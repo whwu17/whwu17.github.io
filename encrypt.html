@@ -3,184 +3,198 @@ title: "Labortory Information"
 permalink: /encrypt/
 ---
 <!DOCTYPE html>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-    crossorigin="anonymous"></script>
-
-<style>
-
-    .align-vertical {
-        position: absolute;
-        width: 60%;
-        height: 80%;
-        top: 50%;
-        left: 50%;
-        -webkit-transform: translate(-50%, -50%);
-        -moz-transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-        -o-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-        transition: opacity 2s ease 5s;
-        opacity: 1;
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Encryption</title>
+  <link href="/assets/img/favicon.png" rel="icon">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", sans-serif;
+      color: #1d1d1f;
+      background: linear-gradient(165deg, #f8f9fe 0%, #eef1f8 100%);
     }
-
-    .cover {
-        color: rgb(241, 241, 241);
-        height: 100%;
-        background: #f8f9fe;
-        /* url("/images/start-page/start-page-2.jpg") no-repeat center center fixed; */
-        width: 100%;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        position: absolute;
+    .wrap {
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
     }
-
-    .cover-black {
-        background: #00000090;
-
-        height: 100%;
-        width: 100%;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        position: absolute;
+    .card {
+      width: min(100%, 480px);
+      background: rgba(255, 255, 255, 0.88);
+      border: 0.5px solid rgba(0, 0, 0, 0.08);
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
     }
-
-    .shadow-ss {
-        box-shadow: #32323254 6px 8px 8px -2px;
-        font-size: 15px;
-        border: 1px solid #cecece;
-        border-radius: 7px;
+    .card__head {
+      padding: 16px 20px;
+      font-size: 18px;
+      font-weight: 600;
+      border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
     }
-</style>
-<script type="text/javascript" src="assets/js/sha512.js"></script>
-<header class="cover">
-</header>
-<!-- <div class="cover-black"/> -->
-<style>
-    #front-page{
-        height:auto;
-        width:40%;
+    .card__body { padding: 20px; display: grid; gap: 16px; }
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(29, 29, 31, 0.72);
     }
-    #info{
-            width:60%;
-        }
-    @media screen and (max-width:600px) {
-        #front-page{
-        width:90%;
-        height:auto;
-        }
-        #info{
-            width:90%;
-        }
+    .row {
+      display: flex;
+      gap: 8px;
     }
-</style>
-<div id="front-page" class="align-vertical shadow-ss" >
-    <div class="card" style="width:100%">
-        <div class="card-header h5 p-3">
-            Enter the key
+    .row input {
+      flex: 1;
+      min-width: 0;
+      height: 44px;
+      padding: 0 14px;
+      border: 0.5px solid rgba(0, 0, 0, 0.12);
+      border-radius: 10px;
+      font: inherit;
+      background: #fff;
+    }
+    .row input[readonly] { background: #fafafa; color: #333; }
+    .btn {
+      height: 44px;
+      padding: 0 16px;
+      border: 0.5px solid rgba(0, 0, 0, 0.12);
+      border-radius: 10px;
+      background: #fff;
+      font: inherit;
+      cursor: pointer;
+    }
+    .btn:hover { background: #f5f5f7; }
+    .btn:active { transform: scale(0.98); }
+    .btn--primary {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: #fff;
+    }
+    .btn--primary:hover { background: #1d4ed8; }
+    #info { display: none; }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(12px);
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(29, 29, 31, 0.88);
+      color: #fff;
+      font-size: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" id="front-page">
+      <div class="card__head">Enter the key</div>
+      <div class="card__body">
+        <div class="row">
+          <input type="password" id="pwd" autocomplete="off" placeholder="Password">
+          <button class="btn btn--primary" type="button" onclick="showInfo()">Enter</button>
         </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item p-3">              
-                <div class="input-group">
-                    <input type="text" class="form-control" id="pwd">
-                    <button class="input-group-text btn-outline-secondary " style="border-color: #ced4da" type="button"
-                        onclick="showInfo()">Enter</button> 
-                </div>
-            </li>
-        </ul>
+      </div>
     </div>
-</div>
-<script>
+
+    <div class="card" id="info">
+      <div class="card__head">Feature</div>
+      <div class="card__body">
+        <div class="field">
+          <label for="addr">Server address</label>
+          <div class="row">
+            <input type="text" id="addr" readonly>
+            <button class="btn" type="button" data-copy="#addr">Copy</button>
+          </div>
+        </div>
+        <div class="field">
+          <label for="addr2">Server password</label>
+          <div class="row">
+            <input type="text" id="addr2" readonly>
+            <button class="btn" type="button" data-copy="#addr2">Copy</button>
+          </div>
+        </div>
+        <div class="field">
+          <label for="addr3">Router password</label>
+          <div class="row">
+            <input type="text" id="addr3" readonly>
+            <button class="btn" type="button" data-copy="#addr3">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Copied</div>
+
+  <script src="/assets/js/sha512.js"></script>
+  <script>
     var pwd;
-    function showInfo(){
-        // set page
-        let e=document.getElementById("pwd");
-        pwd=e.value;
-        let el=document.getElementById("front-page");
-        el.style.display='none';
-        setTimeout(1000);
-        let els=document.getElementById("info");
-        els.style.display='block';
-        console.log(pwd); 
-        // config the secrets
-        let eaddr = document.getElementById("addr");
-    let server_address_key='1177009048a002034a00201220030292006014a002008c012060200607080151071012113e0060177010';
-    eaddr.placeholder = resolveKey(pwd,server_address_key); 
-    eaddr.setAttribute("value",eaddr.placeholder);
-    let e2addr=document.getElementById("addr2");
-    server_pwd_key='0845008009300601980140983007043b0120562006125f013110001206620061017018';
-    e2addr.placeholder = resolveKey(pwd,server_pwd_key); 
-    e2addr.setAttribute("value",e2addr.placeholder);
-    let e3addr=document.getElementById('addr3')
-    route_pwd_key='061d006105200802510170167019041200603610170206002030101212350120578006';
-    e3addr.placeholder = resolveKey(pwd,route_pwd_key); 
-    e3addr.setAttribute("value",e3addr.placeholder);
-    } 
-</script>
 
-<div class="align-vertical shadow-ss" id="info" style="display: none;">
-    <div class="card" style="width:100%">
-        <div class="card-header h5 p-3">
-            Feature
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item p-3">
-                <div style="font-size: 13pt;line-height: 3;font-weight: 400;margin-top: -10pt;">Server address</div>
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Site" id="addr" readonly style="background-color: white;">
-                    <button class="input-group-text btn-outline-secondary " style="border-color: #ced4da" type="button"
-                        id="copy1" data-clipboard-action="copy" data-clipboard-target="#addr">Copy</button>
-                </div>
-            </li>
+    function showInfo() {
+      pwd = document.getElementById('pwd').value;
+      document.getElementById('front-page').style.display = 'none';
+      document.getElementById('info').style.display = 'block';
 
-            <li class="list-group-item p-3">
-                <div style="font-size: 13pt;line-height: 3;font-weight: 400;margin-top: -10pt;">Server password</div>
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Site" id="addr2" readonly style="background-color: white;">
-                    <button class="input-group-text btn-outline-secondary " style="border-color: #ced4da" type="button"
-                        id="copy2" data-clipboard-action="copy" data-clipboard-target="#addr2">Copy</button>
-                </div>
-            </li>
+      var server_address_key = '1177009048a002034a00201220030292006014a002008c012060200607080151071012113e0060177010';
+      var server_pwd_key = '0845008009300601980140983007043b0120562006125f013110001206620061017018';
+      var route_pwd_key = '061d006105200802510170167019041200603610170206002030101212350120578006';
 
-            <li class="list-group-item p-3">
-                <div style="font-size: 13pt;line-height: 3;font-weight: 400;margin-top: -10pt;">Router password</div>
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Site" id="addr3" readonly style="background-color: white;">
-                    <button class="input-group-text btn-outline-secondary " style="border-color: #ced4da" type="button"
-                        id="copy3" data-clipboard-action="copy" data-clipboard-target="#addr3">Copy</button>
-                </div>
-            </li>
-        </ul>
-    </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
-<script type="text/javascript">
- var btn = document.getElementById('copy1');
- var btn2 = document.getElementById('copy2');
- var btn3 = document.getElementById('copy3');
-      var clipboard = new ClipboardJS(btn);
-      var clipboard = new ClipboardJS(btn2);
-      var clipboard = new ClipboardJS(btn3);
-
-      clipboard.on('success', function (e) {
-        // console.info('Action:', e.action);
-        // console.info('Text:', e.text);
-        // console.info('Trigger:', e.trigger);
+      ['addr', 'addr2', 'addr3'].forEach(function (id, i) {
+        var el = document.getElementById(id);
+        var key = [server_address_key, server_pwd_key, route_pwd_key][i];
+        var val = resolveKey(pwd, key);
+        el.value = val;
+        el.placeholder = val;
       });
+    }
 
-      clipboard.on('error', function (e) {
-        console.info('Action:', e.action);
-        console.info('Text:', e.text);
-        console.info('Trigger:', e.trigger);
+    function legacyCopy(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      return ok ? Promise.resolve() : Promise.reject();
+    }
+
+    function copyText(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text).catch(function () { return legacyCopy(text); });
+      }
+      return legacyCopy(text);
+    }
+
+    function flashToast() {
+      var t = document.getElementById('toast');
+      t.classList.add('show');
+      setTimeout(function () { t.classList.remove('show'); }, 1600);
+    }
+
+    document.querySelectorAll('[data-copy]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var sel = btn.getAttribute('data-copy');
+        var el = document.querySelector(sel);
+        if (!el || !el.value) return;
+        copyText(el.value).then(flashToast);
       });
-</script> 
+    });
+  </script>
+</body>
+</html>
