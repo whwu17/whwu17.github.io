@@ -1,40 +1,89 @@
-- type: Music Related
-  cover: /images/music-bg.jpg
-  links:
-  - name: Music downloader (Netease)
-    ref: https://music.myepoch.cn/
-  - name: Single Song Search
-    ref: https://www.musicenc.com/
-  - name: Albums Download
-    ref: https://www.wotianna.com/
-- type: Coding Platform
-  cover: /images/academic-bg.jpg
-  links:
-  - name: Leetcode
-    ref: https://cn.leetcode.com/
-  - name: Java Guide
-    ref: https://github.com/Snailclimb/JavaGuide
-- type: Hobbies
-  cover: /images/self-bg.jfif
-  links:
-  - name: Da Vinci (Click the colorist guide)
-    ref: https://www.blackmagicdesign.com/products/davinciresolve/training
-  - name: Adobe CP (delayed)
-    ref: http://www.adobeacp.com/portal/subject.html
-  - name: NTCE Enrollment Link
-    ref: https://www.jszg.edu.cn/portal/qualification_cert/dynamics?id=21691
-  - name: SCA
-    ref: https://sca.coffee/
-  - name: Java SE Programmer I (1Z0-808)
-    ref: https://education.oracle.com/oracle-certified-associate-java-se-8-programmer/trackp_333
-  - name: Java SE Programmer II (1Z0-809)
-    ref: https://education.oracle.com/oracle-certified-professional-java-se-8-programmer/trackp_357
-- type: Magazine Download
-  cover: /images/novel-bg.jpg
-  links:
-  - name: freemagazinepdf (pdf-directly)
-    ref: https://freemagazinepdf.com/
-  - name: freemagazines.top (backup)
-    ref: https://freemagazines.top/
-  - name: magazinebis (beautified, from blackhole)
-    ref: https://magazinebis.com/
+# Links hub data — consumed by links.html
+# Fields:
+#   groups[].id          stable slug for anchors / styling
+#   groups[].title       display heading
+#   groups[].subtitle    one-line description under heading
+#   groups[].accent      chapter accent color (hex)
+#   groups[].bg          generated backdrop (gradient + optional photo)
+#   groups[].links[]     name + url (+ optional note, tags)
+
+intro:
+  cover: /images/links-me-bg.jpg
+  photo_opacity: 0.55
+  gradient:
+    from: "#050508"
+    via: "#0f172a"
+    to: "#1e293b"
+  glow: "#2563eb"
+
+groups:
+  - id: music
+    title: Music Related
+    subtitle: 找歌、单曲与专辑资源
+    accent: "#3b82f6"
+    bg:
+      gradient: ["#060a12", "#0c1a33", "#1e40af"]
+      photo: /images/music-bg.jpg
+      photo_opacity: 0.42
+    links:
+      - name: Music downloader (Netease)
+        url: https://music.myepoch.cn/
+        note: 网易系下载
+      - name: Single Song Search
+        url: https://www.musicenc.com/
+      - name: Albums Download
+        url: https://www.wotianna.com/
+
+  - id: coding
+    title: Coding Platform
+    subtitle: 刷题、文档与开源参考
+    accent: "#6366f1"
+    bg:
+      gradient: ["#08060f", "#1a1530", "#4338ca"]
+      photo: /images/academic-bg.jpg
+      photo_opacity: 0.38
+    links:
+      - name: Leetcode
+        url: https://cn.leetcode.com/
+        tags: [algorithm, practice]
+      - name: Java Guide
+        url: https://github.com/Snailclimb/JavaGuide
+        tags: [java, guide]
+
+  - id: hobbies
+    title: Hobbies
+    subtitle: 剪辑、考证与兴趣站点
+    accent: "#f97316"
+    bg:
+      gradient: ["#0c0806", "#1f1408", "#9a3412"]
+      photo: /images/self-bg.jfif
+      photo_opacity: 0.4
+    links:
+      - name: Da Vinci (Click the colorist guide)
+        url: https://www.blackmagicdesign.com/products/davinciresolve/training
+      - name: Adobe CP (delayed)
+        url: http://www.adobeacp.com/portal/subject.html
+      - name: NTCE Enrollment Link
+        url: https://www.jszg.edu.cn/portal/qualification_cert/dynamics?id=21691
+      - name: SCA
+        url: https://sca.coffee/
+      - name: Java SE Programmer I (1Z0-808)
+        url: https://education.oracle.com/oracle-certified-associate-java-se-8-programmer/trackp_333
+      - name: Java SE Programmer II (1Z0-809)
+        url: https://education.oracle.com/oracle-certified-professional-java-se-8-programmer/trackp_357
+
+  - id: magazine
+    title: Magazine Download
+    subtitle: PDF 杂志与备份源
+    accent: "#a855f7"
+    bg:
+      gradient: ["#0a0610", "#1a0f2e", "#6b21a8"]
+      photo: /images/novel-bg.jpg
+      photo_opacity: 0.4
+    links:
+      - name: freemagazinepdf (pdf-directly)
+        url: https://freemagazinepdf.com/
+      - name: freemagazines.top (backup)
+        url: https://freemagazines.top/
+      - name: magazinebis (beautified, from blackhole)
+        url: https://magazinebis.com/

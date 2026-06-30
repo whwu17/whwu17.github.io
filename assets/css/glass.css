@@ -1,37 +1,25 @@
 /* =========================================================================
-   Liquid Glass (web approximation)
-   -------------------------------------------------------------------------
-   NOT Apple's official Liquid Glass API (UIKit / SwiftUI). Browsers cannot
-   access that material; this file recreates the look with CSS:
-   backdrop-filter blur, layered gradients, specular highlights, and a
-   subtle chromatic fringe. Visual parity only — no native refraction.
+   iOS-style vibrancy glass (CSS approximation — not UIKit Liquid Glass API)
+   Tuned to match systemMaterial: low fill opacity, moderate blur, thin edge light.
    ========================================================================= */
 
 :root {
-  --glass-blur: blur(40px) saturate(180%) brightness(1.06);
-  --glass-fill: linear-gradient(
-    155deg,
-    rgba(255, 255, 255, 0.2) 0%,
-    rgba(255, 255, 255, 0.08) 42%,
-    rgba(255, 255, 255, 0.04) 100%
-  );
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 rgba(255, 255, 255, 0.06);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.04);
-  --glass-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --glass-blur: blur(20px) saturate(180%);
+  --glass-fill: rgba(255, 255, 255, 0.08);
+  --glass-fill-elevated: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.16);
+  --glass-edge-light: inset 0 0.5px 0 rgba(255, 255, 255, 0.28);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  --glass-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 [data-theme="light"] {
-  --glass-blur: blur(36px) saturate(180%) brightness(1.02);
-  --glass-fill: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.82) 0%,
-    rgba(255, 255, 255, 0.55) 45%,
-    rgba(255, 255, 255, 0.35) 100%
-  );
-  --glass-border: rgba(255, 255, 255, 0.65);
-  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 0 rgba(0, 0, 0, 0.04);
-  --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  --glass-blur: blur(20px) saturate(160%);
+  --glass-fill: rgba(255, 255, 255, 0.62);
+  --glass-fill-elevated: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-edge-light: inset 0 0.5px 0 rgba(255, 255, 255, 0.9);
+  --glass-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
 }
 
 .liquid-glass {
@@ -41,53 +29,48 @@
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: 0.5px solid var(--glass-border);
-  box-shadow: var(--glass-highlight), var(--glass-shadow);
-  transition: transform 300ms var(--glass-ease), box-shadow 300ms var(--glass-ease);
+  box-shadow: var(--glass-edge-light), var(--glass-shadow);
+  transition: background 300ms var(--glass-ease), box-shadow 300ms var(--glass-ease);
 }
 
-/* Specular lens flare along top edge */
+/* Top specular — iOS cards catch light along upper edge only */
 .liquid-glass::before {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: radial-gradient(ellipse 90% 55% at 50% -15%, rgba(255, 255, 255, 0.42), transparent 58%);
-  pointer-events: none;
-}
-
-/* Subtle chromatic fringe (early liquid-glass vibe) */
-.liquid-glass::after {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
   background: linear-gradient(
-    135deg,
-    rgba(120, 200, 255, 0.22),
-    rgba(255, 255, 255, 0.08) 40%,
-    rgba(200, 160, 255, 0.14)
+    180deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.03) 28%,
+    transparent 52%
   );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
   pointer-events: none;
-  opacity: 0.65;
 }
 
 .liquid-glass > * { position: relative; z-index: 1; }
 
 .liquid-glass--subtle {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));
-  backdrop-filter: blur(28px) saturate(200%);
-  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px) saturate(170%);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
 }
 
 [data-theme="light"] .liquid-glass--subtle {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.45));
+  background: rgba(255, 255, 255, 0.55);
 }
 
-/* ---------- Immersive particle sections ---------- */
+.liquid-glass--chrome {
+  background: rgba(30, 30, 32, 0.52);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+}
+
+[data-theme="light"] .liquid-glass--chrome {
+  background: rgba(255, 255, 255, 0.72);
+}
+
+/* ---------- Immersive / panel backgrounds ---------- */
 .immersive {
   position: relative;
   isolation: isolate;
@@ -116,18 +99,31 @@
   z-index: 1;
 }
 
-.hero.immersive {
-  background: #000;
+.hero.immersive { background: #000; }
+
+.panel__bg--mesh {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 90% 70% at 15% 85%, color-mix(in srgb, var(--panel-glow, #2563eb) 35%, transparent), transparent 55%),
+    radial-gradient(ellipse 70% 55% at 88% 18%, color-mix(in srgb, var(--panel-glow, #2563eb) 22%, transparent), transparent 50%),
+    linear-gradient(165deg, var(--panel-g1, #050508) 0%, var(--panel-g2, #0f172a) 48%, var(--panel-g3, #1e293b) 100%);
 }
 
-.panel--particles .panel__bg {
-  opacity: 0.35;
+.panel__bg--photo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: center / cover no-repeat;
+  opacity: var(--panel-photo-opacity, 0.4);
+  transform: scale(1.04);
 }
 
 .panel--particles .panel__scrim {
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.72) 100%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0.55) 100%);
 }
 
 [data-theme="light"] .panel--particles .panel__scrim {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.78) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.72) 100%);
 }

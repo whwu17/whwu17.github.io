@@ -32,8 +32,8 @@
   --surface: var(--surface-1);
   --surface-strong: var(--surface-2);
 
-  --font-display: "Crimson Pro", Georgia, "Songti SC", "STSong", serif;
-  --font-sans: "Atkinson Hyperlegible", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -295,9 +295,9 @@ a { color: inherit; }
 h1, h2, h3 {
   font-family: var(--font-display);
   font-weight: 600;
-  line-height: 1.08;
+  line-height: 1.1;
   margin: 0 0 12px;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.028em;
 }
 .section h2 {
   font-size: clamp(32px, 5vw, 48px);
