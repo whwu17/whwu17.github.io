@@ -14,6 +14,9 @@ permalink: /links.html
   <link href="/assets/img/favicon-link.png" rel="icon">
   <link href="/assets/img/apple-icon-link.png" rel="apple-touch-icon">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Crimson+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="/assets/css/glass.css" rel="stylesheet">
 
   <script>
@@ -29,23 +32,25 @@ permalink: /links.html
 
   <style>
     :root {
-      --snow: #f5f5f7;
-      --ink: #f5f5f7;
-      --ink-soft: rgba(235, 235, 245, 0.72);
-      --ink-faint: rgba(235, 235, 245, 0.45);
-      --scrim: rgba(0, 0, 0, 0.45);
-      --scrim-heavy: rgba(0, 0, 0, 0.62);
-      --line: rgba(255, 255, 255, 0.12);
-      --line-strong: rgba(255, 255, 255, 0.2);
-      --accent: #0a84ff;
-      --accent-2: #30d158;
-      --chip: rgba(255, 255, 255, 0.1);
-      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      --snow: #ededef;
+      --ink: #ededef;
+      --ink-soft: rgba(237, 237, 239, 0.72);
+      --ink-faint: rgba(138, 143, 152, 0.85);
+      --scrim: rgba(2, 2, 3, 0.45);
+      --scrim-heavy: rgba(2, 2, 3, 0.62);
+      --line: rgba(255, 255, 255, 0.08);
+      --line-strong: rgba(255, 255, 255, 0.14);
+      --accent: #2563eb;
+      --accent-2: #22c55e;
+      --chip: rgba(255, 255, 255, 0.06);
+      --font-display: "Crimson Pro", Georgia, "Songti SC", serif;
+      --font-sans: "Atkinson Hyperlegible", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
       --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
       --content-max: 980px;
       --gutter: clamp(20px, 4vw, 32px);
       --chrome-h: 44px;
-      --material: saturate(180%) blur(20px);
+      --material: saturate(180%) blur(24px);
       --ring: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -54,17 +59,17 @@ permalink: /links.html
     }
 
     [data-theme="light"] {
-      --snow: #1d1d1f;
-      --ink: #1d1d1f;
-      --ink-soft: rgba(29, 29, 31, 0.72);
-      --ink-faint: rgba(29, 29, 31, 0.45);
+      --snow: #09090b;
+      --ink: #09090b;
+      --ink-soft: rgba(9, 9, 11, 0.72);
+      --ink-faint: rgba(9, 9, 11, 0.45);
       --scrim: rgba(255, 255, 255, 0.52);
       --scrim-heavy: rgba(255, 255, 255, 0.72);
-      --line: rgba(0, 0, 0, 0.1);
-      --line-strong: rgba(0, 0, 0, 0.16);
-      --accent: #007aff;
-      --accent-2: #34c759;
-      --chip: rgba(0, 0, 0, 0.05);
+      --line: rgba(0, 0, 0, 0.08);
+      --line-strong: rgba(0, 0, 0, 0.12);
+      --accent: #2563eb;
+      --accent-2: #16a34a;
+      --chip: rgba(0, 0, 0, 0.04);
     }
 
     * { box-sizing: border-box; }
@@ -83,7 +88,7 @@ permalink: /links.html
       font-size: 17px;
       line-height: 1.47;
       letter-spacing: -0.022em;
-      background: #000000;
+      background: #020203;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
       overflow: hidden;
@@ -207,6 +212,55 @@ permalink: /links.html
       background:
         linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.38) 38%, rgba(0, 0, 0, 0.72) 100%);
     }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 8px;
+      z-index: 100;
+      padding: 10px 16px;
+      border-radius: 12px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .skip-link:focus { left: 16px; outline: none; box-shadow: var(--ring); }
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      z-index: 45;
+      background: rgba(255, 255, 255, 0.06);
+      pointer-events: none;
+    }
+    .scroll-progress__bar {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), #5e6ad2);
+      transition: width 120ms linear;
+    }
+
+    /* Chapter accent palette — journey through topics */
+    #section-1 { --chapter-accent: #3b82f6; }
+    #section-2 { --chapter-accent: #6366f1; }
+    #section-3 { --chapter-accent: #f97316; }
+    #section-4 { --chapter-accent: #a855f7; }
+
+    .chapter-meta h2 {
+      font-family: var(--font-display);
+      color: var(--chapter-accent, var(--snow));
+    }
+    .intro-title { font-family: var(--font-display); }
+
+    .link-card { cursor: pointer; transition: transform 300ms var(--ease-out); }
+    .copy-btn { cursor: pointer; }
+    .icon-btn { cursor: pointer; }
 
     /* ---------- Fixed chrome ---------- */
     .chrome {
@@ -661,10 +715,16 @@ permalink: /links.html
 </head>
 
 <body>
+  <a class="skip-link" href="#intro">跳到主内容</a>
+  <div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar" id="scroll-progress-bar"></span></div>
+
   <div class="denied">
     <div class="card liquid-glass" style="border-radius:24px;padding:40px 32px">
-      <div aria-hidden="true">🔒</div>
-      <h1>Private page</h1>
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--accent);margin-bottom:8px">
+        <rect x="5" y="11" width="14" height="10" rx="2"></rect>
+        <path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
+      </svg>
+      <h1 style="font-family:var(--font-display)">Private page</h1>
       <p>This area isn't open to visitors. You'll be redirected shortly.</p>
     </div>
   </div>
@@ -848,6 +908,14 @@ permalink: /links.html
       });
 
       var deck = document.getElementById('deck');
+      var progressBar = document.getElementById('scroll-progress-bar');
+      if (deck && progressBar) {
+        deck.addEventListener('scroll', function () {
+          var max = deck.scrollHeight - deck.clientHeight;
+          progressBar.style.width = (max > 0 ? (deck.scrollTop / max) * 100 : 0) + '%';
+        }, { passive: true });
+      }
+
       var input = document.getElementById('q');
       var cards = Array.prototype.slice.call(document.querySelectorAll('.link-card'));
       var panels = Array.prototype.slice.call(document.querySelectorAll('.panel[data-group]'));

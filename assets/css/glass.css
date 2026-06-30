@@ -8,16 +8,17 @@
    ========================================================================= */
 
 :root {
-  --glass-blur: blur(48px) saturate(220%) brightness(1.08);
+  --glass-blur: blur(40px) saturate(180%) brightness(1.06);
   --glass-fill: linear-gradient(
     155deg,
-    rgba(255, 255, 255, 0.28) 0%,
-    rgba(255, 255, 255, 0.1) 42%,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.08) 42%,
     rgba(255, 255, 255, 0.04) 100%
   );
-  --glass-border: rgba(255, 255, 255, 0.34);
-  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 -1px 0 rgba(255, 255, 255, 0.08);
-  --glass-shadow: 0 20px 56px rgba(0, 0, 0, 0.32);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  --glass-ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 [data-theme="light"] {
@@ -41,6 +42,7 @@
   -webkit-backdrop-filter: var(--glass-blur);
   border: 0.5px solid var(--glass-border);
   box-shadow: var(--glass-highlight), var(--glass-shadow);
+  transition: transform 300ms var(--glass-ease), box-shadow 300ms var(--glass-ease);
 }
 
 /* Specular lens flare along top edge */

@@ -1,26 +1,27 @@
 /* =========================================================================
-   Wenhan's Home — Apple-inspired design system
-   Clarity · Deference · Depth
-   System typography, grouped surfaces, SF Blue accent, frosted chrome.
+   Wenhan's Home — ui-ux-pro-max design system
+   Portfolio Grid · Motion-Driven · Spatial Glass
+   Tokens: design-system/wenhan-home/MASTER.md
    ========================================================================= */
 
 :root {
-  --canvas: #000000;
-  --surface-1: #1c1c1e;
-  --surface-2: #2c2c2e;
-  --surface-3: #3a3a3c;
+  --canvas: #020203;
+  --surface-1: #0a0a0c;
+  --surface-2: #121218;
+  --surface-3: #1a1a22;
   --hairline: rgba(255, 255, 255, 0.08);
   --hairline-strong: rgba(255, 255, 255, 0.14);
 
-  --ink: #f5f5f7;
-  --ink-muted: rgba(235, 235, 245, 0.72);
-  --ink-subtle: rgba(235, 235, 245, 0.55);
-  --ink-tertiary: rgba(235, 235, 245, 0.35);
+  --ink: #ededef;
+  --ink-muted: rgba(237, 237, 239, 0.72);
+  --ink-subtle: rgba(138, 143, 152, 0.95);
+  --ink-tertiary: rgba(138, 143, 152, 0.65);
 
-  --accent: #0a84ff;
-  --accent-hover: #409cff;
-  --accent-focus: #0a84ff;
-  --success: #30d158;
+  --accent: #2563eb;
+  --accent-hover: #3b82f6;
+  --accent-focus: #2563eb;
+  --accent-glow: rgba(37, 99, 235, 0.22);
+  --success: #22c55e;
 
   --bg: var(--canvas);
   --text: var(--ink);
@@ -31,8 +32,13 @@
   --surface: var(--surface-1);
   --surface-strong: var(--surface-2);
 
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-display: "Crimson Pro", Georgia, "Songti SC", "STSong", serif;
+  --font-sans: "Atkinson Hyperlegible", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-fast: 200ms;
+  --motion: 300ms;
 
   --r-sm: 8px;
   --r-md: 12px;
@@ -40,7 +46,7 @@
   --r-xl: 20px;
   --pill: 980px;
 
-  --material: saturate(180%) blur(20px);
+  --material: saturate(180%) blur(24px);
   --ring: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
   --nav-h: 52px;
   --maxw: 980px;
@@ -48,20 +54,21 @@
 }
 
 [data-theme="light"] {
-  --canvas: #f5f5f7;
+  --canvas: #fafafa;
   --surface-1: #ffffff;
-  --surface-2: #f2f2f7;
-  --surface-3: #e8e8ed;
+  --surface-2: #f4f4f5;
+  --surface-3: #e4e4e7;
   --hairline: rgba(0, 0, 0, 0.08);
   --hairline-strong: rgba(0, 0, 0, 0.12);
-  --ink: #1d1d1f;
-  --ink-muted: rgba(29, 29, 31, 0.72);
-  --ink-subtle: rgba(29, 29, 31, 0.55);
-  --ink-tertiary: rgba(29, 29, 31, 0.35);
-  --accent: #007aff;
-  --accent-hover: #0077ed;
-  --accent-focus: #007aff;
-  --success: #34c759;
+  --ink: #09090b;
+  --ink-muted: rgba(9, 9, 11, 0.72);
+  --ink-subtle: rgba(9, 9, 11, 0.55);
+  --ink-tertiary: rgba(9, 9, 11, 0.35);
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-focus: #2563eb;
+  --accent-glow: rgba(37, 99, 235, 0.12);
+  --success: #16a34a;
 }
 
 * { box-sizing: border-box; }
@@ -92,8 +99,37 @@ a { color: inherit; }
   position: fixed;
   inset: 0;
   z-index: -2;
-  background: var(--canvas);
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 20%, rgba(37, 99, 235, 0.12), transparent 55%),
+    radial-gradient(ellipse 60% 45% at 85% 75%, rgba(94, 106, 210, 0.1), transparent 50%),
+    linear-gradient(180deg, #020203 0%, #050506 50%, #020203 100%);
   pointer-events: none;
+}
+[data-theme="light"] .aurora {
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 20%, rgba(37, 99, 235, 0.08), transparent 55%),
+    radial-gradient(ellipse 60% 45% at 85% 75%, rgba(94, 106, 210, 0.06), transparent 50%),
+    linear-gradient(180deg, #fafafa 0%, #f4f4f5 50%, #fafafa 100%);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 8px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: var(--r-md);
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: left var(--motion) var(--ease-out);
+}
+.skip-link:focus {
+  left: var(--gutter);
+  outline: none;
+  box-shadow: var(--ring);
 }
 
 /* ---------- Navbar ---------- */
@@ -257,10 +293,11 @@ a { color: inherit; }
 .eyebrow .dot { display: none; }
 
 h1, h2, h3 {
+  font-family: var(--font-display);
   font-weight: 600;
   line-height: 1.08;
   margin: 0 0 12px;
-  letter-spacing: -0.022em;
+  letter-spacing: -0.02em;
 }
 .section h2 {
   font-size: clamp(32px, 5vw, 48px);
@@ -292,7 +329,8 @@ h1, h2, h3 {
   text-decoration: none;
   cursor: pointer;
   border: none;
-  transition: background .2s, color .2s, opacity .2s;
+  transition: background var(--motion) var(--ease-out), color var(--motion) var(--ease-out), opacity var(--motion) var(--ease-out), transform var(--motion) var(--ease-out);
+  cursor: pointer;
 }
 .btn svg { width: 16px; height: 16px; }
 .btn-primary { color: #fff; background: var(--accent); }
@@ -319,7 +357,8 @@ h1, h2, h3 {
   -webkit-backdrop-filter: var(--glass-blur, none);
   border: 0.5px solid var(--glass-border, var(--hairline));
   box-shadow: var(--glass-highlight, var(--edge)), var(--glass-shadow, none);
-  transition: transform .2s, box-shadow .2s;
+  transition: transform var(--motion) var(--ease-out), box-shadow var(--motion) var(--ease-out);
+  cursor: pointer;
 }
 .card:hover { transform: translateY(-2px); }
 .card h3 { font-size: 21px; letter-spacing: -0.022em; margin-bottom: 8px; }
@@ -336,7 +375,8 @@ h1, h2, h3 {
   color: var(--ink);
   background: var(--surface-1);
   font-size: 17px;
-  transition: background .2s;
+  transition: background var(--motion) var(--ease-out);
+  cursor: pointer;
 }
 .linklist a:hover { background: var(--surface-2); }
 .linklist a .ll-arrow { margin-left: auto; color: var(--ink-tertiary); }
