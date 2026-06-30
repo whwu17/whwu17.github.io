@@ -9,6 +9,7 @@
   <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <link href="{{ '/assets/css/site.css' | relative_url }}" rel="stylesheet">
+  <link href="{{ '/assets/css/clock.css' | relative_url }}" rel="stylesheet">
   <link href="{{ '/assets/css/glass.css' | relative_url }}" rel="stylesheet">
   <link href="{{ '/assets/css/themes.css' | relative_url }}" rel="stylesheet">
 
@@ -112,14 +113,17 @@
         });
       }
 
-      /* World clock (hero) — Shanghai + visitor or UTC */
+      /* Analog world clocks — Shanghai + visitor or UTC */
       try {
         var homeTz = 'Asia/Shanghai';
         var greetingEl = document.getElementById('clock-greeting');
-        var clockB = document.getElementById('clock-b');
-        if (clockB && window.Intl && Intl.DateTimeFormat) {
+        var tzSha = document.getElementById('tz-sha');
+        var tzB = document.getElementById('tz-b');
+        if (tzSha && tzB && window.Intl && Intl.DateTimeFormat) {
           var localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
           var secondTz = localTz !== homeTz ? localTz : 'UTC';
+          tzB.setAttribute('data-tz', secondTz);
+
           var secondLabel = document.getElementById('clock-label-b');
           var cityFromTz = function (tz) {
             if (tz === 'UTC') return 'UTC';
@@ -146,25 +150,55 @@
               day: 'numeric'
             });
           };
-          var hourFmt = new Intl.DateTimeFormat('en-GB', {
-            timeZone: homeTz,
-            hour: 'numeric',
-            hour12: false
-          });
+          var partsFmt = function (tz) {
+            return new Intl.DateTimeFormat('en-GB', {
+              timeZone: tz,
+              hour: 'numeric',
+              minute: 'numeric',
+              second: 'numeric',
+              hour12: false
+            });
+          };
+
+          function getParts(tz, now) {
+            var p = {};
+            partsFmt(tz).formatToParts(now).forEach(function (x) {
+              if (x.type !== 'literal') p[x.type] = parseInt(x.value, 10);
+            });
+            return p;
+          }
+
+          function updateDial(tzEl, tz, now) {
+            var p = getParts(tz, now);
+            var h = p.hour % 12;
+            var m = p.minute;
+            var s = p.second;
+            var dial = tzEl.querySelector('.analog__dial');
+            if (!dial) return;
+            dial.style.setProperty('--deg-h', (h * 30 + m * 0.5) + 'deg');
+            dial.style.setProperty('--deg-m', (m * 6 + s * 0.1) + 'deg');
+            dial.style.setProperty('--deg-s', (s * 6) + 'deg');
+            dial.style.setProperty('--sky-rot', (p.hour * 15) + 'deg');
+            tzEl.classList.toggle('is-night', p.hour < 6 || p.hour >= 20);
+          }
 
           var tick = function () {
             var now = new Date();
+            updateDial(tzSha, homeTz, now);
+            updateDial(tzB, secondTz, now);
+
             var shaTime = document.getElementById('clock-sha');
             var shaDate = document.getElementById('date-sha');
+            var clockB = document.getElementById('clock-b');
             var bDate = document.getElementById('date-b');
             if (shaTime) shaTime.textContent = timeFmt(homeTz).format(now);
             if (shaDate) shaDate.textContent = dateFmt(homeTz).format(now);
-            clockB.textContent = timeFmt(secondTz).format(now);
+            if (clockB) clockB.textContent = timeFmt(secondTz).format(now);
             if (bDate) bDate.textContent = dateFmt(secondTz).format(now);
 
             if (greetingEl) {
-              var h = parseInt(hourFmt.format(now), 10);
-              greetingEl.textContent = h < 5 ? 'Good night' : h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+              var hp = getParts(homeTz, now).hour;
+              greetingEl.textContent = hp < 5 ? 'Good night' : hp < 12 ? 'Good morning' : hp < 17 ? 'Good afternoon' : 'Good evening';
             }
           };
           tick();

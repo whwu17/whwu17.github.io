@@ -11,19 +11,38 @@ details: Thanks for stopping by — here you'll find my work, writing, and a few
     <h1 class="hero-name reveal" style="--reveal-i:0">{{ site.author.name }}</h1>
     <p class="hero-tag reveal" style="--reveal-i:1">{{ site.author.position }}</p>
 
-    <div class="world-clock world-clock--compact liquid-glass liquid-glass--subtle reveal" style="--reveal-i:2" aria-live="polite">
+    <div class="world-clock world-clock--analog liquid-glass liquid-glass--subtle reveal" style="--reveal-i:2" id="world-clock" aria-live="polite">
       <p class="world-clock__greeting" id="clock-greeting">—</p>
       <div class="world-clock__grid">
-        <div class="world-clock__zone">
-          <span class="world-clock__label">Shanghai</span>
-          <time class="world-clock__time" id="clock-sha">--:--</time>
-          <span class="world-clock__date" id="date-sha">—</span>
+        <div class="tz-clock" id="tz-sha" data-tz="Asia/Shanghai">
+          <span class="tz-clock__label">Shanghai</span>
+          <div class="analog" aria-hidden="true">
+            <div class="analog__dial">
+              <div class="analog__sky"></div>
+              <div class="analog__ticks"></div>
+              <div class="analog__hand analog__hand--hour"></div>
+              <div class="analog__hand analog__hand--minute"></div>
+              <div class="analog__hand analog__hand--second"></div>
+              <div class="analog__hub"></div>
+            </div>
+          </div>
+          <time class="tz-clock__digital" id="clock-sha">--:--</time>
+          <span class="tz-clock__date" id="date-sha">—</span>
         </div>
-        <div class="world-clock__divider" aria-hidden="true"></div>
-        <div class="world-clock__zone">
-          <span class="world-clock__label" id="clock-label-b">Your time</span>
-          <time class="world-clock__time" id="clock-b">--:--</time>
-          <span class="world-clock__date" id="date-b">—</span>
+        <div class="tz-clock" id="tz-b" data-tz="">
+          <span class="tz-clock__label" id="clock-label-b">Your time</span>
+          <div class="analog" aria-hidden="true">
+            <div class="analog__dial">
+              <div class="analog__sky"></div>
+              <div class="analog__ticks"></div>
+              <div class="analog__hand analog__hand--hour"></div>
+              <div class="analog__hand analog__hand--minute"></div>
+              <div class="analog__hand analog__hand--second"></div>
+              <div class="analog__hub"></div>
+            </div>
+          </div>
+          <time class="tz-clock__digital" id="clock-b">--:--</time>
+          <span class="tz-clock__date" id="date-b">—</span>
         </div>
       </div>
     </div>
