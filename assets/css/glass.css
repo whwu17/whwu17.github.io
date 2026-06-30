@@ -23,7 +23,7 @@
     inset 0.5px 0 0 rgba(255, 255, 255, 0.16),
     inset -0.5px 0 0 rgba(255, 255, 255, 0.16);
   --glass-highlight: var(--glass-rim);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
+  --glass-shadow: 0 2px 14px rgba(0, 0, 0, 0.06);
   --glass-sheen-opacity: 0.55;
 
   --glass-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
@@ -33,14 +33,14 @@
 }
 
 [data-theme="light"] {
-  /* iOS 26.1 default light appearance */
-  --glass-blur: blur(24px) saturate(165%) brightness(1.03);
-  --glass-blur-chrome: blur(32px) saturate(170%) brightness(1.02);
-  --glass-blur-subtle: blur(18px) saturate(155%) brightness(1.02);
+  /* iOS 26.1 default light appearance — ultra-translucent */
+  --glass-blur: blur(28px) saturate(195%) brightness(1.04);
+  --glass-blur-chrome: blur(36px) saturate(200%) brightness(1.03);
+  --glass-blur-subtle: blur(24px) saturate(190%) brightness(1.03);
 
-  --glass-fill: rgba(255, 255, 255, 0.48);
-  --glass-fill-chrome: rgba(255, 255, 255, 0.62);
-  --glass-fill-subtle: rgba(255, 255, 255, 0.24);
+  --glass-fill: rgba(255, 255, 255, 0.14);
+  --glass-fill-chrome: rgba(255, 255, 255, 0.18);
+  --glass-fill-subtle: rgba(255, 255, 255, 0.09);
 
   --glass-border: rgba(0, 0, 0, 0.05);
   --glass-border-chrome: rgba(0, 0, 0, 0.04);
@@ -50,8 +50,8 @@
     inset 0 -0.5px 0 rgba(255, 255, 255, 0.38),
     inset 0.5px 0 0 rgba(255, 255, 255, 0.42),
     inset -0.5px 0 0 rgba(255, 255, 255, 0.42);
-  --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
-  --glass-sheen-opacity: 0.62;
+  --glass-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  --glass-sheen-opacity: 0.78;
 }
 
 /* ---------- Base material ---------- */
@@ -93,7 +93,7 @@
   background: var(--glass-fill-subtle);
   backdrop-filter: var(--glass-blur-subtle);
   -webkit-backdrop-filter: var(--glass-blur-subtle);
-  box-shadow: var(--glass-rim), 0 2px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--glass-rim), var(--glass-shadow);
 }
 
 .liquid-glass--chrome {
@@ -101,7 +101,7 @@
   backdrop-filter: var(--glass-blur-chrome);
   -webkit-backdrop-filter: var(--glass-blur-chrome);
   border-color: var(--glass-border-chrome);
-  box-shadow: var(--glass-rim), 0 2px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--glass-rim), var(--glass-shadow);
 }
 
 /* =========================================================================
@@ -139,7 +139,7 @@
 }
 
 [data-theme="light"] .liquid-glass.glass-interactive::before {
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.32);
 }
 
 /* Sheen stays above wash, below content */
@@ -179,11 +179,11 @@
 }
 
 [data-theme="light"] .liquid-glass.glass-interactive:is(:active, .is-pressed) {
-  background: color-mix(in srgb, var(--glass-fill) 72%, #ffffff);
+  background: color-mix(in srgb, var(--glass-fill) 58%, #ffffff);
 }
 
 [data-theme="light"] .liquid-glass--subtle.glass-interactive:is(:active, .is-pressed) {
-  background: color-mix(in srgb, var(--glass-fill-subtle) 68%, #ffffff);
+  background: color-mix(in srgb, var(--glass-fill-subtle) 52%, #ffffff);
 }
 
 /* Glass pills — accent tint on press (matches music player links) */
@@ -288,7 +288,7 @@
   backdrop-filter: var(--glass-blur-subtle);
   -webkit-backdrop-filter: var(--glass-blur-subtle);
   border: 0.5px solid var(--glass-border);
-  box-shadow: var(--glass-rim), 0 2px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--glass-rim), var(--glass-shadow);
 }
 
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card)::after {
@@ -339,7 +339,7 @@
 }
 
 [data-theme="light"] :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::before {
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.32);
 }
 
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::after {
@@ -365,7 +365,7 @@
 }
 
 [data-theme="light"] :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed) {
-  background: color-mix(in srgb, var(--glass-fill-subtle) 68%, #ffffff);
+  background: color-mix(in srgb, var(--glass-fill-subtle) 52%, #ffffff);
 }
 
 /* Back to top — fixed floater (excluded from auto-glass position/transform) */
@@ -379,7 +379,7 @@
   backdrop-filter: var(--glass-blur-subtle);
   -webkit-backdrop-filter: var(--glass-blur-subtle);
   border: 0.5px solid var(--glass-border);
-  box-shadow: var(--glass-rim), 0 2px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--glass-rim), var(--glass-shadow);
   opacity: 0;
   pointer-events: none;
   cursor: pointer;

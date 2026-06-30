@@ -12,23 +12,25 @@
   <nav class="nav liquid-glass liquid-glass--chrome" id="site-nav" aria-label="Main">
     <a class="nav__brand" href="{{ '/' | relative_url }}">{{ site.author.name | default: site.title }}</a>
 
-    <button class="nav__menu" id="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
-      <span class="nav__menu-icon" aria-hidden="true">
-        <span class="nav__menu-bar"></span>
-        <span class="nav__menu-bar"></span>
-        <span class="nav__menu-bar"></span>
-      </span>
-    </button>
-  </nav>
+    <div class="nav__stack" id="nav-stack">
+      <button class="nav__menu" id="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+        <span class="nav__menu-icon" aria-hidden="true">
+          <span class="nav__menu-bar"></span>
+          <span class="nav__menu-bar"></span>
+          <span class="nav__menu-bar"></span>
+        </span>
+      </button>
 
-  <div class="nav__drawer" id="nav-links" role="navigation" aria-label="Sections" hidden>
-    {% assign secs = site.sections | sort: 'priority' %}
-    {% for s in secs %}
-    <a href="{{ '/#' | append: s.section_id | relative_url }}" data-spy="{{ s.section_id }}">{{ s.name }}</a>
-    {% endfor %}
-    <a href="{{ '/about/' | relative_url }}">About</a>
-    <a href="{{ '/contact/' | relative_url }}">Contact</a>
-  </div>
+      <div class="nav__drawer" id="nav-links" role="navigation" aria-label="Sections" hidden>
+        {% assign secs = site.sections | sort: 'priority' %}
+        {% for s in secs %}
+        <a href="{{ '/#' | append: s.section_id | relative_url }}" data-spy="{{ s.section_id }}">{{ s.name }}</a>
+        {% endfor %}
+        <a href="{{ '/about/' | relative_url }}">About</a>
+        <a href="{{ '/contact/' | relative_url }}">Contact</a>
+      </div>
+    </div>
+  </nav>
 
   <div class="nav__scrim" id="nav-scrim" aria-hidden="true" hidden></div>
 </header>
