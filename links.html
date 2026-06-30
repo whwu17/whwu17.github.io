@@ -2,7 +2,7 @@
 permalink: /links.html
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
   <meta charset="utf-8">
@@ -16,10 +16,8 @@ permalink: /links.html
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Access gate: reveal content only when the page is opened with `?me`.
-       Runs before <body> paints so private links never flash. -->
   <script>
     (function () {
       var q = (location.search || '').replace(/^\?/, '');
@@ -33,74 +31,150 @@ permalink: /links.html
 
   <style>
     :root {
-      /* Linear-inspired surface ladder + single accent (see DESIGN.md) */
-      --bg: #010102;
-      --bg-soft: #0f1011;
-      --surface: #0f1011;
-      --surface-strong: #141516;
-      --border: #23252a;
-      --border-strong: #34343a;
-      --text: #f7f8f8;
-      --text-dim: #8a8f98;
-      --text-faint: #62666d;
-      --accent: #5e6ad2;
-      --accent-hover: #828fff;
-      --accent-2: #27a644;   /* success — used for live/copied states */
-      --accent-3: #5e6ad2;
-      --radius: 16px;
-      --radius-sm: 12px;
-      --shadow: 0 16px 40px -26px rgba(0, 0, 0, 0.7);
-      --edge: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-      --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
-      --ring: 0 0 0 2px var(--bg), 0 0 0 4px color-mix(in srgb, var(--accent) 60%, transparent);
+      --paper: rgba(28, 24, 20, 0.82);
+      --paper-strong: rgba(36, 31, 26, 0.94);
+      --ink: #f4ede3;
+      --ink-soft: #c8bdb0;
+      --ink-faint: #8f8375;
+      --line: rgba(244, 237, 227, 0.1);
+      --line-strong: rgba(244, 237, 227, 0.18);
+      --accent: #e39a72;
+      --accent-soft: rgba(227, 154, 114, 0.16);
+      --accent-2: #6fbf97;
+      --shadow: 0 28px 70px -36px rgba(0, 0, 0, 0.65);
+      --shadow-soft: 0 14px 40px -24px rgba(0, 0, 0, 0.45);
+      --radius: 22px;
+      --radius-sm: 14px;
+      --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+      --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --ring: 0 0 0 2px rgba(28, 24, 20, 0.95), 0 0 0 4px rgba(227, 154, 114, 0.5);
     }
 
     [data-theme="light"] {
-      --bg: #f7f8f8;
-      --bg-soft: #ffffff;
-      --surface: #ffffff;
-      --surface-strong: #f1f2f4;
-      --border: #e3e5ea;
-      --border-strong: #d3d6dd;
-      --text: #08090a;
-      --text-dim: #5b606c;
-      --text-faint: #8a8f98;
-      --shadow: 0 18px 44px -28px rgba(40, 30, 90, 0.28);
-      --edge: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      --paper: rgba(255, 252, 246, 0.92);
+      --paper-strong: rgba(255, 255, 255, 0.97);
+      --ink: #2a2218;
+      --ink-soft: #5f5345;
+      --ink-faint: #9a8d7d;
+      --line: rgba(42, 34, 24, 0.1);
+      --line-strong: rgba(42, 34, 24, 0.18);
+      --accent: #b85c38;
+      --accent-soft: #f0ddd2;
+      --accent-2: #3f7d63;
+      --shadow: 0 28px 70px -36px rgba(34, 24, 12, 0.45);
+      --shadow-soft: 0 14px 40px -24px rgba(34, 24, 12, 0.28);
+      --ring: 0 0 0 2px rgba(255, 252, 246, 0.9), 0 0 0 4px rgba(184, 92, 56, 0.45);
     }
 
     * { box-sizing: border-box; }
-
     html, body { margin: 0; padding: 0; }
 
     body {
       min-height: 100vh;
-      background: var(--bg);
-      color: var(--text);
-      font-family: "Inter", system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-      letter-spacing: -0.05px;
+      color: var(--ink);
+      font-family: var(--font-sans);
+      background: #1a1510;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
       overflow-x: hidden;
     }
 
-    /* Deep canvas + faint grain (no atmospheric gradients) */
-    .aurora {
+    /* Full-bleed lifestyle backdrop */
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      background: #1a1510;
+    }
+    .backdrop__photo {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(18, 14, 10, 0.18) 0%, rgba(18, 14, 10, 0.55) 48%, rgba(18, 14, 10, 0.82) 100%),
+        url("/images/self-bg.jfif") center / cover no-repeat;
+      transform: scale(1.04);
+      filter: brightness(0.72) saturate(0.9);
+    }
+    [data-theme="light"] .backdrop__photo {
+      filter: brightness(1.05) saturate(1.05);
+    }
+    .backdrop__grain {
+      position: absolute;
+      inset: 0;
+      opacity: 0.14;
+      background-image: url("/images/links-me-bg.jpg");
+      background-size: 420px;
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+    .backdrop__glow {
+      position: absolute;
+      width: 52vw;
+      height: 52vw;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .backdrop__glow--left {
+      top: -8vw;
+      left: -10vw;
+      background: radial-gradient(circle, rgba(232, 176, 128, 0.55), transparent 68%);
+    }
+    .backdrop__glow--right {
+      right: -12vw;
+      bottom: 8vh;
+      background: radial-gradient(circle, rgba(120, 168, 196, 0.35), transparent 70%);
+    }
+
+    /* Floating polaroid accents */
+    .snapshots {
       position: fixed;
       inset: 0;
       z-index: -2;
+      pointer-events: none;
       overflow: hidden;
-      background: var(--bg);
     }
-    .aurora::after {
-      content: "";
+    .polaroid {
       position: absolute;
-      inset: 0;
-      opacity: 0.022;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      width: clamp(108px, 14vw, 168px);
+      padding: 8px 8px 22px;
+      background: rgba(44, 38, 32, 0.88);
+      border-radius: 4px;
+      box-shadow: 0 18px 50px -24px rgba(0, 0, 0, 0.45);
+      opacity: 0.82;
+      transform: rotate(var(--rot, 0deg));
+    }
+    [data-theme="light"] .polaroid {
+      background: rgba(255, 252, 248, 0.96);
+    }
+    .polaroid img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: 2px;
+    }
+    .polaroid span {
+      display: block;
+      margin-top: 8px;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      text-align: center;
+    }
+    .polaroid--a { top: 10vh; left: 4vw; --rot: -7deg; }
+    .polaroid--b { top: 18vh; right: 5vw; --rot: 5deg; }
+    .polaroid--c { bottom: 14vh; left: 7vw; --rot: 4deg; }
+    @media (max-width: 900px) {
+      .polaroid { opacity: 0.35; transform: scale(0.82) rotate(var(--rot, 0deg)); }
+    }
+    @media (max-width: 640px) {
+      .snapshots { display: none; }
     }
 
-    /* ---------- Access denied screen ---------- */
+    /* Access gate */
     .denied {
       display: flex;
       min-height: 100vh;
@@ -110,251 +184,431 @@ permalink: /links.html
       text-align: center;
     }
     .denied .card {
-      max-width: 380px;
-      padding: 40px 32px;
-      background: var(--surface-strong);
-      border: 1px solid var(--border);
+      max-width: 400px;
+      padding: 42px 34px;
+      background: var(--paper-strong);
+      border: 1px solid var(--line);
       border-radius: var(--radius);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
     }
-    .denied .lock { font-size: 40px; margin-bottom: 12px; }
-    .denied h1 { font-size: 20px; margin: 0 0 8px; }
-    .denied p { color: var(--text-dim); margin: 0; font-size: 14px; line-height: 1.6; }
+    .denied .lock { font-size: 42px; margin-bottom: 12px; }
+    .denied h1 {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 400;
+      margin: 0 0 8px;
+    }
+    .denied p { color: var(--ink-soft); margin: 0; font-size: 15px; line-height: 1.65; }
 
     .app { display: none; }
     html.is-unlocked .app { display: block; }
     html.is-unlocked .denied { display: none; }
 
-    /* ---------- Layout ---------- */
+    /* Main journal panel */
     .wrap {
-      max-width: 980px;
+      max-width: 920px;
       margin: 0 auto;
-      padding: clamp(40px, 8vh, 96px) clamp(18px, 4vw, 40px) 80px;
+      padding: clamp(28px, 6vh, 56px) clamp(16px, 4vw, 28px) 72px;
     }
 
-    /* Profile */
-    .profile { text-align: center; margin-bottom: 40px; }
-    .avatar-ring {
-      width: 104px; height: 104px;
-      margin: 0 auto 18px;
-      border-radius: 50%;
-      padding: 2px;
-      background: var(--surface-strong);
-      border: 1px solid var(--border-strong);
-      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 16%, transparent);
+    .journal {
+      position: relative;
+      border-radius: calc(var(--radius) + 4px);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(22px) saturate(1.15);
+      -webkit-backdrop-filter: blur(22px) saturate(1.15);
+      overflow: hidden;
     }
-    .avatar-ring img {
-      width: 100%; height: 100%;
+    .journal::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url("/images/links-me-bg.jpg") center / 520px;
+      opacity: 0.045;
+      pointer-events: none;
+    }
+    .journal > * { position: relative; }
+
+    .masthead {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 22px 26px;
+      padding: clamp(28px, 5vw, 42px);
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent);
+    }
+    [data-theme="light"] .masthead {
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.35), transparent 55%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent);
+    }
+
+    .avatar {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(145deg, #4a4036, #2d2620);
+      box-shadow: var(--shadow-soft);
+    }
+    [data-theme="light"] .avatar {
+      background: linear-gradient(145deg, #fff8ef, #e8d2bf);
+    }
+    .avatar img {
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
       object-fit: cover;
       display: block;
-      background: var(--surface);
+      background: #efe5d8;
     }
-    .profile h1 {
-      font-family: "Inter", sans-serif;
-      font-size: clamp(26px, 5vw, 36px);
-      font-weight: 600;
-      letter-spacing: -1px;
+
+    .masthead-copy h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(34px, 6vw, 48px);
+      font-weight: 400;
+      line-height: 1.02;
+      letter-spacing: -0.02em;
       margin: 0 0 6px;
     }
-    .profile .role { color: var(--text-dim); font-size: 15px; margin: 0 0 16px; }
-    .badge {
-      display: inline-flex; align-items: center; gap: 7px;
-      font-size: 12px; font-weight: 600; letter-spacing: 0.02em;
-      padding: 6px 13px; border-radius: 999px;
-      color: var(--accent-2);
-      background: color-mix(in srgb, var(--accent-2) 14%, transparent);
-      border: 1px solid color-mix(in srgb, var(--accent-2) 35%, transparent);
+    .masthead-copy .role {
+      margin: 0 0 12px;
+      color: var(--ink-soft);
+      font-size: 15px;
     }
-    .badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 10px var(--accent-2); }
+    .masthead-copy .greeting {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--ink-soft);
+      max-width: 46ch;
+    }
+    .masthead-copy .greeting em {
+      font-family: var(--font-serif);
+      font-style: italic;
+      color: var(--ink);
+    }
 
-    /* Toolbar */
+    .filmstrip {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .filmstrip figure {
+      margin: 0;
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      aspect-ratio: 16 / 10;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-soft);
+    }
+    .filmstrip img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .45s cubic-bezier(.2,.7,.3,1);
+    }
+    .filmstrip figure:hover img { transform: scale(1.06); }
+    .filmstrip figcaption {
+      position: absolute;
+      left: 10px;
+      bottom: 10px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #fff;
+      background: rgba(20, 16, 12, 0.48);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    @media (max-width: 720px) {
+      .masthead { grid-template-columns: 1fr; text-align: center; }
+      .avatar { margin: 0 auto; }
+      .masthead-copy .greeting { margin: 0 auto; }
+      .filmstrip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
     .toolbar {
-      position: sticky; top: 14px; z-index: 5;
-      display: flex; gap: 10px; align-items: center;
-      margin-bottom: 30px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 18px clamp(22px, 4vw, 34px);
+      border-bottom: 1px solid var(--line);
     }
     .search {
-      flex: 1; position: relative;
+      flex: 1;
+      position: relative;
     }
-    .search svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-faint); }
+    .search svg {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--ink-faint);
+    }
     .search input {
       width: 100%;
       padding: 14px 16px 14px 46px;
-      font-size: 15px; font-family: inherit;
-      color: var(--text);
-      background: var(--surface-strong);
-      border: 1px solid var(--border);
+      font: inherit;
+      font-size: 15px;
+      color: var(--ink);
+      background: var(--paper-strong);
+      border: 1px solid var(--line);
       border-radius: var(--radius-sm);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
       outline: none;
       transition: border-color .2s, box-shadow .2s;
     }
-    .search input::placeholder { color: var(--text-faint); }
-    .search input:focus { border-color: var(--border-strong); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent); }
+    .search input::placeholder { color: var(--ink-faint); }
+    .search input:focus {
+      border-color: var(--line-strong);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
 
     .icon-btn {
       flex: none;
-      width: 48px; height: 48px;
-      display: grid; place-items: center;
-      color: var(--text);
-      background: var(--surface-strong);
-      border: 1px solid var(--border);
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      color: var(--ink);
+      background: var(--paper-strong);
+      border: 1px solid var(--line);
       border-radius: var(--radius-sm);
       cursor: pointer;
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
       transition: transform .15s, border-color .2s, background .2s;
     }
-    .icon-btn:hover { transform: translateY(-2px); border-color: var(--border-strong); }
+    .icon-btn:hover { transform: translateY(-1px); border-color: var(--line-strong); }
     .icon-btn:focus-visible { outline: none; box-shadow: var(--ring); }
     .icon-btn .moon { display: none; }
     [data-theme="light"] .icon-btn .sun { display: none; }
     [data-theme="light"] .icon-btn .moon { display: block; }
 
-    /* Groups */
-    .group { margin-bottom: 36px; }
-    .group-head {
-      display: flex; align-items: center; gap: 12px;
-      margin: 0 4px 16px;
-    }
-    .group-head h2 {
-      font-family: var(--font-mono);
-      font-size: 12px; font-weight: 500;
-      text-transform: uppercase; letter-spacing: 0.08em;
-      color: var(--text-dim);
-      margin: 0;
-      white-space: nowrap;
-    }
-    .group-head .line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
-    .group-head .count {
-      font-size: 11px; font-weight: 600;
-      color: var(--text-faint);
-      padding: 3px 9px; border-radius: 999px;
-      background: var(--surface); border: 1px solid var(--border);
-    }
-
-    .grid {
+    .chapters {
+      padding: clamp(18px, 3vw, 28px);
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
-      gap: 14px;
+      gap: clamp(24px, 4vw, 34px);
     }
 
-    /* Link card */
-    .card-link {
+    .chapter { display: grid; gap: 14px; }
+
+    .chapter-banner {
       position: relative;
-      display: flex; align-items: center; gap: 14px;
-      padding: 16px;
-      border-radius: var(--radius-sm);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
-      text-decoration: none;
+      min-height: 132px;
+      border-radius: calc(var(--radius-sm) + 2px);
       overflow: hidden;
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      transition: transform .18s cubic-bezier(.2,.7,.3,1), border-color .2s, background .2s, box-shadow .2s;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-soft);
     }
-    .card-link::before {
-      content: ""; position: absolute; inset: 0;
-      background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--accent) 22%, transparent), transparent 45%);
-      opacity: 0; transition: opacity .25s;
-      pointer-events: none;
+    .chapter-banner img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
-    .card-link:hover {
-      transform: translateY(-3px);
-      border-color: var(--border-strong);
-      background: var(--surface-strong);
-      box-shadow: var(--shadow);
+    .chapter-banner::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(18, 14, 10, 0.72) 0%, rgba(18, 14, 10, 0.28) 55%, rgba(18, 14, 10, 0.12) 100%),
+        linear-gradient(0deg, rgba(18, 14, 10, 0.35), transparent 55%);
     }
-    .card-link:hover::before { opacity: 1; }
-    .card-link:focus-visible { outline: none; box-shadow: var(--ring); }
+    .chapter-banner__copy {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 132px;
+      padding: 22px 24px;
+      color: #fff;
+    }
+    .chapter-banner h2 {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: clamp(26px, 4vw, 34px);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      text-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+    }
+    .chapter-banner .count {
+      flex: none;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .link-stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    .link-row {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 14px;
+      padding: 15px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--paper-strong);
+      border: 1px solid var(--line);
+      transition: transform .18s cubic-bezier(.2,.7,.3,1), border-color .2s, box-shadow .2s;
+    }
+    .link-row:hover {
+      transform: translateY(-2px);
+      border-color: var(--line-strong);
+      box-shadow: var(--shadow-soft);
+    }
 
     .fav {
-      flex: none;
-      width: 42px; height: 42px;
-      display: grid; place-items: center;
-      border-radius: 10px;
-      background: var(--surface-strong);
-      border: 1px solid var(--border);
-      font-family: var(--font-mono);
-      font-weight: 600; font-size: 16px;
-      color: var(--text);
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--accent-soft);
+      border: 1px solid var(--line);
       overflow: hidden;
+      font-family: var(--font-serif);
+      font-size: 18px;
+      color: var(--accent);
     }
     .fav img { width: 22px; height: 22px; display: block; }
 
-    /* Stretched hit-area so the whole card opens the link, while the
-       copy button stays independently clickable above it. */
-    .card-hit { position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
-    .card-hit:focus-visible { outline: none; box-shadow: var(--ring); }
-
-    .card-body { min-width: 0; flex: 1; }
-    .card-name {
-      font-size: 14.5px; font-weight: 600;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    .link-hit {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      border-radius: inherit;
     }
-    .card-url {
+    .link-hit:focus-visible { outline: none; box-shadow: var(--ring); }
+
+    .link-body { min-width: 0; }
+    .link-name {
       display: block;
-      font-size: 12px; color: var(--text-faint);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .link-url {
+      display: block;
       margin-top: 3px;
+      font-size: 12.5px;
       line-height: 1.45;
+      color: var(--ink-faint);
       word-break: break-all;
-      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
       overflow: hidden;
     }
-    .card-link:hover .card-url { color: var(--text-dim); }
+    .link-row:hover .link-url { color: var(--ink-soft); }
 
     .copy-btn {
-      position: relative; z-index: 2;
-      flex: none;
-      width: 36px; height: 36px;
-      display: grid; place-items: center;
-      color: var(--text-faint);
-      background: var(--surface-strong);
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      position: relative;
+      z-index: 2;
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      color: var(--ink-faint);
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 11px;
       cursor: pointer;
-      transition: transform .15s, color .2s, border-color .2s, background .2s;
+      transition: color .2s, border-color .2s, background .2s;
     }
-    .copy-btn:hover { color: var(--text); border-color: var(--border-strong); transform: translateY(-1px); }
+    .copy-btn:hover {
+      color: var(--ink);
+      border-color: var(--line-strong);
+      background: var(--accent-soft);
+    }
     .copy-btn:focus-visible { outline: none; box-shadow: var(--ring); }
     .copy-btn .check { display: none; }
-    .copy-btn.copied { color: var(--accent-2); border-color: color-mix(in srgb, var(--accent-2) 45%, transparent); }
+    .copy-btn.copied {
+      color: var(--accent-2);
+      border-color: color-mix(in srgb, var(--accent-2) 40%, transparent);
+      background: color-mix(in srgb, var(--accent-2) 12%, transparent);
+    }
     .copy-btn.copied .copy { display: none; }
     .copy-btn.copied .check { display: block; }
 
     .empty {
       display: none;
-      text-align: center; color: var(--text-dim);
-      padding: 50px 20px; font-size: 15px;
+      text-align: center;
+      color: var(--ink-soft);
+      padding: 42px 20px 10px;
+      font-size: 15px;
     }
     .empty.show { display: block; }
 
     footer {
+      padding: 8px clamp(22px, 4vw, 34px) 30px;
       text-align: center;
-      margin-top: 56px;
-      color: var(--text-faint);
+      color: var(--ink-faint);
       font-size: 12.5px;
     }
-    footer a { color: var(--text-dim); text-decoration: none; }
-    footer a:hover { color: var(--text); }
+    footer a { color: var(--ink-soft); text-decoration: none; }
+    footer a:hover { color: var(--ink); }
 
-    /* Entrance animation */
     @media (prefers-reduced-motion: no-preference) {
-      .reveal { opacity: 0; transform: translateY(14px); animation: rise .6s cubic-bezier(.2,.7,.3,1) forwards; }
+      .reveal {
+        opacity: 0;
+        transform: translateY(12px);
+        animation: rise .65s cubic-bezier(.2,.7,.3,1) forwards;
+      }
       @keyframes rise { to { opacity: 1; transform: none; } }
-      .blob { animation-play-state: running; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .blob { animation: none; }
     }
   </style>
 </head>
 
 <body>
-  <div class="aurora" aria-hidden="true"></div>
+  <div class="backdrop" aria-hidden="true">
+    <div class="backdrop__photo"></div>
+    <div class="backdrop__grain"></div>
+    <div class="backdrop__glow backdrop__glow--left"></div>
+    <div class="backdrop__glow backdrop__glow--right"></div>
+  </div>
 
-  <!-- Shown when the page is not unlocked with ?me -->
+  <div class="snapshots" aria-hidden="true">
+    <div class="polaroid polaroid--a">
+      <img src="/images/music-bg.jpg" alt="">
+      <span>music</span>
+    </div>
+    <div class="polaroid polaroid--b">
+      <img src="/images/academic-bg.jpg" alt="">
+      <span>code</span>
+    </div>
+    <div class="polaroid polaroid--c">
+      <img src="/assets/img/hero-bg.jpg" alt="">
+      <span>outdoors</span>
+    </div>
+  </div>
+
   <div class="denied">
     <div class="card">
       <div class="lock">🔒</div>
@@ -366,84 +620,111 @@ permalink: /links.html
   {% assign groups = site.data.useful-links %}
   <main class="app">
     <div class="wrap">
-
-      <section class="profile">
-        <div class="avatar-ring">
-          <img src="{{ site.author.avatar | relative_url }}" alt="{{ site.author.name }}"
-               onerror="this.style.display='none'">
-        </div>
-        <h1>{{ site.author.name | default: "My Links" }}</h1>
-        <p class="role">{{ site.author.position }}</p>
-        <span class="badge"><span class="dot"></span> Private link hub</span>
-      </section>
-
-      <div class="toolbar">
-        <div class="search">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input id="q" type="search" placeholder="Search links…" autocomplete="off"
-                 aria-label="Search links">
-        </div>
-        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Toggle color theme">
-          <svg class="sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="4"></circle>
-            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
-          </svg>
-          <svg class="moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
-          </svg>
-        </button>
-      </div>
-
-      {% for el in groups %}
-      <section class="group" data-group>
-        <div class="group-head">
-          <h2>{{ el.type }}</h2>
-          <span class="line"></span>
-          <span class="count">{{ el.links | size }}</span>
-        </div>
-        <div class="grid">
-          {% for ele in el.links %}
-          {% assign host = ele.ref | split: '//' | last | split: '/' | first %}
-          <div class="card-link reveal"
-               data-name="{{ ele.name | downcase }}" data-host="{{ host | downcase }}" data-url="{{ ele.ref }}"
-               style="animation-delay: {{ forloop.index | times: 40 }}ms">
-            <a class="card-hit" href="{{ ele.ref }}" target="_blank" rel="noopener noreferrer"
-               aria-label="Open {{ ele.name }}"></a>
-            <span class="fav" aria-hidden="true">
-              <img src="https://www.google.com/s2/favicons?domain={{ host }}&sz=64" alt="" loading="lazy"
-                   onerror="this.remove();this.parentNode.textContent='{{ ele.name | strip | slice: 0 | upcase }}';">
-            </span>
-            <span class="card-body">
-              <span class="card-name">{{ ele.name }}</span>
-              <span class="card-url" title="{{ ele.ref }}">{{ ele.ref }}</span>
-            </span>
-            <button class="copy-btn" type="button" aria-label="Copy URL for {{ ele.name }}">
-              <svg class="copy" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <rect x="9" y="9" width="13" height="13" rx="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-              </svg>
-              <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M20 6 9 17l-5-5"></path>
-              </svg>
-            </button>
+      <article class="journal">
+        <header class="masthead">
+          <div class="avatar">
+            <img src="{{ site.author.avatar | relative_url }}" alt="{{ site.author.name }}"
+                 onerror="this.style.display='none'">
           </div>
-          {% endfor %}
+          <div class="masthead-copy">
+            <h1>{{ site.author.name | default: "My Links" }}</h1>
+            <p class="role">{{ site.author.position }}</p>
+            <p class="greeting" id="greeting">A small shelf of bookmarks I actually use — <em>music, code, hobbies, and reading.</em></p>
+          </div>
+
+          <div class="filmstrip">
+            <figure>
+              <img src="/images/self-bg.jfif" alt="Desk by the window" loading="lazy">
+              <figcaption>desk</figcaption>
+            </figure>
+            <figure>
+              <img src="/images/music-bg.jpg" alt="Turntable" loading="lazy">
+              <figcaption>music</figcaption>
+            </figure>
+            <figure>
+              <img src="/images/academic-bg.jpg" alt="Keyboard" loading="lazy">
+              <figcaption>code</figcaption>
+            </figure>
+            <figure>
+              <img src="/images/novel-bg.jpg" alt="Books" loading="lazy">
+              <figcaption>reading</figcaption>
+            </figure>
+          </div>
+        </header>
+
+        <div class="toolbar">
+          <div class="search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input id="q" type="search" placeholder="Search by name or site…" autocomplete="off"
+                   aria-label="Search links">
+          </div>
+          <button class="icon-btn" id="theme-toggle" type="button" aria-label="Toggle color theme">
+            <svg class="sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+            </svg>
+            <svg class="moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+            </svg>
+          </button>
         </div>
-      </section>
-      {% endfor %}
 
-      <div class="empty" id="empty">No links match your search.</div>
+        <div class="chapters">
+          {% for el in groups %}
+          <section class="chapter" data-group>
+            <div class="chapter-banner reveal" style="animation-delay: {{ forloop.index0 | times: 80 }}ms">
+              <img src="{{ el.cover | default: '/images/links-bg.jpg' | relative_url }}" alt="" loading="lazy">
+              <div class="chapter-banner__copy">
+                <h2>{{ el.type }}</h2>
+                <span class="count">{{ el.links | size }} links</span>
+              </div>
+            </div>
 
-      <footer>
-        &copy; {{ site.time | date: '%Y' }} {{ site.author.name }} · curated links
-      </footer>
+            <div class="link-stack">
+              {% for ele in el.links %}
+              {% assign host = ele.ref | split: '//' | last | split: '/' | first %}
+              <div class="link-row reveal"
+                   data-name="{{ ele.name | downcase }}" data-host="{{ host | downcase }}" data-url="{{ ele.ref }}"
+                   style="animation-delay: {{ forloop.index | times: 45 | plus: forloop.parentloop.index0 | times: 120 }}ms">
+                <a class="link-hit" href="{{ ele.ref }}" target="_blank" rel="noopener noreferrer"
+                   aria-label="Open {{ ele.name }}"></a>
+                <span class="fav" aria-hidden="true">
+                  <img src="https://www.google.com/s2/favicons?domain={{ host }}&sz=64" alt="" loading="lazy"
+                       onerror="this.remove();this.parentNode.textContent='{{ ele.name | strip | slice: 0 | upcase }}';">
+                </span>
+                <span class="link-body">
+                  <span class="link-name">{{ ele.name }}</span>
+                  <span class="link-url" title="{{ ele.ref }}">{{ ele.ref }}</span>
+                </span>
+                <button class="copy-btn" type="button" aria-label="Copy URL for {{ ele.name }}">
+                  <svg class="copy" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                       stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M20 6 9 17l-5-5"></path>
+                  </svg>
+                </button>
+              </div>
+              {% endfor %}
+            </div>
+          </section>
+          {% endfor %}
+
+          <div class="empty" id="empty">No links match your search.</div>
+        </div>
+
+        <footer>
+          &copy; {{ site.time | date: '%Y' }} {{ site.author.name }} · photos from everyday corners of the desk
+        </footer>
+      </article>
     </div>
   </main>
 
@@ -451,13 +732,18 @@ permalink: /links.html
     (function () {
       var html = document.documentElement;
 
-      /* ---- Access gate: redirect away if not unlocked ---- */
       if (!html.classList.contains('is-unlocked')) {
         setTimeout(function () { window.location.href = './404'; }, 3500);
         return;
       }
 
-      /* ---- Theme toggle (persisted, shared with the rest of the site) ---- */
+      var hour = new Date().getHours();
+      var greet = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+      var el = document.getElementById('greeting');
+      if (el) {
+        el.innerHTML = greet + ' — a small shelf of bookmarks I actually use: <em>music, code, hobbies, and reading.</em>';
+      }
+
       var saved = null;
       try { saved = localStorage.getItem('site-theme'); } catch (e) {}
       if (saved) html.setAttribute('data-theme', saved);
@@ -468,16 +754,6 @@ permalink: /links.html
         try { localStorage.setItem('site-theme', next); } catch (e) {}
       });
 
-      /* ---- Pointer-follow glow on cards ---- */
-      document.querySelectorAll('.card-link').forEach(function (c) {
-        c.addEventListener('pointermove', function (e) {
-          var r = c.getBoundingClientRect();
-          c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-          c.style.setProperty('--my', (e.clientY - r.top) + 'px');
-        });
-      });
-
-      /* ---- Copy full URL to clipboard ---- */
       function legacyCopy(text) {
         return new Promise(function (resolve, reject) {
           var ta = document.createElement('textarea');
@@ -491,7 +767,6 @@ permalink: /links.html
       }
       function copyText(text) {
         if (navigator.clipboard && navigator.clipboard.writeText) {
-          /* Fall back to execCommand if the async clipboard API is blocked. */
           return navigator.clipboard.writeText(text).catch(function () { return legacyCopy(text); });
         }
         return legacyCopy(text);
@@ -500,7 +775,7 @@ permalink: /links.html
         btn.addEventListener('click', function (e) {
           e.preventDefault();
           e.stopPropagation();
-          var url = btn.closest('.card-link').getAttribute('data-url');
+          var url = btn.closest('.link-row').getAttribute('data-url');
           copyText(url).then(function () {
             btn.classList.add('copied');
             btn.setAttribute('aria-label', 'Copied!');
@@ -512,9 +787,8 @@ permalink: /links.html
         });
       });
 
-      /* ---- Live search filter ---- */
       var input = document.getElementById('q');
-      var cards = Array.prototype.slice.call(document.querySelectorAll('.card-link'));
+      var cards = Array.prototype.slice.call(document.querySelectorAll('.link-row'));
       var groups = Array.prototype.slice.call(document.querySelectorAll('[data-group]'));
       var empty = document.getElementById('empty');
 
@@ -529,7 +803,7 @@ permalink: /links.html
           if (hit) anyVisible = true;
         });
         groups.forEach(function (g) {
-          var visible = g.querySelectorAll('.card-link:not([style*="display: none"])').length;
+          var visible = g.querySelectorAll('.link-row:not([style*="display: none"])').length;
           g.style.display = visible ? '' : 'none';
         });
         empty.classList.toggle('show', !anyVisible);

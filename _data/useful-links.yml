@@ -1,4 +1,5 @@
 - type: Music Related
+  cover: /images/music-bg.jpg
   links:
   - name: Music downloader (Netease)
     ref: https://music.myepoch.cn/
@@ -7,12 +8,14 @@
   - name: Albums Download
     ref: https://www.wotianna.com/
 - type: Coding Platform
+  cover: /images/academic-bg.jpg
   links:
   - name: Leetcode
     ref: https://cn.leetcode.com/
   - name: Java Guide
     ref: https://github.com/Snailclimb/JavaGuide
 - type: Hobbies
+  cover: /images/self-bg.jfif
   links:
   - name: Da Vinci (Click the colorist guide)
     ref: https://www.blackmagicdesign.com/products/davinciresolve/training
@@ -27,6 +30,7 @@
   - name: Java SE Programmer II (1Z0-809)
     ref: https://education.oracle.com/oracle-certified-professional-java-se-8-programmer/trackp_357
 - type: Magazine Download
+  cover: /images/novel-bg.jpg
   links:
   - name: freemagazinepdf (pdf-directly)
     ref: https://freemagazinepdf.com/
