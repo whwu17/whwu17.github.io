@@ -10,9 +10,9 @@
   --glass-blur-chrome: blur(28px) saturate(190%) brightness(1.05);
   --glass-blur-subtle: blur(16px) saturate(175%) brightness(1.04);
 
-  --glass-fill: rgba(255, 255, 255, 0.11);
-  --glass-fill-chrome: rgba(255, 255, 255, 0.16);
-  --glass-fill-subtle: rgba(255, 255, 255, 0.08);
+  --glass-fill: rgba(255, 255, 255, 0.08);
+  --glass-fill-chrome: rgba(255, 255, 255, 0.12);
+  --glass-fill-subtle: rgba(255, 255, 255, 0.055);
 
   --glass-border: rgba(255, 255, 255, 0.22);
   --glass-border-chrome: rgba(255, 255, 255, 0.28);
@@ -53,9 +53,9 @@
   --glass-blur-chrome: blur(36px) saturate(200%) brightness(1.03);
   --glass-blur-subtle: blur(24px) saturate(190%) brightness(1.03);
 
-  --glass-fill: rgba(255, 255, 255, 0.14);
-  --glass-fill-chrome: rgba(255, 255, 255, 0.18);
-  --glass-fill-subtle: rgba(255, 255, 255, 0.09);
+  --glass-fill: rgba(255, 255, 255, 0.10);
+  --glass-fill-chrome: rgba(255, 255, 255, 0.13);
+  --glass-fill-subtle: rgba(255, 255, 255, 0.06);
 
   /* Soft luminous edge — bloom not border */
   --glass-border: rgba(255, 255, 255, 0.28);
@@ -82,7 +82,7 @@
       transparent 100%
     );
   --glass-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  --glass-sheen-opacity: 0.88;
+  --glass-sheen-opacity: 0.78;
 }
 
 /* ---------- Base material ---------- */
