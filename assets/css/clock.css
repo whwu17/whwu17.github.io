@@ -10,7 +10,7 @@
 .world-clock--analog .world-clock__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 16px 12px;
   align-items: start;
 }
 
@@ -46,7 +46,7 @@
 
 /* ---------- Analog dial ---------- */
 .analog {
-  width: clamp(88px, 22vw, 104px);
+  width: clamp(72px, 34vw, 104px);
   aspect-ratio: 1;
 }
 
@@ -153,11 +153,14 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
-@media (max-width: 400px) {
+@media (max-width: 360px) {
   .world-clock--analog .world-clock__grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 10px 8px;
   }
+  .analog {
+    width: clamp(68px, 30vw, 88px);
+  }
+  .tz-clock__digital { font-size: 14px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

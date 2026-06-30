@@ -50,6 +50,12 @@ body.theme-beach .aurora {
   --surface-1: var(--theme-surface);
   --surface-2: var(--theme-surface-raised);
   --hairline: var(--theme-border);
+  /* Light sections: translucent glass so blur reads over colorful bg */
+  --glass-fill-subtle: rgba(255, 255, 255, 0.36);
+  --glass-blur-subtle: blur(22px) saturate(180%) brightness(1.05);
+  --glass-border: color-mix(in srgb, var(--theme-accent) 14%, rgba(255, 255, 255, 0.58));
+  --glass-sheen-opacity: 0.68;
+  --glass-shadow: 0 4px 20px color-mix(in srgb, var(--theme-accent) 10%, rgba(0, 0, 0, 0.08));
 }
 
 .theme-panel::before {
@@ -101,14 +107,20 @@ body.theme-beach .aurora {
 }
 .theme-panel .btn-primary {
   color: var(--theme-accent);
-  border-color: color-mix(in srgb, var(--theme-accent) 34%, var(--glass-border, var(--theme-border)));
+  border-color: color-mix(in srgb, var(--theme-accent) 42%, var(--glass-border));
+  box-shadow:
+    var(--glass-rim),
+    0 2px 18px color-mix(in srgb, var(--theme-accent) 14%, transparent);
 }
 .theme-panel .btn-primary:hover { color: var(--theme-accent-hover, var(--theme-accent)); }
 .theme-panel .btn-ghost {
   color: var(--theme-accent);
-  border-color: color-mix(in srgb, var(--theme-accent) 18%, var(--glass-border, var(--theme-border)));
+  border-color: color-mix(in srgb, var(--theme-accent) 22%, var(--glass-border));
 }
 .theme-panel .btn-ghost:hover { color: var(--theme-accent-hover, var(--theme-accent)); }
+.theme-panel .linklist a {
+  border-color: color-mix(in srgb, var(--theme-accent) 18%, var(--glass-border));
+}
 .theme-panel .world-clock,
 .theme-panel .clock-chip {
   background: var(--theme-surface);
