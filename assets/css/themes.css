@@ -50,12 +50,12 @@ body.theme-beach .aurora {
   --surface-1: var(--theme-surface);
   --surface-2: var(--theme-surface-raised);
   --hairline: var(--theme-border);
-  /* Light sections: translucent glass so blur reads over colorful bg */
-  --glass-fill-subtle: rgba(255, 255, 255, 0.22);
-  --glass-blur-subtle: blur(24px) saturate(185%) brightness(1.04);
-  --glass-border: color-mix(in srgb, var(--theme-accent) 12%, rgba(255, 255, 255, 0.45));
-  --glass-sheen-opacity: 0.74;
-  --glass-shadow: 0 4px 20px color-mix(in srgb, var(--theme-accent) 8%, rgba(0, 0, 0, 0.06));
+  /* Light sections: ultra-translucent glass — blur carries the material */
+  --glass-fill-subtle: rgba(255, 255, 255, 0.08);
+  --glass-blur-subtle: blur(28px) saturate(200%) brightness(1.05);
+  --glass-border: color-mix(in srgb, var(--theme-accent) 10%, rgba(255, 255, 255, 0.52));
+  --glass-sheen-opacity: 0.82;
+  --glass-shadow: 0 2px 14px color-mix(in srgb, var(--theme-accent) 6%, rgba(0, 0, 0, 0.04));
 }
 
 .theme-panel::before {
@@ -108,9 +108,7 @@ body.theme-beach .aurora {
 .theme-panel .btn-primary {
   color: var(--theme-accent);
   border-color: color-mix(in srgb, var(--theme-accent) 42%, var(--glass-border));
-  box-shadow:
-    var(--glass-rim),
-    0 2px 18px color-mix(in srgb, var(--theme-accent) 14%, transparent);
+  box-shadow: var(--glass-rim), var(--glass-shadow);
 }
 .theme-panel .btn-primary:hover { color: var(--theme-accent-hover, var(--theme-accent)); }
 .theme-panel .btn-ghost {
