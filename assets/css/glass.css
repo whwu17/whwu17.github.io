@@ -27,6 +27,8 @@
   --glass-sheen-opacity: 0.55;
 
   --glass-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --glass-spring: cubic-bezier(0.34, 1.28, 0.64, 1);
+  --glass-press-duration: 0.48s;
   --material: var(--glass-blur-chrome);
 }
 
@@ -61,6 +63,8 @@
   -webkit-backdrop-filter: var(--glass-blur);
   border: 0.5px solid var(--glass-border);
   box-shadow: var(--glass-rim), var(--glass-shadow);
+}
+.liquid-glass:not(.glass-interactive) {
   transition: background 280ms var(--glass-ease), box-shadow 280ms var(--glass-ease);
 }
 
@@ -100,20 +104,99 @@
   box-shadow: var(--glass-rim), 0 2px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Touch / press — glass icon controls (not toolbar hits on nav) */
-button.liquid-glass:not(.ctrl--toolbar),
-a.liquid-glass:not(.ctrl--toolbar) {
+/* =========================================================================
+   Interactive glass controls — press / hold / release
+   Why this is hard on the web:
+   · backdrop-filter + filter() on :active breaks compositing (muddy flash)
+   · transition only on :active = no smooth release animation
+   · ::after sheen must stay separate from press wash (::before)
+   · Mobile :active is flaky — JS .is-pressed backs it up
+   ========================================================================= */
+
+.liquid-glass.glass-interactive {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+  user-select: none;
+  cursor: pointer;
+  transform: scale(1);
+  transition:
+    transform var(--glass-press-duration) var(--glass-spring),
+    background var(--glass-press-duration) var(--glass-ease),
+    box-shadow var(--glass-press-duration) var(--glass-ease);
 }
 
-button.liquid-glass:not(.ctrl--toolbar):active,
-a.liquid-glass:not(.ctrl--toolbar):active,
-.liquid-glass--chrome:not(.nav):active,
-.liquid-glass--subtle:active {
-  transform: scale(0.98);
-  filter: brightness(1.05);
-  transition: transform 100ms var(--glass-ease), filter 100ms var(--glass-ease);
+/* Press wash — luminosity bloom, NOT filter on the whole element */
+.liquid-glass.glass-interactive::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: rgba(255, 255, 255, 0.38);
+  transition: opacity calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
+}
+
+[data-theme="light"] .liquid-glass.glass-interactive::before {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+/* Sheen stays above wash, below content */
+.liquid-glass.glass-interactive::after {
+  z-index: 1;
+  transition: opacity calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
+}
+
+.liquid-glass.glass-interactive > * {
+  z-index: 2;
+}
+
+/* Pressed — scale + brighter fill + tighter shadow (iOS glass squeeze) */
+.liquid-glass.glass-interactive:is(:active, .is-pressed) {
+  transform: scale(0.962);
+  background: color-mix(in srgb, var(--glass-fill) 55%, #ffffff);
+  box-shadow:
+    var(--glass-rim),
+    0 1px 8px rgba(0, 0, 0, 0.05),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.45);
+}
+
+.liquid-glass--subtle.glass-interactive:is(:active, .is-pressed) {
+  background: color-mix(in srgb, var(--glass-fill-subtle) 50%, #ffffff);
+}
+
+.liquid-glass--chrome.glass-interactive:is(:active, .is-pressed) {
+  background: color-mix(in srgb, var(--glass-fill-chrome) 62%, #ffffff);
+}
+
+.liquid-glass.glass-interactive:is(:active, .is-pressed)::before {
+  opacity: 1;
+}
+
+.liquid-glass.glass-interactive:is(:active, .is-pressed)::after {
+  opacity: calc(var(--glass-sheen-opacity) * 1.35);
+}
+
+[data-theme="light"] .liquid-glass.glass-interactive:is(:active, .is-pressed) {
+  background: color-mix(in srgb, var(--glass-fill) 72%, #ffffff);
+}
+
+[data-theme="light"] .liquid-glass--subtle.glass-interactive:is(:active, .is-pressed) {
+  background: color-mix(in srgb, var(--glass-fill-subtle) 68%, #ffffff);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liquid-glass.glass-interactive {
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+  }
+  .liquid-glass.glass-interactive:is(:active, .is-pressed) {
+    transform: none;
+  }
+  .liquid-glass.glass-interactive::before,
+  .liquid-glass.glass-interactive::after {
+    transition: none;
+  }
 }
 
 /* Nav bar: flat glass strip */
