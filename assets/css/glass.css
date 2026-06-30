@@ -1,19 +1,23 @@
 /* =========================================================================
-   Liquid Glass — iOS-style translucent surfaces
-   Strong blur + specular edge + layered gradient fill
+   Liquid Glass (web approximation)
+   -------------------------------------------------------------------------
+   NOT Apple's official Liquid Glass API (UIKit / SwiftUI). Browsers cannot
+   access that material; this file recreates the look with CSS:
+   backdrop-filter blur, layered gradients, specular highlights, and a
+   subtle chromatic fringe. Visual parity only — no native refraction.
    ========================================================================= */
 
 :root {
-  --glass-blur: blur(40px) saturate(220%) brightness(1.06);
+  --glass-blur: blur(48px) saturate(220%) brightness(1.08);
   --glass-fill: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.24) 0%,
-    rgba(255, 255, 255, 0.08) 38%,
-    rgba(255, 255, 255, 0.03) 100%
+    155deg,
+    rgba(255, 255, 255, 0.28) 0%,
+    rgba(255, 255, 255, 0.1) 42%,
+    rgba(255, 255, 255, 0.04) 100%
   );
-  --glass-border: rgba(255, 255, 255, 0.32);
-  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -1px 0 rgba(255, 255, 255, 0.06);
-  --glass-shadow: 0 16px 48px rgba(0, 0, 0, 0.28);
+  --glass-border: rgba(255, 255, 255, 0.34);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 20px 56px rgba(0, 0, 0, 0.32);
 }
 
 [data-theme="light"] {

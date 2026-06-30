@@ -64,13 +64,20 @@
 
       /* Reveal on scroll */
       var reveals = document.querySelectorAll('.reveal');
+      var hero = document.getElementById('hero');
+      if (hero) {
+        requestAnimationFrame(function () { hero.classList.add('is-visible'); });
+      }
       if ('IntersectionObserver' in window && reveals.length) {
         var ro = new IntersectionObserver(function (entries) {
           entries.forEach(function (en) {
             if (en.isIntersecting) { en.target.classList.add('in'); ro.unobserve(en.target); }
           });
         }, { threshold: 0.12 });
-        reveals.forEach(function (el) { ro.observe(el); });
+        reveals.forEach(function (el) {
+          if (hero && hero.contains(el)) return;
+          ro.observe(el);
+        });
       } else {
         reveals.forEach(function (el) { el.classList.add('in'); });
       }

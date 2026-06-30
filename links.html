@@ -173,8 +173,9 @@ permalink: /links.html
       display: flex;
       flex-direction: column;
       width: 100%;
-      padding-top: calc(var(--chrome-h) + 28px + var(--safe-top));
-      padding-bottom: calc(28px + var(--safe-bottom));
+      min-height: 100dvh;
+      padding-top: calc(var(--chrome-h) + 16px + var(--safe-top));
+      padding-bottom: calc(24px + var(--safe-bottom));
       padding-left: var(--safe-left);
       padding-right: var(--safe-right);
     }
@@ -182,6 +183,29 @@ permalink: /links.html
       flex: 1;
       display: flex;
       flex-direction: column;
+      min-height: calc(100dvh - var(--chrome-h) - 40px - var(--safe-top) - var(--safe-bottom));
+    }
+
+    /* Per-panel scrims — let photography breathe */
+    .panel--intro .panel__scrim {
+      background:
+        linear-gradient(0deg, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.18) 42%, rgba(0, 0, 0, 0.42) 100%);
+    }
+    [data-theme="light"] .panel--intro .panel__scrim {
+      background:
+        linear-gradient(0deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.35) 45%, rgba(255, 255, 255, 0.55) 100%);
+    }
+    .panel--sparse .panel__scrim {
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.72));
+    }
+    [data-theme="light"] .panel--sparse .panel__scrim {
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 50%, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.78));
+    }
+    .panel--dense .panel__scrim {
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.38) 38%, rgba(0, 0, 0, 0.72) 100%);
     }
 
     /* ---------- Fixed chrome ---------- */
@@ -284,17 +308,46 @@ permalink: /links.html
       .dots { display: none; }
     }
 
-    /* ---------- Intro panel ---------- */
+    /* ---------- Intro panel — hero title + lower glass card ---------- */
     .panel--intro .frame {
-      justify-content: flex-end;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      gap: clamp(20px, 5vh, 40px);
     }
+
+    .intro-display {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 0;
+      padding-top: clamp(12px, 4vh, 32px);
+    }
+
+    .intro-title {
+      margin: 0;
+      font-size: clamp(2.75rem, 11vw, 5.5rem);
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      color: var(--snow);
+      max-width: 12ch;
+    }
+    [data-theme="light"] .intro-title { color: var(--ink); }
 
     .intro-eyebrow {
       font-size: 0.75rem;
       font-weight: 500;
       letter-spacing: 0.06em;
       color: var(--accent);
-      margin: 0 0 12px;
+      margin: 0 0 14px;
+    }
+
+    .intro-glass {
+      padding: clamp(20px, 4vw, 28px);
+      border-radius: 22px;
+      width: 100%;
+      max-width: 640px;
     }
 
     .intro-head {
@@ -302,7 +355,7 @@ permalink: /links.html
       grid-template-columns: auto 1fr;
       align-items: center;
       gap: 16px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
     .avatar {
       flex: none;
@@ -323,36 +376,29 @@ permalink: /links.html
 
     .intro-head h1 {
       margin: 0;
-      font-size: clamp(2rem, 7vw, 3.25rem);
-      font-weight: 700;
-      line-height: 1.1;
+      font-size: clamp(1.35rem, 4vw, 1.75rem);
+      font-weight: 600;
+      line-height: 1.15;
       letter-spacing: -0.02em;
       color: var(--snow);
     }
     [data-theme="light"] .intro-head h1 { color: var(--ink); }
 
     .intro-role {
-      margin: 0 0 10px;
-      font-size: 1rem;
+      margin: 0 0 6px;
+      font-size: 0.95rem;
       color: var(--ink-soft);
     }
     .intro-lead {
       margin: 0;
-      max-width: 36ch;
-      font-size: clamp(1rem, 2.8vw, 1.15rem);
-      line-height: 1.6;
+      max-width: 42ch;
+      font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+      line-height: 1.55;
       color: var(--ink-soft);
     }
 
-    .intro-glass {
-      margin-top: auto;
-      padding: 24px;
-      border-radius: 20px;
-      max-width: 520px;
-    }
-
     .scroll-hint {
-      margin-top: 20px;
+      margin-top: 18px;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -374,7 +420,56 @@ permalink: /links.html
       .scroll-hint span { animation: none; }
     }
 
-    /* ---------- Chapter panels ---------- */
+    /* ---------- Chapter panels — sparse vs dense layouts ---------- */
+    .panel--sparse .frame {
+      justify-content: center;
+      gap: clamp(28px, 6vh, 52px);
+    }
+
+    .panel--sparse .chapter-meta {
+      margin-bottom: 0;
+      max-width: 28ch;
+    }
+
+    .panel--sparse .chapter-meta h2 {
+      font-size: clamp(2.25rem, 7vw, 3.5rem);
+    }
+
+    .panel--sparse .link-grid {
+      flex: none;
+      max-height: none;
+      overflow: visible;
+      width: 100%;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: 14px;
+      align-content: center;
+    }
+
+    .panel--sparse .link-card {
+      min-height: 112px;
+      padding: 18px 18px 18px 20px;
+    }
+
+    .panel--dense .frame {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: clamp(16px, 3vh, 24px);
+    }
+
+    .panel--dense .chapter-meta {
+      margin-bottom: 0;
+      align-self: start;
+      padding-top: clamp(4px, 2vh, 16px);
+    }
+
+    .panel--dense .link-grid {
+      align-self: stretch;
+      align-content: center;
+      max-height: none;
+      overflow-y: auto;
+      flex: none;
+    }
+
     .chapter-meta {
       margin-bottom: 20px;
     }
@@ -394,7 +489,6 @@ permalink: /links.html
     }
 
     .link-grid {
-      flex: 1;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
@@ -535,9 +629,13 @@ permalink: /links.html
     }
 
     @media (max-width: 720px) {
+      .panel--sparse .link-grid,
+      .panel--dense .link-grid,
       .link-grid {
         grid-template-columns: 1fr;
-        max-height: calc(100dvh - 210px - var(--safe-top) - var(--safe-bottom));
+      }
+      .panel--dense .link-grid {
+        max-height: calc(100dvh - 220px - var(--safe-top) - var(--safe-bottom));
       }
     }
 
@@ -548,6 +646,7 @@ permalink: /links.html
         justify-items: start;
       }
       .avatar { width: 64px; height: 64px; }
+      .intro-title { font-size: clamp(2.25rem, 14vw, 3.25rem); }
     }
 
     @media (prefers-reduced-motion: no-preference) {
@@ -609,16 +708,19 @@ permalink: /links.html
         <div class="panel__scrim"></div>
         <div class="panel__inner">
           <div class="frame">
+          <div class="intro-display">
+            <p class="intro-eyebrow" id="greeting">欢迎来访</p>
+            <h1 class="intro-title">{{ site.author.name | default: "My Links" }}</h1>
+          </div>
           <div class="intro-glass liquid-glass">
-          <p class="intro-eyebrow" id="greeting">欢迎来访</p>
           <div class="intro-head">
             <div class="avatar">
               <img src="{{ site.author.avatar | relative_url }}" alt="{{ site.author.name }}"
                    onerror="this.style.display='none'">
             </div>
             <div>
-              <h1>{{ site.author.name | default: "My Links" }}</h1>
-              <p class="intro-role">{{ site.author.position }}</p>
+              <h1>{{ site.author.position }}</h1>
+              <p class="intro-role">常用链接合集</p>
             </div>
           </div>
           <p class="intro-lead">这里是我整理的一些常用工具与网站，按主题分屏展示。向下滑动即可浏览；若你有访问权限，也可以直接搜索。</p>
@@ -632,7 +734,7 @@ permalink: /links.html
       </section>
 
       {% for el in groups %}
-      <section class="panel panel--chapter{% if el.links.size <= 3 %} panel--particles{% endif %}" id="section-{{ forloop.index }}" data-group>
+      <section class="panel panel--chapter{% if el.links.size <= 3 %} panel--sparse panel--particles{% else %} panel--dense{% endif %}" id="section-{{ forloop.index }}" data-group>
         {% if el.links.size <= 3 %}
         <div class="particle-field" data-particle-field data-particle-density="light" aria-hidden="true"></div>
         {% endif %}
