@@ -9,6 +9,7 @@
   --glass-blur: blur(20px) saturate(185%) brightness(1.06);
   --glass-blur-chrome: blur(28px) saturate(190%) brightness(1.05);
   --glass-blur-subtle: blur(16px) saturate(175%) brightness(1.04);
+  --glass-blur-pill: blur(8px) saturate(165%);
 
   --glass-fill: transparent;
   --glass-fill-chrome: transparent;
@@ -40,10 +41,11 @@
 }
 
 [data-theme="light"] {
-  /* Light glass — clear edge + lift; center stays transparent */
-  --glass-blur: blur(6px) saturate(155%);
-  --glass-blur-chrome: blur(8px) saturate(160%);
-  --glass-blur-subtle: blur(4px) saturate(150%);
+  /* iOS 26 clear glass — lensing at edges, minimal center blur */
+  --glass-blur: blur(4px) saturate(148%);
+  --glass-blur-chrome: blur(6px) saturate(152%);
+  --glass-blur-subtle: blur(3px) saturate(145%);
+  --glass-blur-pill: blur(2px) saturate(140%);
 
   --glass-fill: transparent;
   --glass-fill-chrome: transparent;
@@ -78,8 +80,6 @@
   position: relative;
   overflow: hidden;
   background: var(--glass-fill);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
   border: 0.5px solid var(--glass-border);
   box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
 }
@@ -92,31 +92,41 @@
   z-index: 1;
 }
 
-/* Specular glint — separate layer, not a muddy fill gradient */
-.liquid-glass::after {
+/* Blur layer — clipped inside border-radius (avoids rectangular backdrop bleed) */
+.liquid-glass::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: 0;
   border-radius: inherit;
   pointer-events: none;
-  opacity: var(--glass-sheen-opacity);
-  background: var(--glass-edge-sheen);
+  backdrop-filter: var(--glass-backdrop, var(--glass-blur));
+  -webkit-backdrop-filter: var(--glass-backdrop, var(--glass-blur));
 }
 
 .liquid-glass--subtle {
   background: var(--glass-fill-subtle);
-  backdrop-filter: var(--glass-blur-subtle);
-  -webkit-backdrop-filter: var(--glass-blur-subtle);
+  --glass-backdrop: var(--glass-blur-subtle);
   box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
 }
 
 .liquid-glass--chrome {
   background: var(--glass-fill-chrome);
-  backdrop-filter: var(--glass-blur-chrome);
-  -webkit-backdrop-filter: var(--glass-blur-chrome);
+  --glass-backdrop: var(--glass-blur-chrome);
   border-color: var(--glass-border-chrome);
   box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
+}
+
+/* Specular glint — separate layer, not a muddy fill gradient */
+.liquid-glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--glass-sheen-opacity);
+  background: var(--glass-edge-sheen);
 }
 
 /* =========================================================================
@@ -140,21 +150,21 @@
     box-shadow var(--glass-press-duration) var(--glass-ease);
 }
 
-/* Press wash — luminosity bloom, NOT filter on the whole element */
+/* Blur + press wash share ::before (blur clipped inside rounded rect) */
 .liquid-glass.glass-interactive::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: 0;
-  background: rgba(255, 255, 255, 0.38);
-  transition: opacity calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
+  backdrop-filter: var(--glass-backdrop, var(--glass-blur));
+  -webkit-backdrop-filter: var(--glass-backdrop, var(--glass-blur));
+  background: transparent;
+  opacity: 1;
+  transition: background calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
 }
 
 [data-theme="light"] .liquid-glass.glass-interactive::before {
-  background: rgba(255, 255, 255, 0.32);
+  background: transparent;
+}
+
+[data-theme="light"] .liquid-glass.glass-interactive:is(:active, .is-pressed)::before {
+  background: rgba(255, 255, 255, 0.26);
 }
 
 /* Sheen stays above wash, below content */
@@ -188,6 +198,7 @@
 
 .liquid-glass.glass-interactive:is(:active, .is-pressed)::before {
   opacity: 1;
+  background: rgba(255, 255, 255, 0.34);
 }
 
 .liquid-glass.glass-interactive:is(:active, .is-pressed)::after {
@@ -257,31 +268,21 @@
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
-/* Chromium: optional edge refraction (Safari uses blur-only above) */
+/* Chromium: edge refraction on large glass only — pills skip SVG (rectangular bleed bug) */
 @supports (backdrop-filter: url("#lg-refract")) {
-  .liquid-glass {
-    backdrop-filter: var(--glass-blur) url("#lg-refract");
-    -webkit-backdrop-filter: var(--glass-blur) url("#lg-refract");
+  .liquid-glass::before {
+    backdrop-filter: var(--glass-backdrop, var(--glass-blur)) url("#lg-refract");
+    -webkit-backdrop-filter: var(--glass-backdrop, var(--glass-blur)) url("#lg-refract");
   }
-  .liquid-glass--chrome {
+  .liquid-glass--chrome::before {
     backdrop-filter: var(--glass-blur-chrome) url("#lg-refract-chrome");
     -webkit-backdrop-filter: var(--glass-blur-chrome) url("#lg-refract-chrome");
-  }
-  .liquid-glass--subtle {
-    backdrop-filter: var(--glass-blur-subtle) url("#lg-refract");
-    -webkit-backdrop-filter: var(--glass-blur-subtle) url("#lg-refract");
-  }
-  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu) {
-    backdrop-filter: var(--glass-blur-subtle) url("#lg-refract-pill");
-    -webkit-backdrop-filter: var(--glass-blur-subtle) url("#lg-refract-pill");
   }
 }
 
 @media (prefers-reduced-transparency: reduce) {
-  .liquid-glass,
-  .liquid-glass--chrome,
-  .liquid-glass--subtle,
-  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card) {
+  .liquid-glass::before,
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu, .card, .info-card)::before {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
@@ -300,23 +301,42 @@
    No extra classes required in HTML for .btn / .linklist a / .nav__drawer a
    ========================================================================= */
 
-/* Subtle glass material + sheen — gradients inlined for iOS Safari (var() multi-bg can fail) */
+/* Subtle glass shell — blur lives on ::before, clipped inside shape */
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card, .theme-panel .welcome-quote) {
   position: relative;
   overflow: hidden;
   background: transparent;
-  backdrop-filter: var(--glass-blur-subtle);
-  -webkit-backdrop-filter: var(--glass-blur-subtle);
   border: 0.5px solid var(--glass-border);
   box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
   isolation: isolate;
+}
+
+/* Clip backdrop to pill/circle — prevents rectangular blur leak (Safari/Chromium) */
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .nav__menu) {
+  clip-path: inset(0 round 9999px);
+}
+.card,
+.info-card,
+.theme-panel .welcome-quote {
+  clip-path: inset(0 round var(--r-lg, 16px));
+}
+
+:is(.card, .info-card, .theme-panel .welcome-quote)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  backdrop-filter: var(--glass-blur-subtle);
+  -webkit-backdrop-filter: var(--glass-blur-subtle);
 }
 
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card, .theme-panel .welcome-quote)::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   border-radius: inherit;
   pointer-events: none;
   opacity: 0.14;
@@ -345,6 +365,7 @@
     border-color 0.2s ease;
 }
 
+/* Blur + press wash on ::before (iOS 26: small controls ≈2px blur) */
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::before {
   content: "";
   position: absolute;
@@ -352,23 +373,25 @@
   z-index: 0;
   border-radius: inherit;
   pointer-events: none;
-  opacity: 0;
-  background: rgba(255, 255, 255, 0.38);
-  transition: opacity calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
+  backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
+  -webkit-backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
+  background: transparent;
+  opacity: 1;
+  transition: background calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
 }
 
 [data-theme="light"] :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::before {
-  background: rgba(255, 255, 255, 0.32);
+  background: transparent;
 }
 
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::after {
-  z-index: -1;
+  z-index: 1;
   transition: opacity calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
 }
 
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed) {
   transform: scale(0.962);
-  background: rgba(255, 255, 255, 0.09);
+  background: transparent;
   box-shadow:
     var(--glass-rim),
     var(--glass-halo),
@@ -377,15 +400,15 @@
 }
 
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed)::before {
-  opacity: 1;
+  background: rgba(255, 255, 255, 0.28);
 }
 
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed)::after {
   opacity: calc(var(--glass-sheen-opacity) * 1.35);
 }
 
-[data-theme="light"] :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed) {
-  background: rgba(255, 255, 255, 0.1);
+[data-theme="light"] :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed)::before {
+  background: rgba(255, 255, 255, 0.22);
 }
 
 /* Back to top — fixed floater (excluded from auto-glass position/transform) */
@@ -395,9 +418,8 @@
   bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   z-index: 40;
   overflow: hidden;
-  background: var(--glass-fill-subtle);
-  backdrop-filter: var(--glass-blur-subtle);
-  -webkit-backdrop-filter: var(--glass-blur-subtle);
+  clip-path: inset(0 round 50%);
+  background: transparent;
   border: 0.5px solid var(--glass-border);
   box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
   opacity: 0;
@@ -416,7 +438,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   border-radius: inherit;
   pointer-events: none;
   opacity: var(--glass-sheen-opacity);
@@ -429,9 +451,11 @@
   z-index: 0;
   border-radius: inherit;
   pointer-events: none;
-  opacity: 0;
-  background: rgba(255, 255, 255, 0.38);
-  transition: opacity calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
+  backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
+  -webkit-backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
+  background: transparent;
+  opacity: 1;
+  transition: background calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
 }
 .to-top.ctrl--glass svg {
   position: relative;
@@ -444,7 +468,7 @@
 }
 .to-top.ctrl--glass.show:is(:active, .is-pressed) {
   transform: translateY(0) scale(0.962);
-  background: color-mix(in srgb, var(--glass-fill-subtle) 50%, #ffffff);
+  background: transparent;
   box-shadow:
     var(--glass-rim),
     var(--glass-halo),
@@ -452,7 +476,7 @@
     inset 0 0 0 0.5px rgba(255, 255, 255, 0.45);
 }
 .to-top.ctrl--glass.show:is(:active, .is-pressed)::before {
-  opacity: 1;
+  background: rgba(255, 255, 255, 0.28);
 }
 .to-top.ctrl--glass.show:is(:active, .is-pressed)::after {
   opacity: calc(var(--glass-sheen-opacity) * 1.35);

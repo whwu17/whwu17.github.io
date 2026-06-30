@@ -52,7 +52,8 @@ body.theme-beach .aurora {
   --hairline: var(--theme-border);
   /* Light sections: translucent center, crisp raised edge */
   --glass-fill-subtle: transparent;
-  --glass-blur-subtle: blur(6px) saturate(155%);
+  --glass-blur-subtle: blur(2px) saturate(140%);
+  --glass-blur-pill: blur(2px) saturate(138%);
   --glass-border: color-mix(in srgb, var(--theme-accent) 8%, rgba(255, 255, 255, 0.36));
   --glass-sheen-opacity: 0.14;
   --glass-rim:
