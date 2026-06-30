@@ -46,7 +46,7 @@
   --r-xl: 20px;
   --pill: 980px;
 
-  --material: saturate(180%) blur(24px);
+  --material: saturate(168%) blur(24px);
   --ring: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
   --nav-h: 52px;
   --maxw: 980px;
@@ -199,7 +199,7 @@ a { color: inherit; }
 .site-header.is-nav-open,
 .site-header:has(.nav.open) {
   --glass-fill-subtle: transparent;
-  --glass-blur-subtle: blur(10px) saturate(155%);
+  --glass-blur-subtle: blur(12px) saturate(156%);
   --glass-blur-pill: blur(8px) saturate(152%);
   --glass-border: rgba(255, 255, 255, 0.44);
   --glass-sheen-opacity: 0.18;
