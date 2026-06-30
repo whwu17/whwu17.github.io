@@ -52,18 +52,20 @@ body.theme-beach .aurora {
   --hairline: var(--theme-border);
   /* Light sections: translucent center, crisp raised edge */
   --glass-fill-subtle: transparent;
-  --glass-blur-subtle: blur(5px) saturate(148%);
-  --glass-blur-pill: blur(4px) saturate(145%);
-  --glass-border: color-mix(in srgb, var(--theme-accent) 8%, rgba(255, 255, 255, 0.36));
-  --glass-sheen-opacity: 0.14;
+  --glass-blur-subtle: blur(10px) saturate(155%);
+  --glass-blur-pill: blur(8px) saturate(152%);
+  --glass-border: color-mix(in srgb, var(--theme-accent) 8%, rgba(255, 255, 255, 0.44));
+  --glass-sheen-opacity: 0.18;
   --glass-rim:
-    inset 0 1px 0 rgba(255, 255, 255, 0.55),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.06),
-    inset 1px 0 0 rgba(255, 255, 255, 0.2),
-    inset -1px 0 0 rgba(255, 255, 255, 0.2);
+    inset 0 1px 0 rgba(255, 255, 255, 0.66),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.08),
+    inset 1px 0 0 rgba(255, 255, 255, 0.26),
+    inset -1px 0 0 rgba(255, 255, 255, 0.26);
   --glass-halo:
-    0 0 0 0.5px rgba(255, 255, 255, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.12);
+    0 0 0 0.5px rgba(255, 255, 255, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.2),
+    0 0 5px rgba(255, 255, 255, 0.32),
+    0 0 12px color-mix(in srgb, var(--theme-accent) 8%, rgba(255, 255, 255, 0.12));
   --glass-shadow:
     0 1px 2px rgba(0, 0, 0, 0.05),
     0 4px 14px color-mix(in srgb, var(--theme-accent) 6%, rgba(0, 0, 0, 0.08));
@@ -167,15 +169,17 @@ body.theme-beach .aurora {
   --theme-surface-raised: var(--fresh-surface-raised);
   --theme-border: rgba(234, 88, 12, 0.16);
   --ring: 0 0 0 3px color-mix(in srgb, #ea580c 35%, transparent);
-  --glass-border: rgba(255, 255, 255, 0.36);
+  --glass-border: rgba(255, 255, 255, 0.44);
   --glass-rim:
-    inset 0 1px 0 rgba(255, 255, 255, 0.56),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.06),
-    inset 1px 0 0 rgba(255, 255, 255, 0.2),
-    inset -1px 0 0 rgba(255, 255, 255, 0.2);
+    inset 0 1px 0 rgba(255, 255, 255, 0.66),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.08),
+    inset 1px 0 0 rgba(255, 255, 255, 0.26),
+    inset -1px 0 0 rgba(255, 255, 255, 0.26);
   --glass-halo:
-    0 0 0 0.5px rgba(255, 255, 255, 0.42),
-    0 0 0 1px rgba(255, 255, 255, 0.14);
+    0 0 0 0.5px rgba(255, 255, 255, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.2),
+    0 0 5px rgba(255, 255, 255, 0.32),
+    0 0 12px rgba(255, 255, 255, 0.12);
   --glass-shadow:
     0 1px 2px rgba(0, 0, 0, 0.05),
     0 4px 14px rgba(120, 53, 15, 0.08);

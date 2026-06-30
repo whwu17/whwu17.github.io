@@ -41,38 +41,38 @@
 }
 
 [data-theme="light"] {
-  /* iOS 26 clear — light center blur, edge lensing carries material */
-  --glass-blur: blur(6px) saturate(150%);
-  --glass-blur-chrome: blur(8px) saturate(154%);
-  --glass-blur-subtle: blur(5px) saturate(148%);
-  --glass-blur-pill: blur(4px) saturate(145%);
+  /* iOS 26 regular/clear — pills ~8px, panels ~12px, chrome ~16px (per role) */
+  --glass-blur: blur(12px) saturate(158%);
+  --glass-blur-chrome: blur(16px) saturate(162%);
+  --glass-blur-subtle: blur(10px) saturate(155%);
+  --glass-blur-pill: blur(8px) saturate(152%);
 
   --glass-fill: transparent;
   --glass-fill-chrome: transparent;
   --glass-fill-subtle: transparent;
 
-  --glass-border: rgba(255, 255, 255, 0.38);
-  --glass-border-chrome: rgba(255, 255, 255, 0.44);
+  --glass-border: rgba(255, 255, 255, 0.46);
+  --glass-border-chrome: rgba(255, 255, 255, 0.52);
 
-  /* Convex rim — bright top, shaded bottom (raised lens) */
+  /* Convex rim + edge lensing scatter */
   --glass-rim:
-    inset 0 1px 0 rgba(255, 255, 255, 0.58),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.07),
-    inset 1px 0 0 rgba(255, 255, 255, 0.22),
-    inset -1px 0 0 rgba(255, 255, 255, 0.22);
-  /* Tight edge ring + soft bloom (boundary, not scattered wash) */
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.09),
+    inset 1px 0 0 rgba(255, 255, 255, 0.28),
+    inset -1px 0 0 rgba(255, 255, 255, 0.28);
   --glass-halo:
-    0 0 0 0.5px rgba(255, 255, 255, 0.42),
-    0 0 0 1px rgba(255, 255, 255, 0.14);
+    0 0 0 0.5px rgba(255, 255, 255, 0.52),
+    0 0 0 1px rgba(255, 255, 255, 0.22),
+    0 0 5px rgba(255, 255, 255, 0.34),
+    0 0 12px rgba(255, 255, 255, 0.14);
   --glass-edge-sheen:
-    radial-gradient(90% 65% at 14% -12%, rgba(255, 255, 255, 0.32) 0%, transparent 48%),
-    radial-gradient(72% 42% at 50% 112%, rgba(0, 0, 0, 0.05) 0%, transparent 52%);
-  /* Directional drop — float above background */
+    radial-gradient(90% 65% at 14% -12%, rgba(255, 255, 255, 0.38) 0%, transparent 46%),
+    radial-gradient(72% 42% at 50% 112%, rgba(0, 0, 0, 0.06) 0%, transparent 50%);
   --glass-shadow:
     0 1px 1px rgba(0, 0, 0, 0.04),
     0 2px 6px rgba(0, 0, 0, 0.07),
     0 6px 18px rgba(0, 0, 0, 0.05);
-  --glass-sheen-opacity: 0.14;
+  --glass-sheen-opacity: 0.18;
 }
 
 /* ---------- Base material ---------- */
@@ -340,10 +340,10 @@
   z-index: -1;
   border-radius: inherit;
   pointer-events: none;
-  opacity: 0.14;
+  opacity: 0.18;
   background:
-    radial-gradient(92% 70% at 16% -14%, rgba(255, 255, 255, 0.22) 0%, transparent 42%),
-    radial-gradient(68% 38% at 50% 108%, rgba(255, 255, 255, 0.04) 0%, transparent 52%);
+    radial-gradient(92% 70% at 16% -14%, rgba(255, 255, 255, 0.28) 0%, transparent 40%),
+    radial-gradient(68% 38% at 50% 108%, rgba(255, 255, 255, 0.06) 0%, transparent 50%);
 }
 
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card, .theme-panel .welcome-quote) > * {
