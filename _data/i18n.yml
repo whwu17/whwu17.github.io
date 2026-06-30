@@ -1,0 +1,75 @@
+en:
+  skip: Skip to content
+  lang_toggle: 中文
+  nav:
+    about: About
+    contact: Contact
+  home:
+    welcome: Welcome
+    details: Thanks for stopping by — here you'll find my work, writing, and a few places on the web I return to often.
+    about_btn: About
+    contact_btn: Get in touch
+    clock: Shanghai time
+  links:
+    skip: Skip to content
+    search_placeholder: Search by name or site…
+    search_aria: Search links
+    greeting_morning: Good morning — welcome
+    greeting_afternoon: Good afternoon — welcome
+    greeting_evening: Good evening — welcome
+    role: Curated links
+    lead: Tools and sites I use often, grouped by topic. Scroll to browse, or search if you have access.
+    scroll_hint: Keep scrolling
+    links_count: links
+    tap_to_open: Tap a card to open
+    empty: No matching links. Try another keyword.
+    private_title: Private page
+    private_body: This area isn't open to visitors. You'll be redirected shortly.
+    copy: Copy URL
+    copied: Copied!
+    theme: Toggle appearance
+  footer:
+    contact: Contact
+    hello: Say hello
+    hello_body: Questions, ideas, or just want to connect? I'd be glad to hear from you.
+    send: Send a message
+    follow: Follow me
+    built: Built with
+
+zh:
+  skip: 跳到主内容
+  lang_toggle: EN
+  nav:
+    about: 关于
+    contact: 联系
+  home:
+    welcome: 欢迎来访
+    details: 感谢来访——这里可以找到我的作品、文字，以及我常去的网站。
+    about_btn: 关于我
+    contact_btn: 联系我
+    clock: 上海时间
+  links:
+    skip: 跳到主内容
+    search_placeholder: 搜索名称或站点…
+    search_aria: 搜索链接
+    greeting_morning: 早上好，欢迎来访
+    greeting_afternoon: 下午好，欢迎来访
+    greeting_evening: 晚上好，欢迎来访
+    role: 常用链接合集
+    lead: 这里是我整理的一些常用工具与网站，按主题分屏展示。向下滑动即可浏览；若有访问权限，也可以直接搜索。
+    scroll_hint: 继续向下滑动
+    links_count: 个链接
+    tap_to_open: 点击卡片即可打开
+    empty: 没有找到匹配的链接。请换个关键词再试。
+    private_title: 私密页面
+    private_body: 此区域不对访客开放，即将跳转。
+    copy: 复制链接
+    copied: 已复制
+    theme: 切换外观
+  footer:
+    contact: 联系方式
+    hello: 打个招呼
+    hello_body: 有问题、想法，或只是想聊聊？欢迎联系我。
+    send: 发送消息
+    follow: 关注我
+    built: 构建于

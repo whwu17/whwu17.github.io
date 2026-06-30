@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="en" data-theme="light">
 
 <head>
   <meta charset="utf-8">
@@ -12,19 +12,21 @@
   <link href="{{ '/assets/css/glass.css' | relative_url }}" rel="stylesheet">
 
   <script>
-    /* Apply persisted theme before paint to avoid flashing. */
     (function () {
       try {
         var t = localStorage.getItem('site-theme');
         if (t) document.documentElement.setAttribute('data-theme', t);
+        var l = localStorage.getItem('site-lang');
+        if (l) document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
       } catch (e) {}
     })();
   </script>
+  <script>window.__I18N__ = {{ site.data.i18n | jsonify }};</script>
   {% seo %}
 </head>
 
 <body>
-  <a class="skip-link" href="#top">Skip to content</a>
+  <a class="skip-link" href="#top" data-i18n="skip">Skip to content</a>
   <div class="aurora" aria-hidden="true"></div>
 
   {% include site-nav.html %}
@@ -39,7 +41,7 @@
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg>
   </button>
 
-  <script src="{{ '/assets/js/particle-field.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/i18n.js' | relative_url }}" defer></script>
   <script>
     (function () {
       var html = document.documentElement;

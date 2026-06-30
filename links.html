@@ -2,7 +2,7 @@
 permalink: /links.html
 ---
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="en" data-theme="light">
 
 <head>
   <meta charset="utf-8">
@@ -23,23 +23,26 @@ permalink: /links.html
       try {
         var t = localStorage.getItem('site-theme');
         if (t) document.documentElement.setAttribute('data-theme', t);
+        var l = localStorage.getItem('site-lang');
+        if (l) document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
       } catch (e) {}
     })();
   </script>
+  <script>window.__I18N__ = {{ site.data.i18n | jsonify }};</script>
 
   <style>
     :root {
-      --snow: #ededef;
-      --ink: #ededef;
-      --ink-soft: rgba(237, 237, 239, 0.72);
-      --ink-faint: rgba(138, 143, 152, 0.85);
-      --scrim: rgba(2, 2, 3, 0.45);
-      --scrim-heavy: rgba(2, 2, 3, 0.62);
-      --line: rgba(255, 255, 255, 0.08);
-      --line-strong: rgba(255, 255, 255, 0.14);
-      --accent: #2563eb;
-      --accent-2: #22c55e;
-      --chip: rgba(255, 255, 255, 0.06);
+      --snow: #ffffff;
+      --ink: #1d1d1f;
+      --ink-soft: rgba(29, 29, 31, 0.72);
+      --ink-faint: rgba(29, 29, 31, 0.5);
+      --scrim: rgba(255, 255, 255, 0.2);
+      --scrim-heavy: rgba(255, 255, 255, 0.35);
+      --line: rgba(0, 0, 0, 0.08);
+      --line-strong: rgba(0, 0, 0, 0.12);
+      --accent: #007aff;
+      --accent-2: #34c759;
+      --chip: rgba(255, 255, 255, 0.45);
       --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
       --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
       --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
@@ -55,18 +58,32 @@ permalink: /links.html
       --safe-right: env(safe-area-inset-right, 0px);
     }
 
+    [data-theme="dark"] {
+      --snow: #f5f5f7;
+      --ink: #f5f5f7;
+      --ink-soft: rgba(245, 245, 247, 0.78);
+      --ink-faint: rgba(245, 245, 247, 0.55);
+      --scrim: rgba(0, 0, 0, 0.2);
+      --scrim-heavy: rgba(0, 0, 0, 0.32);
+      --line: rgba(255, 255, 255, 0.14);
+      --line-strong: rgba(255, 255, 255, 0.22);
+      --accent: #0a84ff;
+      --accent-2: #30d158;
+      --chip: rgba(255, 255, 255, 0.1);
+    }
+
     [data-theme="light"] {
-      --snow: #09090b;
-      --ink: #09090b;
-      --ink-soft: rgba(9, 9, 11, 0.72);
-      --ink-faint: rgba(9, 9, 11, 0.45);
-      --scrim: rgba(255, 255, 255, 0.52);
-      --scrim-heavy: rgba(255, 255, 255, 0.72);
+      --snow: #1d1d1f;
+      --ink: #1d1d1f;
+      --ink-soft: rgba(29, 29, 31, 0.72);
+      --ink-faint: rgba(29, 29, 31, 0.5);
+      --scrim: rgba(255, 255, 255, 0.25);
+      --scrim-heavy: rgba(255, 255, 255, 0.4);
       --line: rgba(0, 0, 0, 0.08);
       --line-strong: rgba(0, 0, 0, 0.12);
-      --accent: #2563eb;
-      --accent-2: #16a34a;
-      --chip: rgba(0, 0, 0, 0.04);
+      --accent: #007aff;
+      --accent-2: #34c759;
+      --chip: rgba(255, 255, 255, 0.5);
     }
 
     * { box-sizing: border-box; }
@@ -85,7 +102,7 @@ permalink: /links.html
       font-size: 17px;
       line-height: 1.47;
       letter-spacing: -0.022em;
-      background: #020203;
+      background: #f5f5f7;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
       overflow: hidden;
@@ -155,20 +172,9 @@ permalink: /links.html
       background: center / cover no-repeat;
       transform: scale(1.03);
     }
-    .panel__bg--mesh,
-    .panel__bg--photo { z-index: 0; }
-    .panel .particle-field { z-index: 1; }
-    .panel__scrim {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      background:
-        linear-gradient(180deg, var(--scrim-heavy) 0%, var(--scrim) 42%, rgba(6, 9, 18, 0.88) 100%);
-    }
-    [data-theme="light"] .panel__scrim {
-      background:
-        linear-gradient(180deg, var(--scrim-heavy) 0%, var(--scrim) 50%, rgba(255, 255, 255, 0.72) 100%);
-    }
+    .panel__bg--mesh { z-index: 0; }
+    .panel__bg--photo { z-index: 1; }
+    .panel__scrim { z-index: 2; }
 
     .panel__inner {
       position: relative;
@@ -188,28 +194,6 @@ permalink: /links.html
       display: flex;
       flex-direction: column;
       min-height: calc(100dvh - var(--chrome-h) - 40px - var(--safe-top) - var(--safe-bottom));
-    }
-
-    /* Per-panel scrims — let photography breathe */
-    .panel--intro .panel__scrim {
-      background:
-        linear-gradient(0deg, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.18) 42%, rgba(0, 0, 0, 0.42) 100%);
-    }
-    [data-theme="light"] .panel--intro .panel__scrim {
-      background:
-        linear-gradient(0deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.35) 45%, rgba(255, 255, 255, 0.55) 100%);
-    }
-    .panel--sparse .panel__scrim {
-      background:
-        radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.72));
-    }
-    [data-theme="light"] .panel--sparse .panel__scrim {
-      background:
-        radial-gradient(ellipse 80% 60% at 50% 50%, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.78));
-    }
-    .panel--dense .panel__scrim {
-      background:
-        linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.38) 38%, rgba(0, 0, 0, 0.72) 100%);
     }
 
     .skip-link {
@@ -250,11 +234,28 @@ permalink: /links.html
       font-family: var(--font-display);
       color: var(--chapter-accent, var(--snow));
       letter-spacing: -0.028em;
+      text-shadow: 0 1px 16px rgba(0, 0, 0, 0.28);
     }
     .intro-title {
       font-family: var(--font-display);
       letter-spacing: -0.035em;
+      text-shadow: 0 1px 16px rgba(0, 0, 0, 0.25);
     }
+
+    .lang-btn {
+      flex: none;
+      min-width: 40px;
+      height: var(--chrome-h);
+      padding: 0 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--snow);
+      background: transparent;
+      border: none;
+      border-radius: var(--chrome-h);
+      cursor: pointer;
+    }
+    [data-theme="light"] .lang-btn { color: var(--ink); }
 
     .link-card { cursor: pointer; transition: transform 300ms var(--ease-out); }
     .copy-btn { cursor: pointer; }
@@ -382,10 +383,9 @@ permalink: /links.html
       font-weight: 700;
       line-height: 0.95;
       letter-spacing: -0.04em;
-      color: var(--snow);
+      color: var(--ink);
       max-width: 12ch;
     }
-    [data-theme="light"] .intro-title { color: var(--ink); }
 
     .intro-eyebrow {
       font-size: 0.75rem;
@@ -541,9 +541,7 @@ permalink: /links.html
       font-weight: 700;
       line-height: 1.15;
       letter-spacing: -0.02em;
-      color: var(--snow);
     }
-    [data-theme="light"] .chapter-meta h2 { color: var(--ink); }
     .chapter-meta p {
       margin: 0;
       font-size: 0.95rem;
@@ -614,11 +612,10 @@ permalink: /links.html
     .link-name {
       font-size: 0.95rem;
       font-weight: 600;
-      color: var(--snow);
+      color: var(--ink);
       line-height: 1.35;
       min-width: 0;
     }
-    [data-theme="light"] .link-name { color: var(--ink); }
 
     .link-url {
       position: relative;
@@ -635,14 +632,14 @@ permalink: /links.html
       word-break: break-all;
       overflow-wrap: anywhere;
       hyphens: auto;
-      background: rgba(0, 0, 0, 0.22);
+      background: rgba(255, 255, 255, 0.42);
       border: 1px solid var(--line);
       border-radius: 10px;
       font-variant-numeric: tabular-nums;
     }
-    [data-theme="light"] .link-url {
-      background: rgba(0, 0, 0, 0.04);
-      color: rgba(9, 9, 11, 0.55);
+    [data-theme="dark"] .link-url {
+      background: rgba(0, 0, 0, 0.22);
+      color: rgba(245, 245, 247, 0.72);
     }
 
     .copy-btn {
@@ -725,7 +722,7 @@ permalink: /links.html
 </head>
 
 <body>
-  <a class="skip-link" href="#intro">跳到主内容</a>
+  <a class="skip-link" href="#intro" data-i18n="links.skip">Skip to content</a>
   <div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar" id="scroll-progress-bar"></span></div>
 
   <div class="denied">
@@ -734,8 +731,8 @@ permalink: /links.html
         <rect x="5" y="11" width="14" height="10" rx="2"></rect>
         <path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
       </svg>
-      <h1 style="font-family:var(--font-display)">Private page</h1>
-      <p>This area isn't open to visitors. You'll be redirected shortly.</p>
+      <h1 style="font-family:var(--font-display)" data-i18n="links.private_title">Private page</h1>
+      <p data-i18n="links.private_body">This area isn't open to visitors. You'll be redirected shortly.</p>
     </div>
   </div>
 
@@ -749,9 +746,10 @@ permalink: /links.html
                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          <input id="q" type="search" placeholder="搜索名称或站点…" autocomplete="off" aria-label="Search links">
+          <input id="q" type="search" data-i18n-placeholder="links.search_placeholder" data-i18n-aria="links.search_aria" placeholder="Search by name or site…" autocomplete="off" aria-label="Search links">
         </div>
-        <button class="icon-btn liquid-glass liquid-glass--chrome" id="theme-toggle" type="button" aria-label="Toggle color theme">
+        <button class="lang-btn liquid-glass liquid-glass--chrome" type="button" data-lang-toggle>中文</button>
+        <button class="icon-btn liquid-glass liquid-glass--chrome" id="theme-toggle" type="button" data-i18n-aria="links.theme" aria-label="Toggle appearance">
         <svg class="sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <circle cx="12" cy="12" r="4"></circle>
@@ -768,14 +766,13 @@ permalink: /links.html
     <nav class="dots" aria-label="Sections">
       <a href="#intro" data-dot="intro">Intro</a>
       {% for el in groups %}
-      <a href="#section-{{ el.id }}" data-dot="section-{{ el.id }}">{{ el.title }}</a>
+      <a href="#section-{{ el.id }}" data-dot="section-{{ el.id }}" data-bilingual-en="{{ el.title.en }}" data-bilingual-zh="{{ el.title.zh }}">{{ el.title.en }}</a>
       {% endfor %}
     </nav>
 
     <div class="deck" id="deck">
-      <section class="panel panel--intro panel--particles" id="intro" data-group="intro"
-        style="--panel-g1: {{ hub.intro.gradient.from }}; --panel-g2: {{ hub.intro.gradient.via }}; --panel-g3: {{ hub.intro.gradient.to }}; --panel-glow: {{ hub.intro.glow }}; --panel-photo-opacity: {{ hub.intro.photo_opacity }};">
-        <div class="particle-field" data-particle-field aria-hidden="true"></div>
+      <section class="panel panel--intro" id="intro" data-group="intro"
+        style="--panel-g1: {{ hub.intro.gradient.from }}; --panel-g2: {{ hub.intro.gradient.via }}; --panel-photo-opacity: {{ hub.intro.photo_opacity }};">
         <div class="panel__bg--mesh" aria-hidden="true"></div>
         {% if hub.intro.cover %}
         <div class="panel__bg--photo" style="background-image: url('{{ hub.intro.cover | relative_url }}');" aria-hidden="true"></div>
@@ -784,7 +781,7 @@ permalink: /links.html
         <div class="panel__inner">
           <div class="frame">
           <div class="intro-display">
-            <p class="intro-eyebrow" id="greeting">欢迎来访</p>
+            <p class="intro-eyebrow" id="greeting" data-i18n="links.greeting">Good morning — welcome</p>
             <h1 class="intro-title">{{ site.author.name | default: "My Links" }}</h1>
           </div>
           <div class="intro-glass liquid-glass">
@@ -795,13 +792,13 @@ permalink: /links.html
             </div>
             <div>
               <h1>{{ site.author.position }}</h1>
-              <p class="intro-role">常用链接合集</p>
+              <p class="intro-role" data-i18n="links.role">Curated links</p>
             </div>
           </div>
-          <p class="intro-lead">这里是我整理的一些常用工具与网站，按主题分屏展示。向下滑动即可浏览；若你有访问权限，也可以直接搜索。</p>
+          <p class="intro-lead" data-i18n="links.lead">Tools and sites I use often, grouped by topic. Scroll to browse, or search if you have access.</p>
           <div class="scroll-hint" aria-hidden="true">
             <span></span>
-            继续向下滑动
+            <span data-i18n="links.scroll_hint">Keep scrolling</span>
           </div>
           </div>
           </div>
@@ -809,11 +806,8 @@ permalink: /links.html
       </section>
 
       {% for el in groups %}
-      <section class="panel panel--chapter{% if el.links.size <= 3 %} panel--sparse panel--particles{% else %} panel--dense{% endif %}"
-        id="section-{{ el.id }}" data-group style="--chapter-accent: {{ el.accent }}; --panel-g1: {{ el.bg.gradient[0] }}; --panel-g2: {{ el.bg.gradient[1] }}; --panel-g3: {{ el.bg.gradient[2] }}; --panel-glow: {{ el.accent }}; --panel-photo-opacity: {{ el.bg.photo_opacity }};">
-        {% if el.links.size <= 3 %}
-        <div class="particle-field" data-particle-field data-particle-density="light" aria-hidden="true"></div>
-        {% endif %}
+      <section class="panel panel--chapter{% if el.links.size <= 3 %} panel--sparse{% else %} panel--dense{% endif %}"
+        id="section-{{ el.id }}" data-group style="--chapter-accent: {{ el.accent }}; --panel-g1: {{ el.bg.gradient[0] }}; --panel-g2: {{ el.bg.gradient[1] }}; --panel-photo-opacity: {{ el.bg.photo_opacity }};">
         <div class="panel__bg--mesh" aria-hidden="true"></div>
         {% if el.bg.photo %}
         <div class="panel__bg--photo" style="background-image: url('{{ el.bg.photo | relative_url }}');" aria-hidden="true"></div>
@@ -822,8 +816,8 @@ permalink: /links.html
         <div class="panel__inner">
           <div class="frame">
           <header class="chapter-meta">
-            <h2>{{ el.title }}</h2>
-            <p>{% if el.subtitle %}{{ el.subtitle }} · {{ el.links.size }} 个链接{% else %}{{ el.links | size }} 个链接 · 点击卡片即可打开{% endif %}</p>
+            <h2 data-bilingual-en="{{ el.title.en }}" data-bilingual-zh="{{ el.title.zh }}">{{ el.title.en }}</h2>
+            <p data-i18n-count data-link-count="{{ el.links.size }}" data-bilingual-sub-en="{{ el.subtitle.en }}" data-bilingual-sub-zh="{{ el.subtitle.zh }}">{{ el.subtitle.en }} · {{ el.links.size }} links</p>
           </header>
 
           <div class="link-grid">
@@ -867,7 +861,7 @@ permalink: /links.html
       {% endfor %}
 
       <div class="empty" id="empty">
-        <p>没有找到匹配的链接。<br>请换个关键词再试。</p>
+        <p data-i18n="links.empty">No matching links. Try another keyword.</p>
       </div>
     </div>
   </main>
@@ -880,11 +874,6 @@ permalink: /links.html
         setTimeout(function () { window.location.href = './404'; }, 3500);
         return;
       }
-
-      var hour = new Date().getHours();
-      var greet = hour < 12 ? '早上好，欢迎来访' : hour < 18 ? '下午好，欢迎来访' : '晚上好，欢迎来访';
-      var greeting = document.getElementById('greeting');
-      if (greeting) greeting.textContent = greet;
 
       var saved = null;
       try { saved = localStorage.getItem('site-theme'); } catch (e) {}
@@ -920,10 +909,10 @@ permalink: /links.html
           var url = btn.closest('.link-card').getAttribute('data-url');
           copyText(url).then(function () {
             btn.classList.add('copied');
-            btn.setAttribute('aria-label', 'Copied!');
+            btn.setAttribute('aria-label', window.SiteI18n ? SiteI18n.t('links.copied') : 'Copied!');
             setTimeout(function () {
               btn.classList.remove('copied');
-              btn.setAttribute('aria-label', 'Copy URL');
+              btn.setAttribute('aria-label', window.SiteI18n ? SiteI18n.t('links.copy') : 'Copy URL');
             }, 2400);
           });
         });
@@ -992,7 +981,7 @@ permalink: /links.html
       });
     })();
   </script>
-  <script src="/assets/js/particle-field.js" defer></script>
+  <script src="/assets/js/i18n.js" defer></script>
 </body>
 
 </html>
