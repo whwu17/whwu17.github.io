@@ -100,33 +100,28 @@
   box-shadow: var(--glass-rim), 0 2px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Touch / press — iOS-like glass compression */
-button.liquid-glass,
-a.liquid-glass,
-.glass-control {
+/* Touch / press — standalone glass controls only (not nav toolbar) */
+button.liquid-glass:not(.nav-btn),
+a.liquid-glass:not(.nav-btn) {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
 
-button.liquid-glass:active,
-a.liquid-glass:active,
-.glass-control:active {
-  transform: scale(0.96);
-  background: color-mix(in srgb, var(--glass-fill-chrome) 82%, rgba(255, 255, 255, 0.28));
-  box-shadow:
-    inset 0 0.5px 0 rgba(255, 255, 255, 0.72),
-    inset 0 1px 8px rgba(255, 255, 255, 0.18),
-    0 1px 8px rgba(0, 0, 0, 0.08);
-  transition: transform 100ms var(--glass-ease), background 100ms var(--glass-ease), box-shadow 100ms var(--glass-ease);
-}
-
+button.liquid-glass:not(.nav-btn):active,
+a.liquid-glass:not(.nav-btn):active,
+.liquid-glass--chrome:not(.nav):active,
 .liquid-glass--subtle:active {
-  background: color-mix(in srgb, var(--glass-fill-subtle) 78%, rgba(255, 255, 255, 0.32));
+  transform: scale(0.98);
+  filter: brightness(1.05);
+  transition: transform 100ms var(--glass-ease), filter 100ms var(--glass-ease);
 }
 
-.liquid-glass--chrome:active,
-.glass-control.liquid-glass--chrome:active {
-  background: color-mix(in srgb, var(--glass-fill-chrome) 76%, rgba(255, 255, 255, 0.34));
+/* Nav bar: flat glass strip — no nested bubbles, no scale on press */
+.nav.liquid-glass {
+  box-shadow: var(--glass-rim), 0 1px 0 rgba(0, 0, 0, 0.04);
+}
+.nav.liquid-glass::after {
+  opacity: 0.22;
 }
 
 /* Inset well — URL fields, chips inside glass cards */
