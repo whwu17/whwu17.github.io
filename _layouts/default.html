@@ -156,7 +156,7 @@
 
       /* Analog world clocks — Shanghai + visitor or UTC */
       try {
-        var homeTz = 'Asia/Shanghai';
+        var homeTz = '{{ site.author.timezone | default: "Asia/Shanghai" }}';
         var greetingEl = document.getElementById('clock-greeting');
         var tzSha = document.getElementById('tz-sha');
         var tzB = document.getElementById('tz-b');
