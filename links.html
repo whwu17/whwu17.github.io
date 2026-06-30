@@ -572,10 +572,8 @@ permalink: /links.html
       font-size: 0.95rem;
       font-weight: 600;
       color: var(--accent);
-      overflow: hidden;
       flex: none;
     }
-    .fav img { width: 20px; height: 20px; display: block; }
 
     .link-hit {
       position: absolute;
@@ -781,10 +779,7 @@ permalink: /links.html
               <a class="link-hit" href="{{ link_url }}" target="_blank" rel="noopener noreferrer"
                  aria-label="Open {{ ele.name }}"></a>
               <div class="link-card__head">
-                <span class="fav" aria-hidden="true">
-                  <img src="https://www.google.com/s2/favicons?domain={{ host }}&sz=64" alt="" loading="lazy"
-                       onerror="this.remove();this.parentNode.textContent='{{ ele.name | strip | slice: 0 | upcase }}';">
-                </span>
+                <span class="fav" aria-hidden="true">{{ ele.name | strip | slice: 0 | upcase }}</span>
                 <span class="link-name">{{ ele.name }}</span>
                 <button class="ctrl ctrl--squircle ctrl--glass copy-btn liquid-glass liquid-glass--subtle glass-interactive" type="button" aria-label="Copy URL for {{ ele.name }}">
                   <svg class="copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"

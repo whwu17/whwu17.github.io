@@ -271,8 +271,6 @@
   overflow: hidden;
 }
 
-.particle-field { display: none; }
-
 .immersive > .container,
 .immersive > .hero-inner,
 .immersive > .frame,
