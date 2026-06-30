@@ -16,9 +16,9 @@ permalink: /contact/
         <p class="muted">You can also email me using the address below.</p>
         <dl class="kv">
           <dt>Email</dt>
-          <dd><a href="mailto:whwu17@foxmail.com">whwu17@foxmail.com</a></dd>
+          <dd><a href="mailto:{{ site.author.contact_email | default: site.author.email }}">{{ site.author.contact_email | default: site.author.email }}</a></dd>
           <dt>Location</dt>
-          <dd>Shanghai, China</dd>
+          <dd>{% include author-location.html %}</dd>
         </dl>
       </div>
 
@@ -64,7 +64,7 @@ permalink: /contact/
     var subject = encodeURIComponent(document.getElementById('subject').value || '');
     var cc = encodeURIComponent(document.getElementById('cc').value || '');
     var name = (document.getElementById('fname').value || '') + ' ' + (document.getElementById('lname').value || '');
-    window.location.href = "mailto:whwu17@foxmail.com?subject=" + subject + "&cc=" + cc +
+    window.location.href = "mailto:{{ site.author.contact_email | default: site.author.email }}?subject=" + subject + "&cc=" + cc +
       "&body=" + content + "%0a%0aSent from " + encodeURIComponent(name);
   }
 </script>

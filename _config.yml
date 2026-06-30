@@ -15,10 +15,14 @@ author:
   avatar           : "/images/profile.png"
   position         : "Developer"
   location         : "Shanghai"
+  country          : "China"
+  timezone         : "Asia/Shanghai"
   employer         :
   pubmed           : 
   googlescholar    : "https://scholar.google.com/citations?user=NBSeJLkAAAAJ&hl=en&oi=sra"
   email            :  "1020645987@qq.com"
+  contact_email    : "whwu17@foxmail.com"
+  phone            : "+86 185 1652 3459"
   researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
   github           : "ivyee17"
   impactstory      : #"https://profiles.impactstory.org/u/xxxx-xxxx-xxxx-xxxx"

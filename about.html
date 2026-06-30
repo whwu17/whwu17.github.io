@@ -20,11 +20,11 @@ permalink: /about/
 
           <dl class="kv">
             <dt>Address</dt>
-            <dd>Shanghai, China</dd>
+            <dd>{% include author-location.html %}</dd>
             <dt>Phone</dt>
-            <dd>(+86) 18516523459</dd>
+            <dd>{{ site.author.phone }}</dd>
             <dt>Email</dt>
-            <dd><a href="mailto:{{ site.author.email | default: 'whwu17@foxmail.com' }}">whwu17@foxmail.com</a></dd>
+            <dd><a href="mailto:{{ site.author.contact_email | default: site.author.email }}">{{ site.author.contact_email | default: site.author.email }}</a></dd>
           </dl>
         </div>
       </div>
