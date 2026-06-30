@@ -14,7 +14,6 @@ permalink: /links.html
   <link href="/assets/img/favicon-link.png" rel="icon">
   <link href="/assets/img/apple-icon-link.png" rel="apple-touch-icon">
 
-  <link href="/assets/css/site.css" rel="stylesheet">
   <link href="/assets/css/glass.css" rel="stylesheet">
   <link href="/assets/css/themes.css" rel="stylesheet">
 
@@ -51,7 +50,26 @@ permalink: /links.html
       --safe-bottom: env(safe-area-inset-bottom, 0px);
       --safe-left: env(safe-area-inset-left, 0px);
       --safe-right: env(safe-area-inset-right, 0px);
+      --ctrl-size: 44px;
+      --ctrl-icon: 18px;
     }
+
+    .ctrl {
+      display: inline-grid;
+      place-items: center;
+      padding: 0;
+      border: none;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      flex: none;
+    }
+    .ctrl--squircle {
+      width: var(--ctrl-size);
+      height: var(--ctrl-size);
+      border-radius: 12px;
+    }
+    .ctrl--squircle svg { width: var(--ctrl-icon); height: var(--ctrl-icon); }
 
     [data-theme="dark"] {
       --snow: #f5f5f7;

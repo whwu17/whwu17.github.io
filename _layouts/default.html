@@ -33,6 +33,7 @@
   </button>
 
   <script>
+    document.documentElement.classList.add('js');
     (function () {
       var html = document.documentElement;
 
@@ -41,19 +42,20 @@
       var navToggle = document.getElementById('nav-toggle');
       var navLinks = document.getElementById('nav-links');
       function setNavOpen(open) {
+        if (!nav || !navToggle) return;
         nav.classList.toggle('open', open);
         navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
         navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
         document.body.style.overflow = open ? 'hidden' : '';
       }
-      if (navToggle) navToggle.addEventListener('click', function () {
+      if (navToggle && nav) navToggle.addEventListener('click', function () {
         setNavOpen(!nav.classList.contains('open'));
       });
       if (navLinks) navLinks.querySelectorAll('a').forEach(function (a) {
         a.addEventListener('click', function () { setNavOpen(false); });
       });
       document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && nav.classList.contains('open')) setNavOpen(false);
+        if (e.key === 'Escape' && nav && nav.classList.contains('open')) setNavOpen(false);
       });
 
       /* Reveal on scroll */
@@ -88,7 +90,10 @@
           entries.forEach(function (en) {
             if (en.isIntersecting) {
               spies.forEach(function (l) { l.classList.remove('active'); });
-              var match = sections.find(function (s) { return s.sec === en.target; });
+              var match = null;
+              for (var i = 0; i < sections.length; i++) {
+                if (sections[i].sec === en.target) { match = sections[i]; break; }
+              }
               if (match) match.link.classList.add('active');
             }
           });
@@ -98,70 +103,74 @@
 
       /* Back to top */
       var toTop = document.getElementById('to-top');
-      window.addEventListener('scroll', function () {
-        toTop.classList.toggle('show', window.scrollY > 600);
-      }, { passive: true });
-      toTop.addEventListener('click', function () {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
+      if (toTop) {
+        window.addEventListener('scroll', function () {
+          toTop.classList.toggle('show', window.scrollY > 600);
+        }, { passive: true });
+        toTop.addEventListener('click', function () {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
 
       /* World clock (hero) — Shanghai + visitor or UTC */
-      var homeTz = 'Asia/Shanghai';
-      var greetingEl = document.getElementById('clock-greeting');
-      var clockB = document.getElementById('clock-b');
-      if (clockB) {
-        var localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        var secondTz = localTz !== homeTz ? localTz : 'UTC';
-        var secondLabel = document.getElementById('clock-label-b');
-        var cityFromTz = function (tz) {
-          if (tz === 'UTC') return 'UTC';
-          var part = tz.split('/').pop() || tz;
-          return part.replace(/_/g, ' ');
-        };
-        if (secondLabel) {
-          secondLabel.textContent = localTz !== homeTz ? cityFromTz(localTz) : 'UTC';
-        }
+      try {
+        var homeTz = 'Asia/Shanghai';
+        var greetingEl = document.getElementById('clock-greeting');
+        var clockB = document.getElementById('clock-b');
+        if (clockB && window.Intl && Intl.DateTimeFormat) {
+          var localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          var secondTz = localTz !== homeTz ? localTz : 'UTC';
+          var secondLabel = document.getElementById('clock-label-b');
+          var cityFromTz = function (tz) {
+            if (tz === 'UTC') return 'UTC';
+            var part = tz.split('/').pop() || tz;
+            return part.replace(/_/g, ' ');
+          };
+          if (secondLabel) {
+            secondLabel.textContent = localTz !== homeTz ? cityFromTz(localTz) : 'UTC';
+          }
 
-        var timeFmt = function (tz) {
-          return new Intl.DateTimeFormat('en-GB', {
-            timeZone: tz,
-            hour: '2-digit',
-            minute: '2-digit',
+          var timeFmt = function (tz) {
+            return new Intl.DateTimeFormat('en-GB', {
+              timeZone: tz,
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: false
+            });
+          };
+          var dateFmt = function (tz) {
+            return new Intl.DateTimeFormat('en-GB', {
+              timeZone: tz,
+              weekday: 'short',
+              month: 'short',
+              day: 'numeric'
+            });
+          };
+          var hourFmt = new Intl.DateTimeFormat('en-GB', {
+            timeZone: homeTz,
+            hour: 'numeric',
             hour12: false
           });
-        };
-        var dateFmt = function (tz) {
-          return new Intl.DateTimeFormat('en-GB', {
-            timeZone: tz,
-            weekday: 'short',
-            month: 'short',
-            day: 'numeric'
-          });
-        };
-        var hourFmt = new Intl.DateTimeFormat('en-GB', {
-          timeZone: homeTz,
-          hour: 'numeric',
-          hour12: false
-        });
 
-        var tick = function () {
-          var now = new Date();
-          var shaTime = document.getElementById('clock-sha');
-          var shaDate = document.getElementById('date-sha');
-          var bDate = document.getElementById('date-b');
-          if (shaTime) shaTime.textContent = timeFmt(homeTz).format(now);
-          if (shaDate) shaDate.textContent = dateFmt(homeTz).format(now);
-          clockB.textContent = timeFmt(secondTz).format(now);
-          if (bDate) bDate.textContent = dateFmt(secondTz).format(now);
+          var tick = function () {
+            var now = new Date();
+            var shaTime = document.getElementById('clock-sha');
+            var shaDate = document.getElementById('date-sha');
+            var bDate = document.getElementById('date-b');
+            if (shaTime) shaTime.textContent = timeFmt(homeTz).format(now);
+            if (shaDate) shaDate.textContent = dateFmt(homeTz).format(now);
+            clockB.textContent = timeFmt(secondTz).format(now);
+            if (bDate) bDate.textContent = dateFmt(secondTz).format(now);
 
-          if (greetingEl) {
-            var h = parseInt(hourFmt.format(now), 10);
-            greetingEl.textContent = h < 5 ? 'Good night' : h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
-          }
-        };
-        tick();
-        setInterval(tick, 1000);
-      }
+            if (greetingEl) {
+              var h = parseInt(hourFmt.format(now), 10);
+              greetingEl.textContent = h < 5 ? 'Good night' : h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+            }
+          };
+          tick();
+          setInterval(tick, 1000);
+        }
+      } catch (e) { /* clock is non-critical */ }
     })();
   </script>
 </body>
