@@ -100,18 +100,20 @@ body.theme-beach .aurora {
   -webkit-backdrop-filter: var(--glass-blur, blur(16px) saturate(170%));
   box-shadow: var(--glass-rim, none), var(--glass-shadow, none);
 }
-.theme-panel .linklist a:hover {
-  background: color-mix(in srgb, var(--glass-fill, var(--theme-surface)) 70%, var(--theme-surface-raised));
+.theme-panel .linklist a {
+  border-radius: var(--pill, 980px);
+  font-weight: 500;
 }
 .theme-panel .btn-primary {
-  background: var(--theme-accent);
-  color: var(--theme-on-accent, #fff);
+  color: var(--theme-accent);
+  border-color: color-mix(in srgb, var(--theme-accent) 34%, var(--glass-border, var(--theme-border)));
 }
-.theme-panel .btn-primary:hover { background: var(--theme-accent-hover, var(--theme-accent)); }
+.theme-panel .btn-primary:hover { color: var(--theme-accent-hover, var(--theme-accent)); }
 .theme-panel .btn-ghost {
   color: var(--theme-accent);
-  background: color-mix(in srgb, var(--theme-accent) 12%, transparent);
+  border-color: color-mix(in srgb, var(--theme-accent) 18%, var(--glass-border, var(--theme-border)));
 }
+.theme-panel .btn-ghost:hover { color: var(--theme-accent-hover, var(--theme-accent)); }
 .theme-panel .world-clock,
 .theme-panel .clock-chip {
   background: var(--theme-surface);
@@ -138,10 +140,10 @@ body.theme-beach .aurora {
 .theme-hero .hero-name { color: var(--theme-ink); }
 .theme-hero .hero-tag { color: var(--theme-ink-muted); }
 .theme-hero .btn-primary {
-  background: var(--theme-accent);
-  color: #fff;
+  color: var(--theme-accent);
+  border-color: color-mix(in srgb, var(--theme-accent) 34%, var(--glass-border));
 }
-.theme-hero .btn-primary:hover { background: var(--theme-accent-hover); }
+.theme-hero .btn-primary:hover { color: var(--theme-accent-hover); }
 .theme-hero .ctrl--glass { color: var(--theme-ink-subtle); }
 .theme-hero .world-clock__greeting { color: var(--theme-ink-muted); }
 .theme-hero .tz-clock__digital { color: var(--theme-ink); }
@@ -270,10 +272,6 @@ body.theme-beach .aurora {
   --theme-surface-raised: rgba(255, 255, 255, 0.18);
   --theme-border: rgba(232, 121, 249, 0.24);
   --theme-font-display: "Avenir Next", "SF Pro Display", system-ui, sans-serif;
-}
-.theme-music .linklist a {
-  border-radius: 999px;
-  font-weight: 500;
 }
 .theme-music .eyebrow .dot {
   background: var(--theme-accent);
