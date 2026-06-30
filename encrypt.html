@@ -3,81 +3,37 @@ title: "Labortory Information"
 permalink: /encrypt/
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Encryption</title>
   <link href="/assets/img/favicon.png" rel="icon">
+  <link href="/assets/css/site.css" rel="stylesheet">
+  <link href="/assets/css/glass.css" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; }
     body {
       margin: 0;
-      min-height: 100dvh;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", sans-serif;
-      color: #1d1d1f;
-      background: linear-gradient(165deg, #f8f9fe 0%, #eef1f8 100%);
-    }
-    .wrap {
       min-height: 100dvh;
       display: grid;
       place-items: center;
       padding: 24px;
+      background: linear-gradient(165deg, #f8f9fe 0%, #eef1f8 100%);
     }
-    .card {
+    .encrypt-card {
       width: min(100%, 480px);
-      background: rgba(255, 255, 255, 0.88);
-      border: 0.5px solid rgba(0, 0, 0, 0.08);
-      border-radius: 16px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
       overflow: hidden;
     }
-    .card__head {
+    .encrypt-card__head {
       padding: 16px 20px;
       font-size: 18px;
       font-weight: 600;
-      border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+      border-bottom: 0.5px solid var(--glass-border);
     }
-    .card__body { padding: 20px; display: grid; gap: 16px; }
-    .field label {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      color: rgba(29, 29, 31, 0.72);
-    }
-    .row {
-      display: flex;
-      gap: 8px;
-    }
-    .row input {
-      flex: 1;
-      min-width: 0;
-      height: 44px;
-      padding: 0 14px;
-      border: 0.5px solid rgba(0, 0, 0, 0.12);
-      border-radius: 10px;
-      font: inherit;
-      background: #fff;
-    }
-    .row input[readonly] { background: #fafafa; color: #333; }
-    .btn {
-      height: 44px;
-      padding: 0 16px;
-      border: 0.5px solid rgba(0, 0, 0, 0.12);
-      border-radius: 10px;
-      background: #fff;
-      font: inherit;
-      cursor: pointer;
-    }
-    .btn:hover { background: #f5f5f7; }
-    .btn:active { transform: scale(0.98); }
-    .btn--primary {
-      background: #2563eb;
-      border-color: #2563eb;
-      color: #fff;
-    }
-    .btn--primary:hover { background: #1d4ed8; }
+    .encrypt-card__body { padding: 20px; display: grid; gap: 16px; }
+    .encrypt-row { display: flex; gap: 8px; align-items: stretch; }
+    .encrypt-row .input { flex: 1; min-width: 0; height: 44px; }
+    .encrypt-row .btn { flex: none; min-height: 44px; padding: 0 18px; }
     #info { display: none; }
     .toast {
       position: fixed;
@@ -97,40 +53,38 @@ permalink: /encrypt/
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card" id="front-page">
-      <div class="card__head">Enter the key</div>
-      <div class="card__body">
-        <div class="row">
-          <input type="password" id="pwd" autocomplete="off" placeholder="Password">
-          <button class="btn btn--primary" type="button" onclick="showInfo()">Enter</button>
-        </div>
+  <div class="info-card encrypt-card" id="front-page">
+    <div class="encrypt-card__head">Enter the key</div>
+    <div class="encrypt-card__body">
+      <div class="encrypt-row">
+        <input class="input" type="password" id="pwd" autocomplete="off" placeholder="Password">
+        <button class="btn btn-primary" type="button" onclick="showInfo()">Enter</button>
       </div>
     </div>
+  </div>
 
-    <div class="card" id="info">
-      <div class="card__head">Feature</div>
-      <div class="card__body">
-        <div class="field">
-          <label for="addr">Server address</label>
-          <div class="row">
-            <input type="text" id="addr" readonly>
-            <button class="btn" type="button" data-copy="#addr">Copy</button>
-          </div>
+  <div class="info-card encrypt-card" id="info">
+    <div class="encrypt-card__head">Feature</div>
+    <div class="encrypt-card__body">
+      <div class="field">
+        <label for="addr">Server address</label>
+        <div class="encrypt-row">
+          <input class="input" type="text" id="addr" readonly>
+          <button class="btn btn-ghost" type="button" data-copy="#addr">Copy</button>
         </div>
-        <div class="field">
-          <label for="addr2">Server password</label>
-          <div class="row">
-            <input type="text" id="addr2" readonly>
-            <button class="btn" type="button" data-copy="#addr2">Copy</button>
-          </div>
+      </div>
+      <div class="field">
+        <label for="addr2">Server password</label>
+        <div class="encrypt-row">
+          <input class="input" type="text" id="addr2" readonly>
+          <button class="btn btn-ghost" type="button" data-copy="#addr2">Copy</button>
         </div>
-        <div class="field">
-          <label for="addr3">Router password</label>
-          <div class="row">
-            <input type="text" id="addr3" readonly>
-            <button class="btn" type="button" data-copy="#addr3">Copy</button>
-          </div>
+      </div>
+      <div class="field">
+        <label for="addr3">Router password</label>
+        <div class="encrypt-row">
+          <input class="input" type="text" id="addr3" readonly>
+          <button class="btn btn-ghost" type="button" data-copy="#addr3">Copy</button>
         </div>
       </div>
     </div>
@@ -139,6 +93,7 @@ permalink: /encrypt/
   <div class="toast" id="toast" role="status" aria-live="polite">Copied</div>
 
   <script src="/assets/js/sha512.js"></script>
+  <script src="/assets/js/glass-press.js" defer></script>
   <script>
     var pwd;
 
@@ -147,14 +102,14 @@ permalink: /encrypt/
       document.getElementById('front-page').style.display = 'none';
       document.getElementById('info').style.display = 'block';
 
-      var server_address_key = '1177009048a002034a00201220030292006014a002008c012060200607080151071012113e0060177010';
-      var server_pwd_key = '0845008009300601980140983007043b0120562006125f013110001206620061017018';
-      var route_pwd_key = '061d006105200802510170167019041200603610170206002030101212350120578006';
-
+      var keys = [
+        '1177009048a002034a00201220030292006014a002008c012060200607080151071012113e0060177010',
+        '0845008009300601980140983007043b0120562006125f013110001206620061017018',
+        '061d006105200802510170167019041200603610170206002030101212350120578006'
+      ];
       ['addr', 'addr2', 'addr3'].forEach(function (id, i) {
         var el = document.getElementById(id);
-        var key = [server_address_key, server_pwd_key, route_pwd_key][i];
-        var val = resolveKey(pwd, key);
+        var val = resolveKey(pwd, keys[i]);
         el.value = val;
         el.placeholder = val;
       });
@@ -189,8 +144,7 @@ permalink: /encrypt/
 
     document.querySelectorAll('[data-copy]').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        var sel = btn.getAttribute('data-copy');
-        var el = document.querySelector(sel);
+        var el = document.querySelector(btn.getAttribute('data-copy'));
         if (!el || !el.value) return;
         copyText(el.value).then(flashToast);
       });

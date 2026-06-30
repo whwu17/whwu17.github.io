@@ -211,10 +211,6 @@ a { color: inherit; }
   touch-action: manipulation;
 }
 .nav__menu:focus-visible { outline: none; box-shadow: var(--ring); }
-.nav__menu.liquid-glass {
-  border-radius: var(--r-md);
-  box-shadow: var(--glass-rim), 0 2px 12px rgba(0, 0, 0, 0.06);
-}
 
 .nav__menu-icon {
   width: 22px;
@@ -273,11 +269,13 @@ a { color: inherit; }
   font-size: 16px;
   font-weight: 400;
   white-space: nowrap;
-  transition: color 0.2s, background 0.2s;
 }
-.nav__drawer a:hover { color: var(--ink); background: color-mix(in srgb, var(--ink) 6%, transparent); }
-.nav__drawer a.active { color: var(--ink); font-weight: 500; background: color-mix(in srgb, var(--accent) 8%, transparent); }
-.nav__drawer a:active { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.nav__drawer a:hover { color: var(--ink); }
+.nav__drawer a.active {
+  color: var(--ink);
+  font-weight: 500;
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--glass-border));
+}
 
 .nav__scrim {
   position: fixed;
@@ -471,14 +469,6 @@ h1, h2, h3 {
   transform: scale(0.96);
 }
 
-.ctrl--accent {
-  color: #fff;
-  background: var(--accent);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-}
-.ctrl--accent:hover { background: var(--accent-hover); color: #fff; }
-.ctrl--accent:active { transform: scale(0.96); }
-
 .ctrl--glass:hover { color: var(--ink); }
 
 .btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
@@ -494,8 +484,6 @@ h1, h2, h3 {
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
-  border: none;
-  background: transparent;
 }
 .btn svg { width: 16px; height: 16px; position: relative; z-index: 2; }
 .btn-primary {
@@ -526,11 +514,6 @@ h1, h2, h3 {
 .card {
   padding: 24px;
   border-radius: var(--r-lg);
-  background: var(--glass-fill, var(--surface-1));
-  backdrop-filter: var(--glass-blur, none);
-  -webkit-backdrop-filter: var(--glass-blur, none);
-  border: 0.5px solid var(--glass-border, var(--hairline));
-  box-shadow: var(--glass-rim, none), var(--glass-shadow, none);
   transition: transform var(--motion) var(--ease-out), box-shadow var(--motion) var(--ease-out);
   cursor: pointer;
 }
@@ -547,10 +530,8 @@ h1, h2, h3 {
   border-radius: var(--pill);
   text-decoration: none;
   color: var(--ink);
-  background: var(--glass-fill-subtle, var(--surface-1));
   font-size: 17px;
   font-weight: 500;
-  cursor: pointer;
 }
 .linklist a .ll-arrow { margin-left: auto; color: var(--ink-tertiary); position: relative; z-index: 2; }
 
@@ -735,11 +716,6 @@ h1, h2, h3 {
 .info-card {
   padding: clamp(24px, 4vw, 32px);
   border-radius: var(--r-xl);
-  background: var(--glass-fill, var(--surface-1));
-  backdrop-filter: var(--glass-blur, none);
-  -webkit-backdrop-filter: var(--glass-blur, none);
-  border: 0.5px solid var(--glass-border, var(--hairline));
-  box-shadow: var(--glass-rim, none), var(--glass-shadow, none);
 }
 .kv {
   display: grid;
@@ -771,8 +747,6 @@ h1, h2, h3 {
   font: inherit;
   font-size: 17px;
   color: var(--ink);
-  background: var(--surface-2);
-  border: none;
   border-radius: var(--r-md);
   outline: none;
   transition: box-shadow .2s;
