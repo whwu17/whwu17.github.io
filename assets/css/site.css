@@ -198,10 +198,10 @@ a { color: inherit; }
 /* Nav open — liquid glass: clear fill, edge bloom; avoid heavy frosted blur */
 .site-header.is-nav-open,
 .site-header:has(.nav.open) {
-  --glass-fill-subtle: rgba(255, 255, 255, 0.06);
+  --glass-fill-subtle: rgba(255, 255, 255, 0.045);
   --glass-blur-subtle: blur(18px) saturate(188%) brightness(1.04);
   --glass-border: rgba(255, 255, 255, 0.24);
-  --glass-sheen-opacity: 0.62;
+  --glass-sheen-opacity: 0.54;
   --glass-halo:
     0 0 3px rgba(255, 255, 255, 0.42),
     0 0 10px rgba(255, 255, 255, 0.14),
