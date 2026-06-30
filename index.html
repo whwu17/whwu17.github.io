@@ -5,18 +5,13 @@ introduction: Welcome
 details: Thanks for stopping by — here you'll find my work, writing, and a few places on the web I return to often.
 ---
 
-<!-- ======= Hero / Welcome ======= -->
+<!-- ======= Hero — simple first screen ======= -->
 <section class="hero immersive theme-panel theme-hero" id="hero">
   <div class="container hero-inner">
-    <span class="eyebrow reveal" style="--reveal-i:0">Welcome</span>
+    <h1 class="hero-name reveal" style="--reveal-i:0">{{ site.author.name }}</h1>
+    <p class="hero-tag reveal" style="--reveal-i:1">{{ site.author.position }}</p>
 
-    <blockquote class="hero-quote reveal" style="--reveal-i:1" cite="https://www.harvard.edu">
-      <p>{{ site.slogen }}</p>
-    </blockquote>
-
-    <p class="hero-byline reveal" style="--reveal-i:2">{{ site.author.name }}</p>
-
-    <div class="world-clock world-clock--compact liquid-glass liquid-glass--subtle reveal" style="--reveal-i:3" aria-live="polite">
+    <div class="world-clock world-clock--compact liquid-glass liquid-glass--subtle reveal" style="--reveal-i:2" aria-live="polite">
       <p class="world-clock__greeting" id="clock-greeting">—</p>
       <div class="world-clock__grid">
         <div class="world-clock__zone">
@@ -33,7 +28,7 @@ details: Thanks for stopping by — here you'll find my work, writing, and a few
       </div>
     </div>
 
-    <div class="hero-actions reveal" style="--reveal-i:4">
+    <div class="hero-actions reveal" style="--reveal-i:3">
       <a class="btn btn-primary" href="{{ '/contact/' | relative_url }}">Get in touch</a>
       <div class="socials">
         <a class="ctrl ctrl--icon ctrl--glass liquid-glass liquid-glass--subtle" href="https://github.com/ivyee17" aria-label="GitHub" title="GitHub">

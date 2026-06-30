@@ -520,11 +520,25 @@ h1, h2, h3 {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
   min-height: min(72vh, 640px);
   text-align: left;
 }
-.hero-inner > .eyebrow {
-  margin-bottom: 16px;
+
+.hero-name {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 8vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  margin: 0;
+  color: var(--ink);
+}
+.hero-tag {
+  margin: 10px 0 0;
+  font-size: clamp(17px, 2.2vw, 20px);
+  color: var(--ink-muted);
+  letter-spacing: -0.018em;
 }
 
 /* World clock — secondary detail below quote */
@@ -604,13 +618,22 @@ h1, h2, h3 {
   font-weight: 400;
   font-style: normal;
 }
-.hero-byline {
-  margin: clamp(16px, 2.5vh, 22px) 0 0;
-  font-family: var(--font-display);
-  font-size: clamp(15px, 2vw, 17px);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--accent);
+
+.welcome-quote {
+  margin: 20px 0 0;
+  padding: 0 0 0 16px;
+  border: none;
+  border-left: 3px solid color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.welcome-quote p {
+  margin: 0;
+  font-size: clamp(16px, 2vw, 18px);
+  line-height: 1.58;
+  letter-spacing: -0.016em;
+  color: var(--ink-muted);
+}
+.profile-info .welcome-quote + .btns {
+  margin-top: 24px;
 }
 
 .hero-actions {

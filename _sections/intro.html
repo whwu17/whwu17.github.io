@@ -14,7 +14,9 @@ priority: 10
         <span class="eyebrow"><span class="dot"></span> Welcome</span>
         <h2>Hi, I'm {{ site.author.name }}</h2>
         <p class="lead">{{ site.author.position }} · {{ site.author.location }}</p>
-        <p class="muted" style="max-width:60ch">Below is a little more about who I am — and sections you can browse at your own pace.</p>
+        <blockquote class="welcome-quote">
+          <p>{{ site.slogen }}</p>
+        </blockquote>
         <div class="btns">
           <a class="btn btn-primary" href="{{ '/about/' | relative_url }}">
             Learn more about me

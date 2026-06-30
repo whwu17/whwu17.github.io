@@ -135,8 +135,8 @@ body.theme-beach .aurora {
   background: var(--theme-bg) !important;
 }
 .theme-hero .eyebrow { color: var(--theme-accent); }
-.theme-hero .hero-quote p { color: var(--theme-ink); }
-.theme-hero .hero-byline { color: var(--theme-accent); }
+.theme-hero .hero-name { color: var(--theme-ink); }
+.theme-hero .hero-tag { color: var(--theme-ink-muted); }
 .theme-hero .btn-primary {
   background: var(--theme-accent);
   color: #fff;
@@ -146,7 +146,12 @@ body.theme-beach .aurora {
 .theme-hero .world-clock__greeting { color: var(--theme-ink-muted); }
 .theme-hero .world-clock__time { color: var(--theme-ink); }
 
-/* —— Intro: fresh sage portrait —— */
+.theme-intro .welcome-quote {
+  border-left-color: color-mix(in srgb, var(--theme-accent) 45%, transparent);
+}
+.theme-intro .welcome-quote p {
+  color: var(--theme-ink-muted);
+}
 .theme-intro {
   --theme-photo: url("/images/links-me-bg.jpg");
   --theme-photo-opacity: 0.18;
