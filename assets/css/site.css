@@ -211,7 +211,10 @@ a { color: inherit; }
   touch-action: manipulation;
 }
 .nav__menu:focus-visible { outline: none; box-shadow: var(--ring); }
-.nav__menu:active { background: color-mix(in srgb, var(--ink) 8%, transparent); }
+.nav__menu.liquid-glass {
+  border-radius: var(--r-md);
+  box-shadow: var(--glass-rim), 0 2px 12px rgba(0, 0, 0, 0.06);
+}
 
 .nav__menu-icon {
   width: 22px;
@@ -487,23 +490,26 @@ h1, h2, h3 {
   border-radius: var(--pill);
   min-height: 44px;
   font-size: 17px;
-  font-weight: 400;
+  font-weight: 500;
   text-decoration: none;
   cursor: pointer;
   border: none;
-  transition: background var(--motion) var(--ease-out), color var(--motion) var(--ease-out), opacity var(--motion) var(--ease-out), transform var(--motion) var(--ease-out);
-  cursor: pointer;
+  background: transparent;
 }
-.btn svg { width: 16px; height: 16px; }
-.btn-primary { color: #fff; background: var(--accent); }
-.btn-primary:hover { background: var(--accent-hover); }
+.btn svg { width: 16px; height: 16px; position: relative; z-index: 2; }
+.btn-primary {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 34%, var(--glass-border, rgba(255, 255, 255, 0.24)));
+}
+.btn-primary:hover { color: var(--accent-hover); }
 .btn-ghost {
   color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  font-weight: 400;
+  border-color: color-mix(in srgb, var(--accent) 18%, var(--glass-border, rgba(255, 255, 255, 0.24)));
 }
-.btn-ghost:hover { background: color-mix(in srgb, var(--accent) 18%, transparent); }
+.btn-ghost:hover { color: var(--accent-hover); }
 .btn:focus-visible { outline: none; box-shadow: var(--ring); }
-.btn .arrow { transition: transform .2s; }
+.btn .arrow { transition: transform .2s; position: relative; z-index: 2; }
 .btn:hover .arrow { transform: translate(2px, -2px); }
 
 @media (max-width: 480px) {
@@ -536,17 +542,16 @@ h1, h2, h3 {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px 16px;
-  border-radius: var(--r-md);
+  padding: 14px 20px;
+  border-radius: var(--pill);
   text-decoration: none;
   color: var(--ink);
-  background: var(--surface-1);
+  background: var(--glass-fill-subtle, var(--surface-1));
   font-size: 17px;
-  transition: background var(--motion) var(--ease-out);
+  font-weight: 500;
   cursor: pointer;
 }
-.linklist a:hover { background: var(--surface-2); }
-.linklist a .ll-arrow { margin-left: auto; color: var(--ink-tertiary); }
+.linklist a .ll-arrow { margin-left: auto; color: var(--ink-tertiary); position: relative; z-index: 2; }
 
 /* ---------- Hero ---------- */
 .hero {

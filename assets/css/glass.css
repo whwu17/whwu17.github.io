@@ -186,6 +186,14 @@
   background: color-mix(in srgb, var(--glass-fill-subtle) 68%, #ffffff);
 }
 
+/* Glass pills — accent tint on press (matches music player links) */
+.btn-primary.liquid-glass.glass-interactive:is(:active, .is-pressed) {
+  background: color-mix(in srgb, var(--glass-fill-subtle) 50%, var(--accent, var(--theme-accent, #ea580c)) 18%);
+}
+.theme-panel .btn-primary.liquid-glass.glass-interactive:is(:active, .is-pressed) {
+  background: color-mix(in srgb, var(--glass-fill-subtle) 50%, var(--theme-accent) 18%);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .liquid-glass.glass-interactive {
     transition: background 0.2s ease, box-shadow 0.2s ease;
