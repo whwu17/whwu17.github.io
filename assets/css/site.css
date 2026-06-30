@@ -189,18 +189,18 @@ a { color: inherit; }
   width: min(280px, calc(100vw - var(--gutter) * 2));
 }
 
-/* Nav open — same glass tokens as homepage .theme-panel buttons */
+/* Nav open — liquid glass: clear fill, edge bloom; avoid heavy frosted blur */
 .site-header.is-nav-open,
 .site-header:has(.nav.open) {
-  --glass-fill-subtle: rgba(255, 255, 255, 0.08);
-  --glass-blur-subtle: blur(28px) saturate(200%) brightness(1.05);
-  --glass-border: color-mix(in srgb, var(--accent) 5%, rgba(255, 255, 255, 0.28));
-  --glass-sheen-opacity: 0.88;
+  --glass-fill-subtle: rgba(255, 255, 255, 0.06);
+  --glass-blur-subtle: blur(18px) saturate(188%) brightness(1.04);
+  --glass-border: rgba(255, 255, 255, 0.24);
+  --glass-sheen-opacity: 0.62;
   --glass-halo:
-    0 0 3px rgba(255, 255, 255, 0.38),
-    0 0 9px rgba(255, 255, 255, 0.12),
-    0 1px 4px color-mix(in srgb, var(--accent) 6%, rgba(0, 0, 0, 0.05));
-  --glass-shadow: 0 4px 20px color-mix(in srgb, var(--accent) 5%, rgba(0, 0, 0, 0.05));
+    0 0 3px rgba(255, 255, 255, 0.42),
+    0 0 10px rgba(255, 255, 255, 0.14),
+    0 1px 4px rgba(15, 23, 42, 0.05);
+  --glass-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
 }
 
 .nav {
@@ -327,11 +327,21 @@ a { color: inherit; }
   box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
 }
 
-.site-header.is-nav-open .nav__menu::after,
+/* Edge sheen behind labels — plain text nodes are not > * children */
 .site-header.is-nav-open .nav__drawer a::after,
-.site-header:has(.nav.open) .nav__menu::after,
 .site-header:has(.nav.open) .nav__drawer a::after {
-  opacity: 0.85;
+  z-index: -1;
+  opacity: 0.58;
+  background:
+    radial-gradient(90% 65% at 14% -12%, rgba(255, 255, 255, 0.55) 0%, transparent 56%),
+    radial-gradient(72% 42% at 50% 112%, rgba(255, 255, 255, 0.18) 0%, transparent 54%),
+    radial-gradient(
+      ellipse 104% 104% at 50% 50%,
+      transparent 88%,
+      rgba(255, 255, 255, 0.04) 94%,
+      rgba(255, 255, 255, 0.16) 98%,
+      transparent 100%
+    );
 }
 
 .nav__drawer a {
@@ -341,11 +351,16 @@ a { color: inherit; }
   padding: 12px 22px;
   border-radius: var(--pill);
   text-decoration: none;
-  color: var(--ink-subtle);
+  color: var(--ink);
   font-size: 17px;
   font-weight: 500;
   white-space: nowrap;
   border-color: color-mix(in srgb, var(--accent) 18%, var(--glass-border));
+}
+
+.nav__drawer-label {
+  position: relative;
+  z-index: 2;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -368,6 +383,11 @@ a { color: inherit; }
   color: var(--ink);
   font-weight: 600;
   border-color: color-mix(in srgb, var(--accent) 36%, var(--glass-border));
+}
+
+[data-theme="dark"] .site-header.is-nav-open .nav__drawer a,
+[data-theme="dark"] .site-header:has(.nav.open) .nav__drawer a {
+  color: var(--ink);
 }
 
 .nav__scrim {

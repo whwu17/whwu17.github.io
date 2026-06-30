@@ -36,10 +36,10 @@
       <div class="nav__drawer-panel">
         {% assign secs = site.sections | sort: 'priority' %}
         {% for s in secs %}
-        <a href="{{ '/#' | append: s.section_id | relative_url }}" data-spy="{{ s.section_id }}">{{ s.name }}</a>
+        <a href="{{ '/#' | append: s.section_id | relative_url }}" data-spy="{{ s.section_id }}"><span class="nav__drawer-label">{{ s.name }}</span></a>
         {% endfor %}
-        <a href="{{ '/about/' | relative_url }}">About</a>
-        <a href="{{ '/contact/' | relative_url }}">Contact</a>
+        <a href="{{ '/about/' | relative_url }}"><span class="nav__drawer-label">About</span></a>
+        <a href="{{ '/contact/' | relative_url }}"><span class="nav__drawer-label">Contact</span></a>
       </div>
     </div>
   </div>
