@@ -1,3 +1,13 @@
+<style id="nav-critical">
+  /* Failsafe: hide drawer even if site.css fails to load (cached/missing) */
+  #nav-links,
+  #nav-scrim { display: none !important; }
+  #site-header.is-nav-open #nav-links {
+    display: flex !important;
+    flex-direction: column;
+  }
+  #site-header.is-nav-open #nav-scrim { display: block !important; }
+</style>
 <header class="site-header" id="site-header">
   <nav class="nav liquid-glass liquid-glass--chrome" id="site-nav" aria-label="Main">
     <a class="nav__brand" href="{{ '/' | relative_url }}">{{ site.author.name | default: site.title }}</a>
@@ -11,7 +21,7 @@
     </button>
   </nav>
 
-  <div class="nav__drawer liquid-glass liquid-glass--chrome" id="nav-links" role="navigation" aria-label="Sections">
+  <div class="nav__drawer liquid-glass liquid-glass--chrome" id="nav-links" role="navigation" aria-label="Sections" hidden>
     {% assign secs = site.sections | sort: 'priority' %}
     {% for s in secs %}
     <a href="{{ '/#' | append: s.section_id | relative_url }}" data-spy="{{ s.section_id }}">{{ s.name }}</a>
@@ -20,5 +30,5 @@
     <a href="{{ '/contact/' | relative_url }}">Contact</a>
   </div>
 
-  <div class="nav__scrim" id="nav-scrim" aria-hidden="true"></div>
+  <div class="nav__scrim" id="nav-scrim" aria-hidden="true" hidden></div>
 </header>

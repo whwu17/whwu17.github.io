@@ -40,6 +40,7 @@
       var html = document.documentElement;
 
       /* Mobile nav */
+      var header = document.getElementById('site-header');
       var nav = document.getElementById('site-nav');
       var navToggle = document.getElementById('nav-toggle');
       var navLinks = document.getElementById('nav-links');
@@ -47,10 +48,14 @@
       function setNavOpen(open) {
         if (!nav || !navToggle) return;
         nav.classList.toggle('open', open);
+        if (header) header.classList.toggle('is-nav-open', open);
+        if (navLinks) navLinks.hidden = !open;
+        if (navScrim) navScrim.hidden = !open;
         navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
         navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
         document.body.style.overflow = open ? 'hidden' : '';
       }
+      setNavOpen(false);
       if (navToggle && nav) navToggle.addEventListener('click', function () {
         setNavOpen(!nav.classList.contains('open'));
       });
