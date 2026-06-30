@@ -189,16 +189,18 @@ a { color: inherit; }
   width: min(280px, calc(100vw - var(--gutter) * 2));
 }
 
+/* Nav open — same glass tokens as homepage .theme-panel buttons */
 .site-header.is-nav-open,
 .site-header:has(.nav.open) {
-  --glass-fill-subtle: rgba(255, 255, 255, 0.09);
-  --glass-blur-subtle: blur(22px) saturate(195%) brightness(1.05);
-  --glass-border: rgba(255, 255, 255, 0.72);
-  --glass-sheen-opacity: 0.9;
+  --glass-fill-subtle: rgba(255, 255, 255, 0.08);
+  --glass-blur-subtle: blur(28px) saturate(200%) brightness(1.05);
+  --glass-border: color-mix(in srgb, var(--accent) 5%, rgba(255, 255, 255, 0.28));
+  --glass-sheen-opacity: 0.88;
   --glass-halo:
-    0 0 3px rgba(255, 255, 255, 0.35),
-    0 0 8px rgba(255, 255, 255, 0.1);
-  --glass-shadow: none;
+    0 0 3px rgba(255, 255, 255, 0.38),
+    0 0 9px rgba(255, 255, 255, 0.12),
+    0 1px 4px color-mix(in srgb, var(--accent) 6%, rgba(0, 0, 0, 0.05));
+  --glass-shadow: 0 4px 20px color-mix(in srgb, var(--accent) 5%, rgba(0, 0, 0, 0.05));
 }
 
 .nav {
@@ -321,20 +323,29 @@ a { color: inherit; }
 
 .nav__menu,
 .nav__drawer a {
+  border-width: 0.5px;
   box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
+}
+
+.site-header.is-nav-open .nav__menu::after,
+.site-header.is-nav-open .nav__drawer a::after,
+.site-header:has(.nav.open) .nav__menu::after,
+.site-header:has(.nav.open) .nav__drawer a::after {
+  opacity: 0.85;
 }
 
 .nav__drawer a {
   display: flex;
   align-items: center;
-  min-height: var(--ctrl-size);
-  padding: 12px 18px;
+  min-height: 44px;
+  padding: 12px 22px;
   border-radius: var(--pill);
   text-decoration: none;
   color: var(--ink-subtle);
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 500;
   white-space: nowrap;
+  border-color: color-mix(in srgb, var(--accent) 18%, var(--glass-border));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -382,9 +393,6 @@ a { color: inherit; }
   transition: opacity 0.28s var(--ease-out), visibility 0s;
 }
 
-@media (max-width: 860px) {
-  .nav__drawer a { font-size: 17px; }
-}
 
 @media (min-width: 861px) {
   .nav__brand { flex: none; margin-right: auto; }
