@@ -45,12 +45,26 @@
       var navToggle = document.getElementById('nav-toggle');
       var navLinks = document.getElementById('nav-links');
       var navScrim = document.getElementById('nav-scrim');
+      var navCloseTimer = null;
+      var NAV_ANIM_MS = 400;
       function setNavOpen(open) {
         if (!nav || !navToggle) return;
-        nav.classList.toggle('open', open);
-        if (header) header.classList.toggle('is-nav-open', open);
-        if (navLinks) navLinks.hidden = !open;
-        if (navScrim) navScrim.hidden = !open;
+        clearTimeout(navCloseTimer);
+        if (open) {
+          if (navLinks) navLinks.setAttribute('aria-hidden', 'false');
+          if (navScrim) navScrim.setAttribute('aria-hidden', 'false');
+          requestAnimationFrame(function () {
+            nav.classList.add('open');
+            if (header) header.classList.add('is-nav-open');
+          });
+        } else {
+          nav.classList.remove('open');
+          if (header) header.classList.remove('is-nav-open');
+          navCloseTimer = setTimeout(function () {
+            if (navLinks) navLinks.setAttribute('aria-hidden', 'true');
+            if (navScrim) navScrim.setAttribute('aria-hidden', 'true');
+          }, NAV_ANIM_MS);
+        }
         navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
         navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
         document.body.style.overflow = open ? 'hidden' : '';
