@@ -566,7 +566,7 @@ permalink: /links.html
     <div class="card liquid-glass" style="border-radius:24px;padding:40px 32px">
       <div aria-hidden="true">🔒</div>
       <h1>Private page</h1>
-      <p>You don't have permission to view this page. Redirecting you back&hellip;</p>
+      <p>This area isn't open to visitors. You'll be redirected shortly.</p>
     </div>
   </div>
 
@@ -579,7 +579,7 @@ permalink: /links.html
                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          <input id="q" type="search" placeholder="搜索链接…" autocomplete="off" aria-label="Search links">
+          <input id="q" type="search" placeholder="搜索名称或站点…" autocomplete="off" aria-label="Search links">
         </div>
         <button class="icon-btn liquid-glass liquid-glass--subtle" id="theme-toggle" type="button" aria-label="Toggle color theme">
         <svg class="sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -610,7 +610,7 @@ permalink: /links.html
         <div class="panel__inner">
           <div class="frame">
           <div class="intro-glass liquid-glass">
-          <p class="intro-eyebrow" id="greeting">常用链接</p>
+          <p class="intro-eyebrow" id="greeting">欢迎来访</p>
           <div class="intro-head">
             <div class="avatar">
               <img src="{{ site.author.avatar | relative_url }}" alt="{{ site.author.name }}"
@@ -621,10 +621,10 @@ permalink: /links.html
               <p class="intro-role">{{ site.author.position }}</p>
             </div>
           </div>
-          <p class="intro-lead">上下滑动浏览全屏板块：音乐、编程、兴趣、阅读。每个板块对应一张生活背景图。</p>
+          <p class="intro-lead">这里是我整理的一些常用工具与网站，按主题分屏展示。向下滑动即可浏览；若你有访问权限，也可以直接搜索。</p>
           <div class="scroll-hint" aria-hidden="true">
             <span></span>
-            向下滑动
+            继续向下滑动
           </div>
           </div>
           </div>
@@ -642,7 +642,7 @@ permalink: /links.html
           <div class="frame">
           <header class="chapter-meta">
             <h2>{{ el.type }}</h2>
-            <p>{{ el.links | size }} 个链接</p>
+            <p>{{ el.links | size }} 个链接 · 点击卡片即可打开</p>
           </header>
 
           <div class="link-grid">
@@ -683,7 +683,7 @@ permalink: /links.html
       {% endfor %}
 
       <div class="empty" id="empty">
-        <p>No links match your search.<br>Try another keyword.</p>
+        <p>没有找到匹配的链接。<br>请换个关键词再试。</p>
       </div>
     </div>
   </main>
@@ -698,7 +698,7 @@ permalink: /links.html
       }
 
       var hour = new Date().getHours();
-      var greet = hour < 12 ? '早上好' : hour < 18 ? '下午好' : '晚上好';
+      var greet = hour < 12 ? '早上好，欢迎来访' : hour < 18 ? '下午好，欢迎来访' : '晚上好，欢迎来访';
       var greeting = document.getElementById('greeting');
       if (greeting) greeting.textContent = greet;
 

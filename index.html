@@ -1,8 +1,8 @@
 ---
 layout: default
 permalink: /index.html
-introduction: Hey!
-details: Great to see you! How's your day?
+introduction: Welcome
+details: Thanks for stopping by — here you'll find my work, writing, and a few places on the web I return to often.
 ---
 
 <!-- ======= Hero ======= -->
@@ -11,7 +11,7 @@ details: Great to see you! How's your day?
   <div class="container hero-inner">
     <span class="clock-chip liquid-glass liquid-glass--subtle reveal">
       <span class="pulse" aria-hidden="true"></span>
-      Local time <span id="clock">--:--:--</span>
+      Shanghai time <span id="clock">--:--:--</span>
     </span>
 
     <h1 class="reveal">{{ page.introduction }}<br><span class="grad">{{ site.author.name }}</span></h1>
@@ -20,7 +20,7 @@ details: Great to see you! How's your day?
 
     <div class="btns reveal">
       <a class="btn btn-primary" href="{{ '/about/' | relative_url }}">
-        About me
+        About {{ site.author.name | split: ' ' | last }}
         <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg>
       </a>
       <a class="btn btn-ghost" href="{{ '/contact/' | relative_url }}">Get in touch</a>
