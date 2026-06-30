@@ -909,6 +909,7 @@ a.card {
 }
 .footer-bottom a { color: var(--ink-subtle); text-decoration: none; }
 .footer-bottom a:hover { color: var(--ink); }
+.site-build { color: var(--ink-tertiary); font-variant-numeric: tabular-nums; }
 
 /* Back to top — see glass.css (.to-top.ctrl--glass) */
 
