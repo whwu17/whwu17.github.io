@@ -173,6 +173,7 @@ a { color: inherit; }
   border-left: none;
   border-right: none;
   border-top: none;
+  border-bottom: 0.5px solid var(--hairline);
 }
 .nav .brand {
   font-weight: 600;
@@ -182,6 +183,7 @@ a { color: inherit; }
   color: var(--ink);
   flex: none;
 }
+.nav-links a.active { color: var(--ink); font-weight: 500; }
 .nav-links {
   display: flex;
   align-items: center;
@@ -397,21 +399,29 @@ h1, h2, h3 {
   border-radius: var(--r-md);
 }
 
-/* Toolbar hit area — visible on glass nav bar */
+/* Toolbar hit area — iOS-style on glass nav */
 .ctrl--toolbar {
-  background: color-mix(in srgb, var(--surface-1) 88%, transparent);
-  border: 0.5px solid var(--hairline-strong);
+  background: transparent;
+  border: none;
+  box-shadow: none;
   color: var(--ink);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
-.ctrl--toolbar:hover { color: var(--ink); background: var(--surface-1); }
+.ctrl--toolbar:hover { color: var(--ink); }
 .ctrl--toolbar:active {
-  background: color-mix(in srgb, var(--ink) 8%, var(--surface-1));
+  background: color-mix(in srgb, var(--ink) 10%, transparent);
   transform: scale(0.96);
 }
 
 .nav .nav-toggle {
   flex: none;
+}
+.nav .nav-toggle .nav-toggle-icon {
+  width: 22px;
+  height: 22px;
+}
+.nav .nav-toggle .nav-toggle-bar {
+  stroke: currentColor;
+  stroke-width: 2.25;
 }
 
 .ctrl--accent {
@@ -505,21 +515,28 @@ h1, h2, h3 {
   padding: clamp(48px, 10vh, 96px) 0;
 }
 .hero-inner {
-  max-width: 680px;
+  max-width: 640px;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   min-height: min(72vh, 640px);
+  text-align: left;
+}
+.hero-inner > .eyebrow {
+  margin-bottom: 16px;
 }
 
-/* World clock — Shanghai + visitor (or UTC) */
+/* World clock — secondary detail below quote */
 .world-clock {
-  align-self: flex-start;
-  margin-bottom: clamp(24px, 4vh, 36px);
+  align-self: stretch;
+  margin-top: clamp(20px, 3vh, 28px);
   padding: 16px 20px;
   border-radius: var(--r-xl);
-  min-width: min(100%, 320px);
+}
+.world-clock--compact {
+  margin-top: clamp(16px, 2.5vh, 24px);
+  padding: 14px 18px;
 }
 .world-clock__greeting {
   margin: 0 0 12px;
@@ -553,12 +570,15 @@ h1, h2, h3 {
 }
 .world-clock__time {
   font-family: var(--font-display);
-  font-size: clamp(28px, 6vw, 36px);
+  font-size: clamp(24px, 5vw, 32px);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.03em;
   line-height: 1.1;
   color: var(--ink);
+}
+.world-clock--compact .world-clock__time {
+  font-size: clamp(22px, 4.5vw, 28px);
 }
 .world-clock__date {
   font-size: 13px;
@@ -570,31 +590,52 @@ h1, h2, h3 {
   .world-clock__divider { width: 100%; height: 1px; }
 }
 
-.hero-name {
-  font-family: var(--font-display);
-  font-size: clamp(32px, 6vw, 48px);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  margin: 0;
-  color: var(--ink);
-}
 .hero-quote {
-  margin: clamp(20px, 3vh, 28px) 0 0;
-  padding: 0 0 0 18px;
+  margin: 0;
+  padding: 0;
   border: none;
-  border-left: 3px solid color-mix(in srgb, var(--accent) 45%, transparent);
 }
 .hero-quote p {
   margin: 0;
-  font-size: clamp(17px, 2.2vw, 20px);
-  line-height: 1.58;
-  letter-spacing: -0.018em;
-  color: var(--ink-muted);
+  font-size: clamp(20px, 2.8vw, 26px);
+  line-height: 1.55;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  font-weight: 400;
   font-style: normal;
 }
-.hero .socials { display: flex; gap: 10px; margin-top: 28px; }
+.hero-byline {
+  margin: clamp(16px, 2.5vh, 22px) 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(15px, 2vw, 17px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--accent);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: clamp(24px, 4vh, 32px);
+}
+.hero-actions .btn { margin: 0; }
+.hero .socials {
+  display: flex;
+  gap: 10px;
+  margin: 0;
+}
 .hero .socials a:hover { color: var(--ink); transform: translateY(-1px); }
+
+@media (max-width: 480px) {
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hero-actions .btn { width: 100%; justify-content: center; }
+  .hero-actions .socials { justify-content: center; }
+}
 
 /* ---------- Profile ---------- */
 .profile-row { display: flex; flex-wrap: wrap; align-items: center; gap: 32px; }
