@@ -1,23 +1,16 @@
 <style id="nav-critical">
-  #nav-links {
-    display: grid !important;
-    grid-template-rows: 0fr !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-  }
   #nav-links .nav__drawer-panel {
-    overflow: hidden !important;
-    min-height: 0 !important;
+    clip-path: inset(0 0 100% 0) !important;
+    -webkit-clip-path: inset(0 0 100% 0) !important;
   }
   #nav-scrim {
     display: block !important;
     opacity: 0 !important;
     pointer-events: none !important;
   }
-  #site-header.is-nav-open #nav-links {
-    grid-template-rows: 1fr !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
+  #site-header.is-nav-open #nav-links .nav__drawer-panel {
+    clip-path: inset(0 0 0 0) !important;
+    -webkit-clip-path: inset(0 0 0 0) !important;
   }
   #site-header.is-nav-open #nav-scrim {
     opacity: 1 !important;
