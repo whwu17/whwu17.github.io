@@ -1,15 +1,20 @@
 <svg class="liquid-glass-svg" aria-hidden="true" width="0" height="0" focusable="false" style="position:absolute;overflow:hidden">
   <defs>
-    <!-- Subtle edge refraction — Chromium; Safari falls back to blur-only -->
-    <filter id="lg-refract" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="0.011 0.014" numOctaves="2" seed="11" result="noise" />
-      <feGaussianBlur in="noise" stdDeviation="1.2" result="soft" />
+    <!-- Edge refraction — Chromium; Safari/iOS uses CSS rim + halo fallback -->
+    <filter id="lg-refract" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.014 0.018" numOctaves="3" seed="11" result="noise" />
+      <feGaussianBlur in="noise" stdDeviation="1.4" result="soft" />
+      <feDisplacementMap in="SourceGraphic" in2="soft" scale="11" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+    <filter id="lg-refract-chrome" x="-8%" y="-16%" width="116%" height="132%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.011 0.008" numOctaves="2" seed="4" result="noise" />
+      <feGaussianBlur in="noise" stdDeviation="1" result="soft" />
       <feDisplacementMap in="SourceGraphic" in2="soft" scale="7" xChannelSelector="R" yChannelSelector="G" />
     </filter>
-    <filter id="lg-refract-chrome" x="-4%" y="-12%" width="108%" height="124%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="0.009 0.006" numOctaves="2" seed="4" result="noise" />
-      <feGaussianBlur in="noise" stdDeviation="0.8" result="soft" />
-      <feDisplacementMap in="SourceGraphic" in2="soft" scale="4" xChannelSelector="R" yChannelSelector="G" />
+    <filter id="lg-refract-pill" x="-14%" y="-14%" width="128%" height="128%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.016 0.022" numOctaves="2" seed="19" result="noise" />
+      <feGaussianBlur in="noise" stdDeviation="1.6" result="soft" />
+      <feDisplacementMap in="SourceGraphic" in2="soft" scale="13" xChannelSelector="R" yChannelSelector="G" />
     </filter>
   </defs>
 </svg>

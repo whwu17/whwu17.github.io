@@ -164,8 +164,12 @@ a { color: inherit; }
 .site-header:has(.nav.open) {
   --glass-fill-subtle: rgba(255, 255, 255, 0.09);
   --glass-blur-subtle: blur(22px) saturate(195%) brightness(1.05);
-  --glass-border: rgba(255, 255, 255, 0.48);
-  --glass-sheen-opacity: 0.82;
+  --glass-border: rgba(255, 255, 255, 0.65);
+  --glass-sheen-opacity: 0.9;
+  --glass-halo:
+    0 0 0 0.75px rgba(255, 255, 255, 0.72),
+    0 0 1px rgba(255, 255, 255, 0.4),
+    0 0 18px rgba(255, 255, 255, 0.16);
   --glass-shadow: none;
 }
 
@@ -296,7 +300,7 @@ a { color: inherit; }
 
 .nav__menu,
 .nav__drawer a {
-  box-shadow: var(--glass-rim);
+  box-shadow: var(--glass-rim), var(--glass-halo);
 }
 
 .nav__drawer a {
@@ -549,7 +553,7 @@ h1, h2, h3 {
 .btn-primary {
   color: var(--accent);
   border-color: color-mix(in srgb, var(--accent) 40%, var(--glass-border, rgba(255, 255, 255, 0.24)));
-  box-shadow: var(--glass-rim), var(--glass-shadow);
+  box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
 }
 .btn-primary:hover { color: var(--accent-hover); }
 .btn-ghost {
