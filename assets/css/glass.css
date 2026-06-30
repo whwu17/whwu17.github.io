@@ -261,18 +261,18 @@
   .liquid-glass,
   .liquid-glass--chrome,
   .liquid-glass--subtle,
-  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu, .card, .info-card) {
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card) {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
   .liquid-glass { background: color-mix(in srgb, var(--glass-fill) 40%, #ffffff); }
   .liquid-glass--chrome { background: color-mix(in srgb, var(--glass-fill-chrome) 50%, #ffffff); }
   .liquid-glass--subtle { background: color-mix(in srgb, var(--glass-fill-subtle) 45%, #ffffff); }
-  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu, .card, .info-card) {
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card) {
     background: color-mix(in srgb, var(--glass-fill-subtle) 45%, #ffffff);
   }
   .liquid-glass::after,
-  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu, .card, .info-card)::after { display: none; }
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card)::after { display: none; }
 }
 
 /* =========================================================================
@@ -281,7 +281,7 @@
    ========================================================================= */
 
 /* Subtle glass material + sheen */
-:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu, .card, .info-card) {
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card) {
   position: relative;
   overflow: hidden;
   background: var(--glass-fill-subtle);
@@ -291,7 +291,7 @@
   box-shadow: var(--glass-rim), 0 2px 16px rgba(0, 0, 0, 0.08);
 }
 
-:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu, .card, .info-card)::after {
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card)::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -306,13 +306,13 @@
   );
 }
 
-:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu) > * {
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu) > * {
   position: relative;
   z-index: 2;
 }
 
 /* Interactive press — pills & menu rows */
-:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu) {
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu) {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   user-select: none;
@@ -326,7 +326,7 @@
     border-color 0.2s ease;
 }
 
-:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu)::before {
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -338,16 +338,16 @@
   transition: opacity calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
 }
 
-[data-theme="light"] :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu)::before {
+[data-theme="light"] :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::before {
   background: rgba(255, 255, 255, 0.55);
 }
 
-:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu)::after {
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::after {
   z-index: 1;
   transition: opacity calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
 }
 
-:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu):is(:active, .is-pressed) {
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed) {
   transform: scale(0.962);
   background: color-mix(in srgb, var(--glass-fill-subtle) 50%, #ffffff);
   box-shadow:
@@ -356,27 +356,100 @@
     inset 0 0 0 0.5px rgba(255, 255, 255, 0.45);
 }
 
-:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu):is(:active, .is-pressed)::before {
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed)::before {
   opacity: 1;
 }
 
-:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu):is(:active, .is-pressed)::after {
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed)::after {
   opacity: calc(var(--glass-sheen-opacity) * 1.35);
 }
 
-[data-theme="light"] :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu):is(:active, .is-pressed) {
+[data-theme="light"] :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed) {
   background: color-mix(in srgb, var(--glass-fill-subtle) 68%, #ffffff);
 }
 
+/* Back to top — fixed floater (excluded from auto-glass position/transform) */
+.to-top.ctrl--glass {
+  position: fixed;
+  right: max(16px, var(--gutter));
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 40;
+  overflow: hidden;
+  background: var(--glass-fill-subtle);
+  backdrop-filter: var(--glass-blur-subtle);
+  -webkit-backdrop-filter: var(--glass-blur-subtle);
+  border: 0.5px solid var(--glass-border);
+  box-shadow: var(--glass-rim), 0 2px 16px rgba(0, 0, 0, 0.08);
+  opacity: 0;
+  pointer-events: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transform: translateY(12px) scale(1);
+  transition:
+    opacity 0.25s cubic-bezier(0.32, 0.72, 0, 1),
+    transform 0.25s cubic-bezier(0.32, 0.72, 0, 1),
+    background var(--glass-press-duration) var(--glass-ease),
+    box-shadow var(--glass-press-duration) var(--glass-ease);
+}
+.to-top.ctrl--glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--glass-sheen-opacity);
+  background: radial-gradient(
+    90% 65% at 14% -12%,
+    rgba(255, 255, 255, 0.28) 0%,
+    transparent 62%
+  );
+}
+.to-top.ctrl--glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: rgba(255, 255, 255, 0.38);
+  transition: opacity calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
+}
+.to-top.ctrl--glass svg {
+  position: relative;
+  z-index: 2;
+}
+.to-top.ctrl--glass.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+.to-top.ctrl--glass.show:is(:active, .is-pressed) {
+  transform: translateY(0) scale(0.962);
+  background: color-mix(in srgb, var(--glass-fill-subtle) 50%, #ffffff);
+  box-shadow:
+    var(--glass-rim),
+    0 1px 8px rgba(0, 0, 0, 0.05),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.45);
+}
+.to-top.ctrl--glass.show:is(:active, .is-pressed)::before {
+  opacity: 1;
+}
+.to-top.ctrl--glass.show:is(:active, .is-pressed)::after {
+  opacity: calc(var(--glass-sheen-opacity) * 1.35);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu) {
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu) {
     transition: background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
   }
-  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu):is(:active, .is-pressed) {
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed) {
     transform: none;
   }
-  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu)::before,
-  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu)::after {
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::before,
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::after {
     transition: none;
   }
 }

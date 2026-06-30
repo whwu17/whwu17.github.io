@@ -791,18 +791,7 @@ h1, h2, h3 {
 .footer-bottom a { color: var(--ink-subtle); text-decoration: none; }
 .footer-bottom a:hover { color: var(--ink); }
 
-/* ---------- Back to top ---------- */
-.to-top {
-  position: fixed;
-  right: max(16px, var(--gutter));
-  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-  z-index: 40;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(12px);
-  transition: opacity .25s, transform .25s;
-}
-.to-top.show { opacity: 1; pointer-events: auto; transform: none; }
+/* Back to top — see glass.css (.to-top.ctrl--glass) */
 
 /* ---------- Reveal ---------- */
 @media (prefers-reduced-motion: no-preference) {
