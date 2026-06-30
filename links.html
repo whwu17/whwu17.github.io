@@ -1,5 +1,8 @@
 ---
 permalink: /links.html
+redirect_from:
+  - /links
+  - /links/
 ---
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
@@ -869,7 +872,7 @@ permalink: /links.html
       var html = document.documentElement;
 
       if (!html.classList.contains('is-unlocked')) {
-        setTimeout(function () { window.location.href = './404'; }, 3500);
+        setTimeout(function () { window.location.replace('/'); }, 3500);
         return;
       }
 
