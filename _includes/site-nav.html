@@ -1,8 +1,5 @@
 <nav class="nav" id="site-nav">
-  <a class="brand" href="{{ '/' | relative_url }}">
-    <span class="spark" aria-hidden="true"></span>
-    {{ site.author.name | default: site.title }}
-  </a>
+  <a class="brand" href="{{ '/' | relative_url }}">{{ site.author.name | default: site.title }}</a>
 
   <div class="nav-links" id="nav-links">
     {% assign secs = site.sections | sort: 'priority' %}
