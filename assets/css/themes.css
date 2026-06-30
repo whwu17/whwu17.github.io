@@ -3,6 +3,13 @@
    Apply .theme-panel on sections; .theme-beach on links.html body.
    ========================================================================= */
 
+/* Hide global aurora wash when sections carry their own mood */
+body:has(.theme-panel) .aurora,
+body.theme-beach .aurora {
+  opacity: 0;
+  visibility: hidden;
+}
+
 .theme-panel {
   position: relative;
   isolation: isolate;
@@ -148,6 +155,13 @@
   --theme-surface-raised: rgba(255, 255, 255, 0.95);
   --theme-border: rgba(30, 58, 95, 0.14);
   --theme-font-display: Georgia, "Songti SC", "STSong", serif;
+  --theme-font-body: Georgia, "Songti SC", "STSong", serif;
+  font-family: var(--theme-font-body);
+  letter-spacing: 0.01em;
+}
+.theme-academic .card {
+  border-radius: 2px;
+  box-shadow: 0 1px 0 rgba(30, 58, 95, 0.06);
 }
 
 /* —— Notes: notebook —— */
@@ -193,6 +207,15 @@
   --theme-surface: rgba(255, 255, 255, 0.1);
   --theme-surface-raised: rgba(255, 255, 255, 0.16);
   --theme-border: rgba(232, 121, 249, 0.22);
+  --theme-font-display: "Avenir Next", "SF Pro Display", system-ui, sans-serif;
+}
+.theme-music .linklist a {
+  border-radius: 999px;
+  font-weight: 500;
+}
+.theme-music .eyebrow .dot {
+  background: var(--theme-accent);
+  box-shadow: 0 0 12px rgba(232, 121, 249, 0.55);
 }
 
 /* —— Novel: literary sepia —— */
@@ -216,16 +239,21 @@
 .theme-links {
   --theme-photo: url("/images/links-bg.jpg");
   --theme-photo-opacity: 0.35;
-  --theme-overlay: linear-gradient(180deg, rgba(224, 242, 254, 0.88) 0%, rgba(240, 249, 255, 0.78) 100%);
-  --theme-bg: #e0f2fe;
+  --theme-overlay: linear-gradient(180deg, rgba(224, 242, 254, 0.88) 0%, rgba(247, 240, 229, 0.82) 55%, rgba(254, 243, 199, 0.75) 100%);
+  --theme-bg: linear-gradient(180deg, #e0f2fe 0%, #f7f0e5 55%, #fef3c7 100%);
   --theme-accent: #0891b2;
   --theme-accent-hover: #0e7490;
-  --theme-ink: #164e63;
-  --theme-ink-muted: rgba(22, 78, 99, 0.75);
-  --theme-ink-subtle: rgba(22, 78, 99, 0.58);
-  --theme-surface: rgba(255, 255, 255, 0.72);
-  --theme-surface-raised: rgba(255, 255, 255, 0.9);
+  --theme-ink: #155e75;
+  --theme-ink-muted: rgba(21, 94, 117, 0.75);
+  --theme-ink-subtle: rgba(21, 94, 117, 0.58);
+  --theme-surface: rgba(255, 255, 255, 0.62);
+  --theme-surface-raised: rgba(255, 255, 255, 0.88);
   --theme-border: rgba(8, 145, 178, 0.18);
+}
+.theme-links .linklist a {
+  border-radius: 16px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 /* —— About: calm studio —— */
