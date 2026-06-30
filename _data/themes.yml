@@ -1,16 +1,16 @@
 # Page themes manifest — CSS in assets/css/themes.css
-# Palette inspired by /contact/ mint correspondence
+# Colorful per-section moods · contact-inspired freshness
 
 pages:
-  hero: { class: theme-hero, mood: Contact mint welcome }
-  intro: { class: theme-intro, mood: Mint portrait }
-  resume: { class: theme-resume, mood: Mint seafoam }
-  academic: { class: theme-academic, mood: Mint sage paper }
-  notes: { class: theme-notes, mood: Mint cream }
-  encrypt: { class: theme-encrypt, mood: Deep emerald night }
-  music: { class: theme-music, mood: Emerald evening }
-  novel: { class: theme-novel, mood: Mint linen }
-  links_home: { class: theme-links, mood: Contact mint }
-  links_page: { class: theme-beach, mood: Contact mint airy }
-  about: { class: theme-about, mood: Contact correspondence }
-  contact: { class: theme-contact, mood: Correspondence mint (reference) }
+  hero: { class: theme-hero, mood: Warm sunrise welcome }
+  intro: { class: theme-intro, mood: Fresh sage portrait }
+  resume: { class: theme-resume, mood: Crisp sky blue }
+  academic: { class: theme-academic, mood: Bright scholarly paper }
+  notes: { class: theme-notes, mood: Sunny notebook }
+  encrypt: { class: theme-encrypt, mood: Cool secure slate }
+  music: { class: theme-music, mood: Vivid violet lounge }
+  novel: { class: theme-novel, mood: Warm literary linen }
+  links_home: { class: theme-links, mood: Coastal sky + sand + sun }
+  links_page: { class: theme-beach, mood: Beach airy chapters }
+  about: { class: theme-about, mood: Calm teal studio }
+  contact: { class: theme-contact, mood: Mint correspondence (reference) }

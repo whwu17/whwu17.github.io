@@ -5,20 +5,20 @@
    ========================================================================= */
 
 :root {
-  --canvas: #ecfdf5;
+  --canvas: #f8fafc;
   --surface-1: #ffffff;
-  --surface-2: #f0fdf4;
-  --surface-3: #d1fae5;
-  --hairline: rgba(5, 150, 105, 0.1);
-  --hairline-strong: rgba(5, 150, 105, 0.16);
+  --surface-2: #f1f5f9;
+  --surface-3: #e2e8f0;
+  --hairline: rgba(15, 23, 42, 0.08);
+  --hairline-strong: rgba(15, 23, 42, 0.12);
 
-  --ink: #14532d;
-  --ink-muted: rgba(20, 83, 45, 0.72);
-  --ink-subtle: rgba(20, 83, 45, 0.55);
-  --ink-tertiary: rgba(20, 83, 45, 0.38);
+  --ink: #1e293b;
+  --ink-muted: rgba(30, 41, 59, 0.72);
+  --ink-subtle: rgba(30, 41, 59, 0.55);
+  --ink-tertiary: rgba(30, 41, 59, 0.38);
 
-  --accent: #059669;
-  --accent-hover: #047857;
+  --accent: #0d9488;
+  --accent-hover: #0f766e;
   --accent-focus: #007aff;
   --accent-glow: rgba(0, 122, 255, 0.12);
   --success: #34c759;
@@ -76,20 +76,20 @@
 }
 
 [data-theme="light"] {
-  --canvas: #ecfdf5;
+  --canvas: #f8fafc;
   --surface-1: #ffffff;
-  --surface-2: #f0fdf4;
-  --surface-3: #d1fae5;
-  --hairline: rgba(5, 150, 105, 0.1);
-  --hairline-strong: rgba(5, 150, 105, 0.16);
-  --ink: #14532d;
-  --ink-muted: rgba(20, 83, 45, 0.72);
-  --ink-subtle: rgba(20, 83, 45, 0.55);
-  --ink-tertiary: rgba(20, 83, 45, 0.38);
-  --accent: #059669;
-  --accent-hover: #047857;
-  --accent-focus: #059669;
-  --accent-glow: rgba(5, 150, 105, 0.14);
+  --surface-2: #f1f5f9;
+  --surface-3: #e2e8f0;
+  --hairline: rgba(15, 23, 42, 0.08);
+  --hairline-strong: rgba(15, 23, 42, 0.12);
+  --ink: #1e293b;
+  --ink-muted: rgba(30, 41, 59, 0.72);
+  --ink-subtle: rgba(30, 41, 59, 0.55);
+  --ink-tertiary: rgba(30, 41, 59, 0.38);
+  --accent: #0d9488;
+  --accent-hover: #0f766e;
+  --accent-focus: #0d9488;
+  --accent-glow: rgba(13, 148, 136, 0.14);
   --success: #34c759;
 }
 
@@ -121,9 +121,9 @@ a { color: inherit; }
   position: fixed;
   inset: 0;
   z-index: -2;
-  background: linear-gradient(165deg, #f0fdf4 0%, #ecfdf5 50%, #d1fae5 100%);
+  background: linear-gradient(165deg, #fff8f5 0%, #f0f9ff 45%, #f0fdf4 100%);
   pointer-events: none;
-  opacity: 0.55;
+  opacity: 0.5;
 }
 [data-theme="dark"] .aurora {
   background: #3a3a3c;
