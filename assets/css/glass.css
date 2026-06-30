@@ -40,7 +40,7 @@
 }
 
 [data-theme="light"] {
-  /* Light glass — minimal blur + edge rim only (no frosted milk) */
+  /* Light glass — clear edge + lift; center stays transparent */
   --glass-blur: blur(6px) saturate(155%);
   --glass-blur-chrome: blur(8px) saturate(160%);
   --glass-blur-subtle: blur(4px) saturate(150%);
@@ -49,21 +49,27 @@
   --glass-fill-chrome: transparent;
   --glass-fill-subtle: transparent;
 
-  --glass-border: rgba(255, 255, 255, 0.22);
-  --glass-border-chrome: rgba(255, 255, 255, 0.26);
+  --glass-border: rgba(255, 255, 255, 0.38);
+  --glass-border-chrome: rgba(255, 255, 255, 0.44);
 
+  /* Convex rim — bright top, shaded bottom (raised lens) */
   --glass-rim:
-    inset 0 1px 0 rgba(255, 255, 255, 0.36),
-    inset 0 -0.5px 0 rgba(255, 255, 255, 0.08),
-    inset 0.5px 0 0 rgba(255, 255, 255, 0.14),
-    inset -0.5px 0 0 rgba(255, 255, 255, 0.14);
+    inset 0 1px 0 rgba(255, 255, 255, 0.58),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.07),
+    inset 1px 0 0 rgba(255, 255, 255, 0.22),
+    inset -1px 0 0 rgba(255, 255, 255, 0.22);
+  /* Tight edge ring + soft bloom (boundary, not scattered wash) */
   --glass-halo:
-    0 0 2px rgba(255, 255, 255, 0.32),
-    0 0 6px rgba(255, 255, 255, 0.1);
+    0 0 0 0.5px rgba(255, 255, 255, 0.42),
+    0 0 0 1px rgba(255, 255, 255, 0.14);
   --glass-edge-sheen:
-    radial-gradient(90% 65% at 14% -12%, rgba(255, 255, 255, 0.28) 0%, transparent 50%),
-    radial-gradient(72% 42% at 50% 112%, rgba(255, 255, 255, 0.08) 0%, transparent 52%);
-  --glass-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    radial-gradient(90% 65% at 14% -12%, rgba(255, 255, 255, 0.32) 0%, transparent 48%),
+    radial-gradient(72% 42% at 50% 112%, rgba(0, 0, 0, 0.05) 0%, transparent 52%);
+  /* Directional drop — float above background */
+  --glass-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.04),
+    0 2px 6px rgba(0, 0, 0, 0.07),
+    0 6px 18px rgba(0, 0, 0, 0.05);
   --glass-sheen-opacity: 0.14;
 }
 
