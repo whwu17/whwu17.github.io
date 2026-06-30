@@ -79,7 +79,6 @@
     0 6px 18px rgba(0, 0, 0, 0.05);
   --glass-sheen-opacity: 0.28;
 
-  /* Chromium edge refraction (Safari ignores — uses rim/halo) */
   --glass-refract: none;
   --glass-refract-pill: none;
   --glass-refract-chrome: none;
@@ -100,17 +99,18 @@
 
 .liquid-glass:not(.glass-interactive) > * {
   position: relative;
-  z-index: 0;
+  z-index: 1;
 }
 
-/* Blur layer — clipped inside border-radius (avoids rectangular backdrop bleed) */
+/* Blur layer — must stay at z-index 0 (Safari breaks backdrop on negative z pseudo) */
 .liquid-glass::before {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -2;
+  z-index: 0;
   border-radius: inherit;
   pointer-events: none;
+  transform: translateZ(0);
   backdrop-filter: var(--glass-backdrop, var(--glass-blur));
   -webkit-backdrop-filter: var(--glass-backdrop, var(--glass-blur));
 }
@@ -128,12 +128,12 @@
   box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
 }
 
-/* Specular glint — behind text (z-index -1 within isolated shell) */
+/* Specular glint — above blur, below content */
 .liquid-glass::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   border-radius: inherit;
   pointer-events: none;
   opacity: var(--glass-sheen-opacity);
@@ -178,15 +178,15 @@
   background: rgba(255, 255, 255, 0.26);
 }
 
-/* Sheen stays above blur, below all content */
+/* Sheen above blur, below content */
 .liquid-glass.glass-interactive::after {
-  z-index: -1;
+  z-index: 0;
   transition: opacity calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
 }
 
 .liquid-glass.glass-interactive > * {
   position: relative;
-  z-index: 0;
+  z-index: 1;
 }
 
 /* Pressed — scale + brighter fill + tighter shadow (iOS glass squeeze) */
@@ -281,8 +281,8 @@
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
-/* Chromium: feImage lens maps on ::before (Safari gets CSS chromatic ring on ::after) */
-@supports (backdrop-filter: url("#lg-refract")) {
+/* Chromium only — Safari ignores SVG in backdrop-filter (would drop blur too) */
+@supports not (background: -apple-pay-button-visible) {
   :root {
     --glass-refract: url("#lg-refract");
     --glass-refract-pill: url("#lg-refract-pill");
@@ -319,6 +319,52 @@
   }
 }
 
+/* Safari / iOS — backdrop on element (pseudo + clip-path breaks -webkit-backdrop-filter) */
+@supports (background: -apple-pay-button-visible) {
+  .nav.liquid-glass {
+    backdrop-filter: var(--glass-blur-bar);
+    -webkit-backdrop-filter: var(--glass-blur-bar);
+  }
+  .nav.liquid-glass::before,
+  .nav.liquid-glass::after {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu) {
+    backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
+    -webkit-backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
+  }
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::before {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  :is(.card, .info-card, .theme-panel .welcome-quote) {
+    backdrop-filter: var(--glass-blur-subtle);
+    -webkit-backdrop-filter: var(--glass-blur-subtle);
+  }
+  :is(.card, .info-card, .theme-panel .welcome-quote)::before {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .to-top.ctrl--glass {
+    backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
+    -webkit-backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
+  }
+  .to-top.ctrl--glass::before {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  /* Safari: no SVG lensing — stronger prismatic edge (iOS 26 rim optics) */
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .nav__menu, .nav.liquid-glass)::after,
+  .to-top.ctrl--glass::after {
+    opacity: 0.38;
+  }
+}
+
 @media (prefers-reduced-transparency: reduce) {
   .liquid-glass::before,
   :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu, .card, .info-card)::before {
@@ -350,23 +396,19 @@
   isolation: isolate;
 }
 
-/* Clip backdrop to pill/circle — prevents rectangular blur leak (Safari/Chromium) */
+/* Rounded clip via border-radius + overflow (clip-path breaks Safari backdrop-filter) */
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .nav__menu) {
-  clip-path: inset(0 round 9999px);
-}
-.card,
-.info-card,
-.theme-panel .welcome-quote {
-  clip-path: inset(0 round var(--r-lg, 16px));
+  border-radius: var(--pill);
 }
 
 :is(.card, .info-card, .theme-panel .welcome-quote)::before {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -2;
+  z-index: 0;
   border-radius: inherit;
   pointer-events: none;
+  transform: translateZ(0);
   backdrop-filter: var(--glass-blur-subtle);
   -webkit-backdrop-filter: var(--glass-blur-subtle);
 }
@@ -375,7 +417,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   border-radius: inherit;
   pointer-events: none;
   opacity: 0.28;
@@ -389,7 +431,7 @@
 
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card, .theme-panel .welcome-quote) > * {
   position: relative;
-  z-index: 0;
+  z-index: 1;
 }
 
 /* Interactive press — pills & menu rows */
@@ -407,14 +449,15 @@
     border-color 0.2s ease;
 }
 
-/* Blur + press wash on ::before (iOS 26: small controls ≈2px blur) */
+/* Blur + press wash on ::before — iOS 26 pill tier 8px */
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::before {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -2;
+  z-index: 0;
   border-radius: inherit;
   pointer-events: none;
+  transform: translateZ(0);
   backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
   -webkit-backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
   background: transparent;
@@ -427,7 +470,7 @@
 }
 
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::after {
-  z-index: -1;
+  z-index: 0;
   transition: opacity calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
 }
 
@@ -460,7 +503,7 @@
   bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   z-index: 40;
   overflow: hidden;
-  clip-path: inset(0 round 50%);
+  border-radius: 50%;
   background: transparent;
   border: 0.5px solid var(--glass-border);
   box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
@@ -480,7 +523,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   border-radius: inherit;
   pointer-events: none;
   opacity: var(--glass-sheen-opacity);
@@ -490,9 +533,10 @@
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -2;
+  z-index: 0;
   border-radius: inherit;
   pointer-events: none;
+  transform: translateZ(0);
   backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
   -webkit-backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
   background: transparent;
@@ -501,7 +545,7 @@
 }
 .to-top.ctrl--glass svg {
   position: relative;
-  z-index: 0;
+  z-index: 1;
 }
 .to-top.ctrl--glass.show {
   opacity: 1;
