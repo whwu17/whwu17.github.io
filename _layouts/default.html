@@ -12,23 +12,12 @@
   <link href="{{ '/assets/css/glass.css' | relative_url }}" rel="stylesheet">
   <link href="{{ '/assets/css/themes.css' | relative_url }}" rel="stylesheet">
 
-  <script>
-    (function () {
-      try {
-        var t = localStorage.getItem('site-theme');
-        if (t) document.documentElement.setAttribute('data-theme', t);
-        var l = localStorage.getItem('site-lang');
-        if (l) document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
-      } catch (e) {}
-    })();
-  </script>
-  <script>window.__I18N__ = {{ site.data.i18n | jsonify }};</script>
   {% seo %}
 </head>
 
 <body>
   {% include liquid-glass-svg.html %}
-  <a class="skip-link" href="#top" data-i18n="skip">Skip to content</a>
+  <a class="skip-link" href="#top">Skip to content</a>
   <div class="aurora" aria-hidden="true"></div>
 
   {% include site-nav.html %}
@@ -43,28 +32,30 @@
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg>
   </button>
 
-  <script src="{{ '/assets/js/i18n.js' | relative_url }}" defer></script>
   <script>
     (function () {
       var html = document.documentElement;
 
-      /* Theme toggle */
-      var toggle = document.getElementById('theme-toggle');
-      if (toggle) toggle.addEventListener('click', function () {
-        var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-        html.setAttribute('data-theme', next);
-        try { localStorage.setItem('site-theme', next); } catch (e) {}
-      });
-
       /* Mobile nav */
       var nav = document.getElementById('site-nav');
       var navToggle = document.getElementById('nav-toggle');
+      var navScrim = document.getElementById('nav-scrim');
+      function setNavOpen(open) {
+        if (!nav) return;
+        nav.classList.toggle('open', open);
+        if (navToggle) navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (navScrim) {
+          navScrim.hidden = !open;
+          navScrim.setAttribute('aria-hidden', open ? 'false' : 'true');
+        }
+        html.classList.toggle('nav-open', open);
+      }
       if (navToggle) navToggle.addEventListener('click', function () {
-        var open = nav.classList.toggle('open');
-        navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        setNavOpen(!nav.classList.contains('open'));
       });
+      if (navScrim) navScrim.addEventListener('click', function () { setNavOpen(false); });
       document.querySelectorAll('#nav-links a').forEach(function (a) {
-        a.addEventListener('click', function () { nav.classList.remove('open'); });
+        a.addEventListener('click', function () { setNavOpen(false); });
       });
 
       /* Reveal on scroll */
