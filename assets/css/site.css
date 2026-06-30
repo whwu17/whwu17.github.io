@@ -202,7 +202,7 @@ a { color: inherit; }
   --glass-blur-subtle: blur(12px) saturate(156%);
   --glass-blur-pill: blur(8px) saturate(152%);
   --glass-border: rgba(255, 255, 255, 0.44);
-  --glass-sheen-opacity: 0.18;
+  --glass-sheen-opacity: 0.28;
   --glass-rim:
     inset 0 1px 0 rgba(255, 255, 255, 0.66),
     inset 0 -1px 0 rgba(0, 0, 0, 0.08),
