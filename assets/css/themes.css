@@ -93,12 +93,7 @@ body.theme-beach .aurora {
 .theme-panel .card,
 .theme-panel .info-card,
 .theme-panel .linklist a {
-  background: var(--glass-fill, var(--theme-surface));
-  border: 0.5px solid var(--glass-border, var(--theme-border));
   color: var(--theme-ink);
-  backdrop-filter: var(--glass-blur, blur(16px) saturate(170%));
-  -webkit-backdrop-filter: var(--glass-blur, blur(16px) saturate(170%));
-  box-shadow: var(--glass-rim, none), var(--glass-shadow, none);
 }
 .theme-panel .linklist a {
   border-radius: var(--pill, 980px);
@@ -312,8 +307,6 @@ body.theme-beach .aurora {
 }
 .theme-links .linklist a {
   border-radius: 16px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
 }
 
 /* —— About: calm teal studio —— */

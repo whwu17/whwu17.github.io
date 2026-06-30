@@ -187,10 +187,12 @@
 }
 
 /* Glass pills — accent tint on press (matches music player links) */
-.btn-primary.liquid-glass.glass-interactive:is(:active, .is-pressed) {
+.btn-primary.liquid-glass.glass-interactive:is(:active, .is-pressed),
+:is(a.btn-primary, button.btn-primary):is(:active, .is-pressed) {
   background: color-mix(in srgb, var(--glass-fill-subtle) 50%, var(--accent, var(--theme-accent, #ea580c)) 18%);
 }
-.theme-panel .btn-primary.liquid-glass.glass-interactive:is(:active, .is-pressed) {
+.theme-panel .btn-primary.liquid-glass.glass-interactive:is(:active, .is-pressed),
+.theme-panel :is(a.btn-primary, button.btn-primary):is(:active, .is-pressed) {
   background: color-mix(in srgb, var(--glass-fill-subtle) 50%, var(--theme-accent) 18%);
 }
 
@@ -220,8 +222,10 @@
   z-index: 1;
 }
 
-/* Inset well — URL fields, chips inside glass cards */
-.liquid-glass-inset {
+/* Inset well — URL fields, form inputs, chips inside glass cards */
+.liquid-glass-inset,
+.input,
+.textarea {
   background: color-mix(in srgb, var(--glass-fill) 85%, rgba(0, 0, 0, 0.04));
   backdrop-filter: blur(10px) saturate(140%);
   -webkit-backdrop-filter: blur(10px) saturate(140%);
@@ -230,7 +234,9 @@
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
-[data-theme="light"] .liquid-glass-inset {
+[data-theme="light"] .liquid-glass-inset,
+[data-theme="light"] .input,
+[data-theme="light"] .textarea {
   background: color-mix(in srgb, #ffffff 55%, transparent);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
 }
@@ -254,14 +260,125 @@
 @media (prefers-reduced-transparency: reduce) {
   .liquid-glass,
   .liquid-glass--chrome,
-  .liquid-glass--subtle {
+  .liquid-glass--subtle,
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu, .card, .info-card) {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
   .liquid-glass { background: color-mix(in srgb, var(--glass-fill) 40%, #ffffff); }
   .liquid-glass--chrome { background: color-mix(in srgb, var(--glass-fill-chrome) 50%, #ffffff); }
   .liquid-glass--subtle { background: color-mix(in srgb, var(--glass-fill-subtle) 45%, #ffffff); }
-  .liquid-glass::after { display: none; }
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu, .card, .info-card) {
+    background: color-mix(in srgb, var(--glass-fill-subtle) 45%, #ffffff);
+  }
+  .liquid-glass::after,
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu, .card, .info-card)::after { display: none; }
+}
+
+/* =========================================================================
+   Site controls — auto liquid glass (buttons, link rows, panels, fields)
+   No extra classes required in HTML for .btn / .linklist a / .nav__drawer a
+   ========================================================================= */
+
+/* Subtle glass material + sheen */
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu, .card, .info-card) {
+  position: relative;
+  overflow: hidden;
+  background: var(--glass-fill-subtle);
+  backdrop-filter: var(--glass-blur-subtle);
+  -webkit-backdrop-filter: var(--glass-blur-subtle);
+  border: 0.5px solid var(--glass-border);
+  box-shadow: var(--glass-rim), 0 2px 16px rgba(0, 0, 0, 0.08);
+}
+
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu, .card, .info-card)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--glass-sheen-opacity);
+  background: radial-gradient(
+    90% 65% at 14% -12%,
+    rgba(255, 255, 255, 0.28) 0%,
+    transparent 62%
+  );
+}
+
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu) > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Interactive press — pills & menu rows */
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu) {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  cursor: pointer;
+  transform: scale(1);
+  transition:
+    transform var(--glass-press-duration) var(--glass-spring),
+    background var(--glass-press-duration) var(--glass-ease),
+    box-shadow var(--glass-press-duration) var(--glass-ease),
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: rgba(255, 255, 255, 0.38);
+  transition: opacity calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
+}
+
+[data-theme="light"] :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu)::before {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu)::after {
+  z-index: 1;
+  transition: opacity calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
+}
+
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu):is(:active, .is-pressed) {
+  transform: scale(0.962);
+  background: color-mix(in srgb, var(--glass-fill-subtle) 50%, #ffffff);
+  box-shadow:
+    var(--glass-rim),
+    0 1px 8px rgba(0, 0, 0, 0.05),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.45);
+}
+
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu):is(:active, .is-pressed)::before {
+  opacity: 1;
+}
+
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu):is(:active, .is-pressed)::after {
+  opacity: calc(var(--glass-sheen-opacity) * 1.35);
+}
+
+[data-theme="light"] :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu):is(:active, .is-pressed) {
+  background: color-mix(in srgb, var(--glass-fill-subtle) 68%, #ffffff);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu) {
+    transition: background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+  }
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu):is(:active, .is-pressed) {
+    transform: none;
+  }
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu)::before,
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass, .nav__menu)::after {
+    transition: none;
+  }
 }
 
 /* ---------- Immersive / lifestyle panels ---------- */

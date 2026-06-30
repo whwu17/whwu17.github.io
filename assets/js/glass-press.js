@@ -17,7 +17,7 @@
   }
 
   function scan() {
-    document.querySelectorAll('.glass-interactive').forEach(bindPress);
+    document.querySelectorAll('a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl--glass, .nav__menu, .glass-interactive').forEach(bindPress);
   }
 
   if (document.readyState === 'loading') {
