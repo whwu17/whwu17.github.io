@@ -157,6 +157,15 @@ a { color: inherit; }
   top: 0;
   z-index: 50;
   padding-top: env(safe-area-inset-top, 0px);
+  --nav-pill-gap: 6px;
+}
+
+.site-header.is-nav-open,
+.site-header:has(.nav.open) {
+  --glass-fill-subtle: rgba(255, 255, 255, 0.18);
+  --glass-blur-subtle: blur(26px) saturate(190%) brightness(1.03);
+  --glass-border: rgba(255, 255, 255, 0.42);
+  --glass-sheen-opacity: 0.78;
 }
 
 .nav {
@@ -201,7 +210,7 @@ a { color: inherit; }
   margin: 0;
   padding: 0;
   border: none;
-  border-radius: var(--r-md);
+  border-radius: var(--pill);
   background: transparent;
   color: var(--ink);
   cursor: pointer;
@@ -211,6 +220,17 @@ a { color: inherit; }
   touch-action: manipulation;
 }
 .nav__menu:focus-visible { outline: none; box-shadow: var(--ring); }
+
+/* Open: close pill aligns with drawer stack (same width, radius, gap) */
+.site-header.is-nav-open .nav__menu,
+.site-header:has(.nav.open) .nav__menu {
+  position: fixed;
+  z-index: 51;
+  right: var(--gutter);
+  top: calc(var(--nav-h) + env(safe-area-inset-top, 0px) + 8px);
+  width: min(280px, calc(100vw - var(--gutter) * 2));
+  height: var(--ctrl-size);
+}
 
 .nav__menu-icon {
   width: 22px;
@@ -238,9 +258,9 @@ a { color: inherit; }
   display: none;
   flex-direction: column;
   align-items: stretch;
-  gap: 6px;
+  gap: var(--nav-pill-gap);
   margin: 0;
-  padding: 8px;
+  padding: 0 0 8px;
   background: transparent;
   border: none;
   box-shadow: none;
@@ -266,6 +286,7 @@ a { color: inherit; }
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0) scale(1);
+  top: calc(var(--nav-h) + env(safe-area-inset-top, 0px) + 8px + var(--ctrl-size) + var(--nav-pill-gap));
 }
 
 .nav__drawer a {
@@ -292,7 +313,9 @@ a { color: inherit; }
   inset: 0;
   z-index: 48;
   display: none;
-  background: transparent;
+  background: rgba(248, 250, 252, 0.22);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.28s var(--ease-out);
