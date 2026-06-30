@@ -51,10 +51,10 @@ body.theme-beach .aurora {
   --surface-2: var(--theme-surface-raised);
   --hairline: var(--theme-border);
   /* Light sections: ultra-translucent glass — blur carries the material */
-  --glass-fill-subtle: rgba(255, 255, 255, 0.015);
+  --glass-fill-subtle: transparent;
   --glass-blur-subtle: blur(28px) saturate(200%) brightness(1.05);
   --glass-border: color-mix(in srgb, var(--theme-accent) 5%, rgba(255, 255, 255, 0.28));
-  --glass-sheen-opacity: 0.58;
+  --glass-sheen-opacity: 0.34;
   --glass-halo:
     0 0 3px rgba(255, 255, 255, 0.38),
     0 0 9px rgba(255, 255, 255, 0.12),
@@ -284,8 +284,8 @@ body.theme-beach .aurora {
 /* Dark themed sections — glass over rich backgrounds */
 .theme-music,
 .theme-encrypt {
-  --glass-fill: rgba(255, 255, 255, 0.02);
-  --glass-fill-subtle: rgba(255, 255, 255, 0.012);
+  --glass-fill: transparent;
+  --glass-fill-subtle: transparent;
   --glass-border: rgba(255, 255, 255, 0.34);
   --glass-rim:
     inset 0 1px 0 rgba(255, 255, 255, 0.58),

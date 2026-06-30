@@ -198,10 +198,10 @@ a { color: inherit; }
 /* Nav open — liquid glass: clear fill, edge bloom; avoid heavy frosted blur */
 .site-header.is-nav-open,
 .site-header:has(.nav.open) {
-  --glass-fill-subtle: rgba(255, 255, 255, 0.012);
+  --glass-fill-subtle: transparent;
   --glass-blur-subtle: blur(18px) saturate(188%) brightness(1.04);
   --glass-border: rgba(255, 255, 255, 0.24);
-  --glass-sheen-opacity: 0.45;
+  --glass-sheen-opacity: 0.32;
   --glass-halo:
     0 0 3px rgba(255, 255, 255, 0.42),
     0 0 10px rgba(255, 255, 255, 0.14),
@@ -356,17 +356,10 @@ a { color: inherit; }
 /* Edge sheen behind labels — plain text nodes are not > * children */
 .site-header.is-nav-open .nav__drawer a::after,
 .site-header:has(.nav.open) .nav__drawer a::after {
-  opacity: 0.42;
+  opacity: 0.32;
   background:
-    radial-gradient(90% 65% at 14% -12%, rgba(255, 255, 255, 0.48) 0%, transparent 56%),
-    radial-gradient(72% 42% at 50% 112%, rgba(255, 255, 255, 0.12) 0%, transparent 54%),
-    radial-gradient(
-      ellipse 104% 104% at 50% 50%,
-      transparent 94%,
-      rgba(255, 255, 255, 0.02) 97%,
-      rgba(255, 255, 255, 0.08) 99%,
-      transparent 100%
-    );
+    radial-gradient(90% 65% at 14% -12%, rgba(255, 255, 255, 0.36) 0%, transparent 52%),
+    radial-gradient(72% 42% at 50% 112%, rgba(255, 255, 255, 0.08) 0%, transparent 56%);
 }
 
 .nav__drawer a {

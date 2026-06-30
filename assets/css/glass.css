@@ -10,9 +10,9 @@
   --glass-blur-chrome: blur(28px) saturate(190%) brightness(1.05);
   --glass-blur-subtle: blur(16px) saturate(175%) brightness(1.04);
 
-  --glass-fill: rgba(255, 255, 255, 0.02);
-  --glass-fill-chrome: rgba(255, 255, 255, 0.025);
-  --glass-fill-subtle: rgba(255, 255, 255, 0.015);
+  --glass-fill: transparent;
+  --glass-fill-chrome: transparent;
+  --glass-fill-subtle: transparent;
 
   --glass-border: rgba(255, 255, 255, 0.22);
   --glass-border-chrome: rgba(255, 255, 255, 0.28);
@@ -28,17 +28,10 @@
     0 0 10px rgba(255, 255, 255, 0.1);
   --glass-edge-sheen:
     radial-gradient(90% 65% at 14% -12%, rgba(255, 255, 255, 0.38) 0%, transparent 58%),
-    radial-gradient(72% 42% at 50% 112%, rgba(255, 255, 255, 0.12) 0%, transparent 54%),
-    radial-gradient(
-      ellipse 104% 104% at 50% 50%,
-      transparent 90%,
-      rgba(255, 255, 255, 0.02) 95%,
-      rgba(255, 255, 255, 0.1) 99%,
-      transparent 100%
-    );
+    radial-gradient(72% 42% at 50% 112%, rgba(255, 255, 255, 0.12) 0%, transparent 54%);
   --glass-highlight: var(--glass-rim);
   --glass-shadow: 0 4px 22px rgba(0, 0, 0, 0.08);
-  --glass-sheen-opacity: 0.62;
+  --glass-sheen-opacity: 0.5;
 
   --glass-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
   --glass-spring: cubic-bezier(0.34, 1.28, 0.64, 1);
@@ -52,35 +45,28 @@
   --glass-blur-chrome: blur(36px) saturate(200%) brightness(1.03);
   --glass-blur-subtle: blur(24px) saturate(190%) brightness(1.03);
 
-  --glass-fill: rgba(255, 255, 255, 0.025);
-  --glass-fill-chrome: rgba(255, 255, 255, 0.03);
-  --glass-fill-subtle: rgba(255, 255, 255, 0.018);
+  --glass-fill: transparent;
+  --glass-fill-chrome: transparent;
+  --glass-fill-subtle: transparent;
 
   /* Soft luminous edge — bloom not border */
   --glass-border: rgba(255, 255, 255, 0.28);
   --glass-border-chrome: rgba(255, 255, 255, 0.34);
 
   --glass-rim:
-    inset 0 1px 0 rgba(255, 255, 255, 0.88),
-    inset 0 -0.5px 0 rgba(255, 255, 255, 0.22),
-    inset 0.5px 0 0 rgba(255, 255, 255, 0.38),
-    inset -0.5px 0 0 rgba(255, 255, 255, 0.38);
+    inset 0 1px 0 rgba(255, 255, 255, 0.52),
+    inset 0 -0.5px 0 rgba(255, 255, 255, 0.14),
+    inset 0.5px 0 0 rgba(255, 255, 255, 0.22),
+    inset -0.5px 0 0 rgba(255, 255, 255, 0.22);
   --glass-halo:
     0 0 3px rgba(255, 255, 255, 0.42),
     0 0 9px rgba(255, 255, 255, 0.14),
     0 1px 4px rgba(15, 23, 42, 0.05);
   --glass-edge-sheen:
-    radial-gradient(90% 65% at 14% -12%, rgba(255, 255, 255, 0.5) 0%, transparent 56%),
-    radial-gradient(72% 42% at 50% 112%, rgba(255, 255, 255, 0.14) 0%, transparent 52%),
-    radial-gradient(
-      ellipse 104% 104% at 50% 50%,
-      transparent 92%,
-      rgba(255, 255, 255, 0.03) 96%,
-      rgba(255, 255, 255, 0.12) 99%,
-      transparent 100%
-    );
+    radial-gradient(90% 65% at 14% -12%, rgba(255, 255, 255, 0.38) 0%, transparent 54%),
+    radial-gradient(72% 42% at 50% 112%, rgba(255, 255, 255, 0.1) 0%, transparent 54%);
   --glass-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  --glass-sheen-opacity: 0.62;
+  --glass-sheen-opacity: 0.36;
 }
 
 /* ---------- Base material ---------- */
@@ -314,7 +300,7 @@
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card, .theme-panel .welcome-quote) {
   position: relative;
   overflow: hidden;
-  background: var(--glass-fill-subtle);
+  background: transparent;
   backdrop-filter: var(--glass-blur-subtle);
   -webkit-backdrop-filter: var(--glass-blur-subtle);
   border: 0.5px solid var(--glass-border);
@@ -329,17 +315,10 @@
   z-index: 0;
   border-radius: inherit;
   pointer-events: none;
-  opacity: var(--glass-sheen-opacity);
+  opacity: 0.36;
   background:
-    radial-gradient(92% 70% at 16% -14%, rgba(255, 255, 255, 0.42) 0%, transparent 52%),
-    radial-gradient(68% 38% at 50% 108%, rgba(255, 255, 255, 0.1) 0%, transparent 58%),
-    radial-gradient(
-      ellipse 100% 100% at 50% 50%,
-      transparent 94%,
-      rgba(255, 255, 255, 0.02) 97%,
-      rgba(255, 255, 255, 0.08) 99%,
-      transparent 100%
-    );
+    radial-gradient(92% 70% at 16% -14%, rgba(255, 255, 255, 0.34) 0%, transparent 48%),
+    radial-gradient(68% 38% at 50% 108%, rgba(255, 255, 255, 0.08) 0%, transparent 56%);
 }
 
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu) > * {
