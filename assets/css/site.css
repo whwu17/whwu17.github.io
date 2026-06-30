@@ -199,9 +199,9 @@ a { color: inherit; }
 .site-header.is-nav-open,
 .site-header:has(.nav.open) {
   --glass-fill-subtle: transparent;
-  --glass-blur-subtle: blur(18px) saturate(188%) brightness(1.04);
-  --glass-border: rgba(255, 255, 255, 0.24);
-  --glass-sheen-opacity: 0.32;
+  --glass-blur-subtle: blur(6px) saturate(155%);
+  --glass-border: rgba(255, 255, 255, 0.22);
+  --glass-sheen-opacity: 0.14;
   --glass-halo:
     0 0 3px rgba(255, 255, 255, 0.42),
     0 0 10px rgba(255, 255, 255, 0.14),
@@ -356,10 +356,10 @@ a { color: inherit; }
 /* Edge sheen behind labels — plain text nodes are not > * children */
 .site-header.is-nav-open .nav__drawer a::after,
 .site-header:has(.nav.open) .nav__drawer a::after {
-  opacity: 0.32;
+  opacity: 0.2;
   background:
-    radial-gradient(90% 65% at 14% -12%, rgba(255, 255, 255, 0.36) 0%, transparent 52%),
-    radial-gradient(72% 42% at 50% 112%, rgba(255, 255, 255, 0.08) 0%, transparent 56%);
+    radial-gradient(90% 65% at 14% -12%, rgba(255, 255, 255, 0.24) 0%, transparent 48%),
+    radial-gradient(72% 42% at 50% 112%, rgba(255, 255, 255, 0.06) 0%, transparent 54%);
 }
 
 .nav__drawer a {

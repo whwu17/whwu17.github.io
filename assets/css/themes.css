@@ -52,9 +52,9 @@ body.theme-beach .aurora {
   --hairline: var(--theme-border);
   /* Light sections: ultra-translucent glass — blur carries the material */
   --glass-fill-subtle: transparent;
-  --glass-blur-subtle: blur(28px) saturate(200%) brightness(1.05);
-  --glass-border: color-mix(in srgb, var(--theme-accent) 5%, rgba(255, 255, 255, 0.28));
-  --glass-sheen-opacity: 0.34;
+  --glass-blur-subtle: blur(6px) saturate(155%);
+  --glass-border: color-mix(in srgb, var(--theme-accent) 5%, rgba(255, 255, 255, 0.22));
+  --glass-sheen-opacity: 0.14;
   --glass-halo:
     0 0 3px rgba(255, 255, 255, 0.38),
     0 0 9px rgba(255, 255, 255, 0.12),
@@ -119,7 +119,7 @@ body.theme-beach .aurora {
   box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
 }
 .theme-panel :is(a.btn, button.btn, .linklist a, .ctrl.ctrl--glass:not(.to-top))::after {
-  opacity: 0.85;
+  opacity: 0.14;
 }
 .theme-panel .btn-primary:hover { color: var(--theme-accent-hover, var(--theme-accent)); }
 .theme-panel .btn-ghost {
@@ -178,7 +178,7 @@ body.theme-beach .aurora {
   box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
 }
 .theme-hero :is(a.btn, button.btn, .ctrl.ctrl--glass:not(.to-top))::after {
-  opacity: 0.9;
+  opacity: 0.14;
 }
 .theme-hero .btn-primary:hover { color: var(--theme-accent-hover); }
 .theme-hero .ctrl--glass { color: var(--theme-ink-subtle); }
