@@ -14,6 +14,8 @@ permalink: /links.html
   <link href="/assets/img/favicon-link.png" rel="icon">
   <link href="/assets/img/apple-icon-link.png" rel="apple-touch-icon">
 
+  <link href="/assets/css/glass.css" rel="stylesheet">
+
   <script>
     (function () {
       var q = (location.search || '').replace(/^\?/, '');
@@ -147,14 +149,15 @@ permalink: /links.html
     .panel__bg {
       position: absolute;
       inset: 0;
-      z-index: -2;
+      z-index: 0;
       background: center / cover no-repeat;
       transform: scale(1.03);
     }
+    .panel .particle-field { z-index: 1; }
     .panel__scrim {
       position: absolute;
       inset: 0;
-      z-index: -1;
+      z-index: 2;
       background:
         linear-gradient(180deg, var(--scrim-heavy) 0%, var(--scrim) 42%, rgba(6, 9, 18, 0.88) 100%);
     }
@@ -164,6 +167,8 @@ permalink: /links.html
     }
 
     .panel__inner {
+      position: relative;
+      z-index: 3;
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -215,23 +220,15 @@ permalink: /links.html
       font: inherit;
       font-size: 0.95rem;
       color: var(--snow);
-      background: color-mix(in srgb, #1c1c1e 72%, transparent);
+      background: transparent;
       border: none;
       border-radius: var(--chrome-h);
       outline: none;
-      backdrop-filter: var(--material);
-      -webkit-backdrop-filter: var(--material);
-      transition: border-color .2s, box-shadow .2s;
     }
-    [data-theme="light"] .search input {
-      color: var(--ink);
-      background: color-mix(in srgb, #ffffff 80%, transparent);
-    }
+    .search.liquid-glass { border-radius: var(--chrome-h); }
     .search input::placeholder { color: var(--ink-faint); }
-    .search input:focus {
-      border-color: var(--line-strong);
-      box-shadow: var(--ring);
-    }
+    .search input:focus { box-shadow: var(--ring); }
+    [data-theme="light"] .search input { color: var(--ink); }
 
     .icon-btn {
       flex: none;
@@ -240,18 +237,13 @@ permalink: /links.html
       display: grid;
       place-items: center;
       color: var(--snow);
-      background: color-mix(in srgb, #1c1c1e 72%, transparent);
+      background: transparent;
       border: none;
       border-radius: 50%;
       cursor: pointer;
-      backdrop-filter: var(--material);
-      -webkit-backdrop-filter: var(--material);
-      transition: border-color .2s, transform .15s;
+      transition: transform .15s;
     }
-    [data-theme="light"] .icon-btn {
-      color: var(--ink);
-      background: color-mix(in srgb, #ffffff 80%, transparent);
-    }
+    [data-theme="light"] .icon-btn { color: var(--ink); }
     .icon-btn:hover { transform: translateY(-1px); border-color: var(--line-strong); }
     .icon-btn:focus-visible { outline: none; box-shadow: var(--ring); }
     .icon-btn .moon { display: none; }
@@ -352,16 +344,20 @@ permalink: /links.html
       color: var(--ink-soft);
     }
 
-    .scroll-hint {
+    .intro-glass {
       margin-top: auto;
-      padding-top: 28px;
+      padding: 24px;
+      border-radius: 20px;
+      max-width: 520px;
+    }
+
+    .scroll-hint {
+      margin-top: 20px;
       display: flex;
       align-items: center;
       gap: 10px;
-      font-family: var(--font-mono);
       font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+      letter-spacing: 0.08em;
       color: var(--ink-faint);
     }
     .scroll-hint span {
@@ -425,24 +421,10 @@ permalink: /links.html
       align-items: start;
       min-height: 96px;
       padding: 14px 14px 14px 16px;
-      border-radius: var(--r-md, 12px);
-      background: color-mix(in srgb, #1c1c1e 78%, transparent);
-      border: none;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      transition: transform .18s ease, border-color .2s, background .2s;
+      border-radius: 16px;
+      transition: transform .18s ease;
     }
-    [data-theme="light"] .link-card {
-      background: rgba(255, 255, 255, 0.62);
-    }
-    .link-card:hover {
-      transform: translateY(-2px);
-      border-color: var(--line-strong);
-      background: rgba(10, 14, 24, 0.62);
-    }
-    [data-theme="light"] .link-card:hover {
-      background: rgba(255, 255, 255, 0.82);
-    }
+    .link-card:hover { transform: translateY(-2px); }
 
     .fav {
       grid-row: 1 / 3;
@@ -581,7 +563,7 @@ permalink: /links.html
 
 <body>
   <div class="denied">
-    <div class="card">
+    <div class="card liquid-glass" style="border-radius:24px;padding:40px 32px">
       <div aria-hidden="true">🔒</div>
       <h1>Private page</h1>
       <p>You don't have permission to view this page. Redirecting you back&hellip;</p>
@@ -592,14 +574,14 @@ permalink: /links.html
   <main class="app">
     <div class="chrome">
       <div class="frame">
-        <div class="search">
+        <div class="search liquid-glass liquid-glass--subtle">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
           <input id="q" type="search" placeholder="搜索链接…" autocomplete="off" aria-label="Search links">
         </div>
-        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Toggle color theme">
+        <button class="icon-btn liquid-glass liquid-glass--subtle" id="theme-toggle" type="button" aria-label="Toggle color theme">
         <svg class="sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <circle cx="12" cy="12" r="4"></circle>
@@ -621,11 +603,13 @@ permalink: /links.html
     </nav>
 
     <div class="deck" id="deck">
-      <section class="panel panel--intro" id="intro" data-group="intro">
+      <section class="panel panel--intro panel--particles" id="intro" data-group="intro">
+        <div class="particle-field" data-particle-field aria-hidden="true"></div>
         <div class="panel__bg" style="background-image: url('/images/self-bg.jfif');"></div>
         <div class="panel__scrim"></div>
         <div class="panel__inner">
           <div class="frame">
+          <div class="intro-glass liquid-glass">
           <p class="intro-eyebrow" id="greeting">常用链接</p>
           <div class="intro-head">
             <div class="avatar">
@@ -643,11 +627,15 @@ permalink: /links.html
             向下滑动
           </div>
           </div>
+          </div>
         </div>
       </section>
 
       {% for el in groups %}
-      <section class="panel panel--chapter" id="section-{{ forloop.index }}" data-group>
+      <section class="panel panel--chapter{% if el.links.size <= 3 %} panel--particles{% endif %}" id="section-{{ forloop.index }}" data-group>
+        {% if el.links.size <= 3 %}
+        <div class="particle-field" data-particle-field data-particle-density="light" aria-hidden="true"></div>
+        {% endif %}
         <div class="panel__bg" style="background-image: url('{{ el.cover | default: '/images/links-bg.jpg' | relative_url }}');"></div>
         <div class="panel__scrim"></div>
         <div class="panel__inner">
@@ -660,7 +648,7 @@ permalink: /links.html
           <div class="link-grid">
             {% for ele in el.links %}
             {% assign host = ele.ref | split: '//' | last | split: '/' | first %}
-            <article class="link-card"
+            <article class="link-card liquid-glass liquid-glass--subtle"
                      data-name="{{ ele.name | downcase }}" data-host="{{ host | downcase }}" data-url="{{ ele.ref }}"
                      style="animation-delay: {{ forloop.index | times: 50 }}ms">
               <a class="link-hit" href="{{ ele.ref }}" target="_blank" rel="noopener noreferrer"
@@ -812,6 +800,7 @@ permalink: /links.html
       });
     })();
   </script>
+  <script src="/assets/js/particle-field.js" defer></script>
 </body>
 
 </html>

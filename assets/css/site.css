@@ -269,11 +269,14 @@ h1, h2, h3 {
 .card {
   padding: 24px;
   border-radius: var(--r-lg);
-  background: var(--surface-1);
-  border: none;
-  transition: background .2s;
+  background: var(--glass-fill, var(--surface-1));
+  backdrop-filter: var(--glass-blur, none);
+  -webkit-backdrop-filter: var(--glass-blur, none);
+  border: 0.5px solid var(--glass-border, var(--hairline));
+  box-shadow: var(--glass-highlight, var(--edge)), var(--glass-shadow, none);
+  transition: transform .2s, box-shadow .2s;
 }
-.card:hover { background: var(--surface-2); }
+.card:hover { transform: translateY(-2px); }
 .card h3 { font-size: 21px; letter-spacing: -0.022em; margin-bottom: 8px; }
 .card p { color: var(--ink-muted); font-size: 15px; margin: 0; line-height: 1.47; }
 
@@ -385,7 +388,11 @@ h1, h2, h3 {
 .info-card {
   padding: clamp(24px, 4vw, 32px);
   border-radius: var(--r-xl);
-  background: var(--surface-1);
+  background: var(--glass-fill, var(--surface-1));
+  backdrop-filter: var(--glass-blur, none);
+  -webkit-backdrop-filter: var(--glass-blur, none);
+  border: 0.5px solid var(--glass-border, var(--hairline));
+  box-shadow: var(--glass-highlight, var(--edge)), var(--glass-shadow, none);
 }
 .kv {
   display: grid;
