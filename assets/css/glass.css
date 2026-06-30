@@ -313,7 +313,7 @@
    ========================================================================= */
 
 /* Subtle glass material + sheen — gradients inlined for iOS Safari (var() multi-bg can fail) */
-:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card) {
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card, .theme-panel .welcome-quote) {
   position: relative;
   overflow: hidden;
   background: var(--glass-fill-subtle);
@@ -324,7 +324,7 @@
   isolation: isolate;
 }
 
-:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card)::after {
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card, .theme-panel .welcome-quote)::after {
   content: "";
   position: absolute;
   inset: 0;
