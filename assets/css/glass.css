@@ -116,12 +116,17 @@ a.liquid-glass:not(.ctrl--toolbar):active,
   transition: transform 100ms var(--glass-ease), filter 100ms var(--glass-ease);
 }
 
-/* Nav bar: flat glass strip — no nested bubbles, no scale on press */
+/* Nav bar: flat glass strip */
 .nav.liquid-glass {
   box-shadow: var(--glass-rim), 0 1px 0 rgba(0, 0, 0, 0.04);
 }
 .nav.liquid-glass::after {
-  opacity: 0.22;
+  opacity: 0.18;
+  pointer-events: none;
+}
+.nav.liquid-glass > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* Inset well — URL fields, chips inside glass cards */

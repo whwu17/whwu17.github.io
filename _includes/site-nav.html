@@ -1,22 +1,22 @@
-<nav class="nav liquid-glass liquid-glass--chrome" id="site-nav">
-  <a class="brand" href="{{ '/' | relative_url }}">{{ site.author.name | default: site.title }}</a>
+<header class="site-header" id="site-header">
+  <nav class="nav liquid-glass liquid-glass--chrome" id="site-nav" aria-label="Main">
+    <a class="nav__brand" href="{{ '/' | relative_url }}">{{ site.author.name | default: site.title }}</a>
 
-  <div class="nav-links" id="nav-links">
-    {% assign secs = site.sections | sort: 'priority' %}
-    {% for s in secs %}
-    <a href="{{ '/#' | append: s.section_id | relative_url }}" data-spy="{{ s.section_id }}">{{ s.name }}</a>
-    {% endfor %}
-    <a href="{{ '/about/' | relative_url }}">About</a>
-    <a href="{{ '/contact/' | relative_url }}">Contact</a>
-  </div>
+    <div class="nav__links" id="nav-links">
+      {% assign secs = site.sections | sort: 'priority' %}
+      {% for s in secs %}
+      <a href="{{ '/#' | append: s.section_id | relative_url }}" data-spy="{{ s.section_id }}">{{ s.name }}</a>
+      {% endfor %}
+      <a href="{{ '/about/' | relative_url }}">About</a>
+      <a href="{{ '/contact/' | relative_url }}">Contact</a>
+    </div>
 
-  <div class="nav-actions">
-    <button class="ctrl ctrl--icon ctrl--toolbar nav-toggle" id="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
-      <svg class="nav-toggle-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-        <path class="nav-toggle-bar nav-toggle-bar--top" d="M4 7h16"></path>
-        <path class="nav-toggle-bar nav-toggle-bar--mid" d="M4 12h16"></path>
-        <path class="nav-toggle-bar nav-toggle-bar--bot" d="M4 17h16"></path>
-      </svg>
+    <button class="nav__menu" id="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+      <span class="nav__menu-icon" aria-hidden="true">
+        <span class="nav__menu-bar"></span>
+        <span class="nav__menu-bar"></span>
+        <span class="nav__menu-bar"></span>
+      </span>
     </button>
-  </div>
-</nav>
+  </nav>
+</header>
