@@ -117,11 +117,13 @@ a { color: inherit; }
   position: fixed;
   inset: 0;
   z-index: -2;
-  background: linear-gradient(165deg, #faf9f7 0%, #f5f2ed 45%, #f0ebe5 100%);
+  background: #f5f5f7;
   pointer-events: none;
+  opacity: 0.4;
 }
 [data-theme="dark"] .aurora {
-  background: linear-gradient(165deg, #4a4a4c 0%, #3e3e40 50%, #363638 100%);
+  background: #3a3a3c;
+  opacity: 0.5;
 }
 
 .skip-link {
@@ -280,7 +282,7 @@ a { color: inherit; }
   padding: clamp(72px, 12vh, 120px) 0;
   position: relative;
 }
-.section + .section {
+.section + .section:not(.theme-panel) {
   border-top: 0.5px solid var(--hairline);
 }
 
