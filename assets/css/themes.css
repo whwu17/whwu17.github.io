@@ -198,8 +198,8 @@ body.theme-beach .aurora {
 }
 .theme-intro {
   --theme-photo: url("/images/links-me-bg.jpg");
-  --theme-photo-opacity: 0.36;
-  --theme-overlay: linear-gradient(90deg, rgba(244, 250, 245, 0.42) 0%, rgba(236, 253, 245, 0.28) 100%);
+  --theme-photo-opacity: 0.52;
+  --theme-overlay: linear-gradient(90deg, rgba(244, 250, 245, 0.26) 0%, rgba(236, 253, 245, 0.14) 100%);
   --theme-bg: #f4faf5;
   --theme-accent: #16a34a;
   --theme-accent-hover: #15803d;
@@ -214,8 +214,8 @@ body.theme-beach .aurora {
 /* —— Resume: crisp sky blue —— */
 .theme-resume {
   --theme-photo: url("/images/resume-bg.jpg");
-  --theme-photo-opacity: 0.34;
-  --theme-overlay: linear-gradient(180deg, rgba(239, 246, 255, 0.4), rgba(219, 234, 254, 0.28));
+  --theme-photo-opacity: 0.48;
+  --theme-overlay: linear-gradient(180deg, rgba(239, 246, 255, 0.26), rgba(219, 234, 254, 0.16));
   --theme-bg: linear-gradient(165deg, #eff6ff 0%, #dbeafe 100%);
   --theme-accent: #2563eb;
   --theme-accent-hover: #1d4ed8;
@@ -230,8 +230,8 @@ body.theme-beach .aurora {
 /* —— Academic: bright scholarly paper —— */
 .theme-academic {
   --theme-photo: url("/images/academic-bg.jpg");
-  --theme-photo-opacity: 0.36;
-  --theme-overlay: linear-gradient(135deg, rgba(250, 248, 244, 0.4) 0%, rgba(237, 232, 220, 0.28) 100%);
+  --theme-photo-opacity: 0.5;
+  --theme-overlay: linear-gradient(135deg, rgba(250, 248, 244, 0.26) 0%, rgba(237, 232, 220, 0.16) 100%);
   --theme-bg: linear-gradient(165deg, #faf8f5 0%, #f5f0e8 100%);
   --theme-accent: #1e40af;
   --theme-accent-hover: #1d4ed8;
@@ -253,8 +253,8 @@ body.theme-beach .aurora {
 /* —— Notes: sunny notebook —— */
 .theme-notes {
   --theme-photo: url("/images/notes-bg.jpg");
-  --theme-photo-opacity: 0.3;
-  --theme-overlay: linear-gradient(180deg, rgba(255, 251, 235, 0.4), rgba(254, 243, 199, 0.28));
+  --theme-photo-opacity: 0.44;
+  --theme-overlay: linear-gradient(180deg, rgba(255, 251, 235, 0.26), rgba(254, 243, 199, 0.16));
   --theme-bg: linear-gradient(165deg, #fffbeb 0%, #fef3c7 100%);
   --theme-accent: #d97706;
   --theme-accent-hover: #b45309;
@@ -301,8 +301,8 @@ body.theme-beach .aurora {
 /* —— Music: vivid violet lounge —— */
 .theme-music {
   --theme-photo: url("/images/music-bg.jpg");
-  --theme-photo-opacity: 0.58;
-  --theme-overlay: linear-gradient(180deg, rgba(46, 16, 101, 0.38) 0%, rgba(88, 28, 135, 0.52) 100%);
+  --theme-photo-opacity: 0.66;
+  --theme-overlay: linear-gradient(180deg, rgba(46, 16, 101, 0.24) 0%, rgba(88, 28, 135, 0.34) 100%);
   --theme-bg: linear-gradient(165deg, #2e1065 0%, #581c87 100%);
   --theme-accent: #e879f9;
   --theme-accent-hover: #f0abfc;
@@ -322,8 +322,8 @@ body.theme-beach .aurora {
 /* —— Novel: warm literary linen —— */
 .theme-novel {
   --theme-photo: url("/images/novel-bg.jpg");
-  --theme-photo-opacity: 0.4;
-  --theme-overlay: linear-gradient(180deg, rgba(250, 245, 240, 0.42), rgba(231, 219, 203, 0.28));
+  --theme-photo-opacity: 0.54;
+  --theme-overlay: linear-gradient(180deg, rgba(250, 245, 240, 0.28), rgba(231, 219, 203, 0.16));
   --theme-bg: linear-gradient(165deg, #faf5f0 0%, #f3ebe3 100%);
   --theme-accent: #b45309;
   --theme-accent-hover: #d97706;
@@ -339,8 +339,8 @@ body.theme-beach .aurora {
 /* —— Links teaser: coastal sky + sand + sun —— */
 .theme-links {
   --theme-photo: url("/images/links-bg.jpg");
-  --theme-photo-opacity: 0.5;
-  --theme-overlay: linear-gradient(180deg, rgba(224, 242, 254, 0.52) 0%, rgba(247, 240, 229, 0.4) 55%, rgba(254, 243, 199, 0.34) 100%);
+  --theme-photo-opacity: 0.62;
+  --theme-overlay: linear-gradient(180deg, rgba(224, 242, 254, 0.34) 0%, rgba(247, 240, 229, 0.24) 55%, rgba(254, 243, 199, 0.18) 100%);
   --theme-bg: linear-gradient(180deg, #e0f2fe 0%, #f7f0e5 55%, #fef3c7 100%);
   --theme-accent: #0891b2;
   --theme-accent-hover: #0e7490;
@@ -351,15 +351,11 @@ body.theme-beach .aurora {
   --theme-surface-raised: rgba(255, 255, 255, 0.9);
   --theme-border: rgba(8, 145, 178, 0.16);
 }
-.theme-links .linklist a {
-  border-radius: 16px;
-}
-
 /* —— About: calm teal studio —— */
 .theme-about {
   --theme-photo: url("/images/self-bg.jfif");
-  --theme-photo-opacity: 0.32;
-  --theme-overlay: linear-gradient(180deg, rgba(248, 250, 252, 0.48), rgba(241, 245, 249, 0.36));
+  --theme-photo-opacity: 0.46;
+  --theme-overlay: linear-gradient(180deg, rgba(248, 250, 252, 0.3), rgba(241, 245, 249, 0.2));
   --theme-bg: linear-gradient(165deg, #f8fafc 0%, #f1f5f9 100%);
   --theme-accent: #0d9488;
   --theme-accent-hover: #0f766e;
