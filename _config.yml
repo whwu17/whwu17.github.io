@@ -83,4 +83,4 @@ sass:
   style: compressed
 
 # Bump when CSS/JS changes — busts browser cache on GitHub Pages
-assets_version: 25
+assets_version: 26

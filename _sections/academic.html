@@ -11,18 +11,18 @@ priority: 30
     <p class="lead">Code, essays, and things I'm learning — open for you to read and explore.</p>
 
     <div class="grid grid-2" style="margin-top:28px">
-      <div class="card">
+      <a class="card" href="https://github.com/{{ site.author.github }}">
         <h3>GitHub</h3>
         <p>My GitHub serves as a code collaboration platform. Feel free to draw inspiration from those projects.</p>
-      </div>
-      <div class="card">
+      </a>
+      <a class="card" href="{{ '/academic/essays/' | relative_url }}">
         <h3>Essay / Blog</h3>
         <p>Tips and tricks recorded here to avoid stumbling into the same trouble twice — plus essays for understanding and discussion.</p>
-      </div>
+      </a>
     </div>
 
     <div class="btns">
-      <a class="btn btn-primary" href="{{ '/academic' | relative_url }}">
+      <a class="btn btn-primary" href="{{ '/academic/' | relative_url }}">
         View here
         <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg>
       </a>
