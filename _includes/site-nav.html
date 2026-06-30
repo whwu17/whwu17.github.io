@@ -1,12 +1,27 @@
 <style id="nav-critical">
-  /* Failsafe: hide drawer even if site.css fails to load (cached/missing) */
-  #nav-links,
-  #nav-scrim { display: none !important; }
-  #site-header.is-nav-open #nav-links {
+  /* Failsafe: collapsed drawer if site.css fails to load */
+  #nav-links {
     display: flex !important;
     flex-direction: column;
+    max-height: 0 !important;
+    opacity: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
   }
-  #site-header.is-nav-open #nav-scrim { display: block !important; }
+  #nav-scrim {
+    display: block !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  #site-header.is-nav-open #nav-links {
+    max-height: 80dvh !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+  #site-header.is-nav-open #nav-scrim {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
 </style>
 <header class="site-header" id="site-header">
   <nav class="nav liquid-glass liquid-glass--chrome" id="site-nav" aria-label="Main">
@@ -24,7 +39,7 @@
       </span>
     </button>
 
-    <div class="nav__drawer" id="nav-links" role="navigation" aria-label="Sections" hidden>
+    <div class="nav__drawer" id="nav-links" role="navigation" aria-label="Sections" aria-hidden="true">
       {% assign secs = site.sections | sort: 'priority' %}
       {% for s in secs %}
       <a href="{{ '/#' | append: s.section_id | relative_url }}" data-spy="{{ s.section_id }}">{{ s.name }}</a>
@@ -34,5 +49,5 @@
     </div>
   </div>
 
-  <div class="nav__scrim" id="nav-scrim" aria-hidden="true" hidden></div>
+  <div class="nav__scrim" id="nav-scrim" aria-hidden="true"></div>
 </header>
