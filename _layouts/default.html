@@ -39,23 +39,12 @@
       /* Mobile nav */
       var nav = document.getElementById('site-nav');
       var navToggle = document.getElementById('nav-toggle');
-      var navScrim = document.getElementById('nav-scrim');
-      function setNavOpen(open) {
-        if (!nav) return;
-        nav.classList.toggle('open', open);
-        if (navToggle) navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-        if (navScrim) {
-          navScrim.hidden = !open;
-          navScrim.setAttribute('aria-hidden', open ? 'false' : 'true');
-        }
-        html.classList.toggle('nav-open', open);
-      }
       if (navToggle) navToggle.addEventListener('click', function () {
-        setNavOpen(!nav.classList.contains('open'));
+        var open = nav.classList.toggle('open');
+        navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       });
-      if (navScrim) navScrim.addEventListener('click', function () { setNavOpen(false); });
       document.querySelectorAll('#nav-links a').forEach(function (a) {
-        a.addEventListener('click', function () { setNavOpen(false); });
+        a.addEventListener('click', function () { nav.classList.remove('open'); });
       });
 
       /* Reveal on scroll */
