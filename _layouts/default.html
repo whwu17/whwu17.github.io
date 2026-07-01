@@ -154,27 +154,13 @@
         });
       }
 
-      /* Analog world clocks — Shanghai + visitor or UTC */
+      /* Analog world clocks — Shanghai · UK · US · India · UTC */
       try {
         var homeTz = '{{ site.author.timezone | default: "Asia/Shanghai" }}';
         var greetingEl = document.getElementById('clock-greeting');
-        var tzSha = document.getElementById('tz-sha');
-        var tzB = document.getElementById('tz-b');
-        if (tzSha && tzB && window.Intl && Intl.DateTimeFormat) {
-          var localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-          var secondTz = localTz !== homeTz ? localTz : 'UTC';
-          tzB.setAttribute('data-tz', secondTz);
-
-          var secondLabel = document.getElementById('clock-label-b');
-          var cityFromTz = function (tz) {
-            if (tz === 'UTC') return 'UTC';
-            var part = tz.split('/').pop() || tz;
-            return part.replace(/_/g, ' ');
-          };
-          if (secondLabel) {
-            secondLabel.textContent = localTz !== homeTz ? cityFromTz(localTz) : 'UTC';
-          }
-
+        var clockRoot = document.getElementById('world-clock');
+        var tzEls = clockRoot ? clockRoot.querySelectorAll('.tz-clock[data-tz]') : [];
+        if (tzEls.length && window.Intl && Intl.DateTimeFormat) {
           var timeFmt = function (tz) {
             return new Intl.DateTimeFormat('en-GB', {
               timeZone: tz,
@@ -223,19 +209,20 @@
             tzEl.classList.toggle('is-night', p.hour < 6 || p.hour >= 20);
           }
 
+          function updateClock(tzEl, tz, now) {
+            updateDial(tzEl, tz, now);
+            var digital = tzEl.querySelector('.tz-clock__digital');
+            var dateEl = tzEl.querySelector('.tz-clock__date');
+            if (digital) digital.textContent = timeFmt(tz).format(now);
+            if (dateEl) dateEl.textContent = dateFmt(tz).format(now);
+            if (tz === homeTz) tzEl.setAttribute('aria-current', 'true');
+          }
+
           var tick = function () {
             var now = new Date();
-            updateDial(tzSha, homeTz, now);
-            updateDial(tzB, secondTz, now);
-
-            var shaTime = document.getElementById('clock-sha');
-            var shaDate = document.getElementById('date-sha');
-            var clockB = document.getElementById('clock-b');
-            var bDate = document.getElementById('date-b');
-            if (shaTime) shaTime.textContent = timeFmt(homeTz).format(now);
-            if (shaDate) shaDate.textContent = dateFmt(homeTz).format(now);
-            if (clockB) clockB.textContent = timeFmt(secondTz).format(now);
-            if (bDate) bDate.textContent = dateFmt(secondTz).format(now);
+            tzEls.forEach(function (el) {
+              updateClock(el, el.getAttribute('data-tz'), now);
+            });
 
             if (greetingEl) {
               var hp = getParts(homeTz, now).hour;

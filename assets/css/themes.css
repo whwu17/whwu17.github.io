@@ -197,6 +197,9 @@ body.theme-beach .aurora {
 .theme-hero .btn-primary:hover { color: var(--theme-accent-hover); }
 .theme-hero .ctrl--glass { color: var(--theme-ink-subtle); }
 .theme-hero .world-clock__greeting { color: var(--theme-ink-muted); }
+.theme-hero .world-clock--lens {
+  --glass-shadow: 0 4px 18px rgba(120, 53, 15, 0.1);
+}
 .theme-hero .tz-clock__digital { color: var(--theme-ink); }
 .theme-hero .analog__hand--second,
 .theme-hero .analog__hub { background: var(--theme-accent); }
