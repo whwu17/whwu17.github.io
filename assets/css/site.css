@@ -267,7 +267,7 @@ a { color: inherit; }
   border-right: none;
   border-top: none;
   border-bottom: 0.5px solid var(--hairline);
-  overflow: visible;
+  overflow: hidden;
 }
 .site-header.is-nav-open .nav.liquid-glass,
 .site-header:has(.nav.open) .nav.liquid-glass {
@@ -607,7 +607,8 @@ h1, h2, h3 {
   text-decoration: none;
   cursor: pointer;
 }
-.btn svg { width: 16px; height: 16px; position: relative; z-index: 2; }
+.btn__label { position: relative; z-index: 1; }
+.btn svg { width: 16px; height: 16px; position: relative; z-index: 2; flex-shrink: 0; }
 .btn-primary {
   color: var(--accent);
   border-color: color-mix(in srgb, var(--accent) 40%, var(--glass-border, rgba(255, 255, 255, 0.24)));

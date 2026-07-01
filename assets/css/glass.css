@@ -321,9 +321,16 @@
 
 /* Safari / iOS — backdrop on element (pseudo + clip-path breaks -webkit-backdrop-filter) */
 @supports (background: -apple-pay-button-visible) {
-  .nav.liquid-glass {
+  /* Full-width bar frost — nav alone is too thin / overflow breaks blur */
+  .site-header {
     backdrop-filter: var(--glass-blur-bar);
     -webkit-backdrop-filter: var(--glass-blur-bar);
+    transform: translateZ(0);
+  }
+  .nav.liquid-glass {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    overflow: hidden;
   }
   .nav.liquid-glass::before,
   .nav.liquid-glass::after {
@@ -331,11 +338,31 @@
     -webkit-backdrop-filter: none;
   }
 
-  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu) {
+  .liquid-glass.liquid-glass--subtle,
+  .liquid-glass.liquid-glass--chrome:not(.nav) {
+    backdrop-filter: var(--glass-backdrop, var(--glass-blur-subtle));
+    -webkit-backdrop-filter: var(--glass-backdrop, var(--glass-blur-subtle));
+  }
+  .liquid-glass.liquid-glass--subtle::before,
+  .liquid-glass.liquid-glass--chrome:not(.nav)::before {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  /* Pill labels must stay crisp — element-level backdrop frosts text on Safari */
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .nav__menu) {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .nav__menu)::before {
     backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
     -webkit-backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
   }
-  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::before {
+  .ctrl.ctrl--glass:not(.to-top) {
+    backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
+    -webkit-backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
+  }
+  .ctrl.ctrl--glass:not(.to-top)::before {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
@@ -348,6 +375,10 @@
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
+  /* Let blur show through — sheen was washing out the glass on Safari */
+  :is(.card, .info-card, .theme-panel .welcome-quote)::after {
+    opacity: 0.14;
+  }
 
   .to-top.ctrl--glass {
     backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
@@ -358,10 +389,12 @@
     -webkit-backdrop-filter: none;
   }
 
-  /* Safari: no SVG lensing — stronger prismatic edge (iOS 26 rim optics) */
-  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .nav__menu, .nav.liquid-glass)::after,
+  /* Safari: prismatic rim only (no pixel lensing); keep pill sheen low so labels read clean */
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .nav__menu)::after {
+    opacity: 0.1;
+  }
   .to-top.ctrl--glass::after {
-    opacity: 0.38;
+    opacity: 0.34;
   }
 }
 
@@ -430,6 +463,13 @@
 }
 
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card, .theme-panel .welcome-quote) > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Bare text nodes can't take z-index — .btn__label / .nav__drawer-label sit above glass pseudos */
+.btn__label,
+.nav__drawer-label {
   position: relative;
   z-index: 1;
 }
