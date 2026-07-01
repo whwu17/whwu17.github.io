@@ -128,23 +128,9 @@ body.theme-beach .aurora {
   color: var(--theme-ink);
 }
 
-/* Light sections — bright cards; stop dark photo bleeding through glass */
-.theme-panel:not(.theme-music):not(.theme-encrypt) .card,
-.theme-panel:not(.theme-music):not(.theme-encrypt) .info-card {
-  --glass-fill-panel: rgba(255, 255, 255, 0.94);
-  --glass-border: rgba(255, 255, 255, 0.95);
-  --glass-rim-line: rgba(255, 255, 255, 1);
-  --glass-shadow:
-    0 0 0 0.5px color-mix(in srgb, var(--theme-accent) 5%, rgba(15, 23, 42, 0.05)),
-    0 2px 8px color-mix(in srgb, var(--theme-accent) 4%, rgba(15, 23, 42, 0.05)),
-    0 8px 24px color-mix(in srgb, var(--theme-accent) 3%, rgba(15, 23, 42, 0.04));
-}
-
-.theme-panel:not(.theme-music):not(.theme-encrypt) .card::before,
-.theme-panel:not(.theme-music):not(.theme-encrypt) .info-card::before {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(18px) saturate(155%);
-  -webkit-backdrop-filter: blur(18px) saturate(155%);
+.theme-panel .card,
+.theme-panel .info-card {
+  border-color: color-mix(in srgb, var(--theme-accent) 16%, var(--glass-border));
 }
 
 .theme-panel .card p,
@@ -340,13 +326,6 @@ body.theme-beach .aurora {
 }
 .theme-academic .card {
   border-radius: var(--r-lg);
-  background: rgba(255, 255, 255, 0.94);
-}
-.theme-academic .card h3 {
-  color: var(--theme-ink);
-}
-.theme-academic .card p {
-  color: var(--theme-ink-muted);
 }
 
 /* —— Notes: sunny notebook —— */
