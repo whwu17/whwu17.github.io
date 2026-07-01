@@ -19,12 +19,10 @@
   --glass-border: rgba(255, 255, 255, 0.22);
   --glass-border-chrome: rgba(255, 255, 255, 0.28);
 
-  /* Inset rim + soft edge bloom (not a hard outline ring) */
+  /* Inset rim — single ring avoids four-way inset stacking at rounded corners */
   --glass-rim:
-    inset 0 1px 0 rgba(255, 255, 255, 0.62),
-    inset 0 -0.5px 0 rgba(255, 255, 255, 0.1),
-    inset 0.5px 0 0 rgba(255, 255, 255, 0.22),
-    inset -0.5px 0 0 rgba(255, 255, 255, 0.22);
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.32);
   --glass-halo:
     0 0 4px rgba(255, 255, 255, 0.28),
     0 0 10px rgba(255, 255, 255, 0.1);
@@ -56,12 +54,10 @@
   --glass-border: rgba(255, 255, 255, 0.46);
   --glass-border-chrome: rgba(255, 255, 255, 0.52);
 
-  /* Convex rim + edge lensing scatter */
+  /* Convex rim — no per-side black insets (they pool dark at corners) */
   --glass-rim:
-    inset 0 1px 0 rgba(255, 255, 255, 0.68),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.09),
-    inset 1px 0 0 rgba(255, 255, 255, 0.28),
-    inset -1px 0 0 rgba(255, 255, 255, 0.28);
+    inset 0 1px 0 rgba(255, 255, 255, 0.58),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.4);
   --glass-halo:
     0 0 0 0.5px rgba(255, 255, 255, 0.52),
     0 0 0 1px rgba(255, 255, 255, 0.22),
@@ -357,6 +353,7 @@
   :is(a.btn, button.btn, .linklist a, .nav__drawer a, .nav__menu)::before {
     backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
     -webkit-backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
+    inset: 1px;
   }
   .ctrl.ctrl--glass:not(.to-top) {
     backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
@@ -368,12 +365,13 @@
   }
 
   :is(.card, .info-card, .theme-panel .welcome-quote) {
-    backdrop-filter: var(--glass-blur-subtle);
-    -webkit-backdrop-filter: var(--glass-blur-subtle);
-  }
-  :is(.card, .info-card, .theme-panel .welcome-quote)::before {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+  }
+  :is(.card, .info-card, .theme-panel .welcome-quote)::before {
+    backdrop-filter: var(--glass-blur-subtle);
+    -webkit-backdrop-filter: var(--glass-blur-subtle);
+    inset: 1px;
   }
   /* Let blur show through — sheen was washing out the glass on Safari */
   :is(.card, .info-card, .theme-panel .welcome-quote)::after {
