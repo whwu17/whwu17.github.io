@@ -1,24 +1,30 @@
 <div class="world-clock world-clock--lens reveal" style="--reveal-i:2" id="world-clock" aria-live="polite">
   <p class="world-clock__greeting" id="clock-greeting">—</p>
-  <div class="world-clock__strip" id="world-clock-strip" role="list">
-    {% assign clock_zones = "Asia/Shanghai|Shanghai,Europe/London|UK,America/New_York|US,Asia/Kolkata|India,UTC|UTC" | split: "," %}
-    {% for zone in clock_zones %}
-      {% assign zp = zone | split: "|" %}
-      <div class="tz-clock tz-lens" role="listitem" data-tz="{{ zp[0] }}" data-city="{{ zp[1] }}">
-        <span class="tz-clock__label">{{ zp[1] }}</span>
-        <div class="analog" aria-hidden="true">
-          <div class="analog__dial">
-            <div class="analog__sky"></div>
-            <div class="analog__ticks"></div>
-            <div class="analog__hand analog__hand--hour"></div>
-            <div class="analog__hand analog__hand--minute"></div>
-            <div class="analog__hand analog__hand--second"></div>
-            <div class="analog__hub"></div>
+  <div class="world-clock__strip-wrap">
+    <div class="world-clock__strip" id="world-clock-strip" role="list">
+      {% assign clock_zones = "Asia/Shanghai|Shanghai|home,Europe/London|UK|eu,America/New_York|US|us,Asia/Kolkata|India|in,UTC|UTC|utc" | split: "," %}
+      {% for zone in clock_zones %}
+        {% assign zp = zone | split: "|" %}
+        <div class="tz-clock tz-lens" role="listitem" data-tz="{{ zp[0] }}" data-city="{{ zp[1] }}" data-region="{{ zp[2] }}">
+          <div class="tz-clock__head">
+            <span class="tz-clock__dot" aria-hidden="true"></span>
+            <span class="tz-clock__label">{{ zp[1] }}</span>
+            <span class="tz-clock__offset" aria-hidden="true">—</span>
           </div>
+          <div class="analog" aria-hidden="true">
+            <div class="analog__dial">
+              <div class="analog__sky"></div>
+              <div class="analog__ticks"></div>
+              <div class="analog__hand analog__hand--hour"></div>
+              <div class="analog__hand analog__hand--minute"></div>
+              <div class="analog__hand analog__hand--second"></div>
+              <div class="analog__hub"></div>
+            </div>
+          </div>
+          <time class="tz-clock__digital">--:--</time>
+          <span class="tz-clock__date">—</span>
         </div>
-        <time class="tz-clock__digital">--:--</time>
-        <span class="tz-clock__date">—</span>
-      </div>
-    {% endfor %}
+      {% endfor %}
+    </div>
   </div>
 </div>

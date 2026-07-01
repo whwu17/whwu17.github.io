@@ -6,22 +6,27 @@
 
 :root {
   /* iOS 26 role blur — pill 8 · panel 12 · chrome 16 · bar 24 */
-  --glass-blur-pill: blur(8px) saturate(165%);
-  --glass-blur-subtle: blur(12px) saturate(175%);
-  --glass-blur-chrome: blur(16px) saturate(180%);
-  --glass-blur-bar: blur(24px) saturate(185%);
+  --glass-blur-pill: blur(24px) saturate(140%);
+  --glass-blur-subtle: blur(40px) saturate(155%);
+  --glass-blur-chrome: blur(52px) saturate(160%);
+  --glass-blur-bar: blur(56px) saturate(165%);
   --glass-blur: var(--glass-blur-subtle);
 
   --glass-fill: transparent;
   --glass-fill-chrome: transparent;
   --glass-fill-subtle: transparent;
 
-  --glass-border: rgba(255, 255, 255, 0.22);
-  --glass-border-chrome: rgba(255, 255, 255, 0.28);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-border-chrome: rgba(255, 255, 255, 0.24);
+
+  /* Ceye-style clear glass — tint on hover/press only */
+  --glass-rim-line: rgba(255, 255, 255, 0.24);
+  --glass-tint-strong: rgba(255, 255, 255, 0.05);
+  --glass-specular-line: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
 
   /* Inset rim — single ring avoids four-way inset stacking at rounded corners */
   --glass-rim:
-    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 1px 0 var(--glass-rim-line),
     inset 0 0 0 0.5px rgba(255, 255, 255, 0.32);
   --glass-halo:
     0 0 4px rgba(255, 255, 255, 0.28),
@@ -30,7 +35,7 @@
     radial-gradient(90% 65% at 14% -12%, rgba(255, 255, 255, 0.38) 0%, transparent 58%),
     radial-gradient(72% 42% at 50% 112%, rgba(255, 255, 255, 0.12) 0%, transparent 54%);
   --glass-highlight: var(--glass-rim);
-  --glass-shadow: 0 4px 22px rgba(0, 0, 0, 0.08);
+  --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
   --glass-sheen-opacity: 0.5;
 
   --glass-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
@@ -53,6 +58,9 @@
 
   --glass-border: rgba(255, 255, 255, 0.46);
   --glass-border-chrome: rgba(255, 255, 255, 0.52);
+  --glass-rim-line: rgba(255, 255, 255, 0.38);
+  --glass-tint-strong: rgba(255, 255, 255, 0.08);
+  --glass-specular-line: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.52), transparent);
 
   /* Convex rim — no per-side black insets (they pool dark at corners) */
   --glass-rim:
@@ -135,11 +143,13 @@
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 2;
   border-radius: inherit;
   pointer-events: none;
-  opacity: var(--glass-sheen-opacity);
-  background: var(--glass-edge-sheen);
+  opacity: 1;
+  background:
+    var(--glass-specular-line) top center / 84% 1px no-repeat,
+    var(--glass-edge-sheen);
 }
 
 /* =========================================================================
@@ -401,12 +411,12 @@
     -webkit-backdrop-filter: none;
   }
 
-  /* Safari: pill sheen uses token — do not raise in themes.css */
+  /* Safari: pill sheen uses specular line — do not raise in themes.css */
   :is(a.btn, button.btn, .linklist a, .nav__drawer a, .nav__menu)::after {
-    opacity: var(--glass-pill-sheen);
+    opacity: 1;
   }
   .to-top.ctrl--glass::after {
-    opacity: 0.34;
+    opacity: 1;
   }
 }
 
@@ -437,7 +447,9 @@
   overflow: hidden;
   background: transparent;
   border: 0.5px solid var(--glass-border);
-  box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
+  box-shadow:
+    inset 0 1px 0 var(--glass-rim-line, rgba(255, 255, 255, 0.24)),
+    var(--glass-shadow);
   isolation: isolate;
 }
 
@@ -467,16 +479,18 @@
   -webkit-backdrop-filter: var(--glass-blur-subtle);
 }
 
-/* Pill sheen — top highlight only (no chromatic rings over label text) */
+/* Pill sheen — Ceye top specular line + soft glint */
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 2;
   border-radius: inherit;
   pointer-events: none;
-  opacity: var(--glass-pill-sheen);
-  background: radial-gradient(82% 52% at 14% -10%, rgba(255, 255, 255, 0.28) 0%, transparent 46%);
+  opacity: 1;
+  background:
+    var(--glass-specular-line) top center / 84% 1px no-repeat,
+    radial-gradient(82% 52% at 14% -10%, rgba(255, 255, 255, 0.22) 0%, transparent 46%);
 }
 
 /* Panel sheen — soft top glint only; no edge chromatic ellipses (dark corner pooling) */
@@ -558,7 +572,21 @@
 }
 
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed)::after {
-  opacity: calc(var(--glass-pill-sheen) * 1.35);
+  opacity: 1;
+  background:
+    var(--glass-specular-line) top center / 84% 1px no-repeat,
+    radial-gradient(82% 52% at 14% -10%, rgba(255, 255, 255, 0.32) 0%, transparent 46%);
+}
+
+@media (hover: hover) {
+  :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):hover:not(:active, .is-pressed) {
+    transform: scale(1.03);
+    background: var(--glass-tint-strong);
+  }
+  .to-top.ctrl--glass.show:hover:not(:active, .is-pressed) {
+    transform: translateY(0) scale(1.03);
+    background: var(--glass-tint-strong);
+  }
 }
 
 [data-theme="light"] :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed)::before {
@@ -592,11 +620,13 @@
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 2;
   border-radius: inherit;
   pointer-events: none;
-  opacity: var(--glass-sheen-opacity);
-  background: var(--glass-edge-sheen);
+  opacity: 1;
+  background:
+    var(--glass-specular-line) top center / 84% 1px no-repeat,
+    var(--glass-edge-sheen);
 }
 .to-top.ctrl--glass::before {
   content: "";

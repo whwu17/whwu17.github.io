@@ -119,11 +119,15 @@ body.theme-beach .aurora {
 .theme-panel .btn-primary {
   color: var(--theme-accent);
   border-color: color-mix(in srgb, var(--theme-accent) 42%, var(--glass-border));
-  box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
+  box-shadow:
+    inset 0 1px 0 var(--glass-rim-line, rgba(255, 255, 255, 0.24)),
+    var(--glass-shadow);
 }
 .theme-panel :is(a.btn, button.btn, .linklist a, .ctrl.ctrl--glass:not(.to-top)) {
   border-width: 0.5px;
-  box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
+  box-shadow:
+    inset 0 1px 0 var(--glass-rim-line, rgba(255, 255, 255, 0.24)),
+    var(--glass-shadow);
 }
 /* Sheen opacity owned by glass.css --glass-pill-sheen / --glass-panel-sheen */
 .theme-panel .btn-primary:hover { color: var(--theme-accent-hover, var(--theme-accent)); }
@@ -189,10 +193,12 @@ body.theme-beach .aurora {
   border-color: color-mix(in srgb, var(--theme-accent) 34%, var(--glass-border));
 }
 .theme-hero :is(a.btn, button.btn, .ctrl.ctrl--glass:not(.to-top)) {
-  box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
+  box-shadow:
+    inset 0 1px 0 var(--glass-rim-line, rgba(255, 255, 255, 0.24)),
+    var(--glass-shadow);
 }
 .theme-hero :is(a.btn, button.btn, .ctrl.ctrl--glass:not(.to-top))::after {
-  opacity: 0.28;
+  opacity: 1;
 }
 .theme-hero .btn-primary:hover { color: var(--theme-accent-hover); }
 .theme-hero .ctrl--glass { color: var(--theme-ink-subtle); }
