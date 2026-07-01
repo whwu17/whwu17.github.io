@@ -160,6 +160,7 @@ a { color: inherit; }
   --nav-pill-gap: 8px;
   --nav-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --nav-duration: 0.32s;
+  background: transparent;
 }
 
 .nav__slot {
@@ -251,22 +252,22 @@ a { color: inherit; }
   height: var(--nav-h);
   padding: 0 var(--gutter);
 }
-.nav:not(.liquid-glass) {
+.nav:not(.nav--bar) {
   background: color-mix(in srgb, var(--canvas) 72%, transparent);
   border-bottom: 0.5px solid var(--hairline);
   backdrop-filter: var(--material);
   -webkit-backdrop-filter: var(--material);
 }
-.nav.liquid-glass {
+.nav--bar {
   border-radius: 0;
   border-left: none;
   border-right: none;
   border-top: none;
   border-bottom: 0.5px solid var(--hairline);
-  overflow: hidden;
+  overflow: visible;
 }
-.site-header.is-nav-open .nav.liquid-glass,
-.site-header:has(.nav.open) .nav.liquid-glass {
+.site-header.is-nav-open .nav--bar,
+.site-header:has(.nav.open) .nav--bar {
   overflow: visible;
 }
 
