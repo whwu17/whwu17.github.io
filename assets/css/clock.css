@@ -1,6 +1,5 @@
 /* =========================================================================
-   World clock — home hero moment + labelled elsewhere strip
-   Align flush with hero copy · each zone: city · offset · time · date
+   World clock — home hero + 4-row elsewhere list
    ========================================================================= */
 
 .world-clock.world-clock--focus {
@@ -58,15 +57,16 @@
   color: var(--ink-tertiary);
 }
 
+/* 4 rows — one zone per line */
 .world-clock__elsewhere {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 0;
   width: 100%;
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding: 12px 10px 11px;
+  padding: 4px 14px;
   border-radius: 18px;
   border: 0.5px solid var(--glass-border, rgba(255, 255, 255, 0.82));
   box-shadow:
@@ -104,27 +104,28 @@
   position: relative;
   z-index: 1;
   display: grid;
-  justify-items: center;
-  gap: 2px;
-  text-align: center;
+  grid-template-columns: minmax(0, 1fr) auto minmax(72px, auto);
+  align-items: center;
+  gap: 12px;
   min-width: 0;
-  padding: 0 6px;
+  padding: 11px 0;
+  text-align: left;
 }
 
 .tz-ref + .tz-ref {
-  border-left: 0.5px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  border-top: 0.5px solid color-mix(in srgb, var(--ink) 8%, transparent);
 }
 
-.tz-ref__head {
+.tz-ref__meta {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
+  gap: 6px;
+  min-width: 0;
 }
 
 .tz-ref__dot {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   flex: none;
 }
@@ -135,9 +136,9 @@
 .tz-ref[data-region="utc"] .tz-ref__dot { background: #94a3b8; }
 
 .tz-ref__city {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--ink);
   white-space: nowrap;
@@ -145,54 +146,60 @@
 
 .tz-ref__offset {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0;
   color: var(--ink-tertiary);
   white-space: nowrap;
 }
 
 .tz-ref__time {
   font-family: var(--font-display);
-  font-size: clamp(15px, 3.6vw, 17px);
+  font-size: 16px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.02em;
   color: var(--ink);
-  line-height: 1.1;
-  margin-top: 1px;
+  line-height: 1;
+  text-align: right;
+  white-space: nowrap;
 }
 
 .tz-ref__date {
-  font-size: clamp(9px, 2.2vw, 10px);
+  font-size: 12px;
   line-height: 1.25;
   color: var(--ink-subtle);
-  text-wrap: balance;
+  text-align: right;
+  white-space: nowrap;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 400px) {
   .world-clock__elsewhere {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px 0;
-    padding: 12px 12px 10px;
+    padding: 4px 12px;
   }
 
-  .tz-ref + .tz-ref {
-    border-left: none;
+  .tz-ref {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    gap: 2px 10px;
+    padding: 10px 0;
   }
 
-  .tz-ref:nth-child(odd) {
-    border-right: 0.5px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  .tz-ref__meta {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: center;
   }
 
-  .tz-ref:nth-child(-n+2) {
-    padding-bottom: 12px;
-    border-bottom: 0.5px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  .tz-ref__time {
+    grid-column: 2;
+    grid-row: 1;
   }
 
   .tz-ref__date {
-    font-size: 10px;
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 11px;
   }
 }
 
