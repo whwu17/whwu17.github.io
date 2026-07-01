@@ -154,13 +154,11 @@
         });
       }
 
-      /* Analog world clocks — Shanghai · UK · US · India · UTC */
+      /* World clocks — Shanghai · UK · US · India · UTC */
       try {
         var homeTz = '{{ site.author.timezone | default: "Asia/Shanghai" }}';
         var greetingEl = document.getElementById('clock-greeting');
         var clockRoot = document.getElementById('world-clock');
-        var stripWrap = clockRoot ? clockRoot.querySelector('.world-clock__strip-wrap') : null;
-        var stripEl = document.getElementById('world-clock-strip');
         var tzEls = clockRoot ? clockRoot.querySelectorAll('.tz-clock[data-tz]') : [];
         if (tzEls.length && window.Intl && Intl.DateTimeFormat) {
           var timeFmt = function (tz) {
@@ -171,77 +169,38 @@
               hour12: false
             });
           };
-          var dateFmt = function (tz) {
-            return new Intl.DateTimeFormat('en-GB', {
+          var longDateFmt = function (tz) {
+            return new Intl.DateTimeFormat('en-US', {
               timeZone: tz,
-              weekday: 'short',
-              month: 'short',
+              weekday: 'long',
+              month: 'long',
               day: 'numeric'
             });
           };
-          var partsFmt = function (tz) {
-            return new Intl.DateTimeFormat('en-GB', {
-              timeZone: tz,
-              hour: 'numeric',
-              minute: 'numeric',
-              second: 'numeric',
-              hour12: false
-            });
-          };
 
-          function getParts(tz, now) {
-            var p = {};
-            partsFmt(tz).formatToParts(now).forEach(function (x) {
-              if (x.type !== 'literal') p[x.type] = parseInt(x.value, 10);
-            });
-            return p;
+          function ordinal(n) {
+            var j = n % 10;
+            var k = n % 100;
+            if (j === 1 && k !== 11) return n + 'st';
+            if (j === 2 && k !== 12) return n + 'nd';
+            if (j === 3 && k !== 13) return n + 'rd';
+            return n + 'th';
           }
 
-          function updateDial(tzEl, tz, now) {
-            var p = getParts(tz, now);
-            var h = p.hour % 12;
-            var m = p.minute;
-            var s = p.second;
-            var dial = tzEl.querySelector('.analog__dial');
-            if (!dial) return;
-            dial.style.setProperty('--deg-h', (h * 30 + m * 0.5) + 'deg');
-            dial.style.setProperty('--deg-m', (m * 6 + s * 0.1) + 'deg');
-            dial.style.setProperty('--deg-s', (s * 6) + 'deg');
-            dial.style.setProperty('--sky-rot', (p.hour * 15) + 'deg');
-            tzEl.classList.toggle('is-night', p.hour < 6 || p.hour >= 20);
-          }
-
-          var offsetFmt = function (tz) {
-            return new Intl.DateTimeFormat('en-GB', {
-              timeZone: tz,
-              timeZoneName: 'shortOffset'
+          function formatLongDate(tz, now) {
+            var parts = {};
+            longDateFmt(tz).formatToParts(now).forEach(function (x) {
+              if (x.type !== 'literal') parts[x.type] = x.value;
             });
-          };
-
-          function getOffsetLabel(tz, now) {
-            var label = '';
-            offsetFmt(tz).formatToParts(now).forEach(function (x) {
-              if (x.type === 'timeZoneName') label = x.value;
-            });
-            return label.replace('GMT', 'UTC');
-          }
-
-          function updateStripFade() {
-            if (!stripWrap || !stripEl) return;
-            var maxScroll = stripEl.scrollWidth - stripEl.clientWidth;
-            var scrollable = maxScroll > 4;
-            stripWrap.classList.toggle('is-scrollable', scrollable);
-            stripWrap.classList.toggle('is-scrolled', scrollable && stripEl.scrollLeft > 4);
+            var day = parseInt(parts.day, 10);
+            return parts.weekday + ', ' + parts.month + ' ' + ordinal(day);
           }
 
           function updateClock(tzEl, tz, now) {
-            updateDial(tzEl, tz, now);
-            var digital = tzEl.querySelector('.tz-clock__digital');
+            var timeEl = tzEl.querySelector('.tz-clock__time');
             var dateEl = tzEl.querySelector('.tz-clock__date');
-            var offsetEl = tzEl.querySelector('.tz-clock__offset');
-            if (digital) digital.textContent = timeFmt(tz).format(now);
-            if (dateEl) dateEl.textContent = dateFmt(tz).format(now);
-            if (offsetEl) offsetEl.textContent = getOffsetLabel(tz, now);
+            if (timeEl) timeEl.textContent = timeFmt(tz).format(now);
+            if (dateEl) dateEl.textContent = formatLongDate(tz, now);
             if (tz === homeTz) tzEl.setAttribute('aria-current', 'true');
           }
 
@@ -252,18 +211,20 @@
             });
 
             if (greetingEl) {
-              var hp = getParts(homeTz, now).hour;
-              greetingEl.textContent = hp < 5 ? 'Good night' : hp < 12 ? 'Good morning' : hp < 17 ? 'Good afternoon' : 'Good evening';
+              var hp = {};
+              new Intl.DateTimeFormat('en-GB', {
+                timeZone: homeTz,
+                hour: 'numeric',
+                hour12: false
+              }).formatToParts(now).forEach(function (x) {
+                if (x.type === 'hour') hp.hour = parseInt(x.value, 10);
+              });
+              var h = hp.hour;
+              greetingEl.textContent = h < 5 ? 'Good night' : h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
             }
           };
           tick();
           setInterval(tick, 1000);
-
-          if (stripEl && stripWrap) {
-            stripEl.addEventListener('scroll', updateStripFade, { passive: true });
-            window.addEventListener('resize', updateStripFade, { passive: true });
-            updateStripFade();
-          }
         }
       } catch (e) { /* clock is non-critical */ }
     })();

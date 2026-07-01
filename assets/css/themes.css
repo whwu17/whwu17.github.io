@@ -252,12 +252,7 @@ body.theme-beach .aurora {
 .theme-hero .world-clock--lens {
   --glass-shadow: 0 12px 40px rgba(120, 53, 15, 0.12);
 }
-.theme-hero .tz-clock__digital { color: var(--theme-ink); }
-.theme-hero .analog__hand--second,
-.theme-hero .analog__hub { background: var(--theme-accent); }
-.theme-hero .analog__hand--minute {
-  background: color-mix(in srgb, var(--theme-ink) 75%, var(--theme-accent));
-}
+.theme-hero .tz-clock__time { color: var(--theme-ink); }
 
 .theme-intro .welcome-quote {
   border-left-color: color-mix(in srgb, var(--theme-accent) 45%, transparent);
