@@ -250,12 +250,19 @@
   }
 }
 
-/* Nav bar — custom bar glass on .site-header (not .liquid-glass; avoids corner rim pooling) */
-.site-header {
+/* Nav bar — frost on thin .nav--bar only (not whole .site-header; avoids scroll crash) */
+.nav--bar {
+  position: relative;
   isolation: isolate;
+  --glass-backdrop: var(--glass-blur-bar);
+  background: transparent;
+  border: none;
+  border-bottom: 0.5px solid var(--hairline);
+  box-shadow: none;
+  overflow: visible;
 }
 
-.site-header::before {
+.nav--bar::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -266,33 +273,13 @@
   -webkit-backdrop-filter: var(--glass-blur-bar);
 }
 
-.site-header::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.1;
-  background: radial-gradient(100% 80% at 12% -20%, rgba(255, 255, 255, 0.32) 0%, transparent 55%);
-}
-
-.site-header > * {
-  position: relative;
-  z-index: 1;
-}
-
-.nav--bar {
-  --glass-backdrop: var(--glass-blur-bar);
-  background: transparent;
-  border: none;
-  border-bottom: 0.5px solid var(--hairline);
-  box-shadow: none;
-  overflow: visible;
-}
-
-.nav--bar::before,
 .nav--bar::after {
   display: none;
+}
+
+.nav--bar > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* Inset well — URL fields, form inputs, chips inside glass cards */
@@ -331,10 +318,6 @@
     backdrop-filter: var(--glass-blur-chrome) var(--glass-refract-chrome);
     -webkit-backdrop-filter: var(--glass-blur-chrome) var(--glass-refract-chrome);
   }
-  .site-header::before {
-    backdrop-filter: var(--glass-blur-bar);
-    -webkit-backdrop-filter: var(--glass-blur-bar);
-  }
 
   :is(.card, .info-card, .theme-panel .welcome-quote)::before {
     backdrop-filter: var(--glass-blur-subtle) var(--glass-refract);
@@ -352,18 +335,16 @@
   }
 }
 
-/* Safari / iOS — bar frost on header ::before (no liquid-glass nav layer) */
+/* Safari / iOS — bar frost on .nav--bar::before only */
 @supports (background: -apple-pay-button-visible) {
-  .site-header {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    transform: translateZ(0);
-  }
-
   .nav--bar {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     overflow: visible;
+  }
+  .nav--bar::before {
+    backdrop-filter: var(--glass-blur-bar);
+    -webkit-backdrop-filter: var(--glass-blur-bar);
   }
 
   .liquid-glass.liquid-glass--subtle,
