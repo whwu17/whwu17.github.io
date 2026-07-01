@@ -12,15 +12,11 @@
       {% for zone in elsewhere %}
         {% assign zp = zone | split: "|" %}
         <div class="tz-ref" role="listitem" data-tz="{{ zp[0] }}" data-city="{{ zp[1] }}" data-place="{{ zp[2] }}" data-region="{{ zp[3] }}" title="{{ zp[0] }}">
-          <div class="tz-ref__meta">
-            <span class="tz-ref__dot" aria-hidden="true"></span>
-            <span class="tz-ref__city">{{ zp[1] }}</span>
-            <span class="tz-ref__offset" aria-hidden="true">—</span>
-          </div>
-          <div class="tz-ref__when">
-            <time class="tz-ref__time">--:--</time>
-            <span class="tz-ref__date">—</span>
-          </div>
+          <span class="tz-ref__dot" aria-hidden="true"></span>
+          <span class="tz-ref__city">{{ zp[1] }}</span>
+          <span class="tz-ref__offset" aria-hidden="true">—</span>
+          <time class="tz-ref__time">--:--</time>
+          <span class="tz-ref__date">—</span>
         </div>
       {% endfor %}
     </div>
