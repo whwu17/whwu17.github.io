@@ -1,103 +1,80 @@
 /* =========================================================================
-   World clock — 5 zones, all visible, no scroll
-   City · time · long date (Wednesday, July 1st)
+   World clock — home hero moment + compact elsewhere strip
+   Focus: Shanghai time + long date · satellite: UK · US · India · UTC
    ========================================================================= */
 
-.world-clock--lens {
+.world-clock--focus {
   align-self: stretch;
-  margin-top: clamp(20px, 3vh, 28px);
+  margin-top: clamp(22px, 4vh, 32px);
+  display: grid;
+  gap: 14px;
+}
+
+/* —— Primary: typographic home clock (no nested cards) —— */
+.world-clock__moment {
+  padding: 2px 2px 0;
+}
+
+.world-clock__greeting {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--theme-accent, var(--accent));
+}
+
+.world-clock__hero-time {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(56px, 16vw, 80px);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+  color: var(--ink);
+}
+
+.world-clock__hero-date {
+  margin: 10px 0 0;
+  font-size: clamp(16px, 3.6vw, 20px);
+  font-weight: 500;
+  letter-spacing: -0.022em;
+  line-height: 1.35;
+  color: var(--ink-muted);
+}
+
+/* —— Secondary: one glass strip, four zones —— */
+.world-clock__elsewhere {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding: 16px 14px 14px;
-  border-radius: var(--r-xl);
+  padding: 12px 8px 11px;
+  border-radius: 18px;
   border: 0.5px solid var(--glass-border, rgba(255, 255, 255, 0.82));
   box-shadow:
     inset 0 1px 0 var(--glass-rim-line, rgba(255, 255, 255, 0.95)),
     0 0 0 0.5px var(--glass-border-edge, rgba(15, 23, 42, 0.08)),
-    var(--glass-shadow, 0 12px 32px rgba(15, 23, 42, 0.1));
+    var(--glass-shadow, 0 8px 24px rgba(15, 23, 42, 0.08));
   background: transparent;
 }
 
-.world-clock--lens::before {
+.world-clock__elsewhere::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: 0;
   border-radius: inherit;
   pointer-events: none;
-  transform: translateZ(0);
-  backdrop-filter: blur(40px) saturate(165%);
-  -webkit-backdrop-filter: blur(40px) saturate(165%);
-  background: var(--glass-fill-panel, rgba(255, 255, 255, 0.72));
+  backdrop-filter: blur(28px) saturate(165%);
+  -webkit-backdrop-filter: blur(28px) saturate(165%);
+  background: var(--glass-fill-panel, rgba(255, 255, 255, 0.62));
 }
 
-.world-clock--lens::after {
-  content: "";
-  position: absolute;
-  left: 8%;
-  right: 8%;
-  top: 0;
-  height: 1px;
-  z-index: 2;
-  pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.38), transparent);
-}
-
-.world-clock--lens > * {
-  position: relative;
-  z-index: 1;
-}
-
-.world-clock--lens .world-clock__greeting {
-  margin: 0 0 12px;
-  padding: 0 4px;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--ink-muted);
-}
-
-/* Always show all 5 — grid on wide, compact rows on narrow (no horizontal scroll) */
-.world-clock__grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.tz-chip {
-  display: grid;
-  justify-items: center;
-  gap: 4px;
-  text-align: center;
-  padding: 10px 6px 9px;
-  border-radius: 16px;
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  border: 0.5px solid var(--glass-border, rgba(255, 255, 255, 0.82));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    0 0 0 0.5px var(--glass-border-edge, rgba(15, 23, 42, 0.06)),
-    0 4px 16px rgba(15, 23, 42, 0.08);
-  background: transparent;
-  min-width: 0;
-}
-
-.tz-chip::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  transform: translateZ(0);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  background: var(--glass-fill-pill, rgba(255, 255, 255, 0.58));
-}
-
-.tz-chip::after {
+.world-clock__elsewhere::after {
   content: "";
   position: absolute;
   left: 10%;
@@ -106,120 +83,88 @@
   height: 1px;
   z-index: 2;
   pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.36), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
 }
 
-.tz-chip > * {
+.tz-ref {
   position: relative;
   z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  text-align: center;
+  min-width: 0;
+  padding: 0 4px;
 }
 
-.tz-clock__head {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  width: 100%;
+.tz-ref + .tz-ref {
+  border-left: 0.5px solid color-mix(in srgb, var(--ink) 8%, transparent);
 }
 
-.tz-clock__dot {
-  width: 6px;
-  height: 6px;
+.tz-ref__dot {
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  flex: none;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35);
+  opacity: 0.9;
 }
 
-.tz-chip[data-region="home"] .tz-clock__dot { background: var(--accent); }
-.tz-chip[data-region="eu"] .tz-clock__dot { background: #6366f1; }
-.tz-chip[data-region="us"] .tz-clock__dot { background: #3b82f6; }
-.tz-chip[data-region="in"] .tz-clock__dot { background: #f59e0b; }
-.tz-chip[data-region="utc"] .tz-clock__dot { background: #94a3b8; }
+.tz-ref[data-region="eu"] .tz-ref__dot { background: #6366f1; }
+.tz-ref[data-region="us"] .tz-ref__dot { background: #3b82f6; }
+.tz-ref[data-region="in"] .tz-ref__dot { background: #f59e0b; }
+.tz-ref[data-region="utc"] .tz-ref__dot { background: #94a3b8; }
 
-.tz-chip[aria-current="true"] {
-  border-color: color-mix(in srgb, var(--accent) 32%, rgba(255, 255, 255, 0.82));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent),
-    0 6px 20px color-mix(in srgb, var(--accent) 12%, rgba(0, 0, 0, 0.08));
-}
-
-.tz-clock__label {
-  font-size: 10px;
+.tz-ref__city {
+  font-size: 9px;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: var(--ink);
+  color: var(--ink-tertiary);
   white-space: nowrap;
 }
 
-.tz-clock__time {
+.tz-ref__time {
   font-family: var(--font-display);
-  font-size: clamp(15px, 2.8vw, 18px);
-  font-weight: 700;
+  font-size: clamp(14px, 3.4vw, 16px);
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.02em;
   color: var(--ink);
-  line-height: 1.1;
+  line-height: 1;
 }
 
-.tz-clock__date {
-  font-size: clamp(9px, 1.6vw, 11px);
-  line-height: 1.25;
-  color: var(--ink-subtle);
-  text-wrap: balance;
-  hyphens: auto;
-}
-
-/* Narrow — stack as 5 rows, still all visible without scrolling */
-@media (max-width: 559px) {
-  .world-clock__grid {
-    grid-template-columns: 1fr;
-    gap: 6px;
+@media (max-width: 380px) {
+  .world-clock__elsewhere {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 0;
+    padding: 12px 10px;
   }
 
-  .tz-chip {
-    display: grid;
-    grid-template-columns: minmax(52px, 22%) minmax(48px, 18%) 1fr;
-    grid-template-rows: auto;
-    align-items: center;
-    justify-items: start;
-    gap: 4px 10px;
-    text-align: left;
-    padding: 10px 12px;
+  .tz-ref + .tz-ref {
+    border-left: none;
   }
 
-  .tz-clock__head {
-    justify-content: flex-start;
+  .tz-ref:nth-child(odd) {
+    border-right: 0.5px solid color-mix(in srgb, var(--ink) 8%, transparent);
   }
 
-  .tz-clock__time {
-    font-size: 16px;
-  }
-
-  .tz-clock__date {
-    grid-column: 1 / -1;
-    font-size: 12px;
-    padding-left: 11px;
+  .tz-ref:nth-child(-n+2) {
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid color-mix(in srgb, var(--ink) 8%, transparent);
   }
 }
 
 @media (hover: hover) {
-  .tz-chip:hover {
-    transform: translateY(-1px);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.95),
-      0 8px 22px rgba(15, 23, 42, 0.1);
+  .tz-ref:hover .tz-ref__time {
+    color: var(--theme-accent, var(--accent));
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tz-chip { transition: none; }
+  .world-clock__hero-time { transition: none; }
 }
 
 @supports (background: -apple-pay-button-visible) {
-  .world-clock--lens,
-  .tz-chip {
+  .world-clock__elsewhere {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }

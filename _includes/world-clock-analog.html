@@ -1,16 +1,18 @@
-<div class="world-clock world-clock--lens reveal" style="--reveal-i:2" id="world-clock" aria-live="polite">
-  <p class="world-clock__greeting" id="clock-greeting">—</p>
-  <div class="world-clock__grid" role="list">
-    {% assign clock_zones = "Asia/Shanghai|Shanghai|home,Europe/London|UK|eu,America/New_York|US|us,Asia/Kolkata|India|in,UTC|UTC|utc" | split: "," %}
-    {% for zone in clock_zones %}
+<div class="world-clock world-clock--focus reveal" style="--reveal-i:2" id="world-clock" aria-live="polite">
+  <div class="world-clock__moment">
+    <p class="world-clock__greeting" id="clock-greeting">—</p>
+    <time class="world-clock__hero-time" id="clock-home-time">--:--</time>
+    <p class="world-clock__hero-date" id="clock-home-date">—</p>
+  </div>
+
+  <div class="world-clock__elsewhere" role="list" aria-label="Other time zones">
+    {% assign elsewhere = "Europe/London|UK|eu,America/New_York|US|us,Asia/Kolkata|India|in,UTC|UTC|utc" | split: "," %}
+    {% for zone in elsewhere %}
       {% assign zp = zone | split: "|" %}
-      <div class="tz-clock tz-chip" role="listitem" data-tz="{{ zp[0] }}" data-city="{{ zp[1] }}" data-region="{{ zp[2] }}">
-        <div class="tz-clock__head">
-          <span class="tz-clock__dot" aria-hidden="true"></span>
-          <span class="tz-clock__label">{{ zp[1] }}</span>
-        </div>
-        <time class="tz-clock__time">--:--</time>
-        <span class="tz-clock__date">—</span>
+      <div class="tz-ref" role="listitem" data-tz="{{ zp[0] }}" data-city="{{ zp[1] }}" data-region="{{ zp[2] }}">
+        <span class="tz-ref__dot" aria-hidden="true"></span>
+        <span class="tz-ref__city">{{ zp[1] }}</span>
+        <time class="tz-ref__time">--:--</time>
       </div>
     {% endfor %}
   </div>

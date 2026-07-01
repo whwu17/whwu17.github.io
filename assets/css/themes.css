@@ -248,11 +248,12 @@ body.theme-beach .aurora {
 }
 .theme-hero .btn-primary:hover { color: var(--theme-accent-hover); }
 .theme-hero .ctrl--glass { color: var(--theme-ink-subtle); }
-.theme-hero .world-clock__greeting { color: var(--theme-ink-muted); }
-.theme-hero .world-clock--lens {
-  --glass-shadow: 0 12px 40px rgba(120, 53, 15, 0.12);
+.theme-hero .world-clock__greeting { color: var(--theme-accent); }
+.theme-hero .world-clock__hero-time { color: var(--theme-ink); }
+.theme-hero .world-clock__hero-date { color: var(--theme-ink-muted); }
+.theme-hero .world-clock__elsewhere {
+  --glass-shadow: 0 8px 28px rgba(120, 53, 15, 0.1);
 }
-.theme-hero .tz-clock__time { color: var(--theme-ink); }
 
 .theme-intro .welcome-quote {
   border-left-color: color-mix(in srgb, var(--theme-accent) 45%, transparent);
