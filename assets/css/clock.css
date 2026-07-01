@@ -59,7 +59,7 @@
 }
 
 .world-clock__elsewhere {
-  --tz-cols: 6px 2.75rem 4.25rem 2.85rem minmax(0, 1fr);
+  --tz-cols: 6px 2.5rem 4rem 2.75rem minmax(9rem, 1fr);
   --tz-gap: 10px;
   display: grid;
   grid-template-columns: 1fr;
@@ -165,8 +165,7 @@
   line-height: 1.25;
   color: var(--ink-subtle);
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 @media (max-width: 400px) {
