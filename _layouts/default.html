@@ -159,6 +159,8 @@
         var homeTz = '{{ site.author.timezone | default: "Asia/Shanghai" }}';
         var greetingEl = document.getElementById('clock-greeting');
         var clockRoot = document.getElementById('world-clock');
+        var stripWrap = clockRoot ? clockRoot.querySelector('.world-clock__strip-wrap') : null;
+        var stripEl = document.getElementById('world-clock-strip');
         var tzEls = clockRoot ? clockRoot.querySelectorAll('.tz-clock[data-tz]') : [];
         if (tzEls.length && window.Intl && Intl.DateTimeFormat) {
           var timeFmt = function (tz) {
@@ -209,12 +211,37 @@
             tzEl.classList.toggle('is-night', p.hour < 6 || p.hour >= 20);
           }
 
+          var offsetFmt = function (tz) {
+            return new Intl.DateTimeFormat('en-GB', {
+              timeZone: tz,
+              timeZoneName: 'shortOffset'
+            });
+          };
+
+          function getOffsetLabel(tz, now) {
+            var label = '';
+            offsetFmt(tz).formatToParts(now).forEach(function (x) {
+              if (x.type === 'timeZoneName') label = x.value;
+            });
+            return label.replace('GMT', 'UTC');
+          }
+
+          function updateStripFade() {
+            if (!stripWrap || !stripEl) return;
+            var maxScroll = stripEl.scrollWidth - stripEl.clientWidth;
+            var scrollable = maxScroll > 4;
+            stripWrap.classList.toggle('is-scrollable', scrollable);
+            stripWrap.classList.toggle('is-scrolled', scrollable && stripEl.scrollLeft > 4);
+          }
+
           function updateClock(tzEl, tz, now) {
             updateDial(tzEl, tz, now);
             var digital = tzEl.querySelector('.tz-clock__digital');
             var dateEl = tzEl.querySelector('.tz-clock__date');
+            var offsetEl = tzEl.querySelector('.tz-clock__offset');
             if (digital) digital.textContent = timeFmt(tz).format(now);
             if (dateEl) dateEl.textContent = dateFmt(tz).format(now);
+            if (offsetEl) offsetEl.textContent = getOffsetLabel(tz, now);
             if (tz === homeTz) tzEl.setAttribute('aria-current', 'true');
           }
 
@@ -231,6 +258,12 @@
           };
           tick();
           setInterval(tick, 1000);
+
+          if (stripEl && stripWrap) {
+            stripEl.addEventListener('scroll', updateStripFade, { passive: true });
+            window.addEventListener('resize', updateStripFade, { passive: true });
+            updateStripFade();
+          }
         }
       } catch (e) { /* clock is non-critical */ }
     })();
