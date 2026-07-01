@@ -697,8 +697,8 @@ a.card {
   letter-spacing: -0.018em;
 }
 
-/* World clock — secondary detail below quote */
-.world-clock {
+/* World clock — legacy compact layout (hero uses .world-clock--focus in clock.css) */
+.world-clock:not(.world-clock--focus) {
   align-self: stretch;
   margin-top: clamp(20px, 3vh, 28px);
   padding: 16px 20px;
@@ -811,10 +811,10 @@ a.card {
 @media (max-width: 480px) {
   .hero-actions {
     flex-direction: column;
-    align-items: stretch;
+    align-items: flex-start;
   }
   .hero-actions .btn { width: 100%; justify-content: center; }
-  .hero-actions .socials { justify-content: center; }
+  .hero-actions .socials { justify-content: flex-start; }
 }
 
 /* ---------- Profile ---------- */

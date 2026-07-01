@@ -5,15 +5,22 @@
     <p class="world-clock__hero-date" id="clock-home-date">—</p>
   </div>
 
-  <div class="world-clock__elsewhere" role="list" aria-label="Other time zones">
-    {% assign elsewhere = "Europe/London|UK|eu,America/New_York|US|us,Asia/Kolkata|India|in,UTC|UTC|utc" | split: "," %}
-    {% for zone in elsewhere %}
-      {% assign zp = zone | split: "|" %}
-      <div class="tz-ref" role="listitem" data-tz="{{ zp[0] }}" data-city="{{ zp[1] }}" data-region="{{ zp[2] }}">
-        <span class="tz-ref__dot" aria-hidden="true"></span>
-        <span class="tz-ref__city">{{ zp[1] }}</span>
-        <time class="tz-ref__time">--:--</time>
-      </div>
-    {% endfor %}
+  <div class="world-clock__elsewhere-wrap">
+    <p class="world-clock__elsewhere-label">Other time zones</p>
+    <div class="world-clock__elsewhere" role="list" aria-label="Other time zones">
+      {% assign elsewhere = "Europe/London|UK|London|eu,America/New_York|US|New York|us,Asia/Kolkata|India|India|in,UTC|UTC|UTC|utc" | split: "," %}
+      {% for zone in elsewhere %}
+        {% assign zp = zone | split: "|" %}
+        <div class="tz-ref" role="listitem" data-tz="{{ zp[0] }}" data-city="{{ zp[1] }}" data-place="{{ zp[2] }}" data-region="{{ zp[3] }}" title="{{ zp[0] }}">
+          <div class="tz-ref__head">
+            <span class="tz-ref__dot" aria-hidden="true"></span>
+            <span class="tz-ref__city">{{ zp[1] }}</span>
+          </div>
+          <span class="tz-ref__offset" aria-hidden="true">—</span>
+          <time class="tz-ref__time">--:--</time>
+          <span class="tz-ref__date">—</span>
+        </div>
+      {% endfor %}
+    </div>
   </div>
 </div>
