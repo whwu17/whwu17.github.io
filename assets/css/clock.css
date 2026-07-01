@@ -1,12 +1,11 @@
 /* =========================================================================
-   World clock — hero moment + aligned elsewhere table
-   Spacing: 4 · 8 · 12 · 16 · 20 · 24px rhythm
+   World clock — hero moment + aligned elsewhere rows
    ========================================================================= */
 
 .world-clock.world-clock--focus {
-  --wc-gap: 20px;
+  --wc-gap: 16px;
   --wc-pad-x: 16px;
-  --wc-pad-y: 14px;
+  --wc-pad-y: 12px;
   --tz-cols: 8px 3rem 4.5rem 3.25rem minmax(11rem, 1fr);
   --tz-gap: 12px;
   --tz-row-pad: 11px;
@@ -18,7 +17,6 @@
   gap: var(--wc-gap);
 }
 
-/* —— Home moment —— */
 .world-clock__moment {
   width: 100%;
   padding: 0;
@@ -51,21 +49,6 @@
   letter-spacing: -0.02em;
   line-height: 1.4;
   color: var(--ink-muted);
-}
-
-/* —— Elsewhere table —— */
-.world-clock__elsewhere-wrap {
-  width: 100%;
-}
-
-.world-clock__elsewhere-label {
-  margin: 0 0 10px;
-  padding-left: 2px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-tertiary);
 }
 
 .world-clock__elsewhere {
@@ -107,43 +90,16 @@
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
 }
 
-.world-clock__elsewhere > * {
+.tz-ref {
   position: relative;
   z-index: 1;
-}
-
-.tz-grid-head,
-.tz-ref {
   display: grid;
   grid-template-columns: var(--tz-cols);
   column-gap: var(--tz-gap);
   align-items: center;
   min-width: 0;
-  text-align: left;
-}
-
-.tz-grid-head {
-  padding: 0 0 10px;
-  margin-bottom: 2px;
-  border-bottom: 0.5px solid color-mix(in srgb, var(--ink) 10%, transparent);
-}
-
-.tz-grid-head .tz-col {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--ink-tertiary);
-  white-space: nowrap;
-}
-
-.tz-grid-body {
-  display: grid;
-  gap: 0;
-}
-
-.tz-ref {
   padding: var(--tz-row-pad) 0;
+  text-align: left;
   border-radius: 10px;
   transition: background 0.2s ease;
 }
@@ -179,7 +135,6 @@
   font-size: 10px;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.01em;
   color: var(--ink-tertiary);
   white-space: nowrap;
 }
@@ -206,26 +161,15 @@
 
 @media (max-width: 520px) {
   .world-clock.world-clock--focus {
-    --wc-gap: 16px;
     --wc-pad-x: 14px;
-    --wc-pad-y: 12px;
+    --wc-pad-y: 10px;
     --tz-cols: 8px 2.75rem 4rem 3rem minmax(0, 1fr);
     --tz-gap: 10px;
     --tz-row-pad: 10px;
   }
 
-  .tz-grid-head .tz-col:nth-child(4),
-  .tz-grid-head .tz-col:nth-child(5) {
-    font-size: 9px;
-  }
-
-  .tz-ref__time {
-    font-size: 15px;
-  }
-
-  .tz-ref__date {
-    font-size: 12px;
-  }
+  .tz-ref__time { font-size: 15px; }
+  .tz-ref__date { font-size: 12px; }
 }
 
 @media (max-width: 380px) {
@@ -233,10 +177,6 @@
     --tz-cols: 8px 2.5rem 3.5rem 2.75rem minmax(0, 1fr);
     --tz-gap: 8px;
     --wc-pad-x: 12px;
-  }
-
-  .tz-grid-head {
-    display: none;
   }
 
   .tz-ref__date {
@@ -276,14 +216,7 @@
     row-gap: 0;
   }
 
-  .tz-grid-head,
   .tz-ref {
-    grid-template-columns: subgrid;
-    grid-column: 1 / -1;
-  }
-
-  .tz-grid-body {
-    display: grid;
     grid-template-columns: subgrid;
     grid-column: 1 / -1;
   }
