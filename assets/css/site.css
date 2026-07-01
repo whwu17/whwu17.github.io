@@ -637,6 +637,9 @@ a.card {
   text-decoration: none;
   color: inherit;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
 }
 .card:is(a, .card--clickable) {
   cursor: pointer;

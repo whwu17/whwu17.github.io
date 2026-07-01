@@ -318,7 +318,12 @@
     -webkit-backdrop-filter: var(--glass-blur-chrome) var(--glass-refract-chrome);
   }
 
-  :is(.card, .info-card, .theme-panel .welcome-quote)::before {
+  :is(.card, .info-card)::before {
+    backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle)) var(--glass-refract-pill);
+    -webkit-backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle)) var(--glass-refract-pill);
+  }
+
+  .theme-panel .welcome-quote::before {
     backdrop-filter: var(--glass-blur-subtle) var(--glass-refract);
     -webkit-backdrop-filter: var(--glass-blur-subtle) var(--glass-refract);
   }
@@ -377,16 +382,25 @@
     inset: 1px;
   }
 
-  :is(.card, .info-card, .theme-panel .welcome-quote) {
+  :is(.card, .info-card) {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
-  :is(.card, .info-card, .theme-panel .welcome-quote)::before {
+  :is(.card, .info-card)::before {
+    backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
+    -webkit-backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
+    inset: 1px;
+  }
+  .theme-panel .welcome-quote {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .theme-panel .welcome-quote::before {
     backdrop-filter: var(--glass-blur-subtle);
     -webkit-backdrop-filter: var(--glass-blur-subtle);
     inset: 1px;
   }
-  /* Safari: panel specular line stays visible */
+  /* Safari: specular line stays visible */
   :is(.card, .info-card, .theme-panel .welcome-quote)::after {
     opacity: 1;
   }
@@ -442,7 +456,27 @@
   isolation: isolate;
 }
 
-:is(.card, .info-card, .theme-panel .welcome-quote) {
+:is(.card, .info-card) {
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+  border: 0.5px solid var(--glass-border);
+  box-shadow:
+    inset 0 1px 0 var(--glass-rim-line, rgba(255, 255, 255, 0.24)),
+    var(--glass-shadow);
+  isolation: isolate;
+  transition:
+    transform var(--glass-press-duration) var(--glass-spring),
+    background var(--glass-press-duration) var(--glass-ease),
+    box-shadow var(--glass-press-duration) var(--glass-ease);
+}
+
+:is(.card, .info-card)::after {
+  z-index: 0;
+  transition: opacity calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
+}
+
+.theme-panel .welcome-quote {
   position: relative;
   overflow: hidden;
   background: transparent;
@@ -458,7 +492,27 @@
   border-radius: var(--pill);
 }
 
-:is(.card, .info-card, .theme-panel .welcome-quote)::before {
+/* Cards — same pill-tier glass as buttons (not heavier panel fill) */
+:is(.card, .info-card)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  transform: translateZ(0);
+  backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
+  -webkit-backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
+  background: var(--glass-fill-pill, transparent);
+  opacity: 1;
+  transition: background calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
+}
+
+[data-theme="light"] :is(.card, .info-card)::before {
+  background: transparent;
+}
+
+.theme-panel .welcome-quote::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -485,8 +539,22 @@
     radial-gradient(82% 52% at 14% -10%, rgba(255, 255, 255, 0.22) 0%, transparent 46%);
 }
 
-/* Panel sheen — Ceye specular line + soft glint */
-:is(.card, .info-card, .theme-panel .welcome-quote)::after {
+/* Card sheen — match pill controls */
+:is(.card, .info-card)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 1;
+  background:
+    var(--glass-specular-line) top center / 84% 1px no-repeat,
+    radial-gradient(82% 52% at 14% -10%, rgba(255, 255, 255, 0.22) 0%, transparent 46%);
+}
+
+/* Quote panel sheen — slightly softer glint */
+.theme-panel .welcome-quote::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -581,8 +649,17 @@
     transform: translateY(0) scale(1.05);
     background: var(--glass-tint-strong);
   }
-  :is(.card, .info-card, a.card):hover {
+  :is(.card, .info-card, a.card):hover:not(:active, .is-pressed) {
     transform: translateY(-2px);
+    background: var(--glass-tint-strong);
+  }
+  :is(a.card, .info-card):is(:active, .is-pressed) {
+    transform: scale(0.98);
+  }
+  :is(a.card, .info-card):is(:active, .is-pressed)::before {
+    background: rgba(255, 255, 255, 0.28);
+  }
+  [data-theme="light"] :is(a.card, .info-card):is(:active, .is-pressed)::before {
     background: var(--glass-tint-strong);
   }
 }
