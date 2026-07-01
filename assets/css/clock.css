@@ -27,8 +27,8 @@
   border-radius: inherit;
   pointer-events: none;
   transform: translateZ(0);
-  backdrop-filter: blur(40px) saturate(155%);
-  -webkit-backdrop-filter: blur(40px) saturate(155%);
+  backdrop-filter: blur(52px) saturate(140%);
+  -webkit-backdrop-filter: blur(52px) saturate(140%);
 }
 
 .world-clock--lens::after {
