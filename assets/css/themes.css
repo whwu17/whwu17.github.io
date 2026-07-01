@@ -125,9 +125,7 @@ body.theme-beach .aurora {
   border-width: 0.5px;
   box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
 }
-.theme-panel :is(a.btn, button.btn, .linklist a, .ctrl.ctrl--glass:not(.to-top))::after {
-  opacity: 0.28;
-}
+/* Sheen opacity owned by glass.css --glass-pill-sheen / --glass-panel-sheen */
 .theme-panel .btn-primary:hover { color: var(--theme-accent-hover, var(--theme-accent)); }
 .theme-panel .btn-ghost {
   color: var(--theme-accent);
@@ -151,6 +149,8 @@ body.theme-beach .aurora {
   border-radius: var(--r-lg);
 }
 .theme-panel .welcome-quote p {
+  position: relative;
+  z-index: 2;
   color: var(--theme-ink-muted);
 }
 

@@ -74,6 +74,12 @@
     0 2px 6px rgba(0, 0, 0, 0.07),
     0 6px 18px rgba(0, 0, 0, 0.05);
   --glass-sheen-opacity: 0.28;
+  --glass-pill-sheen: 0.1;
+  --glass-panel-sheen: 0.12;
+
+  /* Pill vs panel sheen — one source of truth (themes.css must not override higher) */
+  --glass-pill-sheen: 0.1;
+  --glass-panel-sheen: 0.12;
 
   --glass-refract: none;
   --glass-refract-pill: none;
@@ -356,12 +362,13 @@
     inset: 1px;
   }
   .ctrl.ctrl--glass:not(.to-top) {
-    backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
-    -webkit-backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
-  }
-  .ctrl.ctrl--glass:not(.to-top)::before {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+  }
+  .ctrl.ctrl--glass:not(.to-top)::before {
+    backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
+    -webkit-backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
+    inset: 1px;
   }
 
   :is(.card, .info-card, .theme-panel .welcome-quote) {
@@ -373,9 +380,9 @@
     -webkit-backdrop-filter: var(--glass-blur-subtle);
     inset: 1px;
   }
-  /* Let blur show through — sheen was washing out the glass on Safari */
+  /* Let blur show through — panel sheen stays subtle on Safari */
   :is(.card, .info-card, .theme-panel .welcome-quote)::after {
-    opacity: 0.14;
+    opacity: var(--glass-panel-sheen);
   }
 
   .to-top.ctrl--glass {
@@ -387,9 +394,9 @@
     -webkit-backdrop-filter: none;
   }
 
-  /* Safari: prismatic rim only (no pixel lensing); keep pill sheen low so labels read clean */
+  /* Safari: pill sheen uses token — do not raise in themes.css */
   :is(a.btn, button.btn, .linklist a, .nav__drawer a, .nav__menu)::after {
-    opacity: 0.1;
+    opacity: var(--glass-pill-sheen);
   }
   .to-top.ctrl--glass::after {
     opacity: 0.34;
@@ -417,13 +424,22 @@
    No extra classes required in HTML for .btn / .linklist a / .nav__drawer a
    ========================================================================= */
 
-/* Subtle glass shell — blur lives on ::before, clipped inside shape */
-:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card, .theme-panel .welcome-quote) {
+/* Subtle glass shell — blur on ::before; pills and panels share structure, differ in sheen/shadow */
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu) {
   position: relative;
   overflow: hidden;
   background: transparent;
   border: 0.5px solid var(--glass-border);
   box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
+  isolation: isolate;
+}
+
+:is(.card, .info-card, .theme-panel .welcome-quote) {
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+  border: 0.5px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
   isolation: isolate;
 }
 
@@ -444,20 +460,28 @@
   -webkit-backdrop-filter: var(--glass-blur-subtle);
 }
 
-:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card, .theme-panel .welcome-quote)::after {
+/* Pill sheen — top highlight only (no chromatic rings over label text) */
+:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::after {
   content: "";
   position: absolute;
   inset: 0;
   z-index: 0;
   border-radius: inherit;
   pointer-events: none;
-  opacity: 0.28;
-  background:
-    radial-gradient(88% 60% at 10% -12%, rgba(255, 255, 255, 0.32) 0%, transparent 38%),
-    radial-gradient(70% 44% at 90% 110%, rgba(255, 255, 255, 0.12) 0%, transparent 42%),
-    radial-gradient(ellipse 108% 92% at 50% 50%, transparent 60%, rgba(255, 72, 72, 0.24) 63%, transparent 65%),
-    radial-gradient(ellipse 110% 94% at 50% 50%, transparent 61%, rgba(72, 120, 255, 0.28) 64%, transparent 66%),
-    radial-gradient(ellipse 106% 90% at 50% 50%, transparent 62%, rgba(72, 255, 160, 0.16) 64%, transparent 65%);
+  opacity: var(--glass-pill-sheen);
+  background: radial-gradient(82% 52% at 14% -10%, rgba(255, 255, 255, 0.28) 0%, transparent 46%);
+}
+
+/* Panel sheen — soft top glint only; no edge chromatic ellipses (dark corner pooling) */
+:is(.card, .info-card, .theme-panel .welcome-quote)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--glass-panel-sheen);
+  background: radial-gradient(92% 58% at 12% -8%, rgba(255, 255, 255, 0.22) 0%, transparent 48%);
 }
 
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu, .card, .info-card, .theme-panel .welcome-quote) > * {
@@ -465,11 +489,11 @@
   z-index: 1;
 }
 
-/* Bare text nodes can't take z-index — .btn__label / .nav__drawer-label sit above glass pseudos */
-.btn__label,
-.nav__drawer-label {
+/* All pill labels above blur + sheen (bare text nodes cannot take z-index) */
+:is(.btn__label, .linklist__label, .nav__drawer-label) {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Interactive press — pills & menu rows */
@@ -527,7 +551,7 @@
 }
 
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed)::after {
-  opacity: calc(var(--glass-sheen-opacity) * 1.35);
+  opacity: calc(var(--glass-pill-sheen) * 1.35);
 }
 
 [data-theme="light"] :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed)::before {

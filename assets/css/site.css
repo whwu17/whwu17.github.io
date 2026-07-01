@@ -603,7 +603,8 @@ h1, h2, h3 {
   text-decoration: none;
   cursor: pointer;
 }
-.btn__label { position: relative; z-index: 1; }
+.btn__label { position: relative; z-index: 2; }
+.linklist__label { position: relative; z-index: 2; }
 .btn svg { width: 16px; height: 16px; position: relative; z-index: 2; flex-shrink: 0; }
 .btn-primary {
   color: var(--accent);
