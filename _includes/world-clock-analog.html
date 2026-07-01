@@ -7,18 +7,27 @@
 
   <div class="world-clock__elsewhere-wrap">
     <p class="world-clock__elsewhere-label">Other time zones</p>
-    <div class="world-clock__elsewhere" role="list" aria-label="Other time zones">
-      {% assign elsewhere = "Europe/London|UK|London|eu,America/New_York|US|New York|us,Asia/Kolkata|India|India|in,UTC|UTC|UTC|utc" | split: "," %}
-      {% for zone in elsewhere %}
-        {% assign zp = zone | split: "|" %}
-        <div class="tz-ref" role="listitem" data-tz="{{ zp[0] }}" data-city="{{ zp[1] }}" data-place="{{ zp[2] }}" data-region="{{ zp[3] }}" title="{{ zp[0] }}">
-          <span class="tz-ref__dot" aria-hidden="true"></span>
-          <span class="tz-ref__city">{{ zp[1] }}</span>
-          <span class="tz-ref__offset" aria-hidden="true">—</span>
-          <time class="tz-ref__time">--:--</time>
-          <span class="tz-ref__date">—</span>
-        </div>
-      {% endfor %}
+    <div class="world-clock__elsewhere">
+      <div class="tz-grid-head" aria-hidden="true">
+        <span class="tz-col tz-col--dot"></span>
+        <span class="tz-col">City</span>
+        <span class="tz-col">Offset</span>
+        <span class="tz-col">Time</span>
+        <span class="tz-col">Date</span>
+      </div>
+      <div class="tz-grid-body" role="list" aria-label="Other time zones">
+        {% assign elsewhere = "Europe/London|UK|London|eu,America/New_York|US|New York|us,Asia/Kolkata|India|India|in,UTC|UTC|UTC|utc" | split: "," %}
+        {% for zone in elsewhere %}
+          {% assign zp = zone | split: "|" %}
+          <div class="tz-ref" role="listitem" data-tz="{{ zp[0] }}" data-city="{{ zp[1] }}" data-place="{{ zp[2] }}" data-region="{{ zp[3] }}" title="{{ zp[0] }}">
+            <span class="tz-ref__dot" aria-hidden="true"></span>
+            <span class="tz-ref__city">{{ zp[1] }}</span>
+            <span class="tz-ref__offset" aria-hidden="true">—</span>
+            <time class="tz-ref__time">--:--</time>
+            <span class="tz-ref__date">—</span>
+          </div>
+        {% endfor %}
+      </div>
     </div>
   </div>
 </div>

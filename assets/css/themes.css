@@ -254,6 +254,12 @@ body.theme-beach .aurora {
 .theme-hero .world-clock__elsewhere {
   --glass-shadow: 0 8px 28px rgba(120, 53, 15, 0.1);
 }
+.theme-hero .tz-grid-head {
+  border-bottom-color: color-mix(in srgb, var(--theme-accent) 12%, transparent);
+}
+.theme-hero .tz-ref + .tz-ref {
+  border-top-color: color-mix(in srgb, var(--theme-accent) 8%, transparent);
+}
 
 .theme-intro .welcome-quote {
   border-left-color: color-mix(in srgb, var(--theme-accent) 45%, transparent);
