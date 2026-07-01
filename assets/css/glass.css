@@ -45,31 +45,35 @@
 }
 
 [data-theme="light"] {
-  /* Ceye clear glass — same blur tiers on light pages (was 8/12/16px, too faint) */
-  --glass-blur-pill: blur(24px) saturate(140%);
-  --glass-blur-subtle: blur(52px) saturate(140%);
-  --glass-blur-chrome: blur(52px) saturate(140%);
-  --glass-blur-bar: blur(56px) saturate(145%);
+  /* Light pages need frosted fill — pure backdrop-filter on flat gradients is invisible */
+  --glass-blur-pill: blur(20px) saturate(160%);
+  --glass-blur-subtle: blur(40px) saturate(165%);
+  --glass-blur-chrome: blur(48px) saturate(165%);
+  --glass-blur-bar: blur(52px) saturate(168%);
   --glass-blur: var(--glass-blur-subtle);
 
-  --glass-fill: transparent;
-  --glass-fill-chrome: transparent;
-  --glass-fill-subtle: transparent;
+  --glass-fill-pill: rgba(255, 255, 255, 0.58);
+  --glass-fill-panel: rgba(255, 255, 255, 0.72);
+  --glass-fill: var(--glass-fill-panel);
+  --glass-fill-chrome: rgba(255, 255, 255, 0.78);
+  --glass-fill-subtle: rgba(255, 255, 255, 0.65);
 
-  --glass-border: rgba(255, 255, 255, 0.22);
-  --glass-border-chrome: rgba(255, 255, 255, 0.28);
-  --glass-rim-line: rgba(255, 255, 255, 0.38);
-  --glass-tint-strong: rgba(255, 255, 255, 0.08);
-  --glass-specular-line: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.48), transparent);
+  --glass-border: rgba(255, 255, 255, 0.82);
+  --glass-border-chrome: rgba(255, 255, 255, 0.88);
+  --glass-border-edge: rgba(15, 23, 42, 0.08);
+  --glass-rim-line: rgba(255, 255, 255, 0.95);
+  --glass-tint-strong: rgba(255, 255, 255, 0.88);
+  --glass-specular-line: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
 
-  --glass-rim:
-    inset 0 1px 0 var(--glass-rim-line),
-    inset 0 0 0 0.5px rgba(255, 255, 255, 0.32);
+  --glass-rim: inset 0 1px 0 var(--glass-rim-line);
   --glass-halo: none;
   --glass-edge-sheen:
-    radial-gradient(88% 60% at 10% -10%, rgba(255, 255, 255, 0.34) 0%, transparent 44%),
-    radial-gradient(72% 48% at 92% 108%, rgba(255, 255, 255, 0.1) 0%, transparent 46%);
-  --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+    radial-gradient(88% 60% at 10% -10%, rgba(255, 255, 255, 0.55) 0%, transparent 44%),
+    radial-gradient(72% 48% at 92% 108%, rgba(255, 255, 255, 0.16) 0%, transparent 46%);
+  --glass-shadow:
+    0 0 0 0.5px var(--glass-border-edge),
+    0 2px 8px rgba(15, 23, 42, 0.07),
+    0 12px 32px rgba(15, 23, 42, 0.1);
   --glass-sheen-opacity: 1;
   --glass-pill-sheen: 1;
   --glass-panel-sheen: 1;
@@ -464,6 +468,7 @@
   transform: translateZ(0);
   backdrop-filter: var(--glass-blur-subtle);
   -webkit-backdrop-filter: var(--glass-blur-subtle);
+  background: var(--glass-fill-panel, var(--glass-fill-subtle, transparent));
 }
 
 /* Pill sheen — Ceye top specular line + soft glint */
@@ -532,7 +537,7 @@
   transform: translateZ(0);
   backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
   -webkit-backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
-  background: transparent;
+  background: var(--glass-fill-pill, transparent);
   opacity: 1;
   transition: background calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
 }
@@ -583,7 +588,7 @@
 }
 
 [data-theme="light"] :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed)::before {
-  background: rgba(255, 255, 255, 0.22);
+  background: var(--glass-tint-strong);
 }
 
 /* Back to top — fixed floater (excluded from auto-glass position/transform) */

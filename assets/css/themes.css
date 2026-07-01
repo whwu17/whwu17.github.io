@@ -97,13 +97,19 @@ body.theme-beach .aurora {
 }
 
 .theme-panel {
-  --glass-blur-pill: blur(24px) saturate(140%);
-  --glass-blur-subtle: blur(52px) saturate(140%);
-  --glass-blur-chrome: blur(52px) saturate(140%);
-  --glass-border: rgba(255, 255, 255, 0.22);
-  --glass-rim-line: rgba(255, 255, 255, 0.36);
-  --glass-tint-strong: rgba(255, 255, 255, 0.08);
-  --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  --glass-fill-pill: rgba(255, 255, 255, 0.58);
+  --glass-fill-panel: rgba(255, 255, 255, 0.72);
+  --glass-blur-pill: blur(20px) saturate(160%);
+  --glass-blur-subtle: blur(40px) saturate(165%);
+  --glass-blur-chrome: blur(48px) saturate(165%);
+  --glass-border: rgba(255, 255, 255, 0.82);
+  --glass-border-edge: rgba(15, 23, 42, 0.08);
+  --glass-rim-line: rgba(255, 255, 255, 0.95);
+  --glass-tint-strong: rgba(255, 255, 255, 0.88);
+  --glass-shadow:
+    0 0 0 0.5px var(--glass-border-edge),
+    0 2px 8px rgba(15, 23, 42, 0.07),
+    0 12px 32px rgba(15, 23, 42, 0.1);
 }
 .theme-panel .eyebrow { color: var(--theme-accent); }
 .theme-panel .lead { color: var(--theme-ink-muted); }
@@ -183,13 +189,47 @@ body.theme-beach .aurora {
   --theme-surface-raised: var(--fresh-surface-raised);
   --theme-border: rgba(234, 88, 12, 0.16);
   --ring: 0 0 0 3px color-mix(in srgb, #ea580c 35%, transparent);
-  --glass-blur-pill: blur(24px) saturate(140%);
-  --glass-blur-subtle: blur(52px) saturate(140%);
-  --glass-border: rgba(255, 255, 255, 0.22);
-  --glass-rim-line: rgba(255, 255, 255, 0.38);
-  --glass-tint-strong: rgba(255, 255, 255, 0.1);
-  --glass-shadow: 0 12px 40px rgba(120, 53, 15, 0.12);
+  --glass-fill-pill: rgba(255, 255, 255, 0.62);
+  --glass-fill-panel: rgba(255, 255, 255, 0.76);
+  --glass-blur-pill: blur(20px) saturate(165%);
+  --glass-blur-subtle: blur(44px) saturate(170%);
+  --glass-border: rgba(255, 255, 255, 0.88);
+  --glass-border-edge: rgba(120, 53, 15, 0.1);
+  --glass-rim-line: rgba(255, 255, 255, 0.98);
+  --glass-tint-strong: rgba(255, 255, 255, 0.9);
+  --glass-shadow:
+    0 0 0 0.5px var(--glass-border-edge),
+    0 2px 10px rgba(120, 53, 15, 0.08),
+    0 14px 36px rgba(120, 53, 15, 0.12);
   background: var(--theme-bg) !important;
+  overflow: hidden;
+}
+
+/* Soft color blobs — gives backdrop-filter something to refract (like Ceye album blur) */
+.theme-hero.immersive::before,
+.theme-hero.immersive::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(72px);
+}
+
+.theme-hero.immersive::before {
+  width: min(58vw, 440px);
+  height: min(58vw, 440px);
+  top: 6%;
+  right: -10%;
+  background: rgba(234, 88, 12, 0.42);
+}
+
+.theme-hero.immersive::after {
+  width: min(48vw, 360px);
+  height: min(48vw, 360px);
+  bottom: 10%;
+  left: -8%;
+  background: rgba(251, 146, 60, 0.36);
 }
 .theme-hero .eyebrow { color: var(--theme-accent); }
 .theme-hero .hero-name { color: var(--theme-ink); }
