@@ -44,10 +44,10 @@ permalink: /links.html
       --content-max: 980px;
       --gutter: clamp(20px, 4vw, 32px);
       --chrome-h: 44px;
-      --chrome-progress: 2px;
-      --chrome-top: clamp(16px, 3vw, 24px);
-      --chrome-gap: 12px;
-      --chrome-offset: calc(var(--chrome-top) + var(--chrome-h) + var(--chrome-gap) + var(--chrome-progress) + 24px);
+      --chrome-top: clamp(10px, 2vw, 16px);
+      --chrome-gap: 8px;
+      --chrome-stack: calc(var(--safe-top) + var(--chrome-top) + var(--chrome-h) + var(--chrome-gap));
+      --chrome-offset: calc(var(--chrome-stack) + 24px);
       --material: saturate(180%) blur(24px);
       --ring: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
       --safe-top: env(safe-area-inset-top, 0px);
@@ -201,7 +201,7 @@ permalink: /links.html
       flex-direction: column;
       width: 100%;
       min-height: 100dvh;
-      padding-top: calc(var(--safe-top) + var(--chrome-progress) + var(--chrome-top) + var(--chrome-h) + var(--chrome-gap));
+      padding-top: var(--chrome-stack);
       padding-bottom: calc(24px + var(--safe-bottom));
       padding-left: var(--safe-left);
       padding-right: var(--safe-right);
@@ -230,7 +230,7 @@ permalink: /links.html
 
     .scroll-progress {
       position: fixed;
-      top: var(--safe-top);
+      top: 0;
       left: 0;
       right: 0;
       height: 2px;
@@ -259,16 +259,35 @@ permalink: /links.html
       text-shadow: 0 1px 16px rgba(0, 0, 0, 0.25);
     }
 
-    /* ---------- Fixed chrome ---------- */
+    /* ---------- Fixed chrome ----------
+       Flush to viewport top; safe-area via padding (not top offset) to avoid
+       iOS Safari leaving a growing blank band above fixed UI while scrolling. */
     .chrome {
       position: fixed;
-      top: calc(var(--safe-top) + var(--chrome-progress) + var(--chrome-top));
+      top: 0;
       left: 0;
       right: 0;
       z-index: 40;
+      padding-top: calc(var(--safe-top) + var(--chrome-top));
+      padding-bottom: var(--chrome-gap);
       padding-left: var(--safe-left);
       padding-right: var(--safe-right);
       pointer-events: none;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(255, 255, 255, 0.76) 100%
+      );
+      backdrop-filter: blur(20px) saturate(160%);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      border-bottom: 0.5px solid var(--line);
+    }
+    [data-theme="dark"] .chrome {
+      background: linear-gradient(
+        180deg,
+        rgba(12, 14, 22, 0.82) 0%,
+        rgba(12, 14, 22, 0.62) 100%
+      );
     }
     .chrome .frame {
       display: flex;
@@ -715,6 +734,11 @@ permalink: /links.html
     }
 
     @media (max-width: 720px) {
+      :root {
+        --chrome-top: 6px;
+        --chrome-gap: 6px;
+      }
+
       .panel--sparse .link-grid,
       .panel--dense .link-grid,
       .link-grid {
@@ -743,8 +767,6 @@ permalink: /links.html
       :root {
         --gutter: 16px;
         --chrome-h: 44px;
-        --chrome-top: var(--gutter);
-        --chrome-gap: 10px;
       }
       .intro-head {
         grid-template-columns: 1fr;
