@@ -44,9 +44,10 @@ permalink: /links.html
       --content-max: 980px;
       --gutter: clamp(20px, 4vw, 32px);
       --chrome-h: 44px;
+      --chrome-progress: 2px;
       --chrome-top: clamp(16px, 3vw, 24px);
-      --chrome-gap: 14px;
-      --chrome-offset: calc(var(--chrome-top) + var(--chrome-h) + var(--chrome-gap) + 24px);
+      --chrome-gap: 12px;
+      --chrome-offset: calc(var(--chrome-top) + var(--chrome-h) + var(--chrome-gap) + var(--chrome-progress) + 24px);
       --material: saturate(180%) blur(24px);
       --ring: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
       --safe-top: env(safe-area-inset-top, 0px);
@@ -200,7 +201,7 @@ permalink: /links.html
       flex-direction: column;
       width: 100%;
       min-height: 100dvh;
-      padding-top: calc(var(--chrome-top) + var(--chrome-h) + var(--chrome-gap) + var(--safe-top));
+      padding-top: calc(var(--safe-top) + var(--chrome-progress) + var(--chrome-top) + var(--chrome-h) + var(--chrome-gap));
       padding-bottom: calc(24px + var(--safe-bottom));
       padding-left: var(--safe-left);
       padding-right: var(--safe-right);
@@ -229,7 +230,7 @@ permalink: /links.html
 
     .scroll-progress {
       position: fixed;
-      top: 0;
+      top: var(--safe-top);
       left: 0;
       right: 0;
       height: 2px;
@@ -261,7 +262,7 @@ permalink: /links.html
     /* ---------- Fixed chrome ---------- */
     .chrome {
       position: fixed;
-      top: calc(var(--chrome-top) + var(--safe-top));
+      top: calc(var(--safe-top) + var(--chrome-progress) + var(--chrome-top));
       left: 0;
       right: 0;
       z-index: 40;
@@ -722,10 +723,29 @@ permalink: /links.html
       .panel--dense .link-grid {
         max-height: calc(100dvh - 220px - var(--safe-top) - var(--safe-bottom));
       }
+
+      /* Top-align chapter content under fixed search — avoid huge gap on mobile */
+      .panel--chapter .frame {
+        justify-content: flex-start;
+        min-height: 0;
+        gap: 16px;
+      }
+      .panel--chapter.panel--dense .link-grid {
+        max-height: min(58dvh, calc(100dvh - var(--chrome-offset) - var(--safe-top) - var(--safe-bottom) - 80px));
+      }
+      .panel--chapter .chapter-meta {
+        margin-bottom: 0;
+        padding-top: 0;
+      }
     }
 
     @media (max-width: 480px) {
-      :root { --gutter: 16px; --chrome-h: 44px; }
+      :root {
+        --gutter: 16px;
+        --chrome-h: 44px;
+        --chrome-top: var(--gutter);
+        --chrome-gap: 10px;
+      }
       .intro-head {
         grid-template-columns: 1fr;
         justify-items: start;
