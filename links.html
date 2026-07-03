@@ -44,6 +44,9 @@ permalink: /links.html
       --content-max: 980px;
       --gutter: clamp(20px, 4vw, 32px);
       --chrome-h: 44px;
+      --chrome-top: clamp(16px, 3vw, 24px);
+      --chrome-gap: 14px;
+      --chrome-offset: calc(var(--chrome-top) + var(--chrome-h) + var(--chrome-gap) + 24px);
       --material: saturate(180%) blur(24px);
       --ring: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
       --safe-top: env(safe-area-inset-top, 0px);
@@ -197,7 +200,7 @@ permalink: /links.html
       flex-direction: column;
       width: 100%;
       min-height: 100dvh;
-      padding-top: calc(var(--chrome-h) + 16px + var(--safe-top));
+      padding-top: calc(var(--chrome-top) + var(--chrome-h) + var(--chrome-gap) + var(--safe-top));
       padding-bottom: calc(24px + var(--safe-bottom));
       padding-left: var(--safe-left);
       padding-right: var(--safe-right);
@@ -206,7 +209,7 @@ permalink: /links.html
       flex: 1;
       display: flex;
       flex-direction: column;
-      min-height: calc(100dvh - var(--chrome-h) - 40px - var(--safe-top) - var(--safe-bottom));
+      min-height: calc(100dvh - var(--chrome-offset) - var(--safe-top) - var(--safe-bottom));
     }
 
     .skip-link {
@@ -258,10 +261,12 @@ permalink: /links.html
     /* ---------- Fixed chrome ---------- */
     .chrome {
       position: fixed;
-      top: calc(12px + var(--safe-top));
+      top: calc(var(--chrome-top) + var(--safe-top));
       left: 0;
       right: 0;
       z-index: 40;
+      padding-left: var(--safe-left);
+      padding-right: var(--safe-right);
       pointer-events: none;
     }
     .chrome .frame {
@@ -270,11 +275,17 @@ permalink: /links.html
       align-items: stretch;
       pointer-events: auto;
     }
+    @media (min-width: 641px) {
+      .chrome .frame {
+        padding-right: calc(var(--gutter) + 28px);
+      }
+    }
 
     .search {
       flex: 1;
       min-width: 0;
       position: relative;
+      margin: 0;
     }
     .search svg {
       position: absolute;
@@ -425,6 +436,59 @@ permalink: /links.html
       color: var(--ink-soft);
     }
 
+    .toc {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+    .toc__label {
+      margin: 0 0 10px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+    .toc__list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .toc__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      line-height: 1.2;
+      color: var(--ink-soft);
+      text-decoration: none;
+      background: var(--chip);
+      border: 1px solid var(--line);
+      transition: color 180ms var(--ease-out), border-color 180ms var(--ease-out), transform 180ms var(--ease-out);
+    }
+    .toc__link::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--toc-accent, var(--accent));
+      flex: none;
+    }
+    .toc__link:hover,
+    .toc__link:focus-visible {
+      color: var(--ink);
+      border-color: var(--line-strong);
+      transform: translateY(-1px);
+      outline: none;
+      box-shadow: var(--ring);
+    }
+
     .scroll-hint {
       margin-top: 18px;
       display: flex;
@@ -463,7 +527,7 @@ permalink: /links.html
       flex-direction: column;
       justify-content: center;
       gap: clamp(16px, 3vh, 24px);
-      min-height: calc(100dvh - var(--chrome-h) - 40px - var(--safe-top) - var(--safe-bottom));
+      min-height: calc(100dvh - var(--chrome-offset) - var(--safe-top) - var(--safe-bottom));
     }
 
     .panel--dense .chapter-meta {
@@ -745,6 +809,16 @@ permalink: /links.html
             </div>
           </div>
           <p class="intro-lead">Tools and sites I use often, grouped by topic. Scroll to browse, or search if you have access.</p>
+          <nav class="toc" aria-label="Section index">
+            <p class="toc__label">Index</p>
+            <ul class="toc__list">
+              {% for el in groups %}
+              <li>
+                <a class="toc__link" href="#section-{{ el.id }}" style="--toc-accent: {{ el.accent }}">{{ el.title.en }}</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </nav>
           <div class="scroll-hint" aria-hidden="true">
             <span></span>
             <span>Keep scrolling</span>
@@ -915,11 +989,22 @@ permalink: /links.html
         document.querySelectorAll('.panel, .empty').forEach(function (p) { observer.observe(p); });
       }
 
+      function scrollToSection(link) {
+        var target = document.querySelector(link.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
       dots.forEach(function (dot) {
         dot.addEventListener('click', function (e) {
           e.preventDefault();
-          var target = document.querySelector(dot.getAttribute('href'));
-          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          scrollToSection(dot);
+        });
+      });
+
+      document.querySelectorAll('.toc__link').forEach(function (link) {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          scrollToSection(link);
         });
       });
     })();
