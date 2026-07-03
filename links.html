@@ -306,30 +306,51 @@ permalink: /links.html
       min-width: 0;
       position: relative;
       margin: 0;
+      display: flex;
+      align-items: center;
+      height: var(--chrome-h);
+      padding: 0;
     }
-    .search svg {
+  /* Beat .liquid-glass:not(.glass-interactive) > * { position: relative } */
+    .search.liquid-glass > svg {
       position: absolute;
       left: 14px;
       top: 50%;
+      width: 17px;
+      height: 17px;
       transform: translateY(-50%);
       color: var(--ink-faint);
       pointer-events: none;
+      z-index: 2;
+      flex: none;
     }
-    .search input {
+    .search.liquid-glass > input {
+      flex: 1;
+      min-width: 0;
       width: 100%;
-      height: var(--chrome-h);
+      height: 100%;
+      margin: 0;
       padding: 0 14px 0 42px;
       font: inherit;
       font-size: 0.95rem;
+      line-height: normal;
       color: var(--ink);
       background: transparent;
       border: none;
-      border-radius: var(--chrome-h);
+      border-radius: inherit;
       outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .search.liquid-glass > input::-webkit-search-decoration,
+    .search.liquid-glass > input::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+      appearance: none;
+      display: none;
     }
     .search.liquid-glass { border-radius: var(--chrome-h); }
-    .search input::placeholder { color: var(--ink-faint); }
-    .search input:focus { box-shadow: var(--ring); }
+    .search.liquid-glass > input::placeholder { color: var(--ink-faint); }
+    .search.liquid-glass > input:focus { box-shadow: var(--ring); }
 
     .link-card { cursor: pointer; transition: transform 300ms var(--ease-out); }
     .copy-btn { cursor: pointer; }
