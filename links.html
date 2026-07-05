@@ -687,12 +687,21 @@ permalink: /links.html
     .link-hit:focus-visible { outline: none; box-shadow: var(--ring); }
 
     .link-name {
+      position: relative;
+      z-index: 2;
       font-size: 0.95rem;
       font-weight: 600;
       color: var(--ink);
       line-height: 1.35;
       min-width: 0;
+      text-decoration: none;
     }
+    .link-name:hover,
+    .link-name:focus-visible {
+      text-decoration: underline;
+      outline: none;
+    }
+    .link-name:focus-visible { box-shadow: var(--ring); border-radius: 4px; }
 
     .link-url {
       position: relative;
@@ -903,7 +912,7 @@ permalink: /links.html
                  aria-label="Open {{ ele.name }}"></a>
               <div class="link-card__head">
                 <span class="fav" aria-hidden="true">{{ ele.name | strip | slice: 0 | upcase }}</span>
-                <span class="link-name">{{ ele.name }}</span>
+                <a class="link-name" href="{{ link_url }}" target="_blank" rel="noopener noreferrer">{{ ele.name }}</a>
                 <button class="ctrl ctrl--squircle ctrl--glass copy-btn" type="button" aria-label="Copy URL for {{ ele.name }}">
                   <svg class="copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
