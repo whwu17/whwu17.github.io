@@ -804,6 +804,29 @@ permalink: /links.html
         rgba(255, 255, 255, 0.06) 100%
       );
     }
+
+    /* Chromium trial — light theme normally sets --glass-refract: none; re-enable on links */
+    @supports not (background: -apple-pay-button-visible) {
+      .theme-beach {
+        --glass-refract: url("#lg-refract");
+        --glass-refract-chrome: url("#lg-refract-chrome");
+        --glass-refract-pill: url("#lg-refract-pill");
+      }
+
+      .theme-beach .link-card.liquid-glass--subtle {
+        --glass-fill-subtle: rgba(255, 255, 255, 0.36);
+      }
+
+      .theme-beach .intro-glass.liquid-glass {
+        --glass-fill: rgba(255, 255, 255, 0.48);
+      }
+
+      .theme-beach .search.liquid-glass--chrome {
+        --glass-fill-chrome: rgba(255, 255, 255, 0.62);
+      }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
       .panel--chapter .link-card {
         opacity: 0;
         transform: translateY(10px);

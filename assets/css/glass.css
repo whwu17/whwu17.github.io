@@ -300,7 +300,9 @@
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
-/* Chromium only — Safari ignores SVG in backdrop-filter (would drop blur too) */
+/* Chromium — SVG displacement in backdrop-filter (feDisplacementMap lensing).
+   Safari/WebKit: blur/saturate only; url(#filter) with displacement is unsupported
+   (WebKit #245510). Light theme defaults --glass-refract: none — see links.html. */
 @supports not (background: -apple-pay-button-visible) {
   :root {
     --glass-refract: url("#lg-refract");
