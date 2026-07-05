@@ -48,7 +48,8 @@ permalink: /links.html
       --chrome-gap: 8px;
       --chrome-stack: calc(var(--safe-top) + var(--chrome-top) + var(--chrome-h) + var(--chrome-gap));
       --chrome-offset: calc(var(--chrome-stack) + 20px);
-      --chapter-pad-bottom: calc(12px + var(--safe-bottom));
+      --chapter-edge: calc(var(--chrome-top) + var(--chrome-h) + var(--chrome-gap) + 20px);
+      --chapter-pad-bottom: calc(var(--chapter-edge) + var(--safe-bottom));
       --material: saturate(180%) blur(24px);
       --ring: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
       --safe-top: env(safe-area-inset-top, 0px);
@@ -202,6 +203,10 @@ permalink: /links.html
     .panel__bg--mesh { z-index: 0; }
     .panel__bg--photo { z-index: 1; }
     .panel__scrim { z-index: 2; }
+
+    .panel__bg--photo {
+      will-change: transform;
+    }
 
     .panel__inner {
       position: relative;
@@ -636,6 +641,20 @@ permalink: /links.html
       line-height: 1.15;
       letter-spacing: -0.02em;
     }
+    .chapter-meta h2::after {
+      content: "";
+      display: block;
+      width: 0;
+      height: 3px;
+      margin-top: 10px;
+      border-radius: 2px;
+      background: var(--chapter-accent, var(--accent));
+      opacity: 0.85;
+      transition: width 0.65s var(--ease-out) 0.12s;
+    }
+    .chapter-meta.is-revealed h2::after {
+      width: clamp(44px, 11vw, 68px);
+    }
     .chapter-meta p {
       margin: 0;
       font-size: 0.95rem;
@@ -661,6 +680,7 @@ permalink: /links.html
       cursor: pointer;
     }
     .link-card:hover { transform: translateY(-2px); }
+    .link-card.reveal-on-scroll:not(.is-revealed):hover { transform: translateY(20px) scale(0.985); }
 
     .link-card__head {
       display: grid;
@@ -766,6 +786,64 @@ permalink: /links.html
       color: var(--ink-faint);
     }
 
+    /* ---------- Motion — scroll reveals & ambient drift ---------- */
+    @media (prefers-reduced-motion: no-preference) {
+      .panel__bg--photo {
+        animation: panel-drift 32s ease-in-out infinite alternate;
+      }
+      @keyframes panel-drift {
+        from { transform: scale(1.03) translate3d(0, 0, 0); }
+        to { transform: scale(1.07) translate3d(-1.2%, -0.8%, 0); }
+      }
+
+      .panel--intro .intro-eyebrow,
+      .panel--intro .intro-title,
+      .panel--intro .intro-glass {
+        opacity: 0;
+        animation: intro-rise 0.75s var(--ease-out) forwards;
+      }
+      .panel--intro .intro-title { animation-delay: 0.1s; }
+      .panel--intro .intro-glass { animation-delay: 0.22s; }
+      @keyframes intro-rise {
+        from { opacity: 0; transform: translateY(18px); }
+        to { opacity: 1; transform: none; }
+      }
+
+      .reveal-on-scroll {
+        opacity: 0;
+        transform: translateY(22px);
+        transition:
+          opacity 0.55s var(--ease-out) var(--reveal-delay, 0ms),
+          transform 0.55s var(--ease-out) var(--reveal-delay, 0ms);
+      }
+      .reveal-on-scroll.is-revealed {
+        opacity: 1;
+        transform: none;
+      }
+
+      .chapter-meta.reveal-on-scroll {
+        transform: translateY(18px);
+      }
+
+      .link-card.reveal-on-scroll {
+        transform: translateY(20px) scale(0.985);
+      }
+      .link-card.reveal-on-scroll.is-revealed:hover {
+        transform: translateY(-2px);
+      }
+
+      .panel-footer.reveal-on-scroll {
+        transform: translateY(12px);
+        transition-duration: 0.45s;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .panel__bg--photo { animation: none; }
+      .reveal-on-scroll { opacity: 1; transform: none; }
+      .chapter-meta h2::after { width: clamp(44px, 11vw, 68px); }
+    }
+
     @media (max-width: 720px) {
       :root {
         --chrome-top: 6px;
@@ -824,15 +902,6 @@ permalink: /links.html
       .theme-beach .search.liquid-glass--chrome {
         --glass-fill-chrome: rgba(255, 255, 255, 0.62);
       }
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-      .panel--chapter .link-card {
-        opacity: 0;
-        transform: translateY(10px);
-        animation: rise .5s cubic-bezier(.2,.7,.3,1) forwards;
-      }
-      @keyframes rise { to { opacity: 1; transform: none; } }
     }
   </style>
 </head>
@@ -930,7 +999,7 @@ permalink: /links.html
         <div class="panel__scrim"></div>
         <div class="panel__inner">
           <div class="frame">
-          <header class="chapter-meta">
+          <header class="chapter-meta reveal-on-scroll">
             <h2>{{ el.title.en }}</h2>
             <p>{{ el.subtitle.en }} · {{ el.links.size }} links</p>
           </header>
@@ -939,9 +1008,9 @@ permalink: /links.html
             {% for ele in el.links %}
             {% assign link_url = ele.url | default: ele.ref %}
             {% assign host = link_url | split: '//' | last | split: '/' | first %}
-            <article class="link-card liquid-glass liquid-glass--subtle"
+            <article class="link-card liquid-glass liquid-glass--subtle reveal-on-scroll"
                      data-name="{{ ele.name | downcase }}" data-host="{{ host | downcase }}" data-url="{{ link_url }}"
-                     style="animation-delay: {{ forloop.index | times: 50 }}ms">
+                     style="--reveal-delay: {{ forloop.index | times: 65 }}ms">
               <a class="link-hit" href="{{ link_url }}" target="_blank" rel="noopener noreferrer"
                  aria-label="Open {{ ele.name }}"></a>
               <div class="link-card__head">
@@ -965,7 +1034,7 @@ permalink: /links.html
           </div>
 
           {% if forloop.last %}
-          <p class="panel-footer">&copy; {{ site.time | date: '%Y' }} {{ site.author.name }}</p>
+          <p class="panel-footer reveal-on-scroll">&copy; {{ site.time | date: '%Y' }} {{ site.author.name }}</p>
           {% endif %}
           </div>
         </div>
@@ -1071,14 +1140,35 @@ permalink: /links.html
       }
 
       if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
+        var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        var panelObserver = new IntersectionObserver(function (entries) {
           entries.forEach(function (entry) {
             if (entry.isIntersecting && entry.intersectionRatio > 0.45) {
               setActiveDot(entry.target.id);
             }
           });
         }, { root: deck, threshold: [0.45, 0.6] });
-        document.querySelectorAll('.panel, .empty').forEach(function (p) { observer.observe(p); });
+        document.querySelectorAll('.panel, .empty').forEach(function (p) { panelObserver.observe(p); });
+
+        if (!reducedMotion) {
+          var revealObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-revealed');
+                revealObserver.unobserve(entry.target);
+              }
+            });
+          }, { root: deck, threshold: 0.14, rootMargin: '0px 0px -6% 0px' });
+
+          document.querySelectorAll('.reveal-on-scroll').forEach(function (el) {
+            revealObserver.observe(el);
+          });
+        } else {
+          document.querySelectorAll('.reveal-on-scroll').forEach(function (el) {
+            el.classList.add('is-revealed');
+          });
+        }
       }
 
       function scrollToSection(link) {
