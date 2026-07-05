@@ -417,12 +417,17 @@ permalink: /links.html
       .dots { display: none; }
     }
 
-    /* ---------- Intro panel — hero title + lower glass card ---------- */
-    .panel--intro .frame {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      grid-template-rows: minmax(0, 1fr) auto;
+    /* ---------- Intro panel — hero title + full-width glass card ---------- */
+    .panel--intro .panel__inner {
       gap: clamp(20px, 5vh, 40px);
+    }
+
+    .panel--intro .frame {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 0;
     }
 
     .intro-display {
@@ -456,7 +461,9 @@ permalink: /links.html
       padding: clamp(20px, 4vw, 28px);
       border-radius: 22px;
       width: 100%;
-      justify-self: stretch;
+      max-width: none;
+      flex: none;
+      align-self: stretch;
     }
 
     .intro-head {
@@ -981,6 +988,7 @@ permalink: /links.html
             <p class="intro-eyebrow" id="greeting">Good morning — welcome</p>
             <h1 class="intro-title">{{ site.author.name | default: "My Links" }}</h1>
           </div>
+          </div>
           <div class="intro-glass liquid-glass">
           <div class="intro-head">
             <div class="avatar">
@@ -1006,7 +1014,6 @@ permalink: /links.html
           <div class="scroll-hint" aria-hidden="true">
             <span></span>
             <span>Keep scrolling</span>
-          </div>
           </div>
           </div>
         </div>
