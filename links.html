@@ -58,8 +58,15 @@ permalink: /links.html
       --safe-right: env(safe-area-inset-right, 0px);
       --ctrl-size: 44px;
       --ctrl-icon: 18px;
-      --motion-delay-intro: 140ms;
-      --motion-delay-chapter: 240ms;
+      --motion-delay-intro: 220ms;
+      --motion-delay-chapter: 420ms;
+      --motion-duration: 1.05s;
+      --motion-duration-card: 1.15s;
+      --motion-duration-accent: 0.95s;
+      --motion-ease: cubic-bezier(0.19, 1, 0.22, 1);
+      --motion-stagger-intro: 200ms;
+      --motion-stagger-accent: 320ms;
+      --motion-stagger-footer: 560ms;
     }
 
     .ctrl {
@@ -805,34 +812,34 @@ permalink: /links.html
       }
 
       .panel--intro.is-inview .intro-eyebrow {
-        animation: rise-in 0.7s var(--ease-out) var(--motion-delay-intro) forwards;
+        animation: rise-in var(--motion-duration) var(--motion-ease) var(--motion-delay-intro) forwards;
       }
       .panel--intro.is-inview .intro-title {
-        animation: rise-in 0.75s var(--ease-out) calc(var(--motion-delay-intro) + 100ms) forwards;
+        animation: rise-in var(--motion-duration) var(--motion-ease) calc(var(--motion-delay-intro) + var(--motion-stagger-intro)) forwards;
       }
       .panel--intro.is-inview .intro-glass {
-        animation: rise-in 0.8s var(--ease-out) calc(var(--motion-delay-intro) + 220ms) forwards;
+        animation: rise-in calc(var(--motion-duration) + 0.1s) var(--motion-ease) calc(var(--motion-delay-intro) + var(--motion-stagger-intro) * 2) forwards;
       }
 
       .panel--chapter.is-inview .chapter-meta {
-        animation: rise-in 0.65s var(--ease-out) var(--motion-delay-chapter) forwards;
+        animation: rise-in var(--motion-duration) var(--motion-ease) var(--motion-delay-chapter) forwards;
       }
       .panel--chapter.is-inview .chapter-meta h2::after {
-        animation: accent-grow 0.55s var(--ease-out) calc(var(--motion-delay-chapter) + 180ms) forwards;
+        animation: accent-grow var(--motion-duration-accent) var(--motion-ease) calc(var(--motion-delay-chapter) + var(--motion-stagger-accent)) forwards;
       }
       .panel--chapter.is-inview .link-card {
-        animation: card-rise 0.62s var(--ease-out) calc(var(--reveal-delay, 0ms) + var(--motion-delay-chapter)) forwards;
+        animation: card-rise var(--motion-duration-card) var(--motion-ease) calc(var(--reveal-delay, 0ms) + var(--motion-delay-chapter)) forwards;
       }
       .panel--chapter.is-inview .panel-footer {
-        animation: rise-in 0.5s var(--ease-out) calc(var(--motion-delay-chapter) + 280ms) forwards;
+        animation: rise-in calc(var(--motion-duration) - 0.15s) var(--motion-ease) calc(var(--motion-delay-chapter) + var(--motion-stagger-footer)) forwards;
       }
 
       @keyframes rise-in {
-        from { opacity: 0; transform: translate3d(0, 22px, 0); }
+        from { opacity: 0; transform: translate3d(0, 28px, 0); }
         to { opacity: 1; transform: translate3d(0, 0, 0); }
       }
       @keyframes card-rise {
-        from { opacity: 0; transform: translate3d(0, 26px, 0) scale(0.97); }
+        from { opacity: 0; transform: translate3d(0, 32px, 0) scale(0.98); }
         to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
       }
       @keyframes accent-grow {
@@ -1018,7 +1025,7 @@ permalink: /links.html
             {% assign host = link_url | split: '//' | last | split: '/' | first %}
             <article class="link-card liquid-glass liquid-glass--subtle"
                      data-name="{{ ele.name | downcase }}" data-host="{{ host | downcase }}" data-url="{{ link_url }}"
-                     style="--reveal-delay: {{ forloop.index | minus: 1 | times: 90 | plus: 160 }}ms">
+                     style="--reveal-delay: {{ forloop.index | minus: 1 | times: 140 | plus: 300 }}ms">
               <a class="link-hit" href="{{ link_url }}" target="_blank" rel="noopener noreferrer"
                  aria-label="Open {{ ele.name }}"></a>
               <div class="link-card__head">
@@ -1152,7 +1159,7 @@ permalink: /links.html
         panel.dataset.motionQueued = '1';
 
         var isIntro = panel.classList.contains('panel--intro');
-        var armDelay = isIntro ? 90 : 180;
+        var armDelay = isIntro ? 160 : 320;
 
         setTimeout(function () {
           if (!panel.isConnected || panel.classList.contains('is-inview')) return;
