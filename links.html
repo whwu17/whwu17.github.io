@@ -58,6 +58,8 @@ permalink: /links.html
       --safe-right: env(safe-area-inset-right, 0px);
       --ctrl-size: 44px;
       --ctrl-icon: 18px;
+      --motion-delay-intro: 140ms;
+      --motion-delay-chapter: 240ms;
     }
 
     .ctrl {
@@ -803,26 +805,26 @@ permalink: /links.html
       }
 
       .panel--intro.is-inview .intro-eyebrow {
-        animation: rise-in 0.7s var(--ease-out) forwards;
+        animation: rise-in 0.7s var(--ease-out) var(--motion-delay-intro) forwards;
       }
       .panel--intro.is-inview .intro-title {
-        animation: rise-in 0.75s var(--ease-out) 0.1s forwards;
+        animation: rise-in 0.75s var(--ease-out) calc(var(--motion-delay-intro) + 100ms) forwards;
       }
       .panel--intro.is-inview .intro-glass {
-        animation: rise-in 0.8s var(--ease-out) 0.22s forwards;
+        animation: rise-in 0.8s var(--ease-out) calc(var(--motion-delay-intro) + 220ms) forwards;
       }
 
       .panel--chapter.is-inview .chapter-meta {
-        animation: rise-in 0.65s var(--ease-out) forwards;
+        animation: rise-in 0.65s var(--ease-out) var(--motion-delay-chapter) forwards;
       }
       .panel--chapter.is-inview .chapter-meta h2::after {
-        animation: accent-grow 0.55s var(--ease-out) 0.18s forwards;
+        animation: accent-grow 0.55s var(--ease-out) calc(var(--motion-delay-chapter) + 180ms) forwards;
       }
       .panel--chapter.is-inview .link-card {
-        animation: card-rise 0.62s var(--ease-out) var(--reveal-delay, 0ms) forwards;
+        animation: card-rise 0.62s var(--ease-out) calc(var(--reveal-delay, 0ms) + var(--motion-delay-chapter)) forwards;
       }
       .panel--chapter.is-inview .panel-footer {
-        animation: rise-in 0.5s var(--ease-out) 0.28s forwards;
+        animation: rise-in 0.5s var(--ease-out) calc(var(--motion-delay-chapter) + 280ms) forwards;
       }
 
       @keyframes rise-in {
@@ -1016,7 +1018,7 @@ permalink: /links.html
             {% assign host = link_url | split: '//' | last | split: '/' | first %}
             <article class="link-card liquid-glass liquid-glass--subtle"
                      data-name="{{ ele.name | downcase }}" data-host="{{ host | downcase }}" data-url="{{ link_url }}"
-                     style="--reveal-delay: {{ forloop.index | minus: 1 | times: 80 | plus: 120 }}ms">
+                     style="--reveal-delay: {{ forloop.index | minus: 1 | times: 90 | plus: 160 }}ms">
               <a class="link-hit" href="{{ link_url }}" target="_blank" rel="noopener noreferrer"
                  aria-label="Open {{ ele.name }}"></a>
               <div class="link-card__head">
@@ -1146,11 +1148,21 @@ permalink: /links.html
       }
 
       function markPanelInView(panel) {
-        requestAnimationFrame(function () {
+        if (panel.classList.contains('is-inview') || panel.dataset.motionQueued === '1') return;
+        panel.dataset.motionQueued = '1';
+
+        var isIntro = panel.classList.contains('panel--intro');
+        var armDelay = isIntro ? 90 : 180;
+
+        setTimeout(function () {
+          if (!panel.isConnected || panel.classList.contains('is-inview')) return;
           requestAnimationFrame(function () {
-            panel.classList.add('is-inview');
+            requestAnimationFrame(function () {
+              panel.classList.add('is-inview');
+              delete panel.dataset.motionQueued;
+            });
           });
-        });
+        }, armDelay);
       }
 
       if ('IntersectionObserver' in window) {
@@ -1172,17 +1184,26 @@ permalink: /links.html
           var motionObserver = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
               if (!entry.isIntersecting) return;
-              markPanelInView(entry.target);
-              motionObserver.unobserve(entry.target);
+              var panel = entry.target;
+              var minRatio = panel.classList.contains('panel--intro') ? 0.2 : 0.3;
+              if (entry.intersectionRatio < minRatio) return;
+              markPanelInView(panel);
+              motionObserver.unobserve(panel);
             });
-          }, { root: deck, threshold: 0.12, rootMargin: '0px 0px -4% 0px' });
+          }, {
+            root: deck,
+            threshold: [0.2, 0.3, 0.42, 0.55],
+            rootMargin: '0px 0px -10% 0px'
+          });
 
           motionPanels.forEach(function (p) { motionObserver.observe(p); });
 
           motionPanels.forEach(function (p) {
             var rect = p.getBoundingClientRect();
             var rootRect = deck.getBoundingClientRect();
-            if (rect.top < rootRect.bottom - 40 && rect.bottom > rootRect.top + 40) {
+            var visible = Math.min(rect.bottom, rootRect.bottom) - Math.max(rect.top, rootRect.top);
+            var minVisible = p.classList.contains('panel--intro') ? rootRect.height * 0.2 : rootRect.height * 0.28;
+            if (visible >= minVisible) {
               markPanelInView(p);
             }
           });
