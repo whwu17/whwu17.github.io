@@ -420,6 +420,7 @@ permalink: /links.html
     /* ---------- Intro panel — hero title + lower glass card ---------- */
     .panel--intro .frame {
       display: grid;
+      grid-template-columns: minmax(0, 1fr);
       grid-template-rows: minmax(0, 1fr) auto;
       gap: clamp(20px, 5vh, 40px);
     }
@@ -455,6 +456,7 @@ permalink: /links.html
       padding: clamp(20px, 4vw, 28px);
       border-radius: 22px;
       width: 100%;
+      justify-self: stretch;
     }
 
     .intro-head {
