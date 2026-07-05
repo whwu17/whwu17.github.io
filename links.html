@@ -171,6 +171,7 @@ permalink: /links.html
       scroll-snap-type: y proximity;
       overscroll-behavior-y: contain;
       -webkit-overflow-scrolling: touch;
+      background: linear-gradient(180deg, #e0f2fe 0%, #f7f0e5 55%, #fef3c7 100%);
     }
 
     .panel {
@@ -181,6 +182,10 @@ permalink: /links.html
       display: flex;
       flex-direction: column;
       isolation: isolate;
+      overflow: hidden;
+    }
+    .panel + .panel {
+      margin-top: -1px;
     }
     /* Tall chapters: no top snap trap — scroll freely within the section */
     .panel--dense {
@@ -792,7 +797,13 @@ permalink: /links.html
       .intro-title { font-size: clamp(2.25rem, 14vw, 3.25rem); }
     }
 
-    @media (prefers-reduced-motion: no-preference) {
+    .theme-beach .panel__scrim {
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.14) 0%,
+        rgba(255, 255, 255, 0.06) 100%
+      );
+    }
       .panel--chapter .link-card {
         opacity: 0;
         transform: translateY(10px);
