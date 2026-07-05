@@ -168,7 +168,7 @@ permalink: /links.html
       height: 100dvh;
       overflow-y: auto;
       overflow-x: hidden;
-      scroll-snap-type: y mandatory;
+      scroll-snap-type: y proximity;
       overscroll-behavior-y: contain;
       -webkit-overflow-scrolling: touch;
     }
@@ -177,14 +177,14 @@ permalink: /links.html
       position: relative;
       min-height: 100dvh;
       scroll-snap-align: start;
-      scroll-snap-stop: always;
+      scroll-snap-stop: normal;
       display: flex;
       flex-direction: column;
       isolation: isolate;
     }
-    /* Tall chapters scroll with the deck — no nested list scroll */
+    /* Tall chapters: no top snap trap — scroll freely within the section */
     .panel--dense {
-      scroll-snap-stop: normal;
+      scroll-snap-align: none;
     }
 
     .panel__bg {
