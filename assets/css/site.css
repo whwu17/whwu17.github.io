@@ -632,7 +632,6 @@ a { color: inherit; }
     visibility: hidden;
   }
 }
-.nav__drawer a:hover { color: var(--nav-overlay-ink, var(--ink)); }
 
 .nav__scrim {
   position: fixed;
