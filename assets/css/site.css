@@ -221,22 +221,6 @@ a { color: inherit; }
   border-color: color-mix(in srgb, var(--accent) 16%, var(--glass-border));
 }
 
-.site-header.is-nav-open .nav__drawer-name,
-.site-header:has(.nav.open) .nav__drawer-name {
-  color: var(--ink);
-}
-
-.site-header.is-nav-open .nav__drawer-tagline,
-.site-header:has(.nav.open) .nav__drawer-tagline {
-  color: var(--ink-muted);
-}
-
-.site-header.is-nav-open .nav__brand,
-.site-header:has(.nav.open) .nav__brand {
-  opacity: 0;
-  pointer-events: none;
-}
-
 /* Nav chrome text follows section when menu closed (data-nav-tone on header) */
 .site-header:not(.is-nav-open)[data-nav-tone="light"] .nav__menu {
   color: #f5f5f7;
@@ -370,37 +354,6 @@ a { color: inherit; }
   pointer-events: none;
 }
 
-.nav__drawer-intro {
-  position: absolute;
-  top: calc(env(safe-area-inset-top, 0px) + (var(--nav-h) - 2.6rem) / 2);
-  left: var(--gutter);
-  right: calc(var(--ctrl-size) + var(--gutter) + 32px);
-  pointer-events: none;
-  transform: translateY(-6px);
-  transition: transform 0.34s var(--nav-ease);
-}
-.site-header.is-nav-open .nav__drawer-intro,
-.site-header:has(.nav.open) .nav__drawer-intro {
-  transform: none;
-  transition-delay: 0.06s;
-}
-
-.nav__drawer-name {
-  margin: 0;
-  font-size: clamp(20px, 4.8vw, 28px);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: var(--nav-overlay-ink, var(--ink));
-}
-
-.nav__drawer-tagline {
-  margin: 4px 0 0;
-  font-size: 14px;
-  line-height: 1.35;
-  color: var(--nav-overlay-ink-muted, var(--ink-muted));
-}
-
 .nav__drawer-main {
   flex: 0 0 auto;
   display: flex;
@@ -409,6 +362,13 @@ a { color: inherit; }
   width: fit-content;
   max-width: calc(100vw - var(--gutter) * 2);
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s var(--nav-ease);
+}
+.site-header.is-nav-open .nav__drawer-main,
+.site-header:has(.nav.open) .nav__drawer-main {
+  opacity: 1;
+  transition-delay: 0.05s;
 }
 
 .nav__drawer-heading {
@@ -465,7 +425,7 @@ a { color: inherit; }
   box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
 }
 
-/* Pills — bright glass; no entry slide */
+/* Pills — bright glass; fade in with .nav__drawer-main */
 .site-header.is-nav-open .nav__drawer a::before,
 .site-header:has(.nav.open) .nav__drawer a::before {
   background: transparent;
@@ -519,12 +479,6 @@ a { color: inherit; }
 }
 
 @media (max-width: 720px) {
-  .nav__drawer-name {
-    font-size: clamp(18px, 5.2vw, 22px);
-  }
-  .nav__drawer-tagline {
-    font-size: 13px;
-  }
   .nav__drawer-main {
     padding-left: 0;
   }
@@ -538,16 +492,16 @@ a { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   .nav__menu,
   .nav__drawer-panel,
-  .nav__drawer-intro,
+  .nav__drawer-main,
   .nav__drawer-heading,
   .nav__drawer a,
   .nav__menu-bar,
   .nav__scrim {
     transition: none !important;
   }
-  .site-header:not(.is-nav-open) .nav__drawer-intro,
-  .site-header:not(:has(.nav.open)) .nav__drawer-intro {
-    transform: translateY(-6px);
+  .site-header:not(.is-nav-open) .nav__drawer-main,
+  .site-header:not(:has(.nav.open)) .nav__drawer-main {
+    opacity: 0;
   }
   .site-header:not(.is-nav-open) .nav__drawer,
   .site-header:not(:has(.nav.open)) .nav__drawer {
