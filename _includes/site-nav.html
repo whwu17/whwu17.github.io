@@ -41,27 +41,20 @@
 
   <div class="nav__drawer" id="nav-links" role="navigation" aria-label="Sections" aria-hidden="true">
     <div class="nav__drawer-panel">
-      <aside class="nav__drawer-aside" aria-hidden="true">
-        <div class="nav__drawer-identity">
-          <p class="nav__drawer-eyebrow">{{ site.author.name }}</p>
-          <p class="nav__drawer-role">{{ site.author.position }} · {% include author-location.html %}</p>
-        </div>
-        <div class="nav__drawer-context" aria-live="polite">
-          <p class="nav__drawer-context-kicker" id="nav-context-kicker">Now viewing</p>
-          <h2 class="nav__drawer-context-title" id="nav-context-title">Home</h2>
-          <p class="nav__drawer-context-hint" id="nav-context-hint">A quick overview of who I am and what I do.</p>
-        </div>
-      </aside>
+      <div class="nav__drawer-intro">
+        <p class="nav__drawer-name">{{ site.author.name }}</p>
+        <p class="nav__drawer-tagline">{{ site.author.position }} · {% include author-location.html %}</p>
+      </div>
 
       <div class="nav__drawer-main">
         <p class="nav__drawer-heading">Navigation</p>
         <div class="nav__drawer-links">
           {% assign secs = site.sections | sort: 'priority' %}
           {% for s in secs %}
-          <a href="{{ '/#' | append: s.section_id | relative_url }}" data-spy="{{ s.section_id }}" data-nav-hint="{{ s.nav_hint | default: s.name }}"><span class="nav__drawer-label">{{ s.name }}</span></a>
+          <a href="{{ '/#' | append: s.section_id | relative_url }}" data-spy="{{ s.section_id }}"><span class="nav__drawer-label">{{ s.name }}</span></a>
           {% endfor %}
-          <a href="{{ '/about/' | relative_url }}" data-nav-hint="Background, skills, and how I work."><span class="nav__drawer-label">About</span></a>
-          <a href="{{ '/contact/' | relative_url }}" data-nav-hint="Reach me by email or the contact form."><span class="nav__drawer-label">Contact</span></a>
+          <a href="{{ '/about/' | relative_url }}"><span class="nav__drawer-label">About</span></a>
+          <a href="{{ '/contact/' | relative_url }}"><span class="nav__drawer-label">Contact</span></a>
         </div>
       </div>
     </div>
