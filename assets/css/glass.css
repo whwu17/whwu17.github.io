@@ -448,7 +448,6 @@
 
 :is(.card, .info-card)::after {
   z-index: 0;
-  transition: opacity calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
 }
 
 .theme-panel .welcome-quote {
@@ -567,7 +566,7 @@
     border-color 0.2s ease;
 }
 
-/* Blur + press wash on ::before — iOS 26 pill tier 8px */
+/* Blur layer — no fill wash */
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::before {
   content: "";
   position: absolute;
@@ -588,7 +587,6 @@
 
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::after {
   z-index: 0;
-  transition: opacity calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
 }
 
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed) {
