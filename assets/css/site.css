@@ -183,8 +183,11 @@ a { color: inherit; }
   pointer-events: none;
 }
 .nav__stack > * { pointer-events: auto; }
-/* Closed drawer must not steal clicks */
-.nav__stack > .nav__drawer { pointer-events: none; }
+
+.nav__menu {
+  position: relative;
+  z-index: 53;
+}
 
 .site-header.is-nav-open .nav__stack,
 .site-header:has(.nav.open) .nav__stack {
@@ -192,17 +195,12 @@ a { color: inherit; }
   width: var(--ctrl-size);
 }
 
-/* Nav open — Ceye liquid glass dock */
+/* Nav open — liquid glass pills over full-screen blur (no per-pill backdrop blur) */
 .site-header.is-nav-open,
 .site-header:has(.nav.open) {
-  --glass-fill-subtle: transparent;
-  --glass-blur-subtle: blur(52px) saturate(140%);
-  --glass-blur-pill: blur(24px) saturate(140%);
-  --glass-border: rgba(255, 255, 255, 0.22);
-  --glass-rim-line: rgba(255, 255, 255, 0.36);
-  --glass-tint-strong: rgba(255, 255, 255, 0.08);
-  --glass-sheen-opacity: 1;
-  --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.28);
+  --glass-rim-line: rgba(255, 255, 255, 0.42);
+  --glass-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
 }
 
 /* Nav chrome text follows section behind it (set via data-nav-tone on header) */
@@ -318,11 +316,11 @@ a { color: inherit; }
 .nav.open .nav__menu-bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
 .nav.open .nav__menu-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* Drawer — full-screen frosted overlay with right-aligned glass pills */
+/* Drawer — full-screen overlay; scrim handles background blur */
 .nav__drawer {
   position: fixed;
   inset: 0;
-  z-index: 49;
+  z-index: 51;
   margin: 0;
   padding: 0;
   background: transparent;
@@ -396,13 +394,25 @@ a { color: inherit; }
   box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
 }
 
-/* Edge sheen behind labels — plain text nodes are not > * children */
+/* Edge sheen — rely on full-screen blur behind pills, not per-pill frosting */
+.site-header.is-nav-open .nav__drawer a::before,
+.site-header:has(.nav.open) .nav__drawer a::before {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: rgba(255, 255, 255, 0.14);
+}
+[data-theme="light"] .site-header.is-nav-open .nav__drawer a::before,
+[data-theme="light"] .site-header:has(.nav.open) .nav__drawer a::before {
+  background: rgba(255, 255, 255, 0.52);
+}
+[data-theme="dark"] .site-header.is-nav-open .nav__drawer a::before,
+[data-theme="dark"] .site-header:has(.nav.open) .nav__drawer a::before {
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .site-header.is-nav-open .nav__drawer a::after,
 .site-header:has(.nav.open) .nav__drawer a::after {
-  opacity: 0.2;
-  background:
-    radial-gradient(90% 65% at 14% -12%, rgba(255, 255, 255, 0.24) 0%, transparent 48%),
-    radial-gradient(72% 42% at 50% 112%, rgba(255, 255, 255, 0.06) 0%, transparent 54%);
+  opacity: 1;
 }
 
 .nav__drawer a {
@@ -490,34 +500,34 @@ a { color: inherit; }
 .nav__scrim {
   position: fixed;
   inset: 0;
-  z-index: 48;
+  z-index: 50;
   display: block;
   visibility: hidden;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(0px) saturate(120%);
   -webkit-backdrop-filter: blur(0px) saturate(120%);
   opacity: 0;
   pointer-events: none;
   transition:
-    opacity 0.36s var(--nav-ease),
-    backdrop-filter 0.36s var(--nav-ease),
-    -webkit-backdrop-filter 0.36s var(--nav-ease),
-    visibility 0s linear 0.36s;
+    opacity 0.38s var(--nav-ease),
+    backdrop-filter 0.38s var(--nav-ease),
+    -webkit-backdrop-filter 0.38s var(--nav-ease),
+    visibility 0s linear 0.38s;
 }
 [data-theme="dark"] .nav__scrim {
-  background: rgba(0, 0, 0, 0.12);
+  background: rgba(0, 0, 0, 0.2);
 }
 .site-header.is-nav-open .nav__scrim,
 .site-header:has(.nav.open) .nav__scrim {
   visibility: visible;
   opacity: 1;
   pointer-events: auto;
-  backdrop-filter: blur(28px) saturate(145%);
-  -webkit-backdrop-filter: blur(28px) saturate(145%);
+  backdrop-filter: blur(32px) saturate(150%);
+  -webkit-backdrop-filter: blur(32px) saturate(150%);
   transition:
-    opacity 0.36s var(--nav-ease),
-    backdrop-filter 0.36s var(--nav-ease),
-    -webkit-backdrop-filter 0.36s var(--nav-ease),
+    opacity 0.38s var(--nav-ease),
+    backdrop-filter 0.38s var(--nav-ease),
+    -webkit-backdrop-filter 0.38s var(--nav-ease),
     visibility 0s;
 }
 
