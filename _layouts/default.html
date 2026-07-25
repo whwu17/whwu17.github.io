@@ -69,8 +69,9 @@
         document.body.style.overflow = open ? 'hidden' : '';
       }
       setNavOpen(false);
-      if (navToggle && nav) navToggle.addEventListener('click', function () {
-        setNavOpen(!nav.classList.contains('open'));
+      if (navToggle && nav) navToggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        setNavOpen(!header.classList.contains('is-nav-open'));
       });
       if (navScrim) navScrim.addEventListener('click', function () { setNavOpen(false); });
       if (navLinks) navLinks.querySelectorAll('a').forEach(function (a) {
