@@ -1037,14 +1037,8 @@ a.card {
     transform: translateY(20px);
     transition: transform .7s cubic-bezier(.32, .72, 0, 1);
   }
-  .js .reveal.in,
-  .js .hero.is-visible .reveal {
+  .js .reveal.in {
     transform: none;
-  }
-
-  /* Hero content reveals on load — not only on scroll */
-  .js .hero .reveal {
-    transition-delay: calc(var(--reveal-i, 0) * 80ms);
   }
 }
 
