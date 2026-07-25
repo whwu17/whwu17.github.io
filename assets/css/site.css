@@ -218,7 +218,11 @@ a { color: inherit; }
 .site-header.is-nav-open .nav__drawer-main a,
 .site-header:has(.nav.open) .nav__drawer-main a {
   color: var(--ink);
-  border-color: color-mix(in srgb, var(--accent) 16%, var(--glass-border));
+  border-color: rgba(255, 255, 255, 0.62);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.78),
+    0 0 0 0.5px rgba(255, 255, 255, 0.42),
+    0 4px 14px rgba(0, 0, 0, 0.06);
 }
 
 /* Nav chrome text follows section when menu closed (data-nav-tone on header) */
@@ -362,13 +366,6 @@ a { color: inherit; }
   width: fit-content;
   max-width: calc(100vw - var(--gutter) * 2);
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s var(--nav-ease);
-}
-.site-header.is-nav-open .nav__drawer-main,
-.site-header:has(.nav.open) .nav__drawer-main {
-  opacity: 1;
-  transition-delay: 0.05s;
 }
 
 .nav__drawer-heading {
@@ -425,9 +422,11 @@ a { color: inherit; }
   box-shadow: var(--glass-rim), var(--glass-halo), var(--glass-shadow);
 }
 
-/* Pills — bright glass; fade in with .nav__drawer-main */
+/* Pills — rim-only glass (no blur; avoids darkening over page content) */
 .site-header.is-nav-open .nav__drawer a::before,
 .site-header:has(.nav.open) .nav__drawer a::before {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   background: transparent;
 }
 
@@ -492,16 +491,11 @@ a { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   .nav__menu,
   .nav__drawer-panel,
-  .nav__drawer-main,
   .nav__drawer-heading,
   .nav__drawer a,
   .nav__menu-bar,
   .nav__scrim {
     transition: none !important;
-  }
-  .site-header:not(.is-nav-open) .nav__drawer-main,
-  .site-header:not(:has(.nav.open)) .nav__drawer-main {
-    opacity: 0;
   }
   .site-header:not(.is-nav-open) .nav__drawer,
   .site-header:not(:has(.nav.open)) .nav__drawer {
