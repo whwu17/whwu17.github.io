@@ -1,18 +1,20 @@
 <style id="nav-critical">
-  #nav-links .nav__drawer-panel {
-    clip-path: inset(0 0 100% 0) !important;
-    -webkit-clip-path: inset(0 0 100% 0) !important;
-  }
   #nav-scrim {
     display: block !important;
     opacity: 0 !important;
     pointer-events: none !important;
+    backdrop-filter: blur(0px) !important;
+    -webkit-backdrop-filter: blur(0px) !important;
   }
-  #site-header.is-nav-open #nav-links .nav__drawer-panel {
-    clip-path: inset(0 0 0 0) !important;
-    -webkit-clip-path: inset(0 0 0 0) !important;
+  #nav-links .nav__drawer-panel {
+    opacity: 0 !important;
+    pointer-events: none !important;
   }
   #site-header.is-nav-open #nav-scrim {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+  #site-header.is-nav-open #nav-links .nav__drawer-panel {
     opacity: 1 !important;
     pointer-events: auto !important;
   }
@@ -34,12 +36,15 @@
 
     <div class="nav__drawer" id="nav-links" role="navigation" aria-label="Sections" aria-hidden="true">
       <div class="nav__drawer-panel">
-        {% assign secs = site.sections | sort: 'priority' %}
-        {% for s in secs %}
-        <a href="{{ '/#' | append: s.section_id | relative_url }}" data-spy="{{ s.section_id }}"><span class="nav__drawer-label">{{ s.name }}</span></a>
-        {% endfor %}
-        <a href="{{ '/about/' | relative_url }}"><span class="nav__drawer-label">About</span></a>
-        <a href="{{ '/contact/' | relative_url }}"><span class="nav__drawer-label">Contact</span></a>
+        <p class="nav__drawer-heading">Navigation</p>
+        <div class="nav__drawer-links">
+          {% assign secs = site.sections | sort: 'priority' %}
+          {% for s in secs %}
+          <a href="{{ '/#' | append: s.section_id | relative_url }}" data-spy="{{ s.section_id }}"><span class="nav__drawer-label">{{ s.name }}</span></a>
+          {% endfor %}
+          <a href="{{ '/about/' | relative_url }}"><span class="nav__drawer-label">About</span></a>
+          <a href="{{ '/contact/' | relative_url }}"><span class="nav__drawer-label">Contact</span></a>
+        </div>
       </div>
     </div>
   </div>
