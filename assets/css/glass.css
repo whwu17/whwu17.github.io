@@ -156,9 +156,7 @@
   user-select: none;
   cursor: pointer;
   transform: scale(1);
-  transition:
-    transform var(--glass-press-duration) var(--glass-spring),
-    box-shadow var(--glass-press-duration) var(--glass-ease);
+  transition: transform var(--glass-press-duration) var(--glass-spring);
 }
 
 /* Blur layer — no press wash (keeps glass bright) */
@@ -172,7 +170,6 @@
 /* Sheen above blur, below content */
 .liquid-glass.glass-interactive::after {
   z-index: 0;
-  transition: opacity calc(var(--glass-press-duration) * 0.85) var(--glass-ease);
 }
 
 .liquid-glass.glass-interactive > * {
@@ -180,15 +177,10 @@
   z-index: 1;
 }
 
-/* Pressed — scale only (no fill wash) */
+/* Pressed — scale only */
 .liquid-glass.glass-interactive:is(:active, .is-pressed) {
-  transform: scale(0.962);
+  transform: scale(0.98);
   background: transparent;
-  box-shadow:
-    var(--glass-rim),
-    var(--glass-halo),
-    0 1px 8px rgba(0, 0, 0, 0.05),
-    inset 0 0 0 0.5px rgba(255, 255, 255, 0.45);
 }
 
 .liquid-glass--subtle.glass-interactive:is(:active, .is-pressed),
@@ -202,17 +194,15 @@
   background: transparent;
 }
 
-.liquid-glass.glass-interactive:is(:active, .is-pressed)::before {
-  background: transparent;
-}
-
+.liquid-glass.glass-interactive:is(:active, .is-pressed)::before,
 .liquid-glass.glass-interactive:is(:active, .is-pressed)::after {
+  background: transparent;
   opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .liquid-glass.glass-interactive {
-    transition: box-shadow 0.2s ease;
+    transition: none;
   }
   .liquid-glass.glass-interactive:is(:active, .is-pressed) {
     transform: none;
@@ -442,8 +432,7 @@
     var(--glass-shadow);
   isolation: isolate;
   transition:
-    transform var(--glass-press-duration) var(--glass-spring),
-    box-shadow var(--glass-press-duration) var(--glass-ease);
+    transform var(--glass-press-duration) var(--glass-spring);
 }
 
 :is(.card, .info-card)::after {
@@ -477,7 +466,7 @@
   transform: translateZ(0);
   backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
   -webkit-backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
-  background: var(--glass-fill-pill, transparent);
+  background: transparent;
   opacity: 1;
 }
 
@@ -561,12 +550,11 @@
   transform: scale(1);
   transition:
     transform var(--glass-press-duration) var(--glass-spring),
-    box-shadow var(--glass-press-duration) var(--glass-ease),
     color 0.2s ease,
     border-color 0.2s ease;
 }
 
-/* Blur layer — no fill wash */
+/* Blur only — never stack a fill layer (avoids muddy/dark flash) */
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::before {
   content: "";
   position: absolute;
@@ -577,34 +565,12 @@
   transform: translateZ(0);
   backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
   -webkit-backdrop-filter: var(--glass-blur-pill, var(--glass-blur-subtle));
-  background: var(--glass-fill-pill, transparent);
-  opacity: 1;
-}
-
-[data-theme="light"] :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::before {
   background: transparent;
-}
-
-:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu)::after {
-  z-index: 0;
+  opacity: 1;
 }
 
 :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed) {
-  transform: scale(0.962);
-  background: transparent;
-  box-shadow:
-    var(--glass-rim),
-    var(--glass-halo),
-    0 1px 8px rgba(0, 0, 0, 0.05),
-    inset 0 0 0 0.5px rgba(255, 255, 255, 0.45);
-}
-
-:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed)::before {
-  background: transparent;
-}
-
-:is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed)::after {
-  opacity: 1;
+  transform: scale(0.98);
 }
 
 @media (hover: hover) {
@@ -641,8 +607,7 @@
   transform: translateY(12px) scale(1);
   transition:
     opacity 0.25s cubic-bezier(0.32, 0.72, 0, 1),
-    transform 0.25s cubic-bezier(0.32, 0.72, 0, 1),
-    box-shadow var(--glass-press-duration) var(--glass-ease);
+    transform 0.25s cubic-bezier(0.32, 0.72, 0, 1);
 }
 .to-top.ctrl--glass::after {
   content: "";
@@ -679,24 +644,12 @@
   transform: translateY(0) scale(1);
 }
 .to-top.ctrl--glass.show:is(:active, .is-pressed) {
-  transform: translateY(0) scale(0.962);
-  background: transparent;
-  box-shadow:
-    var(--glass-rim),
-    var(--glass-halo),
-    0 1px 8px rgba(0, 0, 0, 0.05),
-    inset 0 0 0 0.5px rgba(255, 255, 255, 0.45);
-}
-.to-top.ctrl--glass.show:is(:active, .is-pressed)::before {
-  background: transparent;
-}
-.to-top.ctrl--glass.show:is(:active, .is-pressed)::after {
-  opacity: 1;
+  transform: translateY(0) scale(0.98);
 }
 
 @media (prefers-reduced-motion: reduce) {
   :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu) {
-    transition: box-shadow 0.2s ease, color 0.2s ease;
+    transition: color 0.2s ease;
   }
   :is(a.btn, button.btn, .linklist a, .nav__drawer a, .ctrl.ctrl--glass:not(.to-top), .nav__menu):is(:active, .is-pressed) {
     transform: none;

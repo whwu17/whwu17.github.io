@@ -97,7 +97,7 @@ body.theme-beach .aurora {
 }
 
 .theme-panel {
-  --glass-fill-pill: rgba(255, 255, 255, 0.58);
+  --glass-fill-pill: transparent;
   --glass-fill-panel: rgba(255, 255, 255, 0.72);
   --glass-blur-pill: blur(20px) saturate(160%);
   --glass-blur-subtle: blur(40px) saturate(165%);
@@ -199,7 +199,7 @@ body.theme-beach .aurora {
   --theme-surface-raised: var(--fresh-surface-raised);
   --theme-border: rgba(234, 88, 12, 0.16);
   --ring: 0 0 0 3px color-mix(in srgb, #ea580c 35%, transparent);
-  --glass-fill-pill: rgba(255, 255, 255, 0.62);
+  --glass-fill-pill: transparent;
   --glass-fill-panel: rgba(255, 255, 255, 0.76);
   --glass-blur-pill: blur(20px) saturate(165%);
   --glass-blur-subtle: blur(44px) saturate(170%);
