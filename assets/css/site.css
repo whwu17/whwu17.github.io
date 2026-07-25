@@ -433,7 +433,7 @@ a { color: inherit; }
 
 .site-header.is-nav-open .nav__drawer a.active::before,
 .site-header:has(.nav.open) .nav__drawer a.active::before {
-  background: rgba(255, 255, 255, 0.22);
+  background: transparent;
 }
 
 .site-header.is-nav-open .nav__drawer a::after,
