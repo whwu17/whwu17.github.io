@@ -71,12 +71,7 @@
       setNavOpen(false);
       if (navToggle && nav) navToggle.addEventListener('click', function (e) {
         e.stopPropagation();
-        var opening = !header.classList.contains('is-nav-open');
-        setNavOpen(opening);
-        if (opening) {
-          var link = defaultNavContextLink();
-          if (link) setNavContext(link);
-        }
+        setNavOpen(!header.classList.contains('is-nav-open'));
       });
       if (navScrim) navScrim.addEventListener('click', function () { setNavOpen(false); });
       if (navLinks) navLinks.querySelectorAll('a').forEach(function (a) {
@@ -84,34 +79,6 @@
       });
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && nav && nav.classList.contains('open')) setNavOpen(false);
-      });
-
-      /* Nav drawer — left context preview */
-      var navContext = document.getElementById('nav-context-title');
-      var navContextHint = document.getElementById('nav-context-hint');
-      var navContextWrap = navContext ? navContext.closest('.nav__drawer-context') : null;
-      var navDrawerLinks = navLinks ? navLinks.querySelectorAll('.nav__drawer-links a') : [];
-      function navLinkLabel(link) {
-        var label = link.querySelector('.nav__drawer-label');
-        return label ? label.textContent : link.textContent;
-      }
-      function setNavContext(link) {
-        if (!navContext || !navContextHint || !link) return;
-        if (navContextWrap) navContextWrap.classList.add('is-switching');
-        window.setTimeout(function () {
-          navContext.textContent = navLinkLabel(link);
-          navContextHint.textContent = link.getAttribute('data-nav-hint') || '';
-          if (navContextWrap) navContextWrap.classList.remove('is-switching');
-        }, 120);
-      }
-      function defaultNavContextLink() {
-        var active = navLinks ? navLinks.querySelector('.nav__drawer-links a.active') : null;
-        if (active) return active;
-        return navDrawerLinks.length ? navDrawerLinks[0] : null;
-      }
-      navDrawerLinks.forEach(function (link) {
-        link.addEventListener('mouseenter', function () { setNavContext(link); });
-        link.addEventListener('focus', function () { setNavContext(link); });
       });
 
       /* Reveal on scroll */
