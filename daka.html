@@ -284,6 +284,12 @@ permalink: /daka/
     .week-streak--ok { color: var(--pass); }
     .week-streak--ok strong { color: var(--pass); }
 
+    .period-lines { display: grid; gap: 6px; }
+    .period-line { font-size: 11px; line-height: 1.5; color: var(--ink-soft); }
+    .period-line strong { color: var(--ink); font-weight: 600; }
+    .period-line--ok { color: var(--pass); }
+    .week-block--period { margin-top: 6px; }
+
     .cal {
       display: grid;
       grid-template-columns: 2.4rem repeat(7, 1fr);
@@ -558,6 +564,7 @@ permalink: /daka/
 
       var STORAGE_KEY = "daka-data-v1";
       var THRESHOLD = 0.4;
+      var MAX_PERIOD = 5;
       var WEEKDAYS = ["日", "一", "二", "三", "四", "五", "六"];
 
       var CHECKIN_ACTIONS = [
@@ -669,6 +676,45 @@ permalink: /daka/
       }
 
       /** Calendar rows (Sun–Sat) with full-week date keys, including adjacent-month days. */
+      function weekRangeLabel(cells) {
+        var f = parseKey(cells[0].key);
+        var l = parseKey(cells[6].key);
+        return (f.getMonth() + 1) + "/" + f.getDate() + "–" + (l.getMonth() + 1) + "/" + l.getDate();
+      }
+
+      function buildWeekCells(sunday) {
+        var cells = [];
+        for (var i = 0; i < 7; i++) {
+          var d = new Date(sunday);
+          d.setDate(sunday.getDate() + i);
+          var cy = d.getFullYear();
+          var cm = d.getMonth() + 1;
+          var cd = d.getDate();
+          cells.push({
+            key: dateKey(cy, cm, cd),
+            day: cd,
+            inMonth: false
+          });
+        }
+        return cells;
+      }
+
+      function buildWeekFromSunday(sunday, year, month) {
+        var cells = buildWeekCells(sunday);
+        if (year != null && month != null) {
+          cells.forEach(function (c) {
+            var p = c.key.split("-");
+            c.inMonth = +p[0] === year && +p[1] === month;
+          });
+        }
+        return {
+          cells: cells,
+          rangeLabel: weekRangeLabel(cells),
+          startKey: cells[0].key,
+          endKey: cells[6].key
+        };
+      }
+
       function buildMonthWeeks(year, month) {
         var daysInMonth = new Date(year, month, 0).getDate();
         var firstOfMonth = new Date(year, month - 1, 1);
@@ -681,28 +727,36 @@ permalink: /daka/
         var seenLast = false;
 
         while (!seenLast) {
-          var cells = [];
-          for (var i = 0; i < 7; i++) {
-            var d = new Date(cursor);
-            d.setDate(cursor.getDate() + i);
-            var cy = d.getFullYear();
-            var cm = d.getMonth() + 1;
-            var cd = d.getDate();
-            cells.push({
-              key: dateKey(cy, cm, cd),
-              day: cd,
-              inMonth: cy === year && cm === month
-            });
+          var wk = buildWeekFromSunday(new Date(cursor), year, month);
+          if (wk.cells.some(function (c) { return c.inMonth; })) {
+            wk.num = weekNum++;
+            weeks.push(wk);
+            if (wk.cells.some(function (c) { return c.key === lastKey; })) seenLast = true;
           }
-
-          if (cells.some(function (c) { return c.inMonth; })) {
-            weeks.push({ num: weekNum++, cells: cells });
-            if (cells.some(function (c) { return c.key === lastKey; })) seenLast = true;
-          }
-
           cursor.setDate(cursor.getDate() + 7);
         }
 
+        return weeks;
+      }
+
+      /** Extended week sequence for multi-week period analysis (can cross months). */
+      function buildAnalysisWeeks(year, month) {
+        var core = buildMonthWeeks(year, month);
+        if (!core.length) return [];
+
+        var firstSun = parseKey(core[0].cells[0].key);
+        var lastSun = parseKey(core[core.length - 1].cells[0].key);
+        var start = new Date(firstSun);
+        start.setDate(start.getDate() - 7 * (MAX_PERIOD - 1));
+        var end = new Date(lastSun);
+        end.setDate(end.getDate() + 7 * (MAX_PERIOD - 1));
+
+        var weeks = [];
+        var cursor = new Date(start);
+        while (cursor <= end) {
+          weeks.push(buildWeekFromSunday(new Date(cursor)));
+          cursor.setDate(cursor.getDate() + 7);
+        }
         return weeks;
       }
 
@@ -720,35 +774,82 @@ permalink: /daka/
         };
       }
 
-      function findFailingStreaks(weekResults) {
-        var streaks = [];
-        var i = 0;
-        while (i < weekResults.length) {
-          var w = weekResults[i];
-          if (!w.hasWork || w.ratio >= THRESHOLD) {
-            i++;
-            continue;
-          }
-          var start = w.num;
-          var len = 1;
-          i++;
-          while (i < weekResults.length) {
-            var next = weekResults[i];
-            if (!next.hasWork || next.ratio >= THRESHOLD) break;
-            len++;
-            i++;
-          }
-          streaks.push({ start: start, end: start + len - 1, len: len });
-        }
-        return streaks;
+      function weekResultsFromWeeks(weeks, halfAsFull) {
+        return weeks.map(function (wk) {
+          var st = weekStatsForRow(wk.cells, halfAsFull);
+          return {
+            cells: wk.cells,
+            rangeLabel: wk.rangeLabel,
+            workDays: st.workDays,
+            checkin: st.checkin,
+            ratio: st.ratio,
+            hasWork: st.workDays > 0
+          };
+        });
       }
 
-      function formatStreaks(streaks) {
-        if (!streaks.length) return null;
-        return streaks.map(function (s) {
-          if (s.len === 1) return "第" + s.start + "周";
-          return "第" + s.start + "–" + s.end + "周（连续" + s.len + "周）";
-        }).join("；");
+      function findFailingPeriods(weekResults, periodLen) {
+        var failing = [];
+        for (var i = 0; i <= weekResults.length - periodLen; i++) {
+          var work = 0;
+          var check = 0;
+          for (var j = 0; j < periodLen; j++) {
+            work += weekResults[i + j].workDays;
+            check += weekResults[i + j].checkin;
+          }
+          if (work <= 0) continue;
+          if (check / work < THRESHOLD) {
+            failing.push({ start: i, end: i + periodLen - 1, len: periodLen });
+          }
+        }
+        return failing;
+      }
+
+      function periodTouchesMonth(period, weekResults, year, month) {
+        for (var i = period.start; i <= period.end; i++) {
+          if (weekResults[i].cells.some(function (c) {
+            var p = c.key.split("-");
+            return +p[0] === year && +p[1] === month;
+          })) return true;
+        }
+        return false;
+      }
+
+      function formatPeriodRange(weekResults, start, end) {
+        var f = parseKey(weekResults[start].cells[0].key);
+        var l = parseKey(weekResults[end].cells[6].key);
+        return (f.getMonth() + 1) + "/" + f.getDate() + "–" + (l.getMonth() + 1) + "/" + l.getDate();
+      }
+
+      function periodReportHtml(year, month, halfAsFull, modeLabel) {
+        var weeks = buildAnalysisWeeks(year, month);
+        var results = weekResultsFromWeeks(weeks, halfAsFull);
+        var lines = [];
+
+        for (var len = 1; len <= MAX_PERIOD; len++) {
+          var label = "连续" + len + "周";
+          var filtered = findFailingPeriods(results, len).filter(function (p) {
+            return periodTouchesMonth(p, results, year, month);
+          });
+
+          if (!filtered.length) {
+            lines.push('<div class="period-line"><strong>' + label + '：</strong><span class="period-line--ok">全部达标</span></div>');
+            continue;
+          }
+
+          var ranges = filtered.map(function (p) {
+            return formatPeriodRange(results, p.start, p.end);
+          }).join("；");
+          lines.push('<div class="period-line"><strong>' + label + '未达 40%：</strong>' + ranges + '</div>');
+        }
+
+        return (
+          '<div class="week-block week-block--period">' +
+            '<div class="week-block__title">周期达标 · ' + modeLabel + '</div>' +
+            '<div class="week-block__sub">连续 1–5 个自然周合并计算出勤率，可跨月</div>' +
+            '<div class="period-lines">' + lines.join("") + '</div>' +
+          '</div>'
+        );
       }
 
       function weekReportHtml(weeks, halfAsFull, modeLabel) {
@@ -783,19 +884,11 @@ permalink: /daka/
           );
         }).join("");
 
-        var streaks = findFailingStreaks(results);
-        var streakText = formatStreaks(streaks);
-        var streakCls = streakText ? "week-streak" : "week-streak week-streak--ok";
-        var streakContent = streakText
-          ? '<strong>未达 40%：</strong>' + streakText
-          : "<strong>全部达标</strong>（各周均 ≥40%）";
-
         return (
           '<div class="week-block">' +
-            '<div class="week-block__title">周达标 · ' + modeLabel + '</div>' +
+            '<div class="week-block__title">单周达标 · ' + modeLabel + '</div>' +
             '<div class="week-block__sub">按完整自然周计算（周日–周六，含跨月日期）</div>' +
             '<div class="week-rows">' + rows + '</div>' +
-            '<div class="' + streakCls + '">' + streakContent + '</div>' +
           '</div>'
         );
       }
@@ -898,7 +991,9 @@ permalink: /daka/
                 ratioHtml("半天按一天算", s.ratioFull, s.checkFull, s.workDays) +
                 ratioHtml("半天按半天算", s.ratioHalf, s.checkHalf, s.workDays) +
                 weekReportHtml(s.weeks, true, "半天按一天算") +
+                periodReportHtml(slot.year, slot.month, true, "半天按一天算") +
                 weekReportHtml(s.weeks, false, "半天按半天算") +
+                periodReportHtml(slot.year, slot.month, false, "半天按半天算") +
                 buildCalendarHtml(slot.year, slot.month, s.weeks) +
               '</div>' +
             '</article>'
