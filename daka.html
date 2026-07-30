@@ -245,113 +245,7 @@ permalink: /daka/
     .alert--fail { background: rgba(220, 38, 38, 0.1); border: 2px solid rgba(220, 38, 38, 0.45); color: #b91c1c; font-weight: 500; }
     .alert strong { font-weight: 700; }
 
-    .timeline-scroll {
-      max-width: 100%;
-      min-width: 0;
-    }
-    .axis-chart {
-      display: grid;
-      grid-template-columns: minmax(4.2rem, 5rem) 1fr 2.4rem repeat(var(--marker-cols, 1), 9px);
-      column-gap: 8px;
-      row-gap: 4px;
-      align-items: stretch;
-      width: 100%;
-      min-width: 0;
-    }
-    .axis-chart__head {
-      display: contents;
-    }
-    .axis-chart__head > span {
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--ink-faint);
-      padding-bottom: 4px;
-      text-transform: none;
-    }
-    .axis-chart__head > span:nth-child(4) {
-      grid-column: 4 / -1;
-      text-align: center;
-    }
-    .axis-row__dates {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--ink-soft);
-      line-height: 1.25;
-      padding: 6px 0;
-      align-self: center;
-    }
-    .axis-row__bar {
-      position: relative;
-      height: 8px;
-      border-radius: 999px;
-      background: var(--paper-deep);
-      overflow: hidden;
-      align-self: center;
-    }
-    .axis-row__bar--empty {
-      height: auto;
-      background: transparent;
-      font-size: 10px;
-      color: var(--ink-faint);
-      overflow: visible;
-    }
-    .axis-row__fill {
-      height: 100%;
-      border-radius: inherit;
-    }
-    .axis-row__fill.is-pass { background: var(--pass); }
-    .axis-row__fill.is-fail { background: var(--fail); }
-    .axis-row__mark {
-      position: absolute;
-      top: -2px;
-      bottom: -2px;
-      left: 40%;
-      width: 2px;
-      background: var(--stamp);
-      opacity: 0.7;
-    }
-    .axis-row__pct {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 600;
-      text-align: right;
-      align-self: center;
-    }
-    .axis-row--pass .axis-row__pct { color: var(--pass); }
-    .axis-row--fail .axis-row__pct { color: var(--fail); }
-    .axis-row--noweek .axis-row__pct { color: var(--ink-faint); }
-    .axis-vline {
-      width: 5px;
-      border-radius: 999px;
-      justify-self: center;
-      align-self: stretch;
-      min-height: 8px;
-    }
-    .axis-vline--len-5 { background: #dc2626; width: 6px; }
-    .axis-vline--len-4 { background: #ea580c; }
-    .axis-vline--len-3 { background: #f59e0b; width: 4px; }
-    .axis-vline--len-2 { background: #fb923c; width: 3px; opacity: 0.95; }
-    .axis-vline--len-1 { background: #fca5a5; width: 3px; opacity: 0.9; }
-    .axis-legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px 12px;
-      margin-top: 8px;
-      font-size: 10px;
-      color: var(--ink-faint);
-    }
-    .axis-legend__item {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .axis-legend__swatch {
-      width: 4px;
-      height: 14px;
-      border-radius: 999px;
-      flex-shrink: 0;
-    }
+    .timeline-scroll { max-width: 100%; min-width: 0; }
 
     .period-chip--warn {
       background: rgba(234, 88, 12, 0.14);
@@ -562,9 +456,180 @@ permalink: /daka/
     .main-panel__body { display: grid; gap: 0; min-width: 0; overflow: hidden; }
     .period-section {
       padding-bottom: 14px;
-      margin-bottom: 14px;
+      margin-bottom: 0;
       border-bottom: 1px solid var(--line);
     }
+    .period-matrix--strip {
+      display: grid;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .period-matrix--strip .period-matrix__row {
+      grid-template-columns: 4.2rem 1fr;
+      align-items: center;
+      padding: 6px 8px;
+      border-radius: var(--radius-sm);
+      background: var(--paper);
+      border: 1px solid var(--line);
+    }
+    .month-layer {
+      position: relative;
+      z-index: 2;
+      padding: 14px 0;
+      min-width: 0;
+    }
+    .week-layer {
+      position: relative;
+      z-index: 1;
+      padding: 0 0 14px;
+      border-top: 1px dashed var(--line);
+      margin-top: 4px;
+      min-width: 0;
+    }
+    .week-layer:not([hidden]) { padding-top: 14px; }
+    .month-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    @media (max-width: 520px) { .month-strip { grid-template-columns: 1fr; } }
+    .month-strip__card {
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--line);
+      background: var(--paper);
+      min-width: 0;
+    }
+    .month-strip__card--curr {
+      border-color: var(--accent);
+      background: var(--surface);
+      box-shadow: 0 0 0 1px rgba(42, 111, 151, 0.12);
+    }
+    .month-strip__label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .month-strip__name {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      margin: 2px 0 6px;
+    }
+    .month-strip__card--curr .month-strip__name { color: var(--ink); font-weight: 600; }
+    .month-strip__card:not(.month-strip__card--curr) .month-strip__name { color: var(--ink-soft); }
+    .month-strip__meta {
+      font-size: 11px;
+      color: var(--ink-soft);
+      line-height: 1.4;
+    }
+    .month-strip__pct {
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+    .month-strip__pct.is-pass { color: var(--pass); }
+    .month-strip__pct.is-fail { color: var(--fail); }
+    .week-panel__title {
+      margin: 0 0 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-soft);
+    }
+    .week-panel {
+      display: flex;
+      gap: 10px;
+      align-items: stretch;
+      min-width: 0;
+    }
+    .week-panel__list {
+      flex: 1;
+      min-width: 0;
+      display: grid;
+      gap: 4px;
+    }
+    .week-line {
+      display: grid;
+      grid-template-columns: minmax(4rem, 4.8rem) 1fr 2.2rem;
+      gap: 8px;
+      align-items: center;
+      padding: 5px 8px;
+      border-radius: 6px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      font-size: 11px;
+    }
+    .week-line__dates {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--ink-soft);
+    }
+    .week-line__bar {
+      height: 6px;
+      border-radius: 999px;
+      background: var(--paper-deep);
+      overflow: hidden;
+      position: relative;
+    }
+    .week-line__fill { height: 100%; border-radius: inherit; }
+    .week-line__fill.is-pass { background: var(--pass); }
+    .week-line__fill.is-fail { background: var(--fail); }
+    .week-line__mark {
+      position: absolute;
+      top: -2px; bottom: -2px;
+      left: 40%;
+      width: 2px;
+      background: var(--stamp);
+      opacity: 0.65;
+    }
+    .week-line__pct {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      text-align: right;
+    }
+    .week-panel__rail-wrap {
+      flex: 0 0 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding-top: 2px;
+    }
+    .week-panel__rail-label {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--ink-faint);
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      letter-spacing: 0.05em;
+    }
+    .week-panel__rail {
+      position: relative;
+      flex: 1;
+      width: 100%;
+      min-height: 80px;
+      border-radius: 6px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+    }
+    .week-rail-vline {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 5px;
+      border-radius: 999px;
+      min-height: 4px;
+    }
+    .week-rail-vline--len-5 { background: #dc2626; width: 6px; }
+    .week-rail-vline--len-4 { background: #ea580c; }
+    .week-rail-vline--len-3 { background: #f59e0b; width: 4px; }
+    .week-rail-vline--len-2 { background: #fb923c; width: 3px; }
+    .week-rail-vline--len-1 { background: #fca5a5; width: 3px; }
     .month-pane {
       padding: 14px 0;
       border-bottom: 1px solid var(--line);
@@ -822,7 +887,7 @@ permalink: /daka/
     </header>
 
     <div class="guide">
-      <strong>怎么用：</strong>点日历日期 → 选操作 → 确认。周期总览每行是一周，右侧<strong>竖线</strong>标出连续 N 周是否达标；日历黑色=中月，灰色=前月/后月。
+      <strong>怎么用：</strong>点日历补打卡。上方为<strong>周期达标</strong>（1–5周）与<strong>三月概况</strong>（常显）；日历在前；需要时可打开<strong>周详情</strong>查看每周。
     </div>
 
     <div class="quick-bar">
@@ -839,7 +904,10 @@ permalink: /daka/
       <div class="card__head main-panel__head" id="mainPanelHead"></div>
       <div class="card__body main-panel__body">
         <div id="periodSection"></div>
-        <div class="month-grid" id="monthGrid"></div>
+        <div class="month-layer" id="monthLayer">
+          <div class="month-grid" id="monthGrid"></div>
+        </div>
+        <div class="week-layer" id="weekLayer" hidden></div>
         <div class="legend legend--inset" id="legend"></div>
       </div>
     </article>
@@ -895,6 +963,7 @@ permalink: /daka/
         selectedKey: null,
         pendingAction: null,
         tripleView: true,
+        showWeekDetail: false,
         dashboardMode: "full",
         anchorYear: today.getFullYear(),
         anchorMonth: today.getMonth() + 1,
@@ -1217,71 +1286,123 @@ permalink: /daka/
         return cols.length;
       }
 
-      function buildAxisLegendHtml() {
-        var items = [
-          { cls: "axis-vline--len-5", label: "5周未达标" },
-          { cls: "axis-vline--len-4", label: "4周" },
-          { cls: "axis-vline--len-3", label: "3周" },
-          { cls: "axis-vline--len-2", label: "2周" },
-          { cls: "axis-vline--len-1", label: "1周" }
+      function getTripleDashboardData() {
+        var halfAsFull = state.dashboardMode === "full";
+        var weeks = buildThreeMonthWeekSequence(state.anchorYear, state.anchorMonth);
+        var results = weekResultsFromWeeks(weeks, halfAsFull);
+        return { weeks: weeks, results: results, halfAsFull: halfAsFull };
+      }
+
+      function buildPeriodMatrixHtml(results, weeks) {
+        var rows = [];
+        for (var len = MAX_PERIOD; len >= 1; len--) {
+          var fails = findFailingPeriods(results, len);
+          var chips;
+          if (!fails.length) {
+            chips = '<span class="period-chip period-chip--ok">全部达标</span>';
+          } else {
+            chips = fails.map(function (p) {
+              var cls = "period-chip";
+              if (len === 5) cls += " period-chip--critical";
+              else if (len === 4) cls += " period-chip--warn";
+              return '<span class="' + cls + '">' + formatPeriodDateRange(p.start, p.end, weeks) + "</span>";
+            }).join("");
+          }
+          rows.push(
+            '<div class="period-matrix__row">' +
+              '<span class="period-matrix__label">' + len + "周</span>" +
+              '<div class="period-chips">' + chips + "</div>" +
+            "</div>"
+          );
+        }
+        return '<div class="period-matrix period-matrix--strip">' + rows.join("") + "</div>";
+      }
+
+      function buildMonthStripHtml(anchorY, anchorM) {
+        var halfAsFull = state.dashboardMode === "full";
+        var prev = shiftYM(anchorY, anchorM, -1);
+        var next = shiftYM(anchorY, anchorM, 1);
+        var slots = [
+          { label: "前月", year: prev.year, month: prev.month, role: "adj" },
+          { label: "中月", year: anchorY, month: anchorM, role: "curr" },
+          { label: "后月", year: next.year, month: next.month, role: "adj" }
         ];
         return (
-          '<div class="axis-legend">' +
-            items.map(function (it) {
-              return '<span class="axis-legend__item"><span class="axis-legend__swatch ' + it.cls + '"></span>' + it.label + "</span>";
+          '<div class="month-strip">' +
+            slots.map(function (slot) {
+              var s = monthStats(slot.year, slot.month);
+              var ratio = halfAsFull ? s.ratioFull : s.ratioHalf;
+              var check = halfAsFull ? s.checkFull : s.checkHalf;
+              var pct = Math.round(ratio * 1000) / 10;
+              var pass = ratio >= THRESHOLD;
+              var cls = "month-strip__card" + (slot.role === "curr" ? " month-strip__card--curr" : "");
+              return (
+                '<article class="' + cls + '">' +
+                  '<div class="month-strip__label">' + slot.label + "</div>" +
+                  '<div class="month-strip__name">' + formatMonth(slot.year, slot.month) + "</div>" +
+                  '<div class="month-strip__meta">' + check + " / " + s.workDays + " 工作日 · " + s.checkedDays + " 天有打卡</div>" +
+                  '<div class="month-strip__pct ' + (pass ? "is-pass" : "is-fail") + '">' + pct + "%</div>" +
+                "</article>"
+              );
             }).join("") +
           "</div>"
         );
       }
 
-      function buildAxisChartHtml(weeks, results) {
+      function buildWeekPanelHtml() {
+        var data = getTripleDashboardData();
+        var weeks = data.weeks;
+        var results = data.results;
+        var n = weeks.length;
         var spans = collectFailingSpans(results).map(function (p) {
           return { start: p.start, end: p.end, len: p.len };
         });
-        var markerCols = spans.length ? packSpanCols(spans) : 0;
-        var markerColsCss = Math.max(markerCols, 1);
+        var colCount = spans.length ? packSpanCols(spans) : 1;
 
-        var parts = [
-          '<div class="axis-chart" style="--marker-cols:' + markerColsCss + '">',
-          '<div class="axis-chart__head">',
-          '<span>周次</span><span>达标率</span><span>%</span><span>周期</span>',
-          '</div>'
-        ];
-
-        weeks.forEach(function (wk, i) {
+        var lines = weeks.map(function (wk, i) {
           var r = results[i];
           var dates = formatWeekShortDates(wk.cells);
-          var pct = r.hasWork ? Math.round(r.ratio * 100) : null;
-
-          var barHtml;
-          if (r.hasWork) {
-            var p = Math.min(100, Math.round(r.ratio * 100));
-            var pass = r.ratio >= THRESHOLD;
-            barHtml =
-              '<div class="axis-row__bar"><div class="axis-row__fill ' + (pass ? "is-pass" : "is-fail") + '" style="width:' + p + '%"></div><div class="axis-row__mark"></div></div>';
-          } else {
-            barHtml = '<div class="axis-row__bar axis-row__bar--empty">—</div>';
+          if (!r.hasWork) {
+            return (
+              '<div class="week-line">' +
+                '<span class="week-line__dates">' + dates + "</span>" +
+                '<span style="color:var(--ink-faint);font-size:10px">无工作日</span>' +
+                '<span class="week-line__pct">—</span>' +
+              "</div>"
+            );
           }
-
-          parts.push(
-            '<span class="axis-row__dates" title="' + dates + '">' + dates + "</span>",
-            barHtml,
-            '<span class="axis-row__pct">' + (pct !== null ? pct + "%" : "—") + "</span>"
+          var pct = Math.round(r.ratio * 1000) / 10;
+          var pass = r.ratio >= THRESHOLD;
+          return (
+            '<div class="week-line">' +
+              '<span class="week-line__dates">' + dates + "</span>" +
+              '<div class="week-line__bar"><div class="week-line__fill ' + (pass ? "is-pass" : "is-fail") + '" style="width:' + Math.min(100, pct) + '%"></div><div class="week-line__mark"></div></div>' +
+              '<span class="week-line__pct">' + pct + "%</span>" +
+            "</div>"
           );
-          for (var c = 0; c < markerColsCss; c++) {
-            parts.push('<span aria-hidden="true"></span>');
-          }
-        });
+        }).join("");
 
-        spans.forEach(function (p) {
+        var rowStep = 100 / n;
+        var vlines = spans.map(function (p) {
+          var top = p.start * rowStep;
+          var height = (p.end - p.start + 1) * rowStep;
+          var left = colCount > 1 ? ((p.col + 0.5) / colCount) * 100 : 50;
           var range = formatPeriodDateRange(p.start, p.end, weeks);
-          parts.push(
-            '<div class="axis-vline axis-vline--len-' + p.len + '" style="grid-row:' + (p.start + 2) + " / span " + (p.end - p.start + 1) + ";grid-column:" + (4 + p.col + 1) + '" title="' + p.len + "周未达标：" + range + '"></div>'
+          return (
+            '<div class="week-rail-vline week-rail-vline--len-' + p.len + '" style="top:' + top + "%;height:" + height + "%;left:" + left + '%" title="' + p.len + "周未达标：" + range + '"></div>'
           );
-        });
+        }).join("");
 
-        parts.push("</div>", buildAxisLegendHtml());
-        return parts.join("");
+        return (
+          '<h3 class="week-panel__title">周详情 · 每周达标率</h3>' +
+          '<div class="week-panel">' +
+            '<div class="week-panel__list">' + lines + "</div>" +
+            '<div class="week-panel__rail-wrap">' +
+              '<span class="week-panel__rail-label">未达标周期</span>' +
+              '<div class="week-panel__rail">' + vlines + "</div>" +
+            "</div>" +
+          "</div>"
+        );
       }
 
       function formatWeekShortDates(cells) {
@@ -1293,9 +1414,9 @@ permalink: /daka/
       function buildPeriodSectionHtml() {
         if (!state.tripleView) return "";
 
-        var halfAsFull = state.dashboardMode === "full";
-        var weeks = buildThreeMonthWeekSequence(state.anchorYear, state.anchorMonth);
-        var results = weekResultsFromWeeks(weeks, halfAsFull);
+        var data = getTripleDashboardData();
+        var weeks = data.weeks;
+        var results = data.results;
         var prev = shiftYM(state.anchorYear, state.anchorMonth, -1);
         var next = shiftYM(state.anchorYear, state.anchorMonth, 1);
 
@@ -1305,35 +1426,47 @@ permalink: /daka/
           var ranges5 = fail5.map(function (p) {
             return formatGlobalWeekRange(p.start, p.end, weeks);
           }).join("；");
-          alertHtml = '<div class="alert alert--fail"><strong>⚠ 连续 5 周未达 40%</strong>：' + ranges5 + '</div>';
+          alertHtml = '<div class="alert alert--fail"><strong>⚠ 连续 5 周未达 40%</strong>：' + ranges5 + "</div>";
         } else {
           var fail4 = findFailingPeriods(results, 4);
           if (fail4.length) {
             alertHtml = '<div class="alert alert--warn"><strong>无 5 周未达标</strong>，但有 4 周周期未达标：' +
-              fail4.map(function (p) { return formatGlobalWeekRange(p.start, p.end, weeks); }).join("；") + '</div>';
+              fail4.map(function (p) { return formatGlobalWeekRange(p.start, p.end, weeks); }).join("；") + "</div>";
           } else {
             alertHtml = '<div class="alert alert--ok"><strong>✓ 连续 5 周全部达标</strong></div>';
           }
         }
 
-        var timeline = buildAxisChartHtml(weeks, results);
+        var weekBtnCls = state.showWeekDetail ? " is-on" : "";
+        var weekBtnLabel = state.showWeekDetail ? "隐藏周详情" : "显示周详情";
 
         return (
           '<div class="period-section">' +
             '<div class="period-dashboard">' +
               '<div class="period-dashboard__head">' +
-                '<h2 class="period-dashboard__title">周期总览 · ' + formatMonth(prev.year, prev.month) + ' – ' + formatMonth(next.year, next.month) + '</h2>' +
+                '<h2 class="period-dashboard__title">周期总览 · ' + formatMonth(prev.year, prev.month) + " – " + formatMonth(next.year, next.month) + "</h2>" +
                 '<div class="mode-toggle">' +
                   '<button type="button" class="btn btn--ghost btn--sm' + (state.dashboardMode === "full" ? " is-on" : "") + '" data-dashboard-mode="full">半天按一天</button>' +
                   '<button type="button" class="btn btn--ghost btn--sm' + (state.dashboardMode === "half" ? " is-on" : "") + '" data-dashboard-mode="half">半天按半天</button>' +
-                '</div>' +
-              '</div>' +
+                  '<button type="button" class="btn btn--ghost btn--sm' + weekBtnCls + '" id="btnWeekDetail">' + weekBtnLabel + "</button>" +
+                "</div>" +
+              "</div>" +
               alertHtml +
-              '<div><div style="font-size:11px;color:var(--ink-faint);margin-bottom:6px">每行一周；右侧<strong>竖线</strong>连接起止周，颜色/粗细表示连续几周未达 40%</div>' +
-              '<div class="timeline-scroll">' + timeline + '</div></div>' +
-            '</div>' +
-          '</div>'
+              buildPeriodMatrixHtml(results, weeks) +
+            "</div>" +
+          "</div>"
         );
+      }
+
+      function renderWeekLayer() {
+        var el = document.getElementById("weekLayer");
+        if (!state.tripleView || !state.showWeekDetail) {
+          el.hidden = true;
+          el.innerHTML = "";
+          return;
+        }
+        el.hidden = false;
+        el.innerHTML = buildWeekPanelHtml();
       }
 
       function renderMainPanelHead() {
@@ -1580,22 +1713,11 @@ permalink: /daka/
       function renderMonths() {
         var grid = document.getElementById("monthGrid");
         if (state.tripleView) {
-          var prev = shiftYM(state.anchorYear, state.anchorMonth, -1);
-          var next = shiftYM(state.anchorYear, state.anchorMonth, 1);
-          var s = monthStats(state.anchorYear, state.anchorMonth);
           grid.classList.add("month-grid--triple");
           grid.innerHTML =
-            '<section class="merged-cal-pane">' +
-              '<h3 class="merged-cal-pane__title">打卡日历 · ' + formatMonth(prev.year, prev.month) + " – " + formatMonth(next.year, next.month) + "</h3>" +
-              '<p class="merged-cal-pane__hint"><strong>黑色</strong>为中月（' + formatMonth(state.anchorYear, state.anchorMonth) + "），<strong>灰色</strong>为前月/后月</p>" +
-              '<div class="stat-row">' +
-                '<div class="stat"><div class="stat__label">中月工作日</div><div class="stat__value">' + s.workDays + "</div></div>" +
-                '<div class="stat"><div class="stat__label">中月有打卡</div><div class="stat__value">' + s.checkedDays + " 天</div></div>" +
-              "</div>" +
-              ratioHtml("半天按一天算", s.ratioFull, s.checkFull, s.workDays) +
-              ratioHtml("半天按半天算", s.ratioHalf, s.checkHalf, s.workDays) +
-              buildMergedCalendarHtml(state.anchorYear, state.anchorMonth) +
-            "</section>";
+            buildMonthStripHtml(state.anchorYear, state.anchorMonth) +
+            '<p class="merged-cal-pane__hint"><strong>黑色</strong>为中月（' + formatMonth(state.anchorYear, state.anchorMonth) + '），<strong>灰色</strong>为前月/后月</p>' +
+            buildMergedCalendarHtml(state.anchorYear, state.anchorMonth);
           return;
         }
 
@@ -1795,6 +1917,7 @@ permalink: /daka/
         renderMainPanelHead();
         document.getElementById("periodSection").innerHTML = buildPeriodSectionHtml();
         renderMonths();
+        renderWeekLayer();
         renderLegend();
       }
 
@@ -1828,6 +1951,13 @@ permalink: /daka/
 
         if (e.target.id === "btnTripleView") {
           state.tripleView = !state.tripleView;
+          if (!state.tripleView) state.showWeekDetail = false;
+          render();
+          return;
+        }
+
+        if (e.target.id === "btnWeekDetail") {
+          state.showWeekDetail = !state.showWeekDetail;
           render();
           return;
         }
@@ -1842,6 +1972,8 @@ permalink: /daka/
         if (modeBtn) {
           state.dashboardMode = modeBtn.getAttribute("data-dashboard-mode");
           document.getElementById("periodSection").innerHTML = buildPeriodSectionHtml();
+          renderMonths();
+          renderWeekLayer();
           return;
         }
 
