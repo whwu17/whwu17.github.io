@@ -1697,7 +1697,7 @@ permalink: /daka/
         var rowEnd = p.end + 2;
         var col = (p.col || 0) + 1;
         return (
-          '<div class="span-bracket span-bracket--len-' + p.len + '" style="grid-row:' + rowStart + "/" + rowEnd + ";grid-column:" + col + '" title="连续' + p.len + "周合计" + stats.pct + "%：' + formatPeriodDateRange(p.start, p.end, weeks) + '">' +
+          '<div class="span-bracket span-bracket--len-' + p.len + '" style="grid-row:' + rowStart + "/" + rowEnd + ";grid-column:" + col + '" title="连续' + p.len + "周合计" + stats.pct + "%：" + formatPeriodDateRange(p.start, p.end, weeks) + '">' +
             '<span class="span-bracket__dot span-bracket__dot--start"><span class="span-bracket__dot-label">' + startDate + "</span></span>" +
             '<span class="span-bracket__stem" aria-hidden="true"></span>' +
             '<span class="span-bracket__dot span-bracket__dot--end"><span class="span-bracket__dot-label">' + endDate + "</span></span>" +
