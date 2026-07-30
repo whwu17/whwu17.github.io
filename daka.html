@@ -986,7 +986,7 @@ permalink: /daka/
     </header>
 
     <div class="guide">
-      <strong>怎么用：</strong>点日历补打卡。三月视图：<strong>日历在前</strong>，周期总览与每周达标率在下方。
+      <strong>怎么用：</strong>点日历补打卡。顶部<strong>一个月份切换</strong>控制双月/三月视图；双月显示上月+本月，三月以中月为准。
     </div>
 
     <div class="quick-bar">
@@ -1063,14 +1063,8 @@ permalink: /daka/
         tripleView: true,
         dashboardMode: "full",
         anchorYear: today.getFullYear(),
-        anchorMonth: today.getMonth() + 1,
-        months: [
-          { slot: "prev", year: 0, month: 0 },
-          { slot: "curr", year: 0, month: 0 }
-        ]
+        anchorMonth: today.getMonth() + 1
       };
-
-      initMonthSlots();
 
       function getDashboardMode() {
         var halfAsFull = state.dashboardMode === "full";
@@ -1097,16 +1091,6 @@ permalink: /daka/
         return { year: y, month: m };
       }
 
-      function initMonthSlots() {
-        var cy = state.anchorYear;
-        var cm = state.anchorMonth;
-        state.months[1].year = cy;
-        state.months[1].month = cm;
-        var prev = shiftYM(cy, cm, -1);
-        state.months[0].year = prev.year;
-        state.months[0].month = prev.month;
-      }
-
       function getDisplayMonths() {
         if (state.tripleView) {
           var prev = shiftYM(state.anchorYear, state.anchorMonth, -1);
@@ -1117,10 +1101,10 @@ permalink: /daka/
             { label: "下月", year: next.year, month: next.month }
           ];
         }
-        initMonthSlots();
+        var prevDual = shiftYM(state.anchorYear, state.anchorMonth, -1);
         return [
-          { label: "上月", year: state.months[0].year, month: state.months[0].month },
-          { label: "本月", year: state.months[1].year, month: state.months[1].month }
+          { label: "上月", year: prevDual.year, month: prevDual.month },
+          { label: "本月", year: state.anchorYear, month: state.anchorMonth }
         ];
       }
 
@@ -1574,14 +1558,14 @@ permalink: /daka/
         var next = shiftYM(state.anchorYear, state.anchorMonth, 1);
         var title = state.tripleView
           ? "三个月连续 · " + formatMonth(prev.year, prev.month) + " – " + formatMonth(next.year, next.month)
-          : "打卡日历";
-        var navHtml = state.tripleView ? (
-          '<nav class="month-nav" aria-label="切换中月">' +
+          : "双月 · " + formatMonth(prev.year, prev.month) + " – " + formatMonth(state.anchorYear, state.anchorMonth);
+        var navLabel = state.tripleView ? "切换中月" : "切换本月";
+        var navHtml =
+          '<nav class="month-nav" aria-label="' + navLabel + '">' +
             '<button type="button" class="month-nav__btn" data-anchor="prev" aria-label="往前一月">‹</button>' +
             '<span class="month-nav__label">' + formatMonth(state.anchorYear, state.anchorMonth) + "</span>" +
             '<button type="button" class="month-nav__btn" data-anchor="next" aria-label="往后一月">›</button>' +
-          "</nav>"
-        ) : "";
+          "</nav>";
         document.getElementById("mainPanelHead").innerHTML =
           '<h2 class="card__title">' + title + "</h2>" +
           '<div class="main-panel__toolbar">' +
@@ -1829,24 +1813,17 @@ permalink: /daka/
         grid.classList.remove("month-grid--triple");
         var display = getDisplayMonths();
         var mode = getDashboardMode();
-        grid.innerHTML = display.map(function (slot, idx) {
+        grid.innerHTML = display.map(function (slot) {
           var s = monthStats(slot.year, slot.month);
           var ratio = mode.halfAsFull ? s.ratioFull : s.ratioHalf;
           var check = mode.halfAsFull ? s.checkFull : s.checkHalf;
-          var navHtml = (
-            '<div class="card__nav">' +
-              '<button type="button" class="btn btn--ghost btn--sm" data-nav="prev" data-slot="' + idx + '" aria-label="上个月">‹</button>' +
-              '<button type="button" class="btn btn--ghost btn--sm" data-nav="next" data-slot="' + idx + '" aria-label="下个月">›</button>' +
-            "</div>"
-          );
           var detailHtml =
             weekReportHtml(s.weeks, mode.halfAsFull, mode.label) +
             periodReportHtml(slot.year, slot.month, mode.halfAsFull, mode.label);
           return (
-            '<article class="card" data-slot="' + idx + '">' +
+            '<article class="card">' +
               '<div class="card__head">' +
                 '<h2 class="card__title">' + slot.label + " · " + formatMonth(slot.year, slot.month) + "</h2>" +
-                navHtml +
               "</div>" +
               '<div class="card__body">' +
                 buildCalendarHtml(slot.year, slot.month, s.weeks) +
@@ -1995,24 +1972,6 @@ permalink: /daka/
         render();
       }
 
-      function shiftMonth(slotIdx, dir) {
-        var slot = state.months[slotIdx];
-        if (dir === "prev") {
-          var p = shiftYM(slot.year, slot.month, -1);
-          slot.year = p.year;
-          slot.month = p.month;
-        } else {
-          var n = shiftYM(slot.year, slot.month, 1);
-          slot.year = n.year;
-          slot.month = n.month;
-        }
-        if (slotIdx === 1) {
-          state.anchorYear = slot.year;
-          state.anchorMonth = slot.month;
-        }
-        render();
-      }
-
       function shiftAnchor(dir) {
         var s = shiftYM(state.anchorYear, state.anchorMonth, dir === "prev" ? -1 : 1);
         state.anchorYear = s.year;
@@ -2033,12 +1992,6 @@ permalink: /daka/
         if (calCell) {
           e.preventDefault();
           openSheet(calCell.getAttribute("data-key"));
-          return;
-        }
-
-        var navBtn = e.target.closest("[data-nav]");
-        if (navBtn) {
-          shiftMonth(+navBtn.getAttribute("data-slot"), navBtn.getAttribute("data-nav"));
           return;
         }
 
