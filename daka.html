@@ -22,16 +22,16 @@ permalink: /daka/
       --surface: #fffcf7;
       --line: rgba(26, 35, 50, 0.1);
       --line-strong: rgba(26, 35, 50, 0.18);
-      --stamp: #c45c4a;
-      --ok: #3d8b6e;
-      --ok-soft: rgba(61, 139, 110, 0.16);
-      --half: #d4a056;
-      --half-soft: rgba(212, 160, 86, 0.18);
-      --leave: #6b5b95;
-      --leave-soft: rgba(107, 91, 149, 0.16);
-      --holiday: #8b6f5c;
-      --holiday-soft: rgba(139, 111, 92, 0.14);
-      --weekend: rgba(26, 35, 50, 0.06);
+      --stamp: #dc2626;
+      --ok: #16a34a;
+      --ok-soft: rgba(22, 163, 74, 0.22);
+      --half: #ea580c;
+      --half-soft: rgba(234, 88, 12, 0.22);
+      --leave: #7c3aed;
+      --leave-soft: rgba(124, 58, 237, 0.2);
+      --holiday: #be123c;
+      --holiday-soft: rgba(190, 18, 60, 0.18);
+      --weekend: #e2e8f0;
       --accent: #2a6f97;
       --accent-soft: rgba(42, 111, 151, 0.12);
       --pass: #2d8a4e;
@@ -256,19 +256,48 @@ permalink: /daka/
     .cal__cell:hover:not(:disabled) { background: var(--paper); }
     .cal__cell:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
     .cal__cell:disabled { visibility: hidden; pointer-events: none; }
-    .cal__cell.is-today::after {
+    .cal__cell__num {
+      position: relative;
+      z-index: 1;
+      font-weight: 600;
+    }
+    .cal__cell.is-today .cal__cell__num::after {
       content: "";
       position: absolute;
-      bottom: 3px;
+      left: 50%;
+      bottom: -5px;
       width: 4px; height: 4px;
+      margin-left: -2px;
       border-radius: 50%;
       background: var(--stamp);
     }
     .cal__cell.is-weekend { color: var(--ink-faint); background: var(--weekend); }
-    .cal__cell.is-full { background: var(--ok-soft); color: var(--ok); font-weight: 600; }
-    .cal__cell.is-half { background: var(--half-soft); color: var(--half); font-weight: 600; }
-    .cal__cell.is-holiday { background: var(--holiday-soft); color: var(--holiday); }
-    .cal__cell.is-leave { background: var(--leave-soft); color: var(--leave); }
+    .cal__cell.is-holiday { background: var(--holiday-soft); color: var(--holiday); font-weight: 600; }
+    .cal__cell.is-full { color: #fff; font-weight: 700; }
+    .cal__cell.is-half { color: var(--half); font-weight: 700; }
+    .cal__cell.is-leave { color: var(--leave); font-weight: 700; }
+    .cal__cell.is-full::before,
+    .cal__cell.is-half::before,
+    .cal__cell.is-leave::before {
+      content: "";
+      position: absolute;
+      left: 3px;
+      top: 3px;
+      bottom: 3px;
+      border-radius: 4px;
+    }
+    .cal__cell.is-full::before {
+      right: 3px;
+      background: var(--ok);
+    }
+    .cal__cell.is-half::before {
+      width: calc(50% - 3px);
+      background: var(--half);
+    }
+    .cal__cell.is-leave::before {
+      width: calc(50% - 3px);
+      background: var(--leave);
+    }
     .cal__cell.is-selected {
       border-color: var(--accent);
       box-shadow: 0 0 0 2px var(--accent-soft);
@@ -286,7 +315,18 @@ permalink: /daka/
       color: var(--ink-soft);
     }
     .legend__item { display: flex; align-items: center; gap: 5px; }
-    .legend__swatch { width: 10px; height: 10px; border-radius: 2px; }
+    .legend__swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      border: 1px solid rgba(26, 35, 50, 0.12);
+    }
+    .legend__swatch--half {
+      background: linear-gradient(90deg, var(--half) 50%, #fff 50%);
+    }
+    .legend__swatch--leave {
+      background: linear-gradient(90deg, var(--leave) 50%, #fff 50%);
+    }
 
     /* Fixed bottom sheet */
     .sheet-backdrop {
@@ -388,13 +428,12 @@ permalink: /daka/
 
     <div class="guide">
       <strong>怎么用：</strong>点日历里任意一天 → 底部弹出操作面板 → 选择「全天打卡」「半天打卡」「放假日」或「半天请假」→ 点<strong>确认</strong>。
-      双休日默认放假；法定节假日可点「导入法定节假日」批量标记。
+      双休日默认放假；其他放假日请自行在对应日期标记。
     </div>
 
     <div class="quick-bar">
       <button type="button" class="btn btn--primary" data-quick="full">今日全天打卡</button>
       <button type="button" class="btn btn--half" data-quick="half">今日半天打卡</button>
-      <button type="button" class="btn btn--ghost btn--sm" data-action="import-holidays">导入法定节假日</button>
       <button type="button" class="btn btn--ghost btn--sm" data-action="export">导出</button>
       <label class="btn btn--ghost btn--sm" style="cursor:pointer">
         导入
@@ -438,30 +477,6 @@ permalink: /daka/
       var STORAGE_KEY = "daka-data-v1";
       var THRESHOLD = 0.4;
       var WEEKDAYS = ["日", "一", "二", "三", "四", "五", "六"];
-
-      var CN_HOLIDAYS = {
-        2025: [
-          "2025-01-01",
-          "2025-01-28", "2025-01-29", "2025-01-30", "2025-01-31",
-          "2025-02-01", "2025-02-02", "2025-02-03", "2025-02-04",
-          "2025-04-04", "2025-04-05", "2025-04-06",
-          "2025-05-01", "2025-05-02", "2025-05-03", "2025-05-04", "2025-05-05",
-          "2025-05-31", "2025-06-01", "2025-06-02",
-          "2025-10-01", "2025-10-02", "2025-10-03", "2025-10-04",
-          "2025-10-05", "2025-10-06", "2025-10-07", "2025-10-08"
-        ],
-        2026: [
-          "2026-01-01", "2026-01-02", "2026-01-03",
-          "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18",
-          "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22", "2026-02-23",
-          "2026-04-04", "2026-04-05", "2026-04-06",
-          "2026-05-01", "2026-05-02", "2026-05-03", "2026-05-04", "2026-05-05",
-          "2026-06-19", "2026-06-20", "2026-06-21",
-          "2026-09-25", "2026-09-26", "2026-09-27",
-          "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04",
-          "2026-10-05", "2026-10-06", "2026-10-07"
-        ]
-      };
 
       var CHECKIN_ACTIONS = [
         { id: "checkin-full", label: "全天打卡", hint: "计 1 天" },
@@ -638,7 +653,7 @@ permalink: /daka/
           var cls = ["cal__cell", cellClass(key)];
           if (key === todayKey) cls.push("is-today");
           if (key === state.selectedKey) cls.push("is-selected");
-          html += '<button type="button" class="' + cls.join(" ") + '" data-key="' + key + '" aria-label="' + formatDateLabel(key) + '">' + d + '</button>';
+          html += '<button type="button" class="' + cls.join(" ") + '" data-key="' + key + '" aria-label="' + formatDateLabel(key) + '"><span class="cal__cell__num">' + d + '</span></button>';
         }
         html += '</div>';
         return html;
@@ -674,14 +689,15 @@ permalink: /daka/
 
       function renderLegend() {
         var items = [
-          { bg: "var(--ok-soft)", label: "全天打卡" },
-          { bg: "var(--half-soft)", label: "半天打卡" },
-          { bg: "var(--holiday-soft)", label: "放假日" },
-          { bg: "var(--leave-soft)", label: "半天请假" },
-          { bg: "var(--weekend)", label: "双休日" }
+          { cls: "", bg: "var(--ok)", label: "全天打卡" },
+          { cls: " legend__swatch--half", bg: "", label: "半天打卡" },
+          { cls: "", bg: "var(--holiday-soft)", label: "放假日" },
+          { cls: " legend__swatch--leave", bg: "", label: "半天请假" },
+          { cls: "", bg: "var(--weekend)", label: "双休日" }
         ];
         document.getElementById("legend").innerHTML = items.map(function (it) {
-          return '<span class="legend__item"><span class="legend__swatch" style="background:' + it.bg + '"></span>' + it.label + '</span>';
+          var style = it.bg ? ' style="background:' + it.bg + '"' : "";
+          return '<span class="legend__item"><span class="legend__swatch' + it.cls + '"' + style + '></span>' + it.label + '</span>';
         }).join("");
       }
 
@@ -771,9 +787,7 @@ permalink: /daka/
           "leave-toggle": isOnLeave(state.selectedKey) ? "已标记半天请假" : "已取消请假"
         };
         showToast(msgs[action] || "已保存");
-        state.pendingAction = null;
-        document.getElementById("sheetMeta").textContent = dayMeta(state.selectedKey);
-        renderSheetActions();
+        closeSheet();
         renderMonths();
       }
 
@@ -795,25 +809,6 @@ permalink: /daka/
           if (slot.month > 12) { slot.month = 1; slot.year++; }
         }
         renderMonths();
-      }
-
-      function importCnHolidays() {
-        var year = today.getFullYear();
-        var list = CN_HOLIDAYS[year];
-        if (!list) {
-          showToast("暂无 " + year + " 年法定假日数据");
-          return;
-        }
-        var added = 0;
-        list.forEach(function (key) {
-          if (state.data.holidays.indexOf(key) === -1) {
-            state.data.holidays.push(key);
-            added++;
-          }
-        });
-        saveData();
-        renderMonths();
-        showToast("已导入 " + year + " 年法定假日 " + added + " 天");
       }
 
       function render() {
@@ -846,11 +841,6 @@ permalink: /daka/
         var quickBtn = e.target.closest("[data-quick]");
         if (quickBtn) {
           quickCheckin(quickBtn.getAttribute("data-quick") === "full");
-          return;
-        }
-
-        if (e.target.closest("[data-action=import-holidays]")) {
-          importCnHolidays();
           return;
         }
 
