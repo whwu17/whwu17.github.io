@@ -225,6 +225,15 @@ permalink: /daka/
       align-items: center;
       justify-content: space-between;
     }
+    .period-dashboard__mode {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink-faint);
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+    }
     .period-dashboard__title {
       margin: 0;
       font-family: var(--font-display);
@@ -498,6 +507,43 @@ permalink: /daka/
 
     .main-panel { overflow: hidden; min-width: 0; }
     .main-panel__head { flex-wrap: wrap; gap: 8px; }
+    .main-panel__toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .mode-switch {
+      display: inline-flex;
+      padding: 3px;
+      border-radius: 999px;
+      background: var(--paper);
+      border: 1px solid var(--line-strong);
+      gap: 2px;
+    }
+    .mode-switch .btn--sm {
+      min-height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+    }
+    .mode-switch .btn--sm.is-on {
+      background: var(--surface);
+      box-shadow: 0 1px 3px rgba(26, 35, 50, 0.12);
+    }
+    .month-stats-footer {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+    .month-stats-footer__title {
+      margin: 0 0 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-soft);
+    }
     .main-panel__body { display: grid; gap: 0; min-width: 0; overflow: hidden; }
     .period-section {
       padding-bottom: 14px;
@@ -940,7 +986,7 @@ permalink: /daka/
     </header>
 
     <div class="guide">
-      <strong>怎么用：</strong>点日历补打卡。上方<strong>周期达标 + 每周达标率</strong>连在一起；下方日历黑色=中月、灰色=前/后月。
+      <strong>怎么用：</strong>点日历补打卡。双月/三月视图共用<strong>半天计算方式</strong>；三月视图日历在前、统计在后。
     </div>
 
     <div class="quick-bar">
@@ -1025,6 +1071,24 @@ permalink: /daka/
       };
 
       initMonthSlots();
+
+      function getDashboardMode() {
+        var halfAsFull = state.dashboardMode === "full";
+        return {
+          halfAsFull: halfAsFull,
+          label: halfAsFull ? "半天按一天算" : "半天按半天算",
+          shortLabel: halfAsFull ? "半天按一天" : "半天按半天"
+        };
+      }
+
+      function buildModeToggleHtml() {
+        return (
+          '<div class="mode-switch" role="group" aria-label="半天打卡计算方式">' +
+            '<button type="button" class="btn btn--ghost btn--sm' + (state.dashboardMode === "full" ? " is-on" : "") + '" data-dashboard-mode="full">半天按一天</button>' +
+            '<button type="button" class="btn btn--ghost btn--sm' + (state.dashboardMode === "half" ? " is-on" : "") + '" data-dashboard-mode="half">半天按半天</button>' +
+          "</div>"
+        );
+      }
 
       function shiftYM(y, m, delta) {
         m += delta;
@@ -1493,10 +1557,7 @@ permalink: /daka/
             '<div class="period-dashboard">' +
               '<div class="period-dashboard__head">' +
                 '<h2 class="period-dashboard__title">周期总览 · ' + formatMonth(prev.year, prev.month) + " – " + formatMonth(next.year, next.month) + "</h2>" +
-                '<div class="mode-toggle">' +
-                  '<button type="button" class="btn btn--ghost btn--sm' + (state.dashboardMode === "full" ? " is-on" : "") + '" data-dashboard-mode="full">半天按一天</button>' +
-                  '<button type="button" class="btn btn--ghost btn--sm' + (state.dashboardMode === "half" ? " is-on" : "") + '" data-dashboard-mode="half">半天按半天</button>' +
-                "</div>" +
+                '<span class="period-dashboard__mode">' + getDashboardMode().shortLabel + "</span>" +
               "</div>" +
               alertHtml +
               '<div class="period-stack">' +
@@ -1522,13 +1583,14 @@ permalink: /daka/
           "</nav>"
         ) : "";
         document.getElementById("mainPanelHead").innerHTML =
-          '<h2 class="card__title">' + title + '</h2>' +
-          '<div style="display:flex;gap:6px;align-items:center">' +
+          '<h2 class="card__title">' + title + "</h2>" +
+          '<div class="main-panel__toolbar">' +
             navHtml +
+            buildModeToggleHtml() +
             '<button type="button" class="btn btn--ghost btn--sm' + (state.tripleView ? " is-on" : "") + '" id="btnTripleView">' +
               (state.tripleView ? "双月视图" : "三月视图") +
-            '</button>' +
-          '</div>';
+            "</button>" +
+          "</div>";
       }
 
       function clearDayState(key) {
@@ -1752,47 +1814,53 @@ permalink: /daka/
       function renderMonths() {
         var grid = document.getElementById("monthGrid");
         if (state.tripleView) {
+          var mode = getDashboardMode();
           grid.classList.add("month-grid--triple");
           grid.innerHTML =
-            buildMonthStripHtml(state.anchorYear, state.anchorMonth) +
             '<p class="merged-cal-pane__hint"><strong>黑色</strong>为中月（' + formatMonth(state.anchorYear, state.anchorMonth) + '），<strong>灰色</strong>为前月/后月</p>' +
-            buildMergedCalendarHtml(state.anchorYear, state.anchorMonth);
+            buildMergedCalendarHtml(state.anchorYear, state.anchorMonth) +
+            '<section class="month-stats-footer">' +
+              '<h3 class="month-stats-footer__title">三月统计 · ' + mode.label + "</h3>" +
+              buildMonthStripHtml(state.anchorYear, state.anchorMonth) +
+            "</section>";
           return;
         }
 
         grid.classList.remove("month-grid--triple");
         var display = getDisplayMonths();
+        var mode = getDashboardMode();
         grid.innerHTML = display.map(function (slot, idx) {
           var s = monthStats(slot.year, slot.month);
+          var ratio = mode.halfAsFull ? s.ratioFull : s.ratioHalf;
+          var check = mode.halfAsFull ? s.checkFull : s.checkHalf;
           var navHtml = (
             '<div class="card__nav">' +
               '<button type="button" class="btn btn--ghost btn--sm" data-nav="prev" data-slot="' + idx + '" aria-label="上个月">‹</button>' +
               '<button type="button" class="btn btn--ghost btn--sm" data-nav="next" data-slot="' + idx + '" aria-label="下个月">›</button>' +
-            '</div>'
+            "</div>"
           );
-          var detailHtml = (
-            weekReportHtml(s.weeks, true, "半天按一天算") +
-            periodReportHtml(slot.year, slot.month, true, "半天按一天算") +
-            weekReportHtml(s.weeks, false, "半天按半天算") +
-            periodReportHtml(slot.year, slot.month, false, "半天按半天算")
-          );
+          var detailHtml =
+            weekReportHtml(s.weeks, mode.halfAsFull, mode.label) +
+            periodReportHtml(slot.year, slot.month, mode.halfAsFull, mode.label);
           return (
             '<article class="card" data-slot="' + idx + '">' +
               '<div class="card__head">' +
-                '<h2 class="card__title">' + slot.label + ' · ' + formatMonth(slot.year, slot.month) + '</h2>' +
+                '<h2 class="card__title">' + slot.label + " · " + formatMonth(slot.year, slot.month) + "</h2>" +
                 navHtml +
-              '</div>' +
+              "</div>" +
               '<div class="card__body">' +
-                '<div class="stat-row">' +
-                  '<div class="stat"><div class="stat__label">工作日</div><div class="stat__value">' + s.workDays + '</div></div>' +
-                  '<div class="stat"><div class="stat__label">有打卡</div><div class="stat__value">' + s.checkedDays + ' 天</div></div>' +
-                '</div>' +
-                ratioHtml("半天按一天算", s.ratioFull, s.checkFull, s.workDays) +
-                ratioHtml("半天按半天算", s.ratioHalf, s.checkHalf, s.workDays) +
-                detailHtml +
                 buildCalendarHtml(slot.year, slot.month, s.weeks) +
-              '</div>' +
-            '</article>'
+                '<section class="month-stats-footer">' +
+                  '<h3 class="month-stats-footer__title">' + slot.label + "统计 · " + mode.label + "</h3>" +
+                  '<div class="stat-row">' +
+                    '<div class="stat"><div class="stat__label">工作日</div><div class="stat__value">' + s.workDays + "</div></div>" +
+                    '<div class="stat"><div class="stat__label">有打卡</div><div class="stat__value">' + s.checkedDays + " 天</div></div>" +
+                  "</div>" +
+                  ratioHtml(mode.label, ratio, check, s.workDays) +
+                  detailHtml +
+                "</section>" +
+              "</div>" +
+            "</article>"
           );
         }).join("");
       }
@@ -2002,8 +2070,7 @@ permalink: /daka/
         var modeBtn = e.target.closest("[data-dashboard-mode]");
         if (modeBtn) {
           state.dashboardMode = modeBtn.getAttribute("data-dashboard-mode");
-          document.getElementById("periodSection").innerHTML = buildPeriodSectionHtml();
-          renderMonths();
+          render();
           return;
         }
 
