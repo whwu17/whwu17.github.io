@@ -228,11 +228,24 @@ permalink: /daka/
       width: max(100%, calc(var(--week-count) * var(--tl-col)));
       min-width: 0;
     }
+    .tl-chart--cols {
+      width: 100%;
+      gap: 10px;
+    }
+    .tl-segment {
+      display: grid;
+      gap: 2px;
+      min-width: 0;
+    }
     .tl-chart__weeks,
     .tl-chart__lane {
       display: grid;
       grid-template-columns: repeat(var(--week-count), minmax(2.35rem, 1fr));
       gap: 3px;
+    }
+    .tl-segment .tl-chart__weeks,
+    .tl-segment .tl-chart__lane {
+      grid-template-columns: repeat(var(--seg-count), minmax(0, 1fr));
     }
     .tl-week {
       min-height: 2.5rem;
@@ -715,16 +728,25 @@ permalink: /daka/
     .toast.is-visible { opacity: 1; transform: translateX(-50%) translateY(0); }
     body.sheet-open .toast { bottom: calc(var(--sheet-h) + 12px); }
 
+    @media (max-width: 640px) {
+      .timeline-scroll {
+        overflow-x: visible;
+        margin: 0;
+        padding: 0;
+      }
+      .tl-chart:not(.tl-chart--cols) { width: 100%; }
+    }
+
     @media (max-width: 480px) {
       body { padding-left: 10px; padding-right: 10px; }
       .card__head { flex-wrap: wrap; }
       .card__title { font-size: 1rem; }
       .period-dashboard__head { flex-direction: column; align-items: stretch; }
       .mode-toggle { flex-wrap: wrap; }
-      .tl-chart { --tl-col: 2.35rem; }
-      .tl-week__dates { font-size: 7px; }
+      .tl-week__dates { font-size: 9px; }
       .cal__cell { min-height: 30px; font-size: 12px; }
       .period-matrix__row { grid-template-columns: 1fr; gap: 4px; }
+      .main-panel__head > div { flex-wrap: wrap; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -795,6 +817,8 @@ permalink: /daka/
       var THRESHOLD = 0.4;
       var MAX_PERIOD = 5;
       var WEEKDAYS = ["日", "一", "二", "三", "四", "五", "六"];
+      var MOBILE_TL_BREAK = 640;
+      var MOBILE_TL_COLS = 4;
 
       var CHECKIN_ACTIONS = [
         { id: "checkin-full", label: "全天打卡", hint: "计 1 天" },
@@ -1135,43 +1159,100 @@ permalink: /daka/
         return rows.length;
       }
 
-      function buildTimelineChartHtml(weeks, results) {
-        var weekCount = weeks.length;
-        var spans = collectFailingSpans(results);
-        var laneCount = spans.length ? packSpanRows(spans) : 0;
+      function isMobileTimeline() {
+        return window.matchMedia("(max-width: " + MOBILE_TL_BREAK + "px)").matches;
+      }
 
+      function mobileTimelineCols() {
+        return window.matchMedia("(max-width: 400px)").matches ? 3 : MOBILE_TL_COLS;
+      }
+
+      function buildWeekCellHtml(wk, r) {
+        var cls = ["tl-week"];
+        if (!r.hasWork) cls.push("tl-week--noweek");
+        else if (r.ratio >= THRESHOLD) cls.push("tl-week--pass");
+        else cls.push("tl-week--fail");
+        var pct = r.hasWork ? Math.round(r.ratio * 100) : 0;
+        var dates = formatWeekShortDates(wk.cells);
+        return (
+          '<div class="' + cls.join(" ") + '" title="' + dates + " · " + pct + '%">' +
+            '<span class="tl-week__dates">' + dates + "</span>" +
+          "</div>"
+        );
+      }
+
+      function buildSpanLanesHtml(spans, laneCount, segWeekCount, weeks, colOffset) {
+        colOffset = colOffset || 0;
+        var lanesHtml = "";
+        for (var row = 0; row < laneCount; row++) {
+          var rowHtml = spans.filter(function (p) { return p.row === row; }).map(function (p) {
+            var localStart = Math.max(0, p.start - colOffset);
+            var localEnd = Math.min(segWeekCount - 1, p.end - colOffset);
+            if (localStart > localEnd) return "";
+            var localLen = localEnd - localStart + 1;
+            var range = formatPeriodDateRange(p.start, p.end, weeks);
+            return (
+              '<div class="tl-span tl-span--len-' + p.len + '" style="grid-column:' + (localStart + 1) + " / span " + localLen + '" title="' + p.len + "周未达标：" + range + '"></div>'
+            );
+          }).join("");
+          if (rowHtml) lanesHtml += '<div class="tl-chart__lane">' + rowHtml + "</div>";
+        }
+        return lanesHtml;
+      }
+
+      function buildTimelineRowHtml(weeks, results, spans, laneCount) {
+        var weekCount = weeks.length;
         var weekCells = weeks.map(function (wk, i) {
-          var r = results[i];
-          var cls = ["tl-week"];
-          if (!r.hasWork) cls.push("tl-week--noweek");
-          else if (r.ratio >= THRESHOLD) cls.push("tl-week--pass");
-          else cls.push("tl-week--fail");
-          var pct = r.hasWork ? Math.round(r.ratio * 100) : 0;
-          var dates = formatWeekShortDates(wk.cells);
+          return buildWeekCellHtml(wk, results[i]);
+        }).join("");
+        var lanesHtml = buildSpanLanesHtml(spans, laneCount, weekCount, weeks, 0);
+        return (
+          '<div class="tl-chart" style="--week-count:' + weekCount + '">' +
+            '<div class="tl-chart__weeks">' + weekCells + "</div>" +
+            (lanesHtml ? '<div class="tl-chart__lanes">' + lanesHtml + "</div>" : "") +
+          "</div>"
+        );
+      }
+
+      function buildTimelineStackedHtml(weeks, results, spans, cols) {
+        var segments = [];
+        for (var i = 0; i < weeks.length; i += cols) {
+          segments.push({ start: i, count: Math.min(cols, weeks.length - i) });
+        }
+
+        var segHtml = segments.map(function (seg) {
+          var weekCells = [];
+          for (var j = 0; j < seg.count; j++) {
+            weekCells.push(buildWeekCellHtml(weeks[seg.start + j], results[seg.start + j]));
+          }
+          var segSpans = spans.filter(function (p) {
+            return p.end >= seg.start && p.start < seg.start + seg.count;
+          }).map(function (p) {
+            return { start: p.start, end: p.end, len: p.len };
+          });
+          var segLaneCount = segSpans.length ? packSpanRows(segSpans) : 0;
+          var lanesHtml = buildSpanLanesHtml(segSpans, segLaneCount, seg.count, weeks, seg.start);
           return (
-            '<div class="' + cls.join(" ") + '" title="' + dates + " · " + pct + '%">' +
-              '<span class="tl-week__dates">' + dates + "</span>" +
+            '<div class="tl-segment" style="--seg-count:' + seg.count + '">' +
+              '<div class="tl-chart__weeks">' + weekCells.join("") + "</div>" +
+              (lanesHtml ? '<div class="tl-chart__lanes">' + lanesHtml + "</div>" : "") +
             "</div>"
           );
         }).join("");
 
-        var lanesHtml = "";
-        for (var row = 0; row < laneCount; row++) {
-          var rowHtml = spans.filter(function (p) { return p.row === row; }).map(function (p) {
-            var range = formatPeriodDateRange(p.start, p.end, weeks);
-            return (
-              '<div class="tl-span tl-span--len-' + p.len + '" style="grid-column:' + (p.start + 1) + " / span " + p.len + '" title="' + p.len + "周未达标：" + range + '"></div>'
-            );
-          }).join("");
-          lanesHtml += '<div class="tl-chart__lane">' + rowHtml + "</div>";
-        }
+        return '<div class="tl-chart tl-chart--cols">' + segHtml + "</div>";
+      }
 
-        return (
-          '<div class="tl-chart" style="--week-count:' + weekCount + '">' +
-            '<div class="tl-chart__weeks">' + weekCells + "</div>" +
-            (laneCount ? '<div class="tl-chart__lanes">' + lanesHtml + "</div>" : "") +
-          "</div>"
-        );
+      function buildTimelineChartHtml(weeks, results) {
+        var spans = collectFailingSpans(results);
+        var rowSpans = spans.map(function (p) {
+          return { start: p.start, end: p.end, len: p.len };
+        });
+        var laneCount = rowSpans.length ? packSpanRows(rowSpans) : 0;
+        if (isMobileTimeline()) {
+          return buildTimelineStackedHtml(weeks, results, rowSpans, mobileTimelineCols());
+        }
+        return buildTimelineRowHtml(weeks, results, rowSpans, laneCount);
       }
 
       function formatWeekShortDates(cells) {
@@ -1219,7 +1300,7 @@ permalink: /daka/
                 '</div>' +
               '</div>' +
               alertHtml +
-              '<div><div style="font-size:11px;color:var(--ink-faint);margin-bottom:6px">每格一周；未达标周期在对应周<strong>下方画横线</strong>，线越长跨度越大（红=5周、橙=4周）</div>' +
+              '<div><div style="font-size:11px;color:var(--ink-faint);margin-bottom:6px">每格一周；未达标周期在对应周下方画横线（手机端按<strong>4列</strong>换行，线长=跨度）</div>' +
               '<div class="timeline-scroll">' + timeline + '</div></div>' +
             '</div>' +
           '</div>'
@@ -1702,6 +1783,19 @@ permalink: /daka/
         reader.readAsText(file);
         ev.target.value = "";
       });
+
+      var tlLayoutMq = window.matchMedia("(max-width: " + MOBILE_TL_BREAK + "px)");
+      var tlLayoutColsMq = window.matchMedia("(max-width: 400px)");
+      function onTimelineLayoutChange() {
+        if (state.tripleView) render();
+      }
+      if (tlLayoutMq.addEventListener) {
+        tlLayoutMq.addEventListener("change", onTimelineLayoutChange);
+        tlLayoutColsMq.addEventListener("change", onTimelineLayoutChange);
+      } else if (tlLayoutMq.addListener) {
+        tlLayoutMq.addListener(onTimelineLayoutChange);
+        tlLayoutColsMq.addListener(onTimelineLayoutChange);
+      }
 
       render();
     })();
