@@ -23,10 +23,13 @@ permalink: /daka/
       --line: rgba(26, 35, 50, 0.1);
       --line-strong: rgba(26, 35, 50, 0.18);
       --stamp: #dc2626;
-      --ok: #16a34a;
-      --ok-soft: rgba(22, 163, 74, 0.22);
-      --half: #ea580c;
-      --half-soft: rgba(234, 88, 12, 0.22);
+      --checkin: #16a34a;
+      --checkin-dark: #15803d;
+      --checkin-soft: rgba(22, 163, 74, 0.22);
+      --ok: var(--checkin);
+      --ok-soft: var(--checkin-soft);
+      --half: var(--checkin);
+      --half-soft: var(--checkin-soft);
       --leave: #7c3aed;
       --leave-soft: rgba(124, 58, 237, 0.2);
       --holiday: #be123c;
@@ -108,8 +111,8 @@ permalink: /daka/
     }
     .btn:active { transform: scale(0.97); }
     .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-    .btn--primary { background: var(--stamp); color: #fff; }
-    .btn--half { background: var(--half); color: #fff; }
+    .btn--primary { background: var(--checkin-dark); color: #fff; }
+    .btn--half { background: var(--surface); color: var(--checkin-dark); border: 2px solid var(--checkin); }
     .btn--ghost { background: var(--surface); color: var(--ink); border: 1px solid var(--line-strong); }
     .btn--sm { min-height: 34px; padding: 0 12px; font-size: 13px; }
     .btn--block { width: 100%; border-radius: var(--radius-sm); min-height: 44px; }
@@ -138,15 +141,154 @@ permalink: /daka/
       border-color: var(--leave);
       color: var(--leave);
     }
-    .btn--chip.is-on-checkin {
-      background: var(--ok-soft);
-      border-color: var(--ok);
-      color: var(--ok);
-    }
+    .btn--chip.is-on-checkin,
     .btn--chip.is-on-half-checkin {
-      background: var(--half-soft);
-      border-color: var(--half);
-      color: var(--half);
+      background: var(--checkin-soft);
+      border-color: var(--checkin);
+      color: var(--checkin-dark);
+    }
+
+    .view-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      border: 1px solid var(--line);
+    }
+    .view-bar__left { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .view-bar__nav { display: flex; gap: 4px; align-items: center; }
+    .view-bar__label {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      min-width: 7rem;
+      text-align: center;
+    }
+    .btn.is-on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+
+    .month-grid--triple { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    @media (max-width: 960px) { .month-grid--triple { grid-template-columns: 1fr; } }
+
+    .period-dashboard {
+      padding: 14px;
+      border-radius: var(--radius);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 12px;
+    }
+    .period-dashboard__head {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .period-dashboard__title {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 400;
+    }
+    .mode-toggle { display: flex; gap: 4px; }
+    .mode-toggle .btn--sm { border-radius: var(--radius-sm); }
+
+    .alert {
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .alert--ok { background: rgba(45, 138, 78, 0.12); border: 1px solid rgba(45, 138, 78, 0.25); color: var(--pass); }
+    .alert--warn { background: rgba(234, 88, 12, 0.12); border: 1px solid rgba(234, 88, 12, 0.3); color: #c2410c; }
+    .alert--fail { background: rgba(220, 38, 38, 0.1); border: 2px solid rgba(220, 38, 38, 0.45); color: #b91c1c; font-weight: 500; }
+    .alert strong { font-weight: 700; }
+
+    .timeline-wrap { overflow-x: auto; padding-bottom: 4px; }
+    .timeline {
+      display: flex;
+      gap: 3px;
+      min-width: min-content;
+      padding: 4px 2px 8px;
+    }
+    .tl-week {
+      flex: 0 0 2.1rem;
+      min-height: 2.6rem;
+      border-radius: 6px;
+      border: 1.5px solid var(--line);
+      background: var(--paper);
+      display: grid;
+      place-items: center;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--ink-faint);
+      position: relative;
+    }
+    .tl-week--pass { background: rgba(22, 163, 74, 0.2); border-color: var(--checkin); color: var(--checkin-dark); }
+    .tl-week--fail { background: rgba(220, 38, 38, 0.15); border-color: #f87171; color: #b91c1c; }
+    .tl-week--noweek { background: var(--weekend); opacity: 0.7; }
+    .tl-week--fail-1 { outline: 2px solid rgba(248, 113, 113, 0.7); }
+    .tl-week--fail-2 { outline: 2px solid rgba(249, 115, 22, 0.8); outline-offset: 1px; }
+    .tl-week--fail-3 { outline: 2px solid rgba(234, 179, 8, 0.85); outline-offset: 1px; }
+    .tl-week--fail-4 { outline: 2px solid rgba(220, 38, 38, 0.75); outline-offset: 2px; }
+    .tl-week--fail-5 {
+      outline: 3px solid #dc2626;
+      outline-offset: 2px;
+      background: rgba(220, 38, 38, 0.28);
+      transform: scale(1.06);
+      z-index: 2;
+    }
+    .tl-week__sub {
+      position: absolute;
+      bottom: -7px;
+      font-size: 7px;
+      font-weight: 500;
+      color: var(--ink-faint);
+      white-space: nowrap;
+    }
+
+    .period-matrix { display: grid; gap: 5px; }
+    .period-matrix__row {
+      display: grid;
+      grid-template-columns: 4.5rem 1fr;
+      gap: 8px;
+      align-items: start;
+      font-size: 11px;
+    }
+    .period-matrix__label {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--ink);
+      padding-top: 3px;
+    }
+    .period-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+    .period-chip {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(220, 38, 38, 0.12);
+      border: 1px solid rgba(220, 38, 38, 0.35);
+      color: #b91c1c;
+      font-weight: 600;
+    }
+    .period-chip--ok {
+      background: rgba(45, 138, 78, 0.1);
+      border-color: rgba(45, 138, 78, 0.25);
+      color: var(--pass);
+      font-weight: 500;
+    }
+    .period-chip--critical {
+      background: #dc2626;
+      border-color: #dc2626;
+      color: #fff;
+      font-weight: 700;
     }
 
     .month-grid {
@@ -227,7 +369,7 @@ permalink: /daka/
     }
     .ratio-bar__fill {
       height: 100%;
-      background: linear-gradient(90deg, var(--accent), var(--ok));
+      background: linear-gradient(90deg, var(--checkin-dark), var(--checkin));
       transition: width 0.35s var(--ease);
     }
     .ratio-bar__mark {
@@ -362,7 +504,7 @@ permalink: /daka/
     .cal__cell.is-weekend { color: var(--ink-faint); background: var(--weekend); }
     .cal__cell.is-holiday { color: #fff; font-weight: 700; }
     .cal__cell.is-full { color: #fff; font-weight: 700; }
-    .cal__cell.is-half { color: var(--half); font-weight: 700; }
+    .cal__cell.is-half { color: var(--checkin-dark); font-weight: 700; }
     .cal__cell.is-leave { color: var(--leave); font-weight: 700; }
     .cal__cell.is-holiday::before,
     .cal__cell.is-full::before,
@@ -381,11 +523,11 @@ permalink: /daka/
     }
     .cal__cell.is-full::before {
       right: 3px;
-      background: var(--ok);
+      background: var(--checkin);
     }
     .cal__cell.is-half::before {
       width: calc(50% - 3px);
-      background: var(--half);
+      background: var(--checkin);
     }
     .cal__cell.is-leave::before {
       width: calc(50% - 3px);
@@ -420,7 +562,7 @@ permalink: /daka/
       border: 1px solid rgba(26, 35, 50, 0.12);
     }
     .legend__swatch--half {
-      background: linear-gradient(90deg, var(--half) 50%, #fff 50%);
+      background: linear-gradient(90deg, var(--checkin) 50%, #fff 50%);
     }
     .legend__swatch--leave {
       background: linear-gradient(90deg, var(--leave) 50%, #fff 50%);
@@ -525,8 +667,7 @@ permalink: /daka/
     </header>
 
     <div class="guide">
-      <strong>怎么用：</strong>点日历里任意一天 → 底部弹出操作面板 → 选择「全天打卡」「半天打卡」「放假日」或「半天请假」→ 点<strong>确认</strong>。
-      双休日默认放假；其他放假日请自行在对应日期标记。
+      <strong>怎么用：</strong>点日历日期 → 选操作 → 确认。开启<strong>三个月连续视图</strong>可一眼看清 1–5 周周期是否达标（时间轴粗红框 = 5 周未达标）。
     </div>
 
     <div class="quick-bar">
@@ -538,6 +679,20 @@ permalink: /daka/
         <input type="file" id="importFile" accept="application/json" hidden>
       </label>
     </div>
+
+    <div class="view-bar">
+      <div class="view-bar__left">
+        <button type="button" class="btn btn--ghost btn--sm" id="btnTripleView">三个月连续视图</button>
+        <span style="font-size:12px;color:var(--ink-faint)">查看 1–5 周周期需开启</span>
+      </div>
+      <div class="view-bar__nav" id="anchorNav" hidden>
+        <button type="button" class="btn btn--ghost btn--sm" data-anchor="prev" aria-label="往前一月">‹</button>
+        <span class="view-bar__label" id="anchorLabel"></span>
+        <button type="button" class="btn btn--ghost btn--sm" data-anchor="next" aria-label="往后一月">›</button>
+      </div>
+    </div>
+
+    <section class="period-dashboard" id="periodDashboard" hidden></section>
 
     <div class="month-grid" id="monthGrid"></div>
 
@@ -593,6 +748,10 @@ permalink: /daka/
         data: loadData(),
         selectedKey: null,
         pendingAction: null,
+        tripleView: false,
+        dashboardMode: "full",
+        anchorYear: today.getFullYear(),
+        anchorMonth: today.getMonth() + 1,
         months: [
           { slot: "prev", year: 0, month: 0 },
           { slot: "curr", year: 0, month: 0 }
@@ -601,18 +760,38 @@ permalink: /daka/
 
       initMonthSlots();
 
+      function shiftYM(y, m, delta) {
+        m += delta;
+        while (m < 1) { m += 12; y--; }
+        while (m > 12) { m -= 12; y++; }
+        return { year: y, month: m };
+      }
+
       function initMonthSlots() {
-        var cy = today.getFullYear();
-        var cm = today.getMonth() + 1;
+        var cy = state.anchorYear;
+        var cm = state.anchorMonth;
         state.months[1].year = cy;
         state.months[1].month = cm;
-        if (cm === 1) {
-          state.months[0].year = cy - 1;
-          state.months[0].month = 12;
-        } else {
-          state.months[0].year = cy;
-          state.months[0].month = cm - 1;
+        var prev = shiftYM(cy, cm, -1);
+        state.months[0].year = prev.year;
+        state.months[0].month = prev.month;
+      }
+
+      function getDisplayMonths() {
+        if (state.tripleView) {
+          var prev = shiftYM(state.anchorYear, state.anchorMonth, -1);
+          var next = shiftYM(state.anchorYear, state.anchorMonth, 1);
+          return [
+            { label: "前月", year: prev.year, month: prev.month },
+            { label: "中月", year: state.anchorYear, month: state.anchorMonth },
+            { label: "下月", year: next.year, month: next.month }
+          ];
         }
+        initMonthSlots();
+        return [
+          { label: "上月", year: state.months[0].year, month: state.months[0].month },
+          { label: "本月", year: state.months[1].year, month: state.months[1].month }
+        ];
       }
 
       function pad(n) { return n < 10 ? "0" + n : String(n); }
@@ -825,6 +1004,133 @@ permalink: /daka/
         return false;
       }
 
+      function buildThreeMonthWeekSequence(anchorY, anchorM) {
+        var prev = shiftYM(anchorY, anchorM, -1);
+        var next = shiftYM(anchorY, anchorM, 1);
+        var firstOfPrev = new Date(prev.year, prev.month - 1, 1);
+        var daysInNext = new Date(next.year, next.month, 0).getDate();
+        var lastOfNext = new Date(next.year, next.month - 1, daysInNext);
+
+        var cursor = new Date(firstOfPrev);
+        cursor.setDate(cursor.getDate() - cursor.getDay());
+        var end = new Date(lastOfNext);
+        end.setDate(end.getDate() + (6 - end.getDay()));
+
+        var weeks = [];
+        var num = 1;
+        while (cursor <= end) {
+          var wk = buildWeekFromSunday(new Date(cursor));
+          wk.globalNum = num++;
+          weeks.push(wk);
+          cursor.setDate(cursor.getDate() + 7);
+        }
+        return weeks;
+      }
+
+      function markFailingWeeks(results) {
+        var flags = results.map(function () { return 0; });
+        for (var len = MAX_PERIOD; len >= 1; len--) {
+          findFailingPeriods(results, len).forEach(function (p) {
+            for (var i = p.start; i <= p.end; i++) {
+              if (len > flags[i]) flags[i] = len;
+            }
+          });
+        }
+        return flags;
+      }
+
+      function formatGlobalWeekRange(startIdx, endIdx, weeks) {
+        var a = weeks[startIdx].globalNum;
+        var b = weeks[endIdx].globalNum;
+        if (a === b) return "第" + a + "周";
+        return "第" + a + "–" + b + "周";
+      }
+
+      function renderPeriodDashboard() {
+        var el = document.getElementById("periodDashboard");
+        var nav = document.getElementById("anchorNav");
+        var tripleBtn = document.getElementById("btnTripleView");
+        var grid = document.getElementById("monthGrid");
+
+        tripleBtn.classList.toggle("is-on", state.tripleView);
+        nav.hidden = !state.tripleView;
+        document.getElementById("anchorLabel").textContent = formatMonth(state.anchorYear, state.anchorMonth);
+        grid.classList.toggle("month-grid--triple", state.tripleView);
+
+        if (!state.tripleView) {
+          el.hidden = true;
+          el.innerHTML = "";
+          return;
+        }
+
+        el.hidden = false;
+        var halfAsFull = state.dashboardMode === "full";
+        var weeks = buildThreeMonthWeekSequence(state.anchorYear, state.anchorMonth);
+        var results = weekResultsFromWeeks(weeks, halfAsFull);
+        var failFlags = markFailingWeeks(results);
+
+        var fail5 = findFailingPeriods(results, 5);
+        var alertHtml;
+        if (fail5.length) {
+          var ranges5 = fail5.map(function (p) {
+            return formatGlobalWeekRange(p.start, p.end, weeks);
+          }).join("；");
+          alertHtml = '<div class="alert alert--fail"><strong>⚠ 连续 5 周未达 40%</strong>：' + ranges5 + '</div>';
+        } else {
+          var fail4 = findFailingPeriods(results, 4);
+          if (fail4.length) {
+            alertHtml = '<div class="alert alert--warn"><strong>无 5 周未达标</strong>，但有 4 周周期未达标：' +
+              fail4.map(function (p) { return formatGlobalWeekRange(p.start, p.end, weeks); }).join("；") + '</div>';
+          } else {
+            alertHtml = '<div class="alert alert--ok"><strong>✓ 连续 5 周全部达标</strong></div>';
+          }
+        }
+
+        var timeline = weeks.map(function (wk, i) {
+          var r = results[i];
+          var cls = ["tl-week"];
+          if (!r.hasWork) cls.push("tl-week--noweek");
+          else if (r.ratio >= THRESHOLD) cls.push("tl-week--pass");
+          else cls.push("tl-week--fail");
+          if (failFlags[i] > 0) cls.push("tl-week--fail-" + failFlags[i]);
+          var pct = r.hasWork ? Math.round(r.ratio * 100) : 0;
+          return '<div class="' + cls.join(" ") + '" title="第' + wk.globalNum + '周 ' + pct + '%">' + wk.globalNum + '</div>';
+        }).join("");
+
+        var matrixRows = [];
+        for (var len = MAX_PERIOD; len >= 1; len--) {
+          var fails = findFailingPeriods(results, len);
+          var chips;
+          if (!fails.length) {
+            chips = '<span class="period-chip period-chip--ok">全部达标</span>';
+          } else {
+            chips = fails.map(function (p) {
+              var cls = "period-chip" + (len === 5 ? " period-chip--critical" : "");
+              return '<span class="' + cls + '">' + formatGlobalWeekRange(p.start, p.end, weeks) + '</span>';
+            }).join("");
+          }
+          matrixRows.push(
+            '<div class="period-matrix__row">' +
+              '<span class="period-matrix__label">' + len + '周周期</span>' +
+              '<div class="period-chips">' + chips + '</div>' +
+            '</div>'
+          );
+        }
+
+        el.innerHTML =
+          '<div class="period-dashboard__head">' +
+            '<h2 class="period-dashboard__title">三个月周期总览 · ' + formatMonth(shiftYM(state.anchorYear, state.anchorMonth, -1).year, shiftYM(state.anchorYear, state.anchorMonth, -1).month) + ' – ' + formatMonth(shiftYM(state.anchorYear, state.anchorMonth, 1).year, shiftYM(state.anchorYear, state.anchorMonth, 1).month) + '</h2>' +
+            '<div class="mode-toggle">' +
+              '<button type="button" class="btn btn--ghost btn--sm' + (state.dashboardMode === "full" ? " is-on" : "") + '" data-dashboard-mode="full">半天按一天</button>' +
+              '<button type="button" class="btn btn--ghost btn--sm' + (state.dashboardMode === "half" ? " is-on" : "") + '" data-dashboard-mode="half">半天按半天</button>' +
+            '</div>' +
+          '</div>' +
+          alertHtml +
+          '<div><div style="font-size:11px;color:var(--ink-faint);margin-bottom:4px">周次时间轴（红框越深 = 未达标周期越长，粗红框 = 5周）</div>' +
+          '<div class="timeline-wrap"><div class="timeline">' + timeline + '</div></div></div>' +
+          '<div class="period-matrix">' + matrixRows.join("") + '</div>';
+      }
+
       function clearDayState(key) {
         delete state.data.checkins[key];
         var hi = state.data.holidays.indexOf(key);
@@ -1005,17 +1311,26 @@ permalink: /daka/
 
       function renderMonths() {
         var grid = document.getElementById("monthGrid");
-        grid.innerHTML = state.months.map(function (slot, idx) {
+        var display = getDisplayMonths();
+        grid.innerHTML = display.map(function (slot, idx) {
           var s = monthStats(slot.year, slot.month);
-          var slotLabel = idx === 0 ? "上月" : "本月";
+          var navHtml = state.tripleView ? "" : (
+            '<div class="card__nav">' +
+              '<button type="button" class="btn btn--ghost btn--sm" data-nav="prev" data-slot="' + idx + '" aria-label="上个月">‹</button>' +
+              '<button type="button" class="btn btn--ghost btn--sm" data-nav="next" data-slot="' + idx + '" aria-label="下个月">›</button>' +
+            '</div>'
+          );
+          var detailHtml = state.tripleView ? "" : (
+            weekReportHtml(s.weeks, true, "半天按一天算") +
+            periodReportHtml(slot.year, slot.month, true, "半天按一天算") +
+            weekReportHtml(s.weeks, false, "半天按半天算") +
+            periodReportHtml(slot.year, slot.month, false, "半天按半天算")
+          );
           return (
             '<article class="card" data-slot="' + idx + '">' +
               '<div class="card__head">' +
-                '<h2 class="card__title">' + slotLabel + ' · ' + formatMonth(slot.year, slot.month) + '</h2>' +
-                '<div class="card__nav">' +
-                  '<button type="button" class="btn btn--ghost btn--sm" data-nav="prev" data-slot="' + idx + '" aria-label="上个月">‹</button>' +
-                  '<button type="button" class="btn btn--ghost btn--sm" data-nav="next" data-slot="' + idx + '" aria-label="下个月">›</button>' +
-                '</div>' +
+                '<h2 class="card__title">' + slot.label + ' · ' + formatMonth(slot.year, slot.month) + '</h2>' +
+                navHtml +
               '</div>' +
               '<div class="card__body">' +
                 '<div class="stat-row">' +
@@ -1024,10 +1339,7 @@ permalink: /daka/
                 '</div>' +
                 ratioHtml("半天按一天算", s.ratioFull, s.checkFull, s.workDays) +
                 ratioHtml("半天按半天算", s.ratioHalf, s.checkHalf, s.workDays) +
-                weekReportHtml(s.weeks, true, "半天按一天算") +
-                periodReportHtml(slot.year, slot.month, true, "半天按一天算") +
-                weekReportHtml(s.weeks, false, "半天按半天算") +
-                periodReportHtml(slot.year, slot.month, false, "半天按半天算") +
+                detailHtml +
                 buildCalendarHtml(slot.year, slot.month, s.weeks) +
               '</div>' +
             '</article>'
@@ -1037,7 +1349,7 @@ permalink: /daka/
 
       function renderLegend() {
         var items = [
-          { cls: "", bg: "var(--ok)", label: "全天打卡" },
+          { cls: "", bg: "var(--checkin)", label: "全天打卡" },
           { cls: " legend__swatch--half", bg: "", label: "半天打卡" },
           { cls: "", bg: "var(--holiday)", label: "放假日" },
           { cls: " legend__swatch--leave", bg: "", label: "半天请假" },
@@ -1149,7 +1461,7 @@ permalink: /daka/
         };
         showToast(msgs[action] || "已保存");
         closeSheet();
-        renderMonths();
+        render();
       }
 
       function quickCheckin(full) {
@@ -1158,22 +1470,36 @@ permalink: /daka/
         state.data.checkins[key] = full ? "full" : "half";
         saveData();
         showToast(full ? "今日全天打卡成功" : "今日半天打卡成功");
-        renderMonths();
+        render();
       }
 
       function shiftMonth(slotIdx, dir) {
         var slot = state.months[slotIdx];
         if (dir === "prev") {
-          slot.month--;
-          if (slot.month < 1) { slot.month = 12; slot.year--; }
+          var p = shiftYM(slot.year, slot.month, -1);
+          slot.year = p.year;
+          slot.month = p.month;
         } else {
-          slot.month++;
-          if (slot.month > 12) { slot.month = 1; slot.year++; }
+          var n = shiftYM(slot.year, slot.month, 1);
+          slot.year = n.year;
+          slot.month = n.month;
+        }
+        if (slotIdx === 1) {
+          state.anchorYear = slot.year;
+          state.anchorMonth = slot.month;
         }
         renderMonths();
       }
 
+      function shiftAnchor(dir) {
+        var s = shiftYM(state.anchorYear, state.anchorMonth, dir === "prev" ? -1 : 1);
+        state.anchorYear = s.year;
+        state.anchorMonth = s.month;
+        render();
+      }
+
       function render() {
+        renderPeriodDashboard();
         renderMonths();
         renderLegend();
       }
@@ -1203,6 +1529,29 @@ permalink: /daka/
         var quickBtn = e.target.closest("[data-quick]");
         if (quickBtn) {
           quickCheckin(quickBtn.getAttribute("data-quick") === "full");
+          return;
+        }
+
+        if (e.target.id === "btnTripleView") {
+          state.tripleView = !state.tripleView;
+          if (state.tripleView) {
+            state.anchorYear = today.getFullYear();
+            state.anchorMonth = today.getMonth() + 1;
+          }
+          render();
+          return;
+        }
+
+        var anchorBtn = e.target.closest("[data-anchor]");
+        if (anchorBtn) {
+          shiftAnchor(anchorBtn.getAttribute("data-anchor"));
+          return;
+        }
+
+        var modeBtn = e.target.closest("[data-dashboard-mode]");
+        if (modeBtn) {
+          state.dashboardMode = modeBtn.getAttribute("data-dashboard-mode");
+          renderPeriodDashboard();
           return;
         }
 
