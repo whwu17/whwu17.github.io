@@ -546,9 +546,9 @@ permalink: /daka/
     }
     .main-panel__body { display: grid; gap: 0; min-width: 0; overflow: hidden; }
     .period-section {
-      padding-bottom: 14px;
-      margin-bottom: 0;
-      border-bottom: 1px solid var(--line);
+      padding-top: 14px;
+      margin-top: 0;
+      border-top: 1px solid var(--line);
     }
     .period-stack {
       margin-top: 10px;
@@ -582,7 +582,7 @@ permalink: /daka/
     .month-layer {
       position: relative;
       z-index: 2;
-      padding: 14px 0;
+      padding: 0;
       min-width: 0;
     }
     .month-strip {
@@ -986,7 +986,7 @@ permalink: /daka/
     </header>
 
     <div class="guide">
-      <strong>怎么用：</strong>点日历补打卡。双月/三月视图共用<strong>半天计算方式</strong>；三月视图日历在前、统计在后。
+      <strong>怎么用：</strong>点日历补打卡。三月视图：<strong>日历在前</strong>，周期总览与每周达标率在下方。
     </div>
 
     <div class="quick-bar">
@@ -1002,10 +1002,10 @@ permalink: /daka/
     <article class="card main-panel" id="mainPanel">
       <div class="card__head main-panel__head" id="mainPanelHead"></div>
       <div class="card__body main-panel__body">
-        <div id="periodSection"></div>
         <div class="month-layer" id="monthLayer">
           <div class="month-grid" id="monthGrid"></div>
         </div>
+        <div id="periodSection"></div>
         <div class="legend legend--inset" id="legend"></div>
       </div>
     </article>
