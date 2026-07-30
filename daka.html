@@ -234,8 +234,13 @@ permalink: /daka/
     .week-block__title {
       font-weight: 600;
       color: var(--ink);
-      margin-bottom: 8px;
+      margin-bottom: 4px;
       font-size: 12px;
+    }
+    .week-block__sub {
+      font-size: 10px;
+      color: var(--ink-faint);
+      margin-bottom: 8px;
     }
     .week-rows { display: grid; gap: 4px; margin-bottom: 8px; }
     .week-row {
@@ -365,6 +370,11 @@ permalink: /daka/
       box-shadow: 0 0 0 2px var(--accent-soft);
       z-index: 1;
     }
+    .cal__cell.is-outside {
+      opacity: 0.42;
+      font-size: 11px;
+    }
+    .cal__cell.is-outside:hover:not(:disabled) { background: var(--paper); opacity: 0.55; }
 
     .legend {
       display: flex;
@@ -648,36 +658,50 @@ permalink: /daka/
         };
       }
 
-      /** Calendar rows in month (Sun–Sat), each with week number and day list. */
+      /** Calendar rows (Sun–Sat) with full-week date keys, including adjacent-month days. */
       function buildMonthWeeks(year, month) {
         var daysInMonth = new Date(year, month, 0).getDate();
-        var firstWd = new Date(year, month - 1, 1).getDay();
+        var firstOfMonth = new Date(year, month - 1, 1);
+        var lastKey = dateKey(year, month, daysInMonth);
+        var cursor = new Date(firstOfMonth);
+        cursor.setDate(cursor.getDate() - cursor.getDay());
+
         var weeks = [];
         var weekNum = 1;
-        var day = 1;
+        var seenLast = false;
 
-        while (day <= daysInMonth) {
-          var row = [];
-          if (weeks.length === 0) {
-            for (var pad = 0; pad < firstWd; pad++) row.push(null);
+        while (!seenLast) {
+          var cells = [];
+          for (var i = 0; i < 7; i++) {
+            var d = new Date(cursor);
+            d.setDate(cursor.getDate() + i);
+            var cy = d.getFullYear();
+            var cm = d.getMonth() + 1;
+            var cd = d.getDate();
+            cells.push({
+              key: dateKey(cy, cm, cd),
+              day: cd,
+              inMonth: cy === year && cm === month
+            });
           }
-          while (row.length < 7 && day <= daysInMonth) {
-            row.push(day++);
+
+          if (cells.some(function (c) { return c.inMonth; })) {
+            weeks.push({ num: weekNum++, cells: cells });
+            if (cells.some(function (c) { return c.key === lastKey; })) seenLast = true;
           }
-          while (row.length < 7) row.push(null);
-          weeks.push({ num: weekNum++, days: row });
+
+          cursor.setDate(cursor.getDate() + 7);
         }
+
         return weeks;
       }
 
-      function weekStatsForRow(year, month, rowDays, halfAsFull) {
+      function weekStatsForRow(cells, halfAsFull) {
         var work = 0;
         var check = 0;
-        rowDays.forEach(function (d) {
-          if (!d) return;
-          var key = dateKey(year, month, d);
-          work += workDayWeight(key);
-          check += checkinWeight(key, halfAsFull);
+        cells.forEach(function (cell) {
+          work += workDayWeight(cell.key);
+          check += checkinWeight(cell.key, halfAsFull);
         });
         return {
           workDays: work,
@@ -717,9 +741,9 @@ permalink: /daka/
         }).join("；");
       }
 
-      function weekReportHtml(weeks, year, month, halfAsFull, modeLabel) {
+      function weekReportHtml(weeks, halfAsFull, modeLabel) {
         var results = weeks.map(function (wk) {
-          var st = weekStatsForRow(year, month, wk.days, halfAsFull);
+          var st = weekStatsForRow(wk.cells, halfAsFull);
           return {
             num: wk.num,
             workDays: st.workDays,
@@ -759,6 +783,7 @@ permalink: /daka/
         return (
           '<div class="week-block">' +
             '<div class="week-block__title">周达标 · ' + modeLabel + '</div>' +
+            '<div class="week-block__sub">按完整自然周计算（周日–周六，含跨月日期）</div>' +
             '<div class="week-rows">' + rows + '</div>' +
             '<div class="' + streakCls + '">' + streakContent + '</div>' +
           '</div>'
@@ -827,16 +852,12 @@ permalink: /daka/
 
         weeks.forEach(function (wk) {
           html += '<div class="cal__wk">第' + wk.num + '周</div>';
-          wk.days.forEach(function (d) {
-            if (!d) {
-              html += '<button type="button" class="cal__cell" disabled></button>';
-              return;
-            }
-            var key = dateKey(year, month, d);
-            var cls = ["cal__cell", cellClass(key)];
-            if (key === todayKey) cls.push("is-today");
-            if (key === state.selectedKey) cls.push("is-selected");
-            html += '<button type="button" class="' + cls.join(" ") + '" data-key="' + key + '" aria-label="' + formatDateLabel(key) + '"><span class="cal__cell__num">' + d + '</span></button>';
+          wk.cells.forEach(function (cell) {
+            var cls = ["cal__cell", cellClass(cell.key)];
+            if (!cell.inMonth) cls.push("is-outside");
+            if (cell.key === todayKey) cls.push("is-today");
+            if (cell.key === state.selectedKey) cls.push("is-selected");
+            html += '<button type="button" class="' + cls.join(" ") + '" data-key="' + cell.key + '" aria-label="' + formatDateLabel(cell.key) + '"><span class="cal__cell__num">' + cell.day + '</span></button>';
           });
         });
 
@@ -865,8 +886,8 @@ permalink: /daka/
                 '</div>' +
                 ratioHtml("半天按一天算", s.ratioFull, s.checkFull, s.workDays) +
                 ratioHtml("半天按半天算", s.ratioHalf, s.checkHalf, s.workDays) +
-                weekReportHtml(s.weeks, slot.year, slot.month, true, "半天按一天算") +
-                weekReportHtml(s.weeks, slot.year, slot.month, false, "半天按半天算") +
+                weekReportHtml(s.weeks, true, "半天按一天算") +
+                weekReportHtml(s.weeks, false, "半天按半天算") +
                 buildCalendarHtml(slot.year, slot.month, s.weeks) +
               '</div>' +
             '</article>'
