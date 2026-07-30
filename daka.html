@@ -52,11 +52,13 @@ permalink: /daka/
     }
 
     *, *::before, *::after { box-sizing: border-box; }
-    html { color-scheme: light; }
+    html { color-scheme: light; overflow-x: clip; }
 
     body {
       margin: 0;
       min-height: 100dvh;
+      max-width: 100%;
+      overflow-x: clip;
       font-family: var(--font-sans);
       font-size: 15px;
       line-height: 1.5;
@@ -68,7 +70,14 @@ permalink: /daka/
 
     body.sheet-open { --sheet-h: 320px; }
 
-    .app { max-width: 960px; margin: 0 auto; display: grid; gap: 16px; }
+    .app {
+      max-width: 960px;
+      margin: 0 auto;
+      display: grid;
+      gap: 16px;
+      min-width: 0;
+      width: 100%;
+    }
 
     .hero { display: grid; gap: 6px; }
     .hero__title {
@@ -174,11 +183,6 @@ permalink: /daka/
     @media (max-width: 960px) { .month-grid--triple { grid-template-columns: 1fr; } }
 
     .period-dashboard {
-      padding: 14px;
-      border-radius: var(--radius);
-      background: var(--surface);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
       display: grid;
       gap: 12px;
     }
@@ -209,57 +213,89 @@ permalink: /daka/
     .alert--fail { background: rgba(220, 38, 38, 0.1); border: 2px solid rgba(220, 38, 38, 0.45); color: #b91c1c; font-weight: 500; }
     .alert strong { font-weight: 700; }
 
-    .timeline-wrap { overflow-x: auto; padding-bottom: 6px; }
-    .timeline {
-      display: flex;
-      gap: 4px;
-      min-width: min-content;
-      padding: 4px 2px 12px;
+    .timeline-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
+      margin: 0 -2px;
+      padding: 2px 2px 4px;
+      scrollbar-width: thin;
+    }
+    .tl-chart {
+      --tl-col: 2.65rem;
+      display: grid;
+      gap: 2px;
+      width: max(100%, calc(var(--week-count) * var(--tl-col)));
+      min-width: 0;
+    }
+    .tl-chart__weeks,
+    .tl-chart__brackets {
+      display: grid;
+      grid-template-columns: repeat(var(--week-count), minmax(2.35rem, 1fr));
+      gap: 3px;
     }
     .tl-week {
-      flex: 0 0 3.4rem;
-      min-height: 3rem;
+      min-height: 2.5rem;
       border-radius: 6px;
       border: 1.5px solid var(--line);
       background: var(--paper);
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1px;
       font-family: var(--font-mono);
-      position: relative;
-      padding: 4px 2px 6px;
-    }
-    .tl-week__num {
-      font-size: 11px;
-      font-weight: 700;
-      line-height: 1;
-      color: var(--ink);
+      padding: 4px 2px;
+      min-width: 0;
     }
     .tl-week__dates {
-      font-size: 7px;
-      font-weight: 500;
-      line-height: 1.15;
-      color: var(--ink-faint);
+      font-size: 8px;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--ink-soft);
       text-align: center;
-      white-space: nowrap;
+      word-break: break-all;
     }
     .tl-week--pass { background: rgba(22, 163, 74, 0.2); border-color: var(--checkin); }
-    .tl-week--pass .tl-week__num { color: var(--checkin-dark); }
+    .tl-week--pass .tl-week__dates { color: var(--checkin-dark); }
     .tl-week--fail { background: rgba(220, 38, 38, 0.12); border-color: #fca5a5; }
-    .tl-week--fail .tl-week__num { color: #b91c1c; }
+    .tl-week--fail .tl-week__dates { color: #b91c1c; }
     .tl-week--noweek { background: var(--weekend); opacity: 0.75; }
-  .tl-week--fail-1 { box-shadow: inset 0 -2px 0 #fca5a5; }
-  .tl-week--fail-2 { box-shadow: inset 0 -3px 0 #fb923c; }
-  .tl-week--fail-3 { box-shadow: inset 0 -3px 0 #f59e0b; }
-  .tl-week--fail-4 { box-shadow: inset 0 -4px 0 #dc2626; }
-  .tl-week--fail-5 {
-    box-shadow: inset 0 -4px 0 #dc2626, inset 0 -8px 0 #dc2626;
-    background: rgba(220, 38, 38, 0.22);
-  }
-  .tl-week--fail-4 .tl-week__num,
-  .tl-week--fail-5 .tl-week__num { font-weight: 800; }
+    .tl-chart__brackets { min-height: 16px; }
+    .tl-bracket {
+      position: relative;
+      height: 18px;
+      pointer-events: auto;
+    }
+    .tl-bracket__arc {
+      position: absolute;
+      left: 3px;
+      right: 3px;
+      bottom: 0;
+      height: 10px;
+      border-left: 2px solid;
+      border-right: 2px solid;
+      border-bottom: 2px solid;
+      border-radius: 0 0 6px 6px;
+    }
+    .tl-bracket--critical .tl-bracket__arc {
+      border-color: #dc2626;
+      border-bottom-width: 3px;
+      box-shadow: 0 4px 0 -1px #dc2626;
+    }
+    .tl-bracket--warn .tl-bracket__arc { border-color: #ea580c; }
+    .tl-bracket__label {
+      position: absolute;
+      left: 50%;
+      bottom: 11px;
+      transform: translateX(-50%);
+      font-family: var(--font-mono);
+      font-size: 8px;
+      font-weight: 700;
+      white-space: nowrap;
+      color: inherit;
+      line-height: 1;
+    }
+    .tl-bracket--critical { color: #b91c1c; }
+    .tl-bracket--warn { color: #c2410c; }
 
     .period-chip--warn {
       background: rgba(234, 88, 12, 0.14);
@@ -423,7 +459,7 @@ permalink: /daka/
     .week-rows { display: grid; gap: 4px; margin-bottom: 8px; }
     .week-row {
       display: grid;
-      grid-template-columns: 3.2rem 1fr auto;
+      grid-template-columns: minmax(4.6rem, 5.4rem) 1fr auto;
       gap: 6px;
       align-items: center;
       font-size: 11px;
@@ -433,6 +469,8 @@ permalink: /daka/
       font-family: var(--font-mono);
       font-weight: 600;
       color: var(--ink);
+      font-size: 10px;
+      line-height: 1.2;
     }
     .week-row__bar {
       height: 5px;
@@ -463,24 +501,42 @@ permalink: /daka/
     .period-line--ok { color: var(--pass); }
     .week-block--period { margin-top: 6px; }
 
-    .cal {
-      display: grid;
-      grid-template-columns: 2.4rem repeat(7, 1fr);
-      gap: 4px;
-      margin-top: 10px;
+    .main-panel { overflow: hidden; min-width: 0; }
+    .main-panel__head { flex-wrap: wrap; gap: 8px; }
+    .main-panel__body { display: grid; gap: 0; min-width: 0; overflow: hidden; }
+    .period-section {
+      padding-bottom: 14px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--line);
     }
-    .cal__wk {
+    .month-pane {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .month-pane:last-child { border-bottom: none; padding-bottom: 0; }
+    .month-pane__title {
+      margin: 0 0 10px;
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 400;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 9px;
-      font-weight: 600;
-      color: var(--ink-faint);
-      line-height: 1.15;
-      text-align: center;
-      padding: 0 2px;
+      justify-content: space-between;
+      gap: 8px;
     }
-    .cal__wk--head { visibility: hidden; }
+    .legend--inset {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    .cal {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 4px;
+      margin-top: 10px;
+      min-width: 0;
+    }
     .cal__wd {
       text-align: center;
       font-size: 11px;
@@ -675,6 +731,18 @@ permalink: /daka/
     .toast.is-visible { opacity: 1; transform: translateX(-50%) translateY(0); }
     body.sheet-open .toast { bottom: calc(var(--sheet-h) + 12px); }
 
+    @media (max-width: 480px) {
+      body { padding-left: 10px; padding-right: 10px; }
+      .card__head { flex-wrap: wrap; }
+      .card__title { font-size: 1rem; }
+      .period-dashboard__head { flex-direction: column; align-items: stretch; }
+      .mode-toggle { flex-wrap: wrap; }
+      .tl-chart { --tl-col: 2.35rem; }
+      .tl-week__dates { font-size: 7px; }
+      .cal__cell { min-height: 30px; font-size: 12px; }
+      .period-matrix__row { grid-template-columns: 1fr; gap: 4px; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .sheet, .sheet-backdrop, .ratio-bar__fill, .btn, .toast { transition: none; }
     }
@@ -688,7 +756,7 @@ permalink: /daka/
     </header>
 
     <div class="guide">
-      <strong>怎么用：</strong>点日历日期 → 选操作 → 确认。开启<strong>三个月连续视图</strong>可一眼看清 1–5 周周期是否达标（时间轴粗红框 = 5 周未达标）。
+      <strong>怎么用：</strong>点日历日期 → 选操作 → 确认。上方时间轴按日期显示每周达标情况，<strong>红色连线=连续5周未达标</strong>，橙色=4周。
     </div>
 
     <div class="quick-bar">
@@ -701,23 +769,14 @@ permalink: /daka/
       </label>
     </div>
 
-    <div class="view-bar">
-      <div class="view-bar__left">
-        <button type="button" class="btn btn--ghost btn--sm" id="btnTripleView">三个月连续视图</button>
-        <span style="font-size:12px;color:var(--ink-faint)">查看 1–5 周周期需开启</span>
+    <article class="card main-panel" id="mainPanel">
+      <div class="card__head main-panel__head" id="mainPanelHead"></div>
+      <div class="card__body main-panel__body">
+        <div id="periodSection"></div>
+        <div class="month-grid" id="monthGrid"></div>
+        <div class="legend legend--inset" id="legend"></div>
       </div>
-      <div class="view-bar__nav" id="anchorNav" hidden>
-        <button type="button" class="btn btn--ghost btn--sm" data-anchor="prev" aria-label="往前一月">‹</button>
-        <span class="view-bar__label" id="anchorLabel"></span>
-        <button type="button" class="btn btn--ghost btn--sm" data-anchor="next" aria-label="往后一月">›</button>
-      </div>
-    </div>
-
-    <section class="period-dashboard" id="periodDashboard" hidden></section>
-
-    <div class="month-grid" id="monthGrid"></div>
-
-    <div class="legend" id="legend"></div>
+    </article>
   </div>
 
   <div class="sheet-backdrop" id="sheetBackdrop" aria-hidden="true"></div>
@@ -769,7 +828,7 @@ permalink: /daka/
         data: loadData(),
         selectedKey: null,
         pendingAction: null,
-        tripleView: false,
+        tripleView: true,
         dashboardMode: "full",
         anchorYear: today.getFullYear(),
         anchorMonth: today.getMonth() + 1,
@@ -1038,26 +1097,11 @@ permalink: /daka/
         end.setDate(end.getDate() + (6 - end.getDay()));
 
         var weeks = [];
-        var num = 1;
         while (cursor <= end) {
-          var wk = buildWeekFromSunday(new Date(cursor));
-          wk.globalNum = num++;
-          weeks.push(wk);
+          weeks.push(buildWeekFromSunday(new Date(cursor)));
           cursor.setDate(cursor.getDate() + 7);
         }
         return weeks;
-      }
-
-      function markFailingWeeks(results) {
-        var flags = results.map(function () { return 0; });
-        for (var len = MAX_PERIOD; len >= 1; len--) {
-          findFailingPeriods(results, len).forEach(function (p) {
-            for (var i = p.start; i <= p.end; i++) {
-              if (len > flags[i]) flags[i] = len;
-            }
-          });
-        }
-        return flags;
       }
 
       function formatPeriodDateRange(startIdx, endIdx, weeks) {
@@ -1067,10 +1111,50 @@ permalink: /daka/
       }
 
       function formatGlobalWeekRange(startIdx, endIdx, weeks) {
-        var a = weeks[startIdx].globalNum;
-        var b = weeks[endIdx].globalNum;
-        var weekPart = a === b ? "第" + a + "周" : "第" + a + "–" + b + "周";
-        return weekPart + "（" + formatPeriodDateRange(startIdx, endIdx, weeks) + "）";
+        return formatPeriodDateRange(startIdx, endIdx, weeks);
+      }
+
+      function buildTimelineChartHtml(weeks, results) {
+        var weekCount = weeks.length;
+        var fail5 = findFailingPeriods(results, 5);
+        var fail4 = findFailingPeriods(results, 4);
+
+        var weekCells = weeks.map(function (wk, i) {
+          var r = results[i];
+          var cls = ["tl-week"];
+          if (!r.hasWork) cls.push("tl-week--noweek");
+          else if (r.ratio >= THRESHOLD) cls.push("tl-week--pass");
+          else cls.push("tl-week--fail");
+          var pct = r.hasWork ? Math.round(r.ratio * 100) : 0;
+          var dates = formatWeekShortDates(wk.cells);
+          return (
+            '<div class="' + cls.join(" ") + '" title="' + dates + " · " + pct + '%">' +
+              '<span class="tl-week__dates">' + dates + "</span>" +
+            "</div>"
+          );
+        }).join("");
+
+        function bracketRow(periods, len, tone) {
+          if (!periods.length) return "";
+          return periods.map(function (p) {
+            var colStart = p.start + 1;
+            var range = formatPeriodDateRange(p.start, p.end, weeks);
+            return (
+              '<div class="tl-bracket tl-bracket--' + tone + '" style="grid-column:' + colStart + " / span " + p.len + '" title="' + range + '">' +
+                '<span class="tl-bracket__arc"></span>' +
+                '<span class="tl-bracket__label">' + len + "周</span>" +
+              "</div>"
+            );
+          }).join("");
+        }
+
+        return (
+          '<div class="tl-chart" style="--week-count:' + weekCount + '">' +
+            '<div class="tl-chart__weeks">' + weekCells + "</div>" +
+            (fail5.length ? '<div class="tl-chart__brackets">' + bracketRow(fail5, 5, "critical") + "</div>" : "") +
+            (fail4.length ? '<div class="tl-chart__brackets">' + bracketRow(fail4, 4, "warn") + "</div>" : "") +
+          "</div>"
+        );
       }
 
       function formatWeekShortDates(cells) {
@@ -1079,28 +1163,14 @@ permalink: /daka/
         return (f.getMonth() + 1) + "/" + f.getDate() + "–" + (l.getMonth() + 1) + "/" + l.getDate();
       }
 
-      function renderPeriodDashboard() {
-        var el = document.getElementById("periodDashboard");
-        var nav = document.getElementById("anchorNav");
-        var tripleBtn = document.getElementById("btnTripleView");
-        var grid = document.getElementById("monthGrid");
+      function buildPeriodSectionHtml() {
+        if (!state.tripleView) return "";
 
-        tripleBtn.classList.toggle("is-on", state.tripleView);
-        nav.hidden = !state.tripleView;
-        document.getElementById("anchorLabel").textContent = formatMonth(state.anchorYear, state.anchorMonth);
-        grid.classList.toggle("month-grid--triple", state.tripleView);
-
-        if (!state.tripleView) {
-          el.hidden = true;
-          el.innerHTML = "";
-          return;
-        }
-
-        el.hidden = false;
         var halfAsFull = state.dashboardMode === "full";
         var weeks = buildThreeMonthWeekSequence(state.anchorYear, state.anchorMonth);
         var results = weekResultsFromWeeks(weeks, halfAsFull);
-        var failFlags = markFailingWeeks(results);
+        var prev = shiftYM(state.anchorYear, state.anchorMonth, -1);
+        var next = shiftYM(state.anchorYear, state.anchorMonth, 1);
 
         var fail5 = findFailingPeriods(results, 5);
         var alertHtml;
@@ -1119,58 +1189,47 @@ permalink: /daka/
           }
         }
 
-        var timeline = weeks.map(function (wk, i) {
-          var r = results[i];
-          var cls = ["tl-week"];
-          if (!r.hasWork) cls.push("tl-week--noweek");
-          else if (r.ratio >= THRESHOLD) cls.push("tl-week--pass");
-          else cls.push("tl-week--fail");
-          if (failFlags[i] > 0) cls.push("tl-week--fail-" + failFlags[i]);
-          var pct = r.hasWork ? Math.round(r.ratio * 100) : 0;
-          var dates = formatWeekShortDates(wk.cells);
-          var title = "第" + wk.globalNum + "周 " + dates + " · " + pct + "%";
-          return (
-            '<div class="' + cls.join(" ") + '" title="' + title + '">' +
-              '<span class="tl-week__num">' + wk.globalNum + '</span>' +
-              '<span class="tl-week__dates">' + dates + '</span>' +
-            '</div>'
-          );
-        }).join("");
+        var timeline = buildTimelineChartHtml(weeks, results);
 
-        var matrixRows = [];
-        for (var len = MAX_PERIOD; len >= 1; len--) {
-          var fails = findFailingPeriods(results, len);
-          var chips;
-          if (!fails.length) {
-            chips = '<span class="period-chip period-chip--ok">全部达标</span>';
-          } else {
-            chips = fails.map(function (p) {
-              var cls = "period-chip";
-              if (len === 5) cls += " period-chip--critical";
-              else if (len === 4) cls += " period-chip--warn";
-              return '<span class="' + cls + '">' + formatGlobalWeekRange(p.start, p.end, weeks) + '</span>';
-            }).join("");
-          }
-          matrixRows.push(
-            '<div class="period-matrix__row">' +
-              '<span class="period-matrix__label">' + len + '周周期</span>' +
-              '<div class="period-chips">' + chips + '</div>' +
-            '</div>'
-          );
-        }
-
-        el.innerHTML =
-          '<div class="period-dashboard__head">' +
-            '<h2 class="period-dashboard__title">三个月周期总览 · ' + formatMonth(shiftYM(state.anchorYear, state.anchorMonth, -1).year, shiftYM(state.anchorYear, state.anchorMonth, -1).month) + ' – ' + formatMonth(shiftYM(state.anchorYear, state.anchorMonth, 1).year, shiftYM(state.anchorYear, state.anchorMonth, 1).month) + '</h2>' +
-            '<div class="mode-toggle">' +
-              '<button type="button" class="btn btn--ghost btn--sm' + (state.dashboardMode === "full" ? " is-on" : "") + '" data-dashboard-mode="full">半天按一天</button>' +
-              '<button type="button" class="btn btn--ghost btn--sm' + (state.dashboardMode === "half" ? " is-on" : "") + '" data-dashboard-mode="half">半天按半天</button>' +
+        return (
+          '<div class="period-section">' +
+            '<div class="period-dashboard">' +
+              '<div class="period-dashboard__head">' +
+                '<h2 class="period-dashboard__title">周期总览 · ' + formatMonth(prev.year, prev.month) + ' – ' + formatMonth(next.year, next.month) + '</h2>' +
+                '<div class="mode-toggle">' +
+                  '<button type="button" class="btn btn--ghost btn--sm' + (state.dashboardMode === "full" ? " is-on" : "") + '" data-dashboard-mode="full">半天按一天</button>' +
+                  '<button type="button" class="btn btn--ghost btn--sm' + (state.dashboardMode === "half" ? " is-on" : "") + '" data-dashboard-mode="half">半天按半天</button>' +
+                '</div>' +
+              '</div>' +
+              alertHtml +
+              '<div><div style="font-size:11px;color:var(--ink-faint);margin-bottom:6px">每周一格为日期区间；下方<strong>红色连线=连续5周未达标</strong>，<strong>橙色=4周</strong></div>' +
+              '<div class="timeline-scroll">' + timeline + '</div></div>' +
             '</div>' +
-          '</div>' +
-          alertHtml +
-          '<div><div style="font-size:11px;color:var(--ink-faint);margin-bottom:6px">周次时间轴：格内为日期范围；底部下划线表示未达标周期（<strong>双线=5周</strong>，<strong>单粗线=4周</strong>，渐浅=更短周期）</div>' +
-          '<div class="timeline-wrap"><div class="timeline">' + timeline + '</div></div></div>' +
-          '<div class="period-matrix">' + matrixRows.join("") + '</div>';
+          '</div>'
+        );
+      }
+
+      function renderMainPanelHead() {
+        var prev = shiftYM(state.anchorYear, state.anchorMonth, -1);
+        var next = shiftYM(state.anchorYear, state.anchorMonth, 1);
+        var title = state.tripleView
+          ? "三个月连续 · " + formatMonth(prev.year, prev.month) + " – " + formatMonth(next.year, next.month)
+          : "打卡日历";
+        var navHtml = state.tripleView ? (
+          '<div class="card__nav">' +
+            '<button type="button" class="btn btn--ghost btn--sm" data-anchor="prev" aria-label="往前一月">‹</button>' +
+            '<span class="view-bar__label">' + formatMonth(state.anchorYear, state.anchorMonth) + '</span>' +
+            '<button type="button" class="btn btn--ghost btn--sm" data-anchor="next" aria-label="往后一月">›</button>' +
+          '</div>'
+        ) : "";
+        document.getElementById("mainPanelHead").innerHTML =
+          '<h2 class="card__title">' + title + '</h2>' +
+          '<div style="display:flex;gap:6px;align-items:center">' +
+            navHtml +
+            '<button type="button" class="btn btn--ghost btn--sm' + (state.tripleView ? " is-on" : "") + '" id="btnTripleView">' +
+              (state.tripleView ? "双月视图" : "三月视图") +
+            '</button>' +
+          '</div>';
       }
 
       function clearDayState(key) {
@@ -1180,33 +1239,9 @@ permalink: /daka/
         delete state.data.onleave[key];
       }
 
-      function periodWeekNum(idx, firstCoreIdx) {
-        return idx - firstCoreIdx + 1;
-      }
-
-      function formatWeekNum(n) {
-        if (n < 1) return "前" + (1 - n) + "周";
-        return "第" + n + "周";
-      }
-
-      function formatPeriodWeekRange(startIdx, endIdx, firstCoreIdx) {
-        var a = periodWeekNum(startIdx, firstCoreIdx);
-        var b = periodWeekNum(endIdx, firstCoreIdx);
-        if (a === b) return formatWeekNum(a);
-        var left = a < 1 ? formatWeekNum(a).replace("周", "") : ("第" + a);
-        var right = b < 1 ? formatWeekNum(b) : (b + "周");
-        if (a >= 1 && b >= 1) return "第" + a + "–" + b + "周";
-        return left + "–" + right;
-      }
-
       function periodReportHtml(year, month, halfAsFull, modeLabel) {
-        var coreWeeks = buildMonthWeeks(year, month);
         var weeks = buildAnalysisWeeks(year, month);
         var results = weekResultsFromWeeks(weeks, halfAsFull);
-        var firstCoreIdx = weeks.findIndex(function (w) {
-          return w.startKey === coreWeeks[0].startKey;
-        });
-        if (firstCoreIdx < 0) firstCoreIdx = 0;
         var lines = [];
 
         for (var len = 1; len <= MAX_PERIOD; len++) {
@@ -1220,7 +1255,7 @@ permalink: /daka/
           }
 
           var ranges = filtered.map(function (p) {
-            return formatPeriodWeekRange(p.start, p.end, firstCoreIdx);
+            return formatPeriodDateRange(p.start, p.end, weeks);
           }).join("；");
           lines.push('<div class="period-line"><strong>' + len + '周周期未达 40%：</strong>' + ranges + '</div>');
         }
@@ -1228,7 +1263,7 @@ permalink: /daka/
         return (
           '<div class="week-block week-block--period">' +
             '<div class="week-block__title">周期达标 · ' + modeLabel + '</div>' +
-            '<div class="week-block__sub">连续 1–5 个自然周合并计算；周次以本月第1周为基准，可跨月（前N周）</div>' +
+            '<div class="week-block__sub">连续 1–5 个自然周合并计算（周日–周六，可跨月）</div>' +
             '<div class="period-lines">' + lines.join("") + '</div>' +
           '</div>'
         );
@@ -1238,7 +1273,7 @@ permalink: /daka/
         var results = weeks.map(function (wk) {
           var st = weekStatsForRow(wk.cells, halfAsFull);
           return {
-            num: wk.num,
+            label: formatWeekShortDates(wk.cells),
             workDays: st.workDays,
             checkin: st.checkin,
             ratio: st.ratio,
@@ -1250,7 +1285,7 @@ permalink: /daka/
           if (!w.hasWork) {
             return (
               '<div class="week-row">' +
-                '<span class="week-row__label">第' + w.num + '周</span>' +
+                '<span class="week-row__label">' + w.label + '</span>' +
                 '<span style="grid-column:span 2;color:var(--ink-faint)">无工作日</span>' +
               '</div>'
             );
@@ -1259,7 +1294,7 @@ permalink: /daka/
           var pass = w.ratio >= THRESHOLD;
           return (
             '<div class="week-row">' +
-              '<span class="week-row__label">第' + w.num + '周</span>' +
+              '<span class="week-row__label">' + w.label + '</span>' +
               '<div class="week-row__bar"><div class="week-row__fill ' + (pass ? "is-pass" : "is-fail") + '" style="width:' + Math.min(100, pct) + '%"></div></div>' +
               '<span class="badge ' + (pass ? "badge--pass" : "badge--fail") + '">' + pct + '%</span>' +
             '</div>'
@@ -1331,13 +1366,11 @@ permalink: /daka/
       function buildCalendarHtml(year, month, weeks) {
         var todayKey = dateKey(today.getFullYear(), today.getMonth() + 1, today.getDate());
         var html = '<div class="cal" role="grid">';
-        html += '<div class="cal__wk cal__wk--head"></div>';
         WEEKDAYS.forEach(function (w) {
           html += '<div class="cal__wd" role="columnheader">' + w + '</div>';
         });
 
         weeks.forEach(function (wk) {
-          html += '<div class="cal__wk">第' + wk.num + '周</div>';
           wk.cells.forEach(function (cell) {
             var cls = ["cal__cell", cellClass(cell.key)];
             if (!cell.inMonth) cls.push("is-outside");
@@ -1354,6 +1387,7 @@ permalink: /daka/
       function renderMonths() {
         var grid = document.getElementById("monthGrid");
         var display = getDisplayMonths();
+        grid.classList.toggle("month-grid--triple", state.tripleView);
         grid.innerHTML = display.map(function (slot, idx) {
           var s = monthStats(slot.year, slot.month);
           var navHtml = state.tripleView ? "" : (
@@ -1368,6 +1402,20 @@ permalink: /daka/
             weekReportHtml(s.weeks, false, "半天按半天算") +
             periodReportHtml(slot.year, slot.month, false, "半天按半天算")
           );
+          if (state.tripleView) {
+            return (
+              '<section class="month-pane" data-slot="' + idx + '">' +
+                '<h3 class="month-pane__title"><span>' + slot.label + ' · ' + formatMonth(slot.year, slot.month) + '</span></h3>' +
+                '<div class="stat-row">' +
+                  '<div class="stat"><div class="stat__label">工作日</div><div class="stat__value">' + s.workDays + '</div></div>' +
+                  '<div class="stat"><div class="stat__label">有打卡</div><div class="stat__value">' + s.checkedDays + ' 天</div></div>' +
+                '</div>' +
+                ratioHtml("半天按一天算", s.ratioFull, s.checkFull, s.workDays) +
+                ratioHtml("半天按半天算", s.ratioHalf, s.checkHalf, s.workDays) +
+                buildCalendarHtml(slot.year, slot.month, s.weeks) +
+              '</section>'
+            );
+          }
           return (
             '<article class="card" data-slot="' + idx + '">' +
               '<div class="card__head">' +
@@ -1412,7 +1460,7 @@ permalink: /daka/
         document.getElementById("sheetDate").textContent = formatDateLabel(key);
         document.getElementById("sheetMeta").textContent = dayMeta(key);
         renderSheetActions();
-        renderMonths();
+        render();
       }
 
       function closeSheet() {
@@ -1421,7 +1469,7 @@ permalink: /daka/
         document.getElementById("sheetBackdrop").classList.remove("is-open");
         document.getElementById("sheet").classList.remove("is-open");
         state.selectedKey = null;
-        renderMonths();
+        render();
       }
 
       function actionBtnHtml(a, key) {
@@ -1530,7 +1578,7 @@ permalink: /daka/
           state.anchorYear = slot.year;
           state.anchorMonth = slot.month;
         }
-        renderMonths();
+        render();
       }
 
       function shiftAnchor(dir) {
@@ -1541,7 +1589,8 @@ permalink: /daka/
       }
 
       function render() {
-        renderPeriodDashboard();
+        renderMainPanelHead();
+        document.getElementById("periodSection").innerHTML = buildPeriodSectionHtml();
         renderMonths();
         renderLegend();
       }
@@ -1576,10 +1625,6 @@ permalink: /daka/
 
         if (e.target.id === "btnTripleView") {
           state.tripleView = !state.tripleView;
-          if (state.tripleView) {
-            state.anchorYear = today.getFullYear();
-            state.anchorMonth = today.getMonth() + 1;
-          }
           render();
           return;
         }
@@ -1593,7 +1638,7 @@ permalink: /daka/
         var modeBtn = e.target.closest("[data-dashboard-mode]");
         if (modeBtn) {
           state.dashboardMode = modeBtn.getAttribute("data-dashboard-mode");
-          renderPeriodDashboard();
+          document.getElementById("periodSection").innerHTML = buildPeriodSectionHtml();
           return;
         }
 
