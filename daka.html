@@ -229,7 +229,7 @@ permalink: /daka/
       min-width: 0;
     }
     .tl-chart__weeks,
-    .tl-chart__brackets {
+    .tl-chart__lane {
       display: grid;
       grid-template-columns: repeat(var(--week-count), minmax(2.35rem, 1fr));
       gap: 3px;
@@ -259,43 +259,27 @@ permalink: /daka/
     .tl-week--fail { background: rgba(220, 38, 38, 0.12); border-color: #fca5a5; }
     .tl-week--fail .tl-week__dates { color: #b91c1c; }
     .tl-week--noweek { background: var(--weekend); opacity: 0.75; }
-    .tl-chart__brackets { min-height: 16px; }
-    .tl-bracket {
-      position: relative;
-      height: 18px;
-      pointer-events: auto;
+    .tl-chart__lanes {
+      display: grid;
+      gap: 4px;
+      margin-top: 6px;
+      padding-top: 2px;
     }
-    .tl-bracket__arc {
-      position: absolute;
-      left: 3px;
-      right: 3px;
-      bottom: 0;
-      height: 10px;
-      border-left: 2px solid;
-      border-right: 2px solid;
-      border-bottom: 2px solid;
-      border-radius: 0 0 6px 6px;
+    .tl-chart__lane {
+      min-height: 6px;
+      align-items: center;
     }
-    .tl-bracket--critical .tl-bracket__arc {
-      border-color: #dc2626;
-      border-bottom-width: 3px;
-      box-shadow: 0 4px 0 -1px #dc2626;
+    .tl-span {
+      height: 3px;
+      border-radius: 999px;
+      align-self: center;
+      min-width: 0;
     }
-    .tl-bracket--warn .tl-bracket__arc { border-color: #ea580c; }
-    .tl-bracket__label {
-      position: absolute;
-      left: 50%;
-      bottom: 11px;
-      transform: translateX(-50%);
-      font-family: var(--font-mono);
-      font-size: 8px;
-      font-weight: 700;
-      white-space: nowrap;
-      color: inherit;
-      line-height: 1;
-    }
-    .tl-bracket--critical { color: #b91c1c; }
-    .tl-bracket--warn { color: #c2410c; }
+    .tl-span--len-5 { height: 5px; background: #dc2626; }
+    .tl-span--len-4 { height: 4px; background: #ea580c; }
+    .tl-span--len-3 { height: 3px; background: #f59e0b; }
+    .tl-span--len-2 { height: 2px; background: #fb923c; opacity: 0.9; }
+    .tl-span--len-1 { height: 2px; background: #fca5a5; opacity: 0.85; }
 
     .period-chip--warn {
       background: rgba(234, 88, 12, 0.14);
@@ -756,7 +740,7 @@ permalink: /daka/
     </header>
 
     <div class="guide">
-      <strong>怎么用：</strong>点日历日期 → 选操作 → 确认。上方时间轴按日期显示每周达标情况，<strong>红色连线=连续5周未达标</strong>，橙色=4周。
+      <strong>怎么用：</strong>点日历日期 → 选操作 → 确认。时间轴每格是一周；未达标周期在对应周<strong>下方画横线</strong>，线越长跨度越大（5周最长、4周次之）。
     </div>
 
     <div class="quick-bar">
@@ -1114,10 +1098,47 @@ permalink: /daka/
         return formatPeriodDateRange(startIdx, endIdx, weeks);
       }
 
+      function collectFailingSpans(results) {
+        var spans = [];
+        for (var len = MAX_PERIOD; len >= 1; len--) {
+          findFailingPeriods(results, len).forEach(function (p) {
+            spans.push({ start: p.start, end: p.end, len: len });
+          });
+        }
+        spans.sort(function (a, b) {
+          if (b.len !== a.len) return b.len - a.len;
+          return a.start - b.start;
+        });
+        return spans;
+      }
+
+      function packSpanRows(spans) {
+        var rows = [];
+        spans.forEach(function (p) {
+          var placed = false;
+          for (var r = 0; r < rows.length; r++) {
+            var clash = rows[r].some(function (iv) {
+              return !(p.end < iv.start || p.start > iv.end);
+            });
+            if (!clash) {
+              rows[r].push({ start: p.start, end: p.end });
+              p.row = r;
+              placed = true;
+              break;
+            }
+          }
+          if (!placed) {
+            p.row = rows.length;
+            rows.push([{ start: p.start, end: p.end }]);
+          }
+        });
+        return rows.length;
+      }
+
       function buildTimelineChartHtml(weeks, results) {
         var weekCount = weeks.length;
-        var fail5 = findFailingPeriods(results, 5);
-        var fail4 = findFailingPeriods(results, 4);
+        var spans = collectFailingSpans(results);
+        var laneCount = spans.length ? packSpanRows(spans) : 0;
 
         var weekCells = weeks.map(function (wk, i) {
           var r = results[i];
@@ -1134,25 +1155,21 @@ permalink: /daka/
           );
         }).join("");
 
-        function bracketRow(periods, len, tone) {
-          if (!periods.length) return "";
-          return periods.map(function (p) {
-            var colStart = p.start + 1;
+        var lanesHtml = "";
+        for (var row = 0; row < laneCount; row++) {
+          var rowHtml = spans.filter(function (p) { return p.row === row; }).map(function (p) {
             var range = formatPeriodDateRange(p.start, p.end, weeks);
             return (
-              '<div class="tl-bracket tl-bracket--' + tone + '" style="grid-column:' + colStart + " / span " + p.len + '" title="' + range + '">' +
-                '<span class="tl-bracket__arc"></span>' +
-                '<span class="tl-bracket__label">' + len + "周</span>" +
-              "</div>"
+              '<div class="tl-span tl-span--len-' + p.len + '" style="grid-column:' + (p.start + 1) + " / span " + p.len + '" title="' + p.len + "周未达标：" + range + '"></div>'
             );
           }).join("");
+          lanesHtml += '<div class="tl-chart__lane">' + rowHtml + "</div>";
         }
 
         return (
           '<div class="tl-chart" style="--week-count:' + weekCount + '">' +
             '<div class="tl-chart__weeks">' + weekCells + "</div>" +
-            (fail5.length ? '<div class="tl-chart__brackets">' + bracketRow(fail5, 5, "critical") + "</div>" : "") +
-            (fail4.length ? '<div class="tl-chart__brackets">' + bracketRow(fail4, 4, "warn") + "</div>" : "") +
+            (laneCount ? '<div class="tl-chart__lanes">' + lanesHtml + "</div>" : "") +
           "</div>"
         );
       }
@@ -1202,7 +1219,7 @@ permalink: /daka/
                 '</div>' +
               '</div>' +
               alertHtml +
-              '<div><div style="font-size:11px;color:var(--ink-faint);margin-bottom:6px">每周一格为日期区间；下方<strong>红色连线=连续5周未达标</strong>，<strong>橙色=4周</strong></div>' +
+              '<div><div style="font-size:11px;color:var(--ink-faint);margin-bottom:6px">每格一周；未达标周期在对应周<strong>下方画横线</strong>，线越长跨度越大（红=5周、橙=4周）</div>' +
               '<div class="timeline-scroll">' + timeline + '</div></div>' +
             '</div>' +
           '</div>'
