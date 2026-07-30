@@ -128,10 +128,15 @@ permalink: /daka/
       color: var(--accent);
       font-weight: 600;
     }
-    .btn--chip.is-on {
-      background: var(--ok-soft);
-      border-color: var(--ok);
-      color: var(--ok);
+    .btn--chip.is-on-holiday {
+      background: var(--holiday-soft);
+      border-color: var(--holiday);
+      color: var(--holiday);
+    }
+    .btn--chip.is-on-leave {
+      background: var(--leave-soft);
+      border-color: var(--leave);
+      color: var(--leave);
     }
 
     .month-grid {
@@ -339,10 +344,11 @@ permalink: /daka/
       background: var(--stamp);
     }
     .cal__cell.is-weekend { color: var(--ink-faint); background: var(--weekend); }
-    .cal__cell.is-holiday { background: var(--holiday-soft); color: var(--holiday); font-weight: 600; }
+    .cal__cell.is-holiday { color: #fff; font-weight: 700; }
     .cal__cell.is-full { color: #fff; font-weight: 700; }
     .cal__cell.is-half { color: var(--half); font-weight: 700; }
     .cal__cell.is-leave { color: var(--leave); font-weight: 700; }
+    .cal__cell.is-holiday::before,
     .cal__cell.is-full::before,
     .cal__cell.is-half::before,
     .cal__cell.is-leave::before {
@@ -352,6 +358,10 @@ permalink: /daka/
       top: 3px;
       bottom: 3px;
       border-radius: 4px;
+    }
+    .cal__cell.is-holiday::before {
+      right: 3px;
+      background: var(--holiday);
     }
     .cal__cell.is-full::before {
       right: 3px;
@@ -812,12 +822,13 @@ permalink: /daka/
       }
 
       function cellClass(key) {
+        var date = parseKey(key);
+        if (isHoliday(key)) return "is-holiday";
+        if (isOnLeave(key)) return "is-leave";
         var c = getCheckin(key);
         if (c === "full") return "is-full";
         if (c === "half") return "is-half";
-        if (isOnLeave(key)) return "is-leave";
-        if (isHoliday(key)) return "is-holiday";
-        if (isWeekend(parseKey(key))) return "is-weekend";
+        if (isWeekend(date)) return "is-weekend";
         return "";
       }
 
@@ -899,7 +910,7 @@ permalink: /daka/
         var items = [
           { cls: "", bg: "var(--ok)", label: "全天打卡" },
           { cls: " legend__swatch--half", bg: "", label: "半天打卡" },
-          { cls: "", bg: "var(--holiday-soft)", label: "放假日" },
+          { cls: "", bg: "var(--holiday)", label: "放假日" },
           { cls: " legend__swatch--leave", bg: "", label: "半天请假" },
           { cls: "", bg: "var(--weekend)", label: "双休日" }
         ];
@@ -933,8 +944,8 @@ permalink: /daka/
       function actionBtnHtml(a, key) {
         var active = state.pendingAction === a.id ? " is-active" : "";
         var on = "";
-        if (a.id === "holiday-toggle" && isHoliday(key)) on = " is-on";
-        if (a.id === "leave-toggle" && isOnLeave(key)) on = " is-on";
+        if (a.id === "holiday-toggle" && isHoliday(key)) on = " is-on-holiday";
+        if (a.id === "leave-toggle" && isOnLeave(key)) on = " is-on-leave";
         return (
           '<button type="button" class="btn btn--chip' + active + on + '" data-pending="' + a.id + '">' +
             a.label + '<span style="display:block;font-size:11px;font-weight:400;opacity:.7">' + a.hint + '</span>' +
@@ -968,8 +979,13 @@ permalink: /daka/
             return false;
           }
           var hi = state.data.holidays.indexOf(key);
-          if (hi === -1) state.data.holidays.push(key);
-          else state.data.holidays.splice(hi, 1);
+          if (hi === -1) {
+            state.data.holidays.push(key);
+            delete state.data.checkins[key];
+            delete state.data.onleave[key];
+          } else {
+            state.data.holidays.splice(hi, 1);
+          }
         } else if (action === "leave-toggle") {
           if (isWeekend(date) || isHoliday(key)) {
             showToast("只能在工作日标记请假");
