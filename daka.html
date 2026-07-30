@@ -209,48 +209,75 @@ permalink: /daka/
     .alert--fail { background: rgba(220, 38, 38, 0.1); border: 2px solid rgba(220, 38, 38, 0.45); color: #b91c1c; font-weight: 500; }
     .alert strong { font-weight: 700; }
 
-    .timeline-wrap { overflow-x: auto; padding-bottom: 4px; }
+    .timeline-wrap { overflow-x: auto; padding-bottom: 6px; }
     .timeline {
       display: flex;
-      gap: 3px;
+      gap: 4px;
       min-width: min-content;
-      padding: 4px 2px 8px;
+      padding: 4px 2px 12px;
     }
     .tl-week {
-      flex: 0 0 2.1rem;
-      min-height: 2.6rem;
+      flex: 0 0 3.4rem;
+      min-height: 3rem;
       border-radius: 6px;
       border: 1.5px solid var(--line);
       background: var(--paper);
-      display: grid;
-      place-items: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1px;
       font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--ink-faint);
       position: relative;
+      padding: 4px 2px 6px;
     }
-    .tl-week--pass { background: rgba(22, 163, 74, 0.2); border-color: var(--checkin); color: var(--checkin-dark); }
-    .tl-week--fail { background: rgba(220, 38, 38, 0.15); border-color: #f87171; color: #b91c1c; }
-    .tl-week--noweek { background: var(--weekend); opacity: 0.7; }
-    .tl-week--fail-1 { outline: 2px solid rgba(248, 113, 113, 0.7); }
-    .tl-week--fail-2 { outline: 2px solid rgba(249, 115, 22, 0.8); outline-offset: 1px; }
-    .tl-week--fail-3 { outline: 2px solid rgba(234, 179, 8, 0.85); outline-offset: 1px; }
-    .tl-week--fail-4 { outline: 2px solid rgba(220, 38, 38, 0.75); outline-offset: 2px; }
-    .tl-week--fail-5 {
-      outline: 3px solid #dc2626;
-      outline-offset: 2px;
-      background: rgba(220, 38, 38, 0.28);
-      transform: scale(1.06);
-      z-index: 2;
+    .tl-week__num {
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--ink);
     }
-    .tl-week__sub {
-      position: absolute;
-      bottom: -7px;
+    .tl-week__dates {
       font-size: 7px;
       font-weight: 500;
+      line-height: 1.15;
       color: var(--ink-faint);
+      text-align: center;
       white-space: nowrap;
+    }
+    .tl-week--pass { background: rgba(22, 163, 74, 0.2); border-color: var(--checkin); }
+    .tl-week--pass .tl-week__num { color: var(--checkin-dark); }
+    .tl-week--fail { background: rgba(220, 38, 38, 0.12); border-color: #fca5a5; }
+    .tl-week--fail .tl-week__num { color: #b91c1c; }
+    .tl-week--noweek { background: var(--weekend); opacity: 0.75; }
+  .tl-week--fail-1 { box-shadow: inset 0 -2px 0 #fca5a5; }
+  .tl-week--fail-2 { box-shadow: inset 0 -3px 0 #fb923c; }
+  .tl-week--fail-3 { box-shadow: inset 0 -3px 0 #f59e0b; }
+  .tl-week--fail-4 { box-shadow: inset 0 -4px 0 #dc2626; }
+  .tl-week--fail-5 {
+    box-shadow: inset 0 -4px 0 #dc2626, inset 0 -8px 0 #dc2626;
+    background: rgba(220, 38, 38, 0.22);
+  }
+  .tl-week--fail-4 .tl-week__num,
+  .tl-week--fail-5 .tl-week__num { font-weight: 800; }
+
+    .period-chip--warn {
+      background: rgba(234, 88, 12, 0.14);
+      border-color: rgba(234, 88, 12, 0.45);
+      color: #c2410c;
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 2px;
+    }
+    .period-chip--critical {
+      background: #dc2626;
+      border-color: #dc2626;
+      color: #fff;
+      font-weight: 700;
+      text-decoration: underline;
+      text-decoration-style: double;
+      text-decoration-thickness: 3px;
+      text-underline-offset: 3px;
     }
 
     .period-matrix { display: grid; gap: 5px; }
@@ -283,12 +310,6 @@ permalink: /daka/
       border-color: rgba(45, 138, 78, 0.25);
       color: var(--pass);
       font-weight: 500;
-    }
-    .period-chip--critical {
-      background: #dc2626;
-      border-color: #dc2626;
-      color: #fff;
-      font-weight: 700;
     }
 
     .month-grid {
@@ -1039,11 +1060,23 @@ permalink: /daka/
         return flags;
       }
 
+      function formatPeriodDateRange(startIdx, endIdx, weeks) {
+        var f = parseKey(weeks[startIdx].cells[0].key);
+        var l = parseKey(weeks[endIdx].cells[6].key);
+        return (f.getMonth() + 1) + "月" + f.getDate() + "日–" + (l.getMonth() + 1) + "月" + l.getDate() + "日";
+      }
+
       function formatGlobalWeekRange(startIdx, endIdx, weeks) {
         var a = weeks[startIdx].globalNum;
         var b = weeks[endIdx].globalNum;
-        if (a === b) return "第" + a + "周";
-        return "第" + a + "–" + b + "周";
+        var weekPart = a === b ? "第" + a + "周" : "第" + a + "–" + b + "周";
+        return weekPart + "（" + formatPeriodDateRange(startIdx, endIdx, weeks) + "）";
+      }
+
+      function formatWeekShortDates(cells) {
+        var f = parseKey(cells[0].key);
+        var l = parseKey(cells[6].key);
+        return (f.getMonth() + 1) + "/" + f.getDate() + "–" + (l.getMonth() + 1) + "/" + l.getDate();
       }
 
       function renderPeriodDashboard() {
@@ -1094,7 +1127,14 @@ permalink: /daka/
           else cls.push("tl-week--fail");
           if (failFlags[i] > 0) cls.push("tl-week--fail-" + failFlags[i]);
           var pct = r.hasWork ? Math.round(r.ratio * 100) : 0;
-          return '<div class="' + cls.join(" ") + '" title="第' + wk.globalNum + '周 ' + pct + '%">' + wk.globalNum + '</div>';
+          var dates = formatWeekShortDates(wk.cells);
+          var title = "第" + wk.globalNum + "周 " + dates + " · " + pct + "%";
+          return (
+            '<div class="' + cls.join(" ") + '" title="' + title + '">' +
+              '<span class="tl-week__num">' + wk.globalNum + '</span>' +
+              '<span class="tl-week__dates">' + dates + '</span>' +
+            '</div>'
+          );
         }).join("");
 
         var matrixRows = [];
@@ -1105,7 +1145,9 @@ permalink: /daka/
             chips = '<span class="period-chip period-chip--ok">全部达标</span>';
           } else {
             chips = fails.map(function (p) {
-              var cls = "period-chip" + (len === 5 ? " period-chip--critical" : "");
+              var cls = "period-chip";
+              if (len === 5) cls += " period-chip--critical";
+              else if (len === 4) cls += " period-chip--warn";
               return '<span class="' + cls + '">' + formatGlobalWeekRange(p.start, p.end, weeks) + '</span>';
             }).join("");
           }
@@ -1126,7 +1168,7 @@ permalink: /daka/
             '</div>' +
           '</div>' +
           alertHtml +
-          '<div><div style="font-size:11px;color:var(--ink-faint);margin-bottom:4px">周次时间轴（红框越深 = 未达标周期越长，粗红框 = 5周）</div>' +
+          '<div><div style="font-size:11px;color:var(--ink-faint);margin-bottom:6px">周次时间轴：格内为日期范围；底部下划线表示未达标周期（<strong>双线=5周</strong>，<strong>单粗线=4周</strong>，渐浅=更短周期）</div>' +
           '<div class="timeline-wrap"><div class="timeline">' + timeline + '</div></div></div>' +
           '<div class="period-matrix">' + matrixRows.join("") + '</div>';
       }
