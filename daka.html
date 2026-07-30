@@ -328,6 +328,51 @@ permalink: /daka/
       font-weight: 400;
     }
     .card__nav { display: flex; gap: 4px; }
+    .month-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      padding: 3px;
+      border-radius: 999px;
+      background: var(--paper);
+      border: 1px solid var(--line-strong);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    }
+    .month-nav__btn {
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 1.15rem;
+      line-height: 1;
+      color: var(--ink-soft);
+      background: transparent;
+      transition: background 0.12s, color 0.12s, transform 0.12s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .month-nav__btn:hover {
+      background: var(--surface);
+      color: var(--accent);
+    }
+    .month-nav__btn:active { transform: scale(0.94); }
+    .month-nav__btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+    .month-nav__label {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      padding: 0 12px;
+      min-width: 7.5rem;
+      text-align: center;
+      white-space: nowrap;
+    }
     .card__body { padding: 12px 14px 14px; }
 
     .stat-row {
@@ -459,18 +504,34 @@ permalink: /daka/
       margin-bottom: 0;
       border-bottom: 1px solid var(--line);
     }
+    .period-stack {
+      margin-top: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: var(--paper);
+    }
     .period-matrix--strip {
       display: grid;
-      gap: 6px;
-      margin-top: 10px;
+      gap: 0;
+      margin-top: 0;
     }
     .period-matrix--strip .period-matrix__row {
       grid-template-columns: 4.2rem 1fr;
       align-items: center;
-      padding: 6px 8px;
-      border-radius: var(--radius-sm);
-      background: var(--paper);
-      border: 1px solid var(--line);
+      padding: 8px 10px;
+      border-radius: 0;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--line);
+    }
+    .period-matrix--strip .period-matrix__row:last-child {
+      border-bottom: none;
+    }
+    .period-week-block {
+      padding: 10px;
+      border-top: 1px solid var(--line);
+      background: var(--surface);
     }
     .month-layer {
       position: relative;
@@ -478,15 +539,6 @@ permalink: /daka/
       padding: 14px 0;
       min-width: 0;
     }
-    .week-layer {
-      position: relative;
-      z-index: 1;
-      padding: 0 0 14px;
-      border-top: 1px dashed var(--line);
-      margin-top: 4px;
-      min-width: 0;
-    }
-    .week-layer:not([hidden]) { padding-top: 14px; }
     .month-strip {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -535,9 +587,10 @@ permalink: /daka/
     .month-strip__pct.is-fail { color: var(--fail); }
     .week-panel__title {
       margin: 0 0 8px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
-      color: var(--ink-soft);
+      color: var(--ink-faint);
+      letter-spacing: 0.02em;
     }
     .week-panel {
       display: flex;
@@ -887,7 +940,7 @@ permalink: /daka/
     </header>
 
     <div class="guide">
-      <strong>怎么用：</strong>点日历补打卡。上方为<strong>周期达标</strong>（1–5周）与<strong>三月概况</strong>（常显）；日历在前；需要时可打开<strong>周详情</strong>查看每周。
+      <strong>怎么用：</strong>点日历补打卡。上方<strong>周期达标 + 每周达标率</strong>连在一起；下方日历黑色=中月、灰色=前/后月。
     </div>
 
     <div class="quick-bar">
@@ -907,7 +960,6 @@ permalink: /daka/
         <div class="month-layer" id="monthLayer">
           <div class="month-grid" id="monthGrid"></div>
         </div>
-        <div class="week-layer" id="weekLayer" hidden></div>
         <div class="legend legend--inset" id="legend"></div>
       </div>
     </article>
@@ -963,7 +1015,6 @@ permalink: /daka/
         selectedKey: null,
         pendingAction: null,
         tripleView: true,
-        showWeekDetail: false,
         dashboardMode: "full",
         anchorYear: today.getFullYear(),
         anchorMonth: today.getMonth() + 1,
@@ -1394,7 +1445,7 @@ permalink: /daka/
         }).join("");
 
         return (
-          '<h3 class="week-panel__title">周详情 · 每周达标率</h3>' +
+          '<h3 class="week-panel__title">每周达标率</h3>' +
           '<div class="week-panel">' +
             '<div class="week-panel__list">' + lines + "</div>" +
             '<div class="week-panel__rail-wrap">' +
@@ -1437,9 +1488,6 @@ permalink: /daka/
           }
         }
 
-        var weekBtnCls = state.showWeekDetail ? " is-on" : "";
-        var weekBtnLabel = state.showWeekDetail ? "隐藏周详情" : "显示周详情";
-
         return (
           '<div class="period-section">' +
             '<div class="period-dashboard">' +
@@ -1448,25 +1496,16 @@ permalink: /daka/
                 '<div class="mode-toggle">' +
                   '<button type="button" class="btn btn--ghost btn--sm' + (state.dashboardMode === "full" ? " is-on" : "") + '" data-dashboard-mode="full">半天按一天</button>' +
                   '<button type="button" class="btn btn--ghost btn--sm' + (state.dashboardMode === "half" ? " is-on" : "") + '" data-dashboard-mode="half">半天按半天</button>' +
-                  '<button type="button" class="btn btn--ghost btn--sm' + weekBtnCls + '" id="btnWeekDetail">' + weekBtnLabel + "</button>" +
                 "</div>" +
               "</div>" +
               alertHtml +
-              buildPeriodMatrixHtml(results, weeks) +
+              '<div class="period-stack">' +
+                buildPeriodMatrixHtml(results, weeks) +
+                '<div class="period-week-block">' + buildWeekPanelHtml() + "</div>" +
+              "</div>" +
             "</div>" +
           "</div>"
         );
-      }
-
-      function renderWeekLayer() {
-        var el = document.getElementById("weekLayer");
-        if (!state.tripleView || !state.showWeekDetail) {
-          el.hidden = true;
-          el.innerHTML = "";
-          return;
-        }
-        el.hidden = false;
-        el.innerHTML = buildWeekPanelHtml();
       }
 
       function renderMainPanelHead() {
@@ -1476,11 +1515,11 @@ permalink: /daka/
           ? "三个月连续 · " + formatMonth(prev.year, prev.month) + " – " + formatMonth(next.year, next.month)
           : "打卡日历";
         var navHtml = state.tripleView ? (
-          '<div class="card__nav">' +
-            '<button type="button" class="btn btn--ghost btn--sm" data-anchor="prev" aria-label="往前一月">‹</button>' +
-            '<span class="view-bar__label">' + formatMonth(state.anchorYear, state.anchorMonth) + '</span>' +
-            '<button type="button" class="btn btn--ghost btn--sm" data-anchor="next" aria-label="往后一月">›</button>' +
-          '</div>'
+          '<nav class="month-nav" aria-label="切换中月">' +
+            '<button type="button" class="month-nav__btn" data-anchor="prev" aria-label="往前一月">‹</button>' +
+            '<span class="month-nav__label">' + formatMonth(state.anchorYear, state.anchorMonth) + "</span>" +
+            '<button type="button" class="month-nav__btn" data-anchor="next" aria-label="往后一月">›</button>' +
+          "</nav>"
         ) : "";
         document.getElementById("mainPanelHead").innerHTML =
           '<h2 class="card__title">' + title + '</h2>' +
@@ -1917,7 +1956,6 @@ permalink: /daka/
         renderMainPanelHead();
         document.getElementById("periodSection").innerHTML = buildPeriodSectionHtml();
         renderMonths();
-        renderWeekLayer();
         renderLegend();
       }
 
@@ -1951,13 +1989,6 @@ permalink: /daka/
 
         if (e.target.id === "btnTripleView") {
           state.tripleView = !state.tripleView;
-          if (!state.tripleView) state.showWeekDetail = false;
-          render();
-          return;
-        }
-
-        if (e.target.id === "btnWeekDetail") {
-          state.showWeekDetail = !state.showWeekDetail;
           render();
           return;
         }
@@ -1973,7 +2004,6 @@ permalink: /daka/
           state.dashboardMode = modeBtn.getAttribute("data-dashboard-mode");
           document.getElementById("periodSection").innerHTML = buildPeriodSectionHtml();
           renderMonths();
-          renderWeekLayer();
           return;
         }
 
