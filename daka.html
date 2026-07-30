@@ -224,12 +224,74 @@ permalink: /daka/
       opacity: 0.75;
     }
 
+    .week-block {
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--line);
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+    .week-block__title {
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+    .week-rows { display: grid; gap: 4px; margin-bottom: 8px; }
+    .week-row {
+      display: grid;
+      grid-template-columns: 3.2rem 1fr auto;
+      gap: 6px;
+      align-items: center;
+      font-size: 11px;
+      color: var(--ink-soft);
+    }
+    .week-row__label {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .week-row__bar {
+      height: 5px;
+      border-radius: 999px;
+      background: var(--paper-deep);
+      overflow: hidden;
+    }
+    .week-row__fill {
+      height: 100%;
+      border-radius: inherit;
+      background: var(--accent);
+    }
+    .week-row__fill.is-fail { background: var(--fail); }
+    .week-row__fill.is-pass { background: var(--pass); }
+    .week-streak {
+      padding-top: 8px;
+      border-top: 1px dashed var(--line);
+      color: var(--ink-soft);
+      line-height: 1.5;
+    }
+    .week-streak strong { color: var(--fail); font-weight: 600; }
+    .week-streak--ok { color: var(--pass); }
+    .week-streak--ok strong { color: var(--pass); }
+
     .cal {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: 2.4rem repeat(7, 1fr);
       gap: 4px;
       margin-top: 10px;
     }
+    .cal__wk {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--ink-faint);
+      line-height: 1.15;
+      text-align: center;
+      padding: 0 2px;
+    }
+    .cal__wk--head { visibility: hidden; }
     .cal__wd {
       text-align: center;
       font-size: 11px;
@@ -581,8 +643,126 @@ permalink: /daka/
           checkHalf: checkHalf,
           checkedDays: checkedDays,
           ratioFull: workDays > 0 ? checkFull / workDays : 0,
-          ratioHalf: workDays > 0 ? checkHalf / workDays : 0
+          ratioHalf: workDays > 0 ? checkHalf / workDays : 0,
+          weeks: buildMonthWeeks(year, month)
         };
+      }
+
+      /** Calendar rows in month (Sun–Sat), each with week number and day list. */
+      function buildMonthWeeks(year, month) {
+        var daysInMonth = new Date(year, month, 0).getDate();
+        var firstWd = new Date(year, month - 1, 1).getDay();
+        var weeks = [];
+        var weekNum = 1;
+        var day = 1;
+
+        while (day <= daysInMonth) {
+          var row = [];
+          if (weeks.length === 0) {
+            for (var pad = 0; pad < firstWd; pad++) row.push(null);
+          }
+          while (row.length < 7 && day <= daysInMonth) {
+            row.push(day++);
+          }
+          while (row.length < 7) row.push(null);
+          weeks.push({ num: weekNum++, days: row });
+        }
+        return weeks;
+      }
+
+      function weekStatsForRow(year, month, rowDays, halfAsFull) {
+        var work = 0;
+        var check = 0;
+        rowDays.forEach(function (d) {
+          if (!d) return;
+          var key = dateKey(year, month, d);
+          work += workDayWeight(key);
+          check += checkinWeight(key, halfAsFull);
+        });
+        return {
+          workDays: work,
+          checkin: check,
+          ratio: work > 0 ? check / work : null
+        };
+      }
+
+      function findFailingStreaks(weekResults) {
+        var streaks = [];
+        var i = 0;
+        while (i < weekResults.length) {
+          var w = weekResults[i];
+          if (!w.hasWork || w.ratio >= THRESHOLD) {
+            i++;
+            continue;
+          }
+          var start = w.num;
+          var len = 1;
+          i++;
+          while (i < weekResults.length) {
+            var next = weekResults[i];
+            if (!next.hasWork || next.ratio >= THRESHOLD) break;
+            len++;
+            i++;
+          }
+          streaks.push({ start: start, end: start + len - 1, len: len });
+        }
+        return streaks;
+      }
+
+      function formatStreaks(streaks) {
+        if (!streaks.length) return null;
+        return streaks.map(function (s) {
+          if (s.len === 1) return "第" + s.start + "周";
+          return "第" + s.start + "–" + s.end + "周（连续" + s.len + "周）";
+        }).join("；");
+      }
+
+      function weekReportHtml(weeks, year, month, halfAsFull, modeLabel) {
+        var results = weeks.map(function (wk) {
+          var st = weekStatsForRow(year, month, wk.days, halfAsFull);
+          return {
+            num: wk.num,
+            workDays: st.workDays,
+            checkin: st.checkin,
+            ratio: st.ratio,
+            hasWork: st.workDays > 0
+          };
+        });
+
+        var rows = results.map(function (w) {
+          if (!w.hasWork) {
+            return (
+              '<div class="week-row">' +
+                '<span class="week-row__label">第' + w.num + '周</span>' +
+                '<span style="grid-column:span 2;color:var(--ink-faint)">无工作日</span>' +
+              '</div>'
+            );
+          }
+          var pct = Math.round(w.ratio * 1000) / 10;
+          var pass = w.ratio >= THRESHOLD;
+          return (
+            '<div class="week-row">' +
+              '<span class="week-row__label">第' + w.num + '周</span>' +
+              '<div class="week-row__bar"><div class="week-row__fill ' + (pass ? "is-pass" : "is-fail") + '" style="width:' + Math.min(100, pct) + '%"></div></div>' +
+              '<span class="badge ' + (pass ? "badge--pass" : "badge--fail") + '">' + pct + '%</span>' +
+            '</div>'
+          );
+        }).join("");
+
+        var streaks = findFailingStreaks(results);
+        var streakText = formatStreaks(streaks);
+        var streakCls = streakText ? "week-streak" : "week-streak week-streak--ok";
+        var streakContent = streakText
+          ? '<strong>未达 40%：</strong>' + streakText
+          : "<strong>全部达标</strong>（各周均 ≥40%）";
+
+        return (
+          '<div class="week-block">' +
+            '<div class="week-block__title">周达标 · ' + modeLabel + '</div>' +
+            '<div class="week-rows">' + rows + '</div>' +
+            '<div class="' + streakCls + '">' + streakContent + '</div>' +
+          '</div>'
+        );
       }
 
       function formatMonth(y, m) { return y + "年" + m + "月"; }
@@ -637,24 +817,29 @@ permalink: /daka/
         );
       }
 
-      function buildCalendarHtml(year, month) {
-        var days = new Date(year, month, 0).getDate();
-        var firstWd = new Date(year, month - 1, 1).getDay();
+      function buildCalendarHtml(year, month, weeks) {
         var todayKey = dateKey(today.getFullYear(), today.getMonth() + 1, today.getDate());
         var html = '<div class="cal" role="grid">';
+        html += '<div class="cal__wk cal__wk--head"></div>';
         WEEKDAYS.forEach(function (w) {
           html += '<div class="cal__wd" role="columnheader">' + w + '</div>';
         });
-        for (var i = 0; i < firstWd; i++) {
-          html += '<button type="button" class="cal__cell" disabled></button>';
-        }
-        for (var d = 1; d <= days; d++) {
-          var key = dateKey(year, month, d);
-          var cls = ["cal__cell", cellClass(key)];
-          if (key === todayKey) cls.push("is-today");
-          if (key === state.selectedKey) cls.push("is-selected");
-          html += '<button type="button" class="' + cls.join(" ") + '" data-key="' + key + '" aria-label="' + formatDateLabel(key) + '"><span class="cal__cell__num">' + d + '</span></button>';
-        }
+
+        weeks.forEach(function (wk) {
+          html += '<div class="cal__wk">第' + wk.num + '周</div>';
+          wk.days.forEach(function (d) {
+            if (!d) {
+              html += '<button type="button" class="cal__cell" disabled></button>';
+              return;
+            }
+            var key = dateKey(year, month, d);
+            var cls = ["cal__cell", cellClass(key)];
+            if (key === todayKey) cls.push("is-today");
+            if (key === state.selectedKey) cls.push("is-selected");
+            html += '<button type="button" class="' + cls.join(" ") + '" data-key="' + key + '" aria-label="' + formatDateLabel(key) + '"><span class="cal__cell__num">' + d + '</span></button>';
+          });
+        });
+
         html += '</div>';
         return html;
       }
@@ -680,7 +865,9 @@ permalink: /daka/
                 '</div>' +
                 ratioHtml("半天按一天算", s.ratioFull, s.checkFull, s.workDays) +
                 ratioHtml("半天按半天算", s.ratioHalf, s.checkHalf, s.workDays) +
-                buildCalendarHtml(slot.year, slot.month) +
+                weekReportHtml(s.weeks, slot.year, slot.month, true, "半天按一天算") +
+                weekReportHtml(s.weeks, slot.year, slot.month, false, "半天按半天算") +
+                buildCalendarHtml(slot.year, slot.month, s.weeks) +
               '</div>' +
             '</article>'
           );
