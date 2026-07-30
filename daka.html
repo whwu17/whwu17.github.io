@@ -638,17 +638,33 @@ permalink: /daka/
       color: var(--ink-faint);
       letter-spacing: 0.02em;
     }
-    .week-panel {
-      display: flex;
-      gap: 10px;
+    .week-sync {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(92px, 118px);
+      grid-template-rows: repeat(var(--week-count), auto);
+      gap: 4px 10px;
       align-items: stretch;
       min-width: 0;
     }
-    .week-panel__list {
-      flex: 1;
-      min-width: 0;
+    .week-sync__list {
+      grid-column: 1;
+      grid-row: 1 / span var(--week-count);
       display: grid;
+      grid-template-rows: subgrid;
       gap: 4px;
+      min-width: 0;
+    }
+    .week-sync__rail {
+      grid-column: 2;
+      grid-row: 1 / span var(--week-count);
+      display: grid;
+      grid-template-columns: repeat(var(--bracket-cols, 1), minmax(0, 1fr));
+      grid-template-rows: subgrid;
+      gap: 0 4px;
+      padding: 2px 4px;
+      border-radius: 6px;
+      background: var(--paper);
+      border: 1px solid var(--line);
     }
     .week-line {
       display: grid;
@@ -661,6 +677,16 @@ permalink: /daka/
       border: 1px solid var(--line);
       font-size: 11px;
     }
+    .week-line--in-span {
+      border-left-width: 3px;
+      border-left-style: solid;
+      padding-left: 6px;
+    }
+    .week-line--in-span-len-5 { border-left-color: #dc2626; background: rgba(220, 38, 38, 0.06); }
+    .week-line--in-span-len-4 { border-left-color: #ea580c; background: rgba(234, 88, 12, 0.06); }
+    .week-line--in-span-len-3 { border-left-color: #f59e0b; background: rgba(245, 158, 11, 0.06); }
+    .week-line--in-span-len-2 { border-left-color: #fb923c; background: rgba(251, 146, 60, 0.06); }
+    .week-line--in-span-len-1 { border-left-color: #fca5a5; background: rgba(252, 165, 165, 0.08); }
     .week-line__dates {
       font-family: var(--font-mono);
       font-size: 10px;
@@ -691,44 +717,171 @@ permalink: /daka/
       font-weight: 600;
       text-align: right;
     }
-    .week-panel__rail-wrap {
-      flex: 0 0 28px;
+    .span-bracket {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
-      padding-top: 2px;
-    }
-    .week-panel__rail-label {
-      font-size: 9px;
-      font-weight: 600;
-      color: var(--ink-faint);
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
-      letter-spacing: 0.05em;
-    }
-    .week-panel__rail {
+      min-height: 0;
       position: relative;
-      flex: 1;
-      width: 100%;
-      min-height: 80px;
+      padding: 1px 0;
+    }
+    .span-bracket__dot {
+      flex: 0 0 auto;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 2px solid var(--surface);
+      box-shadow: 0 0 0 1px currentColor;
+      position: relative;
+      z-index: 2;
+    }
+    .span-bracket__dot-label {
+      position: absolute;
+      left: calc(100% + 3px);
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--font-mono);
+      font-size: 8px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .span-bracket__dot--end .span-bracket__dot-label {
+      left: auto;
+      right: calc(100% + 3px);
+    }
+    .span-bracket__stem {
+      flex: 1 1 auto;
+      width: 2px;
+      min-height: 4px;
+      border-radius: 999px;
+      background: currentColor;
+      opacity: 0.85;
+    }
+    .span-bracket__mid {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+      padding: 2px 4px;
+      border-radius: 4px;
+      background: var(--surface);
+      border: 1px solid currentColor;
+      box-shadow: 0 1px 3px rgba(26, 35, 50, 0.08);
+      max-width: calc(100% + 8px);
+      text-align: center;
+      line-height: 1.15;
+    }
+    .span-bracket__range {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      font-weight: 600;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+    .span-bracket__len {
+      font-size: 8px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      white-space: nowrap;
+    }
+    .span-bracket--len-5 { color: #dc2626; }
+    .span-bracket--len-4 { color: #ea580c; }
+    .span-bracket--len-3 { color: #f59e0b; }
+    .span-bracket--len-2 { color: #fb923c; }
+    .span-bracket--len-1 { color: #e11d48; }
+    .span-bracket--len-5 .span-bracket__dot { background: #dc2626; }
+    .span-bracket--len-4 .span-bracket__dot { background: #ea580c; }
+    .span-bracket--len-3 .span-bracket__dot { background: #f59e0b; }
+    .span-bracket--len-2 .span-bracket__dot { background: #fb923c; }
+    .span-bracket--len-1 .span-bracket__dot { background: #fca5a5; }
+    .week-sync__rail-empty {
+      grid-column: 2;
+      grid-row: 1 / span var(--week-count);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 4px;
       border-radius: 6px;
       background: var(--paper);
       border: 1px solid var(--line);
+      font-size: 10px;
+      color: var(--ink-faint);
+      text-align: center;
+      line-height: 1.35;
     }
-    .week-rail-vline {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 5px;
-      border-radius: 999px;
-      min-height: 4px;
+    .week-span-list {
+      display: none;
+      gap: 6px;
+      margin-top: 8px;
     }
-    .week-rail-vline--len-5 { background: #dc2626; width: 6px; }
-    .week-rail-vline--len-4 { background: #ea580c; }
-    .week-rail-vline--len-3 { background: #f59e0b; width: 4px; }
-    .week-rail-vline--len-2 { background: #fb923c; width: 3px; }
-    .week-rail-vline--len-1 { background: #fca5a5; width: 3px; }
+    .week-span-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 4px 8px;
+      align-items: center;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      font-size: 11px;
+    }
+    .week-span-card__badge {
+      grid-row: span 2;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 6px;
+      border-radius: 4px;
+      color: #fff;
+      text-align: center;
+      min-width: 2.4rem;
+    }
+    .week-span-card--len-5 .week-span-card__badge { background: #dc2626; }
+    .week-span-card--len-4 .week-span-card__badge { background: #ea580c; }
+    .week-span-card--len-3 .week-span-card__badge { background: #f59e0b; }
+    .week-span-card--len-2 .week-span-card__badge { background: #fb923c; }
+    .week-span-card--len-1 .week-span-card__badge { background: #e11d48; }
+    .week-span-card__range {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .week-span-card__detail {
+      font-size: 10px;
+      color: var(--ink-soft);
+    }
+    @media (max-width: 520px) {
+      .week-sync {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+      }
+      .week-sync__list {
+        grid-column: 1;
+        grid-row: auto;
+        display: grid;
+        grid-template-rows: none;
+        gap: 4px;
+      }
+      .week-sync__rail {
+        display: none;
+      }
+      .week-sync__rail-empty {
+        grid-column: 1;
+        grid-row: auto;
+        min-height: auto;
+        padding: 10px;
+      }
+      .week-span-list {
+        display: grid;
+      }
+    }
     .month-pane {
       padding: 14px 0;
       border-bottom: 1px solid var(--line);
@@ -1448,6 +1601,42 @@ permalink: /daka/
         );
       }
 
+      function formatWeekEndpoint(cells, which) {
+        var d = parseKey(cells[which === "start" ? 0 : 6].key);
+        return (d.getMonth() + 1) + "/" + d.getDate();
+      }
+
+      function buildWeekSpanMap(spans, n) {
+        var map = new Array(n);
+        for (var i = 0; i < n; i++) map[i] = null;
+        spans.forEach(function (p) {
+          for (var w = p.start; w <= p.end; w++) {
+            if (!map[w] || map[w].len < p.len) map[w] = { len: p.len };
+          }
+        });
+        return map;
+      }
+
+      function buildSpanBracketHtml(p, weeks) {
+        var startDate = formatWeekEndpoint(weeks[p.start].cells, "start");
+        var endDate = formatWeekEndpoint(weeks[p.end].cells, "end");
+        var range = startDate + "→" + endDate;
+        var rowStart = p.start + 1;
+        var rowEnd = p.end + 2;
+        var col = (p.col || 0) + 1;
+        return (
+          '<div class="span-bracket span-bracket--len-' + p.len + '" style="grid-row:' + rowStart + "/" + rowEnd + ";grid-column:" + col + '" title="' + p.len + "周未达标：" + formatPeriodDateRange(p.start, p.end, weeks) + '">' +
+            '<span class="span-bracket__dot span-bracket__dot--start"><span class="span-bracket__dot-label">' + startDate + "</span></span>" +
+            '<span class="span-bracket__stem" aria-hidden="true"></span>' +
+            '<span class="span-bracket__dot span-bracket__dot--end"><span class="span-bracket__dot-label">' + endDate + "</span></span>" +
+            '<div class="span-bracket__mid">' +
+              '<span class="span-bracket__range">' + range + "</span>" +
+              '<span class="span-bracket__len">' + p.len + "周未达标</span>" +
+            "</div>" +
+          "</div>"
+        );
+      }
+
       function buildWeekPanelHtml() {
         var data = getTripleDashboardData();
         var weeks = data.weeks;
@@ -1456,14 +1645,17 @@ permalink: /daka/
         var spans = collectFailingSpans(results).map(function (p) {
           return { start: p.start, end: p.end, len: p.len };
         });
-        var colCount = spans.length ? packSpanCols(spans) : 1;
+        var colCount = spans.length ? packSpanCols(spans) : 0;
+        var spanMap = buildWeekSpanMap(spans, n);
 
         var lines = weeks.map(function (wk, i) {
           var r = results[i];
           var dates = formatWeekShortDates(wk.cells);
+          var spanCls = "";
+          if (spanMap[i]) spanCls = " week-line--in-span week-line--in-span-len-" + spanMap[i].len;
           if (!r.hasWork) {
             return (
-              '<div class="week-line">' +
+              '<div class="week-line' + spanCls + '">' +
                 '<span class="week-line__dates">' + dates + "</span>" +
                 '<span style="color:var(--ink-faint);font-size:10px">无工作日</span>' +
                 '<span class="week-line__pct">—</span>' +
@@ -1473,7 +1665,7 @@ permalink: /daka/
           var pct = Math.round(r.ratio * 1000) / 10;
           var pass = r.ratio >= THRESHOLD;
           return (
-            '<div class="week-line">' +
+            '<div class="week-line' + spanCls + '">' +
               '<span class="week-line__dates">' + dates + "</span>" +
               '<div class="week-line__bar"><div class="week-line__fill ' + (pass ? "is-pass" : "is-fail") + '" style="width:' + Math.min(100, pct) + '%"></div><div class="week-line__mark"></div></div>' +
               '<span class="week-line__pct">' + pct + "%</span>" +
@@ -1481,26 +1673,39 @@ permalink: /daka/
           );
         }).join("");
 
-        var rowStep = 100 / n;
-        var vlines = spans.map(function (p) {
-          var top = p.start * rowStep;
-          var height = (p.end - p.start + 1) * rowStep;
-          var left = colCount > 1 ? ((p.col + 0.5) / colCount) * 100 : 50;
-          var range = formatPeriodDateRange(p.start, p.end, weeks);
-          return (
-            '<div class="week-rail-vline week-rail-vline--len-' + p.len + '" style="top:' + top + "%;height:" + height + "%;left:" + left + '%" title="' + p.len + "周未达标：" + range + '"></div>'
-          );
-        }).join("");
+        var railHtml;
+        var spanListHtml = "";
+        if (!spans.length) {
+          railHtml = '<div class="week-sync__rail-empty">全部周期达标</div>';
+        } else {
+          railHtml =
+            '<div class="week-sync__rail" style="--bracket-cols:' + colCount + '">' +
+              spans.map(function (p) { return buildSpanBracketHtml(p, weeks); }).join("") +
+            "</div>";
+          spanListHtml =
+            '<div class="week-span-list">' +
+              spans.map(function (p) {
+                var startDate = formatWeekEndpoint(weeks[p.start].cells, "start");
+                var endDate = formatWeekEndpoint(weeks[p.end].cells, "end");
+                var fullRange = formatPeriodDateRange(p.start, p.end, weeks);
+                return (
+                  '<div class="week-span-card week-span-card--len-' + p.len + '">' +
+                    '<span class="week-span-card__badge">' + p.len + "周</span>" +
+                    '<span class="week-span-card__range">' + startDate + " → " + endDate + "</span>" +
+                    '<span class="week-span-card__detail">未达标 · ' + fullRange + "</span>" +
+                  "</div>"
+                );
+              }).join("") +
+            "</div>";
+        }
 
         return (
-          '<h3 class="week-panel__title">每周达标率</h3>' +
-          '<div class="week-panel">' +
-            '<div class="week-panel__list">' + lines + "</div>" +
-            '<div class="week-panel__rail-wrap">' +
-              '<span class="week-panel__rail-label">未达标周期</span>' +
-              '<div class="week-panel__rail">' + vlines + "</div>" +
-            "</div>" +
-          "</div>"
+          '<h3 class="week-panel__title">每周达标率 · 右侧为未达标起止周</h3>' +
+          '<div class="week-sync" style="--week-count:' + n + '">' +
+            '<div class="week-sync__list">' + lines + "</div>" +
+            railHtml +
+          "</div>" +
+          spanListHtml
         );
       }
 
