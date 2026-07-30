@@ -138,6 +138,16 @@ permalink: /daka/
       border-color: var(--leave);
       color: var(--leave);
     }
+    .btn--chip.is-on-checkin {
+      background: var(--ok-soft);
+      border-color: var(--ok);
+      color: var(--ok);
+    }
+    .btn--chip.is-on-half-checkin {
+      background: var(--half-soft);
+      border-color: var(--half);
+      color: var(--half);
+    }
 
     .month-grid {
       display: grid;
@@ -570,7 +580,7 @@ permalink: /daka/
       var CHECKIN_ACTIONS = [
         { id: "checkin-full", label: "全天打卡", hint: "计 1 天" },
         { id: "checkin-half", label: "半天打卡", hint: "特殊情况" },
-        { id: "clear-checkin", label: "清除打卡", hint: "移除记录" }
+        { id: "clear-checkin", label: "清除状态", hint: "移除当日所有标记" }
       ];
 
       var MARK_ACTIONS = [
@@ -815,38 +825,62 @@ permalink: /daka/
         return false;
       }
 
-      function formatPeriodRange(weekResults, start, end) {
-        var f = parseKey(weekResults[start].cells[0].key);
-        var l = parseKey(weekResults[end].cells[6].key);
-        return (f.getMonth() + 1) + "/" + f.getDate() + "–" + (l.getMonth() + 1) + "/" + l.getDate();
+      function clearDayState(key) {
+        delete state.data.checkins[key];
+        var hi = state.data.holidays.indexOf(key);
+        if (hi !== -1) state.data.holidays.splice(hi, 1);
+        delete state.data.onleave[key];
+      }
+
+      function periodWeekNum(idx, firstCoreIdx) {
+        return idx - firstCoreIdx + 1;
+      }
+
+      function formatWeekNum(n) {
+        if (n < 1) return "前" + (1 - n) + "周";
+        return "第" + n + "周";
+      }
+
+      function formatPeriodWeekRange(startIdx, endIdx, firstCoreIdx) {
+        var a = periodWeekNum(startIdx, firstCoreIdx);
+        var b = periodWeekNum(endIdx, firstCoreIdx);
+        if (a === b) return formatWeekNum(a);
+        var left = a < 1 ? formatWeekNum(a).replace("周", "") : ("第" + a);
+        var right = b < 1 ? formatWeekNum(b) : (b + "周");
+        if (a >= 1 && b >= 1) return "第" + a + "–" + b + "周";
+        return left + "–" + right;
       }
 
       function periodReportHtml(year, month, halfAsFull, modeLabel) {
+        var coreWeeks = buildMonthWeeks(year, month);
         var weeks = buildAnalysisWeeks(year, month);
         var results = weekResultsFromWeeks(weeks, halfAsFull);
+        var firstCoreIdx = weeks.findIndex(function (w) {
+          return w.startKey === coreWeeks[0].startKey;
+        });
+        if (firstCoreIdx < 0) firstCoreIdx = 0;
         var lines = [];
 
         for (var len = 1; len <= MAX_PERIOD; len++) {
-          var label = "连续" + len + "周";
           var filtered = findFailingPeriods(results, len).filter(function (p) {
             return periodTouchesMonth(p, results, year, month);
           });
 
           if (!filtered.length) {
-            lines.push('<div class="period-line"><strong>' + label + '：</strong><span class="period-line--ok">全部达标</span></div>');
+            lines.push('<div class="period-line"><strong>' + len + '周周期：</strong><span class="period-line--ok">全部达标</span></div>');
             continue;
           }
 
           var ranges = filtered.map(function (p) {
-            return formatPeriodRange(results, p.start, p.end);
+            return formatPeriodWeekRange(p.start, p.end, firstCoreIdx);
           }).join("；");
-          lines.push('<div class="period-line"><strong>' + label + '未达 40%：</strong>' + ranges + '</div>');
+          lines.push('<div class="period-line"><strong>' + len + '周周期未达 40%：</strong>' + ranges + '</div>');
         }
 
         return (
           '<div class="week-block week-block--period">' +
             '<div class="week-block__title">周期达标 · ' + modeLabel + '</div>' +
-            '<div class="week-block__sub">连续 1–5 个自然周合并计算出勤率，可跨月</div>' +
+            '<div class="week-block__sub">连续 1–5 个自然周合并计算；周次以本月第1周为基准，可跨月（前N周）</div>' +
             '<div class="period-lines">' + lines.join("") + '</div>' +
           '</div>'
         );
@@ -1039,6 +1073,9 @@ permalink: /daka/
       function actionBtnHtml(a, key) {
         var active = state.pendingAction === a.id ? " is-active" : "";
         var on = "";
+        var c = getCheckin(key);
+        if (a.id === "checkin-full" && c === "full") on = " is-on-checkin";
+        if (a.id === "checkin-half" && c === "half") on = " is-on-half-checkin";
         if (a.id === "holiday-toggle" && isHoliday(key)) on = " is-on-holiday";
         if (a.id === "leave-toggle" && isOnLeave(key)) on = " is-on-leave";
         return (
@@ -1062,32 +1099,37 @@ permalink: /daka/
 
       function applyAction(key, action) {
         var date = parseKey(key);
-        if (action === "checkin-full") {
+        if (action === "clear-checkin") {
+          clearDayState(key);
+        } else if (action === "checkin-full") {
+          clearDayState(key);
           state.data.checkins[key] = "full";
         } else if (action === "checkin-half") {
+          clearDayState(key);
           state.data.checkins[key] = "half";
-        } else if (action === "clear-checkin") {
-          delete state.data.checkins[key];
         } else if (action === "holiday-toggle") {
           if (isWeekend(date)) {
             showToast("双休日已默认放假");
             return false;
           }
-          var hi = state.data.holidays.indexOf(key);
-          if (hi === -1) {
-            state.data.holidays.push(key);
-            delete state.data.checkins[key];
-            delete state.data.onleave[key];
+          if (isHoliday(key)) {
+            var hi = state.data.holidays.indexOf(key);
+            if (hi !== -1) state.data.holidays.splice(hi, 1);
           } else {
-            state.data.holidays.splice(hi, 1);
+            clearDayState(key);
+            state.data.holidays.push(key);
           }
         } else if (action === "leave-toggle") {
-          if (isWeekend(date) || isHoliday(key)) {
+          if (isWeekend(date)) {
             showToast("只能在工作日标记请假");
             return false;
           }
-          if (isOnLeave(key)) delete state.data.onleave[key];
-          else state.data.onleave[key] = "half";
+          if (isOnLeave(key)) {
+            delete state.data.onleave[key];
+          } else {
+            clearDayState(key);
+            state.data.onleave[key] = "half";
+          }
         }
         saveData();
         return true;
@@ -1101,7 +1143,7 @@ permalink: /daka/
         var msgs = {
           "checkin-full": "已全天打卡",
           "checkin-half": "已半天打卡",
-          "clear-checkin": "已清除打卡",
+          "clear-checkin": "已清除所有状态",
           "holiday-toggle": isHoliday(state.selectedKey) ? "已标记放假日" : "已取消放假日",
           "leave-toggle": isOnLeave(state.selectedKey) ? "已标记半天请假" : "已取消请假"
         };
@@ -1112,6 +1154,7 @@ permalink: /daka/
 
       function quickCheckin(full) {
         var key = dateKey(today.getFullYear(), today.getMonth() + 1, today.getDate());
+        clearDayState(key);
         state.data.checkins[key] = full ? "full" : "half";
         saveData();
         showToast(full ? "今日全天打卡成功" : "今日半天打卡成功");
