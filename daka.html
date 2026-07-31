@@ -631,279 +631,154 @@ permalink: /daka/
     }
     .month-strip__pct.is-pass { color: var(--pass); }
     .month-strip__pct.is-fail { color: var(--fail); }
-    .week-panel__title {
-      margin: 0 0 6px;
+    .fail-timeline__title {
+      margin: 0 0 4px;
       font-size: 11px;
       font-weight: 600;
       color: var(--ink-faint);
       letter-spacing: 0.02em;
     }
-    .week-panel__intro {
+    .fail-timeline__hint {
       margin: 0 0 10px;
-      padding: 8px 10px;
+      font-size: 10px;
+      color: var(--ink-soft);
+      line-height: 1.4;
+    }
+    .fail-timeline__empty {
+      margin: 0;
+      padding: 14px 12px;
       border-radius: 6px;
-      background: var(--accent-soft);
-      border: 1px solid rgba(42, 111, 151, 0.15);
+      border: 1px dashed var(--line);
+      background: var(--paper);
       font-size: 11px;
-      line-height: 1.5;
-      color: var(--ink-soft);
+      color: var(--pass);
+      text-align: center;
     }
-    .week-panel__intro strong { color: var(--ink); font-weight: 600; }
-    .week-span-summary {
-      margin: 0 0 8px;
-      font-size: 11px;
-      color: var(--ink-soft);
-      line-height: 1.45;
-    }
-    .week-sync {
+    .fail-timeline {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(92px, 118px);
-      grid-template-rows: repeat(var(--week-count), auto);
-      gap: 4px 10px;
+      grid-template-columns: minmax(5.5rem, 6.8rem) minmax(0, 1fr);
+      grid-template-rows: repeat(var(--week-count), 1.5rem);
+      gap: 2px 10px;
       align-items: stretch;
       min-width: 0;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      background: var(--paper);
     }
-    .week-sync__list {
+    .fail-timeline__weeks {
       grid-column: 1;
       grid-row: 1 / span var(--week-count);
       display: grid;
       grid-template-rows: subgrid;
-      gap: 4px;
+      gap: 2px;
       min-width: 0;
     }
-    .week-sync__rail {
+    .fail-timeline__track {
       grid-column: 2;
       grid-row: 1 / span var(--week-count);
       display: grid;
-      grid-template-columns: repeat(var(--bracket-cols, 1), minmax(0, 1fr));
+      grid-template-columns: repeat(var(--band-cols, 1), minmax(0, 1fr));
       grid-template-rows: subgrid;
-      gap: 0 4px;
-      padding: 2px 4px;
-      border-radius: 6px;
-      background: var(--paper);
-      border: 1px solid var(--line);
+      gap: 0 6px;
+      min-width: 0;
+      border-left: 2px solid var(--line);
+      padding-left: 8px;
     }
-    .week-line {
-      display: grid;
-      grid-template-columns: minmax(4rem, 4.8rem) 1fr 2.2rem;
-      gap: 8px;
-      align-items: center;
-      padding: 5px 8px;
-      border-radius: 6px;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      font-size: 11px;
-    }
-    .week-line--in-span {
-      border-left-width: 3px;
-      border-left-style: solid;
-      padding-left: 6px;
-    }
-    .week-line--in-span-len-5 { border-left-color: #dc2626; background: rgba(220, 38, 38, 0.06); }
-    .week-line--in-span-len-4 { border-left-color: #ea580c; background: rgba(234, 88, 12, 0.06); }
-    .week-line--in-span-len-3 { border-left-color: #f59e0b; background: rgba(245, 158, 11, 0.06); }
-    .week-line--in-span-len-2 { border-left-color: #fb923c; background: rgba(251, 146, 60, 0.06); }
-    .week-line--in-span-len-1 { border-left-color: #fca5a5; background: rgba(252, 165, 165, 0.08); }
-    .week-line__dates {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--ink-soft);
-    }
-    .week-line__bar {
-      height: 6px;
-      border-radius: 999px;
-      background: var(--paper-deep);
-      overflow: hidden;
-      position: relative;
-    }
-    .week-line__fill { height: 100%; border-radius: inherit; }
-    .week-line__fill.is-pass { background: var(--pass); }
-    .week-line__fill.is-fail { background: var(--fail); }
-    .week-line__mark {
-      position: absolute;
-      top: -2px; bottom: -2px;
-      left: 40%;
-      width: 2px;
-      background: var(--stamp);
-      opacity: 0.65;
-    }
-    .week-line__pct {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 600;
-      text-align: right;
-    }
-    .span-bracket {
+    .fail-timeline__row {
       display: flex;
-      flex-direction: column;
       align-items: center;
       min-height: 0;
-      position: relative;
-      padding: 1px 0;
-    }
-    .span-bracket__dot {
-      flex: 0 0 auto;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      border: 2px solid var(--surface);
-      box-shadow: 0 0 0 1px currentColor;
-      position: relative;
-      z-index: 2;
-    }
-    .span-bracket__dot-label {
-      position: absolute;
-      left: calc(100% + 3px);
-      top: 50%;
-      transform: translateY(-50%);
       font-family: var(--font-mono);
-      font-size: 8px;
-      font-weight: 600;
+      font-size: 10px;
       color: var(--ink-soft);
       white-space: nowrap;
-      pointer-events: none;
     }
-    .span-bracket__dot--end .span-bracket__dot-label {
-      left: auto;
-      right: calc(100% + 3px);
+    .fail-timeline__row--ok { opacity: 0.28; }
+    .fail-timeline__row--hit {
+      opacity: 1;
+      font-weight: 600;
+      color: var(--ink);
     }
-    .span-bracket__stem {
-      flex: 1 1 auto;
-      width: 2px;
-      min-height: 4px;
+    .fail-timeline__row--len-5 { color: #dc2626; }
+    .fail-timeline__row--len-4 { color: #ea580c; }
+    .fail-timeline__row--len-3 { color: #d97706; }
+    .fail-band {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      min-height: 0;
+      position: relative;
+      margin: 0 2px;
+    }
+    .fail-band__cap {
+      flex: 0 0 auto;
+      height: 3px;
       border-radius: 999px;
       background: currentColor;
-      opacity: 0.85;
     }
-    .span-bracket__mid {
+    .fail-band__line {
+      flex: 1 1 auto;
+      width: 100%;
+      min-height: 4px;
+      border-left: 3px solid currentColor;
+      border-right: 3px solid currentColor;
+      background: rgba(220, 38, 38, 0.08);
+      border-radius: 2px;
+    }
+    .fail-band--len-4 .fail-band__line { background: rgba(234, 88, 12, 0.08); }
+    .fail-band--len-3 .fail-band__line { background: rgba(217, 119, 6, 0.08); }
+    .fail-band--len-2 .fail-band__line { background: rgba(251, 146, 60, 0.08); }
+    .fail-band--len-1 .fail-band__line { background: rgba(225, 29, 72, 0.08); }
+    .fail-band__tag {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      z-index: 3;
+      z-index: 2;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 1px;
-      padding: 2px 4px;
-      border-radius: 4px;
+      gap: 2px;
+      padding: 4px 8px;
+      border-radius: 6px;
       background: var(--surface);
-      border: 1px solid currentColor;
-      box-shadow: 0 1px 3px rgba(26, 35, 50, 0.08);
-      max-width: calc(100% + 8px);
+      border: 1.5px solid currentColor;
+      box-shadow: 0 2px 6px rgba(26, 35, 50, 0.1);
       text-align: center;
-      line-height: 1.15;
+      line-height: 1.2;
+      max-width: calc(100% + 12px);
     }
-    .span-bracket__range {
-      font-family: var(--font-mono);
-      font-size: 8px;
-      font-weight: 600;
-      color: var(--ink);
-      white-space: nowrap;
-    }
-    .span-bracket__len {
-      font-size: 8px;
-      font-weight: 600;
-      color: var(--ink-soft);
-      white-space: nowrap;
-    }
-    .span-bracket--len-5 { color: #dc2626; }
-    .span-bracket--len-4 { color: #ea580c; }
-    .span-bracket--len-3 { color: #f59e0b; }
-    .span-bracket--len-2 { color: #fb923c; }
-    .span-bracket--len-1 { color: #e11d48; }
-    .span-bracket--len-5 .span-bracket__dot { background: #dc2626; }
-    .span-bracket--len-4 .span-bracket__dot { background: #ea580c; }
-    .span-bracket--len-3 .span-bracket__dot { background: #f59e0b; }
-    .span-bracket--len-2 .span-bracket__dot { background: #fb923c; }
-    .span-bracket--len-1 .span-bracket__dot { background: #fca5a5; }
-    .week-sync__rail-empty {
-      grid-column: 2;
-      grid-row: 1 / span var(--week-count);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 8px 4px;
-      border-radius: 6px;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      font-size: 10px;
-      color: var(--ink-faint);
-      text-align: center;
-      line-height: 1.35;
-    }
-    .week-span-list {
-      display: grid;
-      gap: 8px;
-      margin-top: 10px;
-    }
-    .week-span-card {
-      padding: 10px 12px;
-      border-radius: 6px;
-      border: 1px solid var(--line);
-      background: var(--paper);
-      font-size: 11px;
-      line-height: 1.45;
-    }
-    .week-span-card__head {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 4px;
-    }
-    .week-span-card__badge {
-      flex: 0 0 auto;
+    .fail-band__tag strong {
       font-family: var(--font-mono);
       font-size: 10px;
       font-weight: 700;
-      padding: 3px 6px;
-      border-radius: 4px;
-      color: #fff;
-      text-align: center;
+      color: var(--ink);
+      white-space: nowrap;
     }
-    .week-span-card--len-5 .week-span-card__badge { background: #dc2626; }
-    .week-span-card--len-4 .week-span-card__badge { background: #ea580c; }
-    .week-span-card--len-3 .week-span-card__badge { background: #f59e0b; }
-    .week-span-card--len-2 .week-span-card__badge { background: #fb923c; }
-    .week-span-card--len-1 .week-span-card__badge { background: #e11d48; }
-    .week-span-card__title {
+    .fail-band__tag span {
+      font-size: 9px;
       font-weight: 600;
-      color: var(--ink);
-    }
-    .week-span-card__detail {
-      margin: 0 0 4px;
-      font-size: 10px;
       color: var(--ink-soft);
+      white-space: nowrap;
     }
-    .week-span-card__weeks {
-      margin: 0;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--ink);
-      word-break: break-word;
-    }
+    .fail-band--len-5 { color: #dc2626; }
+    .fail-band--len-4 { color: #ea580c; }
+    .fail-band--len-3 { color: #d97706; }
+    .fail-band--len-2 { color: #fb923c; }
+    .fail-band--len-1 { color: #e11d48; }
     @media (max-width: 520px) {
-      .week-sync {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
+      .fail-timeline {
+        grid-template-columns: minmax(4.8rem, 5.5rem) minmax(0, 1fr);
+        gap: 2px 6px;
+        padding: 6px;
       }
-      .week-sync__list {
-        grid-column: 1;
-        grid-row: auto;
-        display: grid;
-        grid-template-rows: none;
-        gap: 4px;
+      .fail-band__tag {
+        padding: 3px 5px;
+        max-width: calc(100% + 4px);
       }
-      .week-sync__rail {
-        display: none;
-      }
-      .week-sync__rail-empty {
-        grid-column: 1;
-        grid-row: auto;
-        min-height: auto;
-        padding: 10px;
-      }
+      .fail-band__tag strong { font-size: 9px; }
+      .fail-band__tag span { font-size: 8px; }
     }
     .month-pane {
       padding: 14px 0;
@@ -1657,22 +1532,6 @@ permalink: /daka/
         return { spans: filtered, displayLen: targetLen };
       }
 
-      function buildSpanCardHtml(p, weeks, results, index) {
-        var stats = periodCombinedStats(results, p.start, p.end);
-        var firstWeek = formatWeekShortDates(weeks[p.start].cells);
-        var weekList = formatPeriodWeekList(p.start, p.end, weeks);
-        return (
-          '<article class="week-span-card week-span-card--len-' + p.len + '">' +
-            '<div class="week-span-card__head">' +
-              '<span class="week-span-card__badge">' + p.len + "周</span>" +
-              '<span class="week-span-card__title">窗口 ' + (index + 1) + "：连续 " + p.len + " 周合计 " + stats.pct + "%（未达 40%）</span>" +
-            "</div>" +
-            '<p class="week-span-card__detail">从「' + firstWeek + "」起连续 " + p.len + " 周，把这 " + p.len + " 周的工作日打卡加在一起算总出勤率。</p>" +
-            '<p class="week-span-card__weeks">含 ' + weekList + "</p>" +
-          "</article>"
-        );
-      }
-
       function buildWeekSpanMap(spans, n) {
         var map = new Array(n);
         for (var i = 0; i < n; i++) map[i] = null;
@@ -1684,26 +1543,20 @@ permalink: /daka/
         return map;
       }
 
-      function formatWeekEndpoint(cells, which) {
-        var d = parseKey(cells[which === "start" ? 0 : 6].key);
-        return (d.getMonth() + 1) + "/" + d.getDate();
-      }
-
-      function buildSpanBracketHtml(p, weeks, results) {
+      function buildFailBandHtml(p, weeks, results) {
         var stats = periodCombinedStats(results, p.start, p.end);
-        var startDate = formatWeekEndpoint(weeks[p.start].cells, "start");
-        var endDate = formatWeekEndpoint(weeks[p.end].cells, "end");
+        var range = formatPeriodDateRange(p.start, p.end, weeks);
         var rowStart = p.start + 1;
         var rowEnd = p.end + 2;
         var col = (p.col || 0) + 1;
         return (
-          '<div class="span-bracket span-bracket--len-' + p.len + '" style="grid-row:' + rowStart + "/" + rowEnd + ";grid-column:" + col + '" title="连续' + p.len + "周合计" + stats.pct + "%：" + formatPeriodDateRange(p.start, p.end, weeks) + '">' +
-            '<span class="span-bracket__dot span-bracket__dot--start"><span class="span-bracket__dot-label">' + startDate + "</span></span>" +
-            '<span class="span-bracket__stem" aria-hidden="true"></span>' +
-            '<span class="span-bracket__dot span-bracket__dot--end"><span class="span-bracket__dot-label">' + endDate + "</span></span>" +
-            '<div class="span-bracket__mid">' +
-              '<span class="span-bracket__range">合计 ' + stats.pct + "%</span>" +
-              '<span class="span-bracket__len">连续' + p.len + "周</span>" +
+          '<div class="fail-band fail-band--len-' + p.len + '" style="grid-row:' + rowStart + "/" + rowEnd + ";grid-column:" + col + '" title="' + range + " · 连续" + p.len + "周合计" + stats.pct + '%">' +
+            '<span class="fail-band__cap fail-band__cap--top" aria-hidden="true"></span>' +
+            '<span class="fail-band__line" aria-hidden="true"></span>' +
+            '<span class="fail-band__cap fail-band__cap--bot" aria-hidden="true"></span>' +
+            '<div class="fail-band__tag">' +
+              "<strong>" + range + "</strong>" +
+              "<span>连续" + p.len + "周 · 合计" + stats.pct + "%</span>" +
             "</div>" +
           "</div>"
         );
@@ -1720,64 +1573,36 @@ permalink: /daka/
         var display = getDisplaySpans(allSpans);
         var spans = display.spans;
         var displayLen = display.displayLen;
-        var colCount = spans.length ? packSpanCols(spans) : 0;
-        var spanMap = buildWeekSpanMap(spans, n);
 
-        var lines = weeks.map(function (wk, i) {
-          var r = results[i];
-          var dates = formatWeekShortDates(wk.cells);
-          var spanCls = "";
-          if (spanMap[i]) spanCls = " week-line--in-span week-line--in-span-len-" + spanMap[i].len;
-          if (!r.hasWork) {
-            return (
-              '<div class="week-line' + spanCls + '">' +
-                '<span class="week-line__dates">' + dates + "</span>" +
-                '<span style="color:var(--ink-faint);font-size:10px">无工作日</span>' +
-                '<span class="week-line__pct">—</span>' +
-              "</div>"
-            );
-          }
-          var pct = Math.round(r.ratio * 1000) / 10;
-          var pass = r.ratio >= THRESHOLD;
-          return (
-            '<div class="week-line' + spanCls + '">' +
-              '<span class="week-line__dates">' + dates + "</span>" +
-              '<div class="week-line__bar"><div class="week-line__fill ' + (pass ? "is-pass" : "is-fail") + '" style="width:' + Math.min(100, pct) + '%"></div><div class="week-line__mark"></div></div>' +
-              '<span class="week-line__pct" title="该周单周出勤率">' + pct + "%</span>" +
-            "</div>"
-          );
-        }).join("");
-
-        var introHtml =
-          '<p class="week-panel__intro"><strong>两种算法：</strong>左侧每行是<strong>单周</strong>出勤（只看这一周）。下方列表是<strong>连续 ' + MAX_PERIOD + " 周加总</strong>：从某一周起往后数 N 周，把工作日打卡合并计算；合计低于 40% 才算未达标。单周刚好 40% 不代表连续多周加总也达标。</p>";
-
-        var railHtml;
-        var spanListHtml = "";
         if (!spans.length) {
-          railHtml = '<div class="week-sync__rail-empty">连续 ' + MAX_PERIOD + " 周窗口全部达标</div>";
-        } else {
-          railHtml =
-            '<div class="week-sync__rail" style="--bracket-cols:' + colCount + '">' +
-              spans.map(function (p) { return buildSpanBracketHtml(p, weeks, results); }).join("") +
-            "</div>";
-          var summaryText = spans.length > 1
-            ? "共 " + spans.length + " 个「连续 " + displayLen + " 周」窗口未达标（每周起算点不同，所以会有多个相似窗口）："
-            : "有 1 个「连续 " + displayLen + " 周」窗口未达标：";
-          spanListHtml =
-            '<p class="week-span-summary">' + summaryText + "</p>" +
-            '<div class="week-span-list">' +
-              spans.map(function (p, idx) { return buildSpanCardHtml(p, weeks, results, idx); }).join("") +
-            "</div>";
+          return (
+            '<h3 class="fail-timeline__title">未达标区间</h3>' +
+            '<p class="fail-timeline__empty">连续 ' + MAX_PERIOD + " 周窗口全部达标</p>"
+          );
         }
 
+        var colCount = packSpanCols(spans);
+        var spanMap = buildWeekSpanMap(spans, n);
+
+        var weekRows = weeks.map(function (wk, i) {
+          var dates = formatWeekShortDates(wk.cells);
+          var cls = "fail-timeline__row";
+          if (spanMap[i]) cls += " fail-timeline__row--hit fail-timeline__row--len-" + spanMap[i].len;
+          else cls += " fail-timeline__row--ok";
+          return '<div class="' + cls + '">' + dates + "</div>";
+        }).join("");
+
+        var bands = spans.map(function (p) {
+          return buildFailBandHtml(p, weeks, results);
+        }).join("");
+
         return (
-          '<h3 class="week-panel__title">每周出勤率</h3>' +
-          introHtml +
-          '<div class="week-sync" style="--week-count:' + n + '">' +
-            '<div class="week-sync__list">' + lines + "</div>" +
-            railHtml +
-          "</div>" +
-          spanListHtml
+          '<h3 class="fail-timeline__title">未达标区间</h3>' +
+          '<p class="fail-timeline__hint">左列为时间轴，右列为未达标区间（连续 ' + displayLen + " 周工作日合计 &lt; 40%）。共 " + spans.length + " 处。</p>" +
+          '<div class="fail-timeline" style="--week-count:' + n + ";--band-cols:" + colCount + '">' +
+            '<div class="fail-timeline__weeks">' + weekRows + "</div>" +
+            '<div class="fail-timeline__track">' + bands + "</div>" +
+          "</div>"
         );
       }
 
