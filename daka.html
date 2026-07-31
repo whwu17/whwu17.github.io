@@ -631,20 +631,21 @@ permalink: /daka/
     }
     .month-strip__pct.is-pass { color: var(--pass); }
     .month-strip__pct.is-fail { color: var(--fail); }
-    .fail-timeline__title {
+    .fail-report__title {
       margin: 0 0 4px;
       font-size: 11px;
       font-weight: 600;
       color: var(--ink-faint);
       letter-spacing: 0.02em;
     }
-    .fail-timeline__hint {
-      margin: 0 0 10px;
+    .fail-report__hint {
+      margin: 0 0 12px;
       font-size: 10px;
       color: var(--ink-soft);
-      line-height: 1.4;
+      line-height: 1.45;
     }
-    .fail-timeline__empty {
+    .fail-report__hint strong { color: var(--ink); font-weight: 600; }
+    .fail-report__empty {
       margin: 0;
       padding: 14px 12px;
       border-radius: 6px;
@@ -654,153 +655,126 @@ permalink: /daka/
       color: var(--pass);
       text-align: center;
     }
-    .fail-timeline {
-      display: grid;
-      grid-template-columns: minmax(5.5rem, 6.8rem) minmax(0, 1fr);
-      grid-template-rows: repeat(var(--week-count), 1.85rem);
-      gap: 2px 10px;
-      align-items: stretch;
-      min-width: 0;
-      padding: 8px;
+    .fail-report__group {
+      margin-bottom: 14px;
+    }
+    .fail-report__group:last-child { margin-bottom: 0; }
+    .fail-report__group-title {
+      margin: 0 0 8px;
+      padding: 6px 10px;
       border-radius: 6px;
-      border: 1px solid var(--line);
-      background: var(--paper);
-    }
-    .fail-timeline__weeks {
-      grid-column: 1;
-      grid-row: 1 / span var(--week-count);
-      display: grid;
-      grid-template-rows: subgrid;
-      gap: 2px;
-      min-width: 0;
-    }
-    .fail-timeline__track {
-      grid-column: 2;
-      grid-row: 1 / span var(--week-count);
-      display: grid;
-      grid-template-columns: repeat(var(--band-cols, 1), minmax(0, 1fr));
-      grid-template-rows: subgrid;
-      gap: 0 6px;
-      min-width: 0;
-      border-left: 2px solid var(--line);
-      padding-left: 8px;
-    }
-    .fail-timeline__row {
+      font-size: 11px;
+      font-weight: 700;
       display: flex;
       align-items: center;
-      min-height: 0;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .fail-report__group--len-5 .fail-report__group-title { background: rgba(220, 38, 38, 0.1); color: #b91c1c; }
+    .fail-report__group--len-4 .fail-report__group-title { background: rgba(234, 88, 12, 0.1); color: #c2410c; }
+    .fail-report__group--len-3 .fail-report__group-title { background: rgba(217, 119, 6, 0.1); color: #b45309; }
+    .fail-report__group--len-2 .fail-report__group-title { background: rgba(251, 146, 60, 0.12); color: #ea580c; }
+    .fail-report__group--len-1 .fail-report__group-title { background: rgba(225, 29, 72, 0.08); color: #be123c; }
+    .fail-report__count {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      opacity: 0.85;
+    }
+    .fail-report__items {
+      display: grid;
+      gap: 8px;
+    }
+    .fail-window {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      overflow: hidden;
+    }
+    .fail-window--len-5 { border-left: 3px solid #dc2626; }
+    .fail-window--len-4 { border-left: 3px solid #ea580c; }
+    .fail-window--len-3 { border-left: 3px solid #d97706; }
+    .fail-window--len-2 { border-left: 3px solid #fb923c; }
+    .fail-window--len-1 { border-left: 3px solid #e11d48; }
+    .fail-window__head {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+      font-size: 11px;
+    }
+    .fail-window__num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      width: 1.4rem;
+      height: 1.4rem;
+      display: grid;
+      place-items: center;
+      border-radius: 4px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      color: var(--ink-soft);
+    }
+    .fail-window__range {
+      color: var(--ink-soft);
+      line-height: 1.35;
+      min-width: 0;
+    }
+    .fail-window__range strong {
+      color: var(--ink);
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+    .fail-window__total {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--fail);
+      white-space: nowrap;
+    }
+    .fail-window__weeks {
+      margin: 0;
+      padding: 6px 10px 8px;
+      list-style: none;
+      display: grid;
+      gap: 3px;
+    }
+    .fail-window__week {
+      display: grid;
+      grid-template-columns: 1.1rem 1fr auto;
+      gap: 6px;
+      align-items: center;
       font-family: var(--font-mono);
       font-size: 10px;
       color: var(--ink-soft);
-      white-space: nowrap;
     }
-    .fail-timeline__row--ok { opacity: 0.28; }
-    .fail-timeline__row--hit {
-      opacity: 1;
-      font-weight: 600;
-      color: var(--ink);
-    }
-    .fail-timeline__row--len-5 { color: #dc2626; }
-    .fail-timeline__row--len-4 { color: #ea580c; }
-    .fail-timeline__row--len-3 { color: #d97706; }
-    .fail-span-col {
-      display: grid;
-      grid-template-rows: subgrid;
-      grid-row: 1 / span var(--week-count);
-      position: relative;
-      min-width: 0;
-      padding: 0 2px;
-    }
-    .fail-span-col__stem {
-      grid-column: 1;
-      width: 2px;
-      justify-self: start;
-      margin-left: 10px;
-      align-self: stretch;
-      border-radius: 999px;
-      background: currentColor;
-      opacity: 0.55;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .fail-slot {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      min-height: 0;
-      z-index: 1;
-    }
-    .fail-slot--empty { visibility: hidden; }
-    .fail-slot--active {
-      margin-left: 4px;
-      padding: 2px 6px 2px 18px;
-      border-radius: 5px;
-      border: 1px solid currentColor;
-      background: var(--surface);
-      font-size: 9px;
-      line-height: 1.25;
-      position: relative;
-      flex-wrap: wrap;
-    }
-    .fail-slot--active::before {
-      content: "";
-      position: absolute;
-      left: 7px;
-      top: 50%;
-      width: 6px;
-      height: 6px;
-      margin-top: -3px;
-      border-radius: 50%;
-      background: currentColor;
-      box-shadow: 0 0 0 2px var(--surface);
-    }
-    .fail-slot__idx {
+    .fail-window__mark {
       font-weight: 700;
-      white-space: nowrap;
-      color: var(--ink);
+      color: var(--ink-faint);
+      text-align: center;
     }
-    .fail-slot__date {
-      font-family: var(--font-mono);
-      font-size: 8px;
-      color: var(--ink-soft);
-      white-space: nowrap;
-      flex: 1;
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .fail-slot__pct {
-      font-family: var(--font-mono);
-      font-size: 9px;
+    .fail-window__week span:nth-child(2) { color: var(--ink); }
+    .fail-window__pct {
       font-weight: 700;
+      text-align: right;
       white-space: nowrap;
     }
-    .fail-slot__pct.is-pass { color: var(--pass); }
-    .fail-slot__pct.is-fail { color: var(--fail); }
-    .fail-slot__total {
-      display: block;
-      width: 100%;
-      margin-top: 1px;
-      padding-top: 2px;
-      border-top: 1px dashed currentColor;
-      font-size: 8px;
-      font-weight: 700;
-      color: var(--ink);
-      white-space: nowrap;
-    }
-    .fail-span-col--len-5 { color: #dc2626; }
-    .fail-span-col--len-4 { color: #ea580c; }
-    .fail-span-col--len-3 { color: #d97706; }
-    .fail-span-col--len-2 { color: #fb923c; }
-    .fail-span-col--len-1 { color: #e11d48; }
+    .fail-window__pct.is-pass { color: var(--pass); }
+    .fail-window__pct.is-fail { color: var(--fail); }
     @media (max-width: 520px) {
-      .fail-timeline {
-        grid-template-columns: minmax(4.8rem, 5.5rem) minmax(0, 1fr);
-        gap: 2px 6px;
-        padding: 6px;
+      .fail-window__head {
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto auto;
       }
-      .fail-slot--active { padding-left: 16px; font-size: 8px; }
-      .fail-slot__date { display: none; }
+      .fail-window__total {
+        grid-column: 2;
+        justify-self: end;
+        font-size: 10px;
+      }
     }
     .month-pane {
       padding: 14px 0;
@@ -1421,41 +1395,105 @@ permalink: /daka/
         return formatPeriodDateRange(startIdx, endIdx, weeks);
       }
 
-      function collectFailingSpans(results) {
-        var spans = [];
-        for (var len = MAX_PERIOD; len >= 1; len--) {
-          findFailingPeriods(results, len).forEach(function (p) {
-            spans.push({ start: p.start, end: p.end, len: len });
-          });
+      function periodCombinedStats(results, start, end) {
+        var work = 0;
+        var check = 0;
+        for (var i = start; i <= end; i++) {
+          work += results[i].workDays;
+          check += results[i].checkin;
         }
-        spans.sort(function (a, b) {
-          if (b.len !== a.len) return b.len - a.len;
-          return a.start - b.start;
-        });
-        return spans;
+        var ratio = work > 0 ? check / work : 0;
+        return {
+          work: work,
+          check: check,
+          ratio: ratio,
+          pct: Math.round(ratio * 1000) / 10
+        };
       }
 
-      function packSpanCols(spans) {
-        var cols = [];
-        spans.forEach(function (p) {
-          var placed = false;
-          for (var c = 0; c < cols.length; c++) {
-            var clash = cols[c].some(function (iv) {
-              return !(p.end < iv.start || p.start > iv.end);
-            });
-            if (!clash) {
-              cols[c].push({ start: p.start, end: p.end });
-              p.col = c;
-              placed = true;
-              break;
-            }
-          }
-          if (!placed) {
-            p.col = cols.length;
-            cols.push([{ start: p.start, end: p.end }]);
-          }
-        });
-        return cols.length;
+      function formatWeekShortDates(cells) {
+        var f = parseKey(cells[0].key);
+        var l = parseKey(cells[6].key);
+        return (f.getMonth() + 1) + "/" + f.getDate() + "–" + (l.getMonth() + 1) + "/" + l.getDate();
+      }
+
+      function formatPeriodDay(cells, which) {
+        var d = parseKey(cells[which === "start" ? 0 : 6].key);
+        return (d.getMonth() + 1) + "月" + d.getDate() + "日";
+      }
+
+      function buildFailWindowItemHtml(p, weeks, results, num, len) {
+        var stats = periodCombinedStats(results, p.start, p.end);
+        var startDay = formatPeriodDay(weeks[p.start].cells, "start");
+        var endDay = formatPeriodDay(weeks[p.end].cells, "end");
+        var weekLines = [];
+        var i;
+        for (i = p.start; i <= p.end; i++) {
+          var pos = i - p.start + 1;
+          var r = results[i];
+          var dates = formatWeekShortDates(weeks[i].cells);
+          var pct = r.hasWork ? Math.round(r.ratio * 1000) / 10 : null;
+          var pass = r.hasWork && r.ratio >= THRESHOLD;
+          var mark = pos === 1 ? "起" : pos === len ? "止" : "·";
+          weekLines.push(
+            '<li class="fail-window__week">' +
+              '<span class="fail-window__mark">' + mark + "</span>" +
+              "<span>第" + pos + "周 " + dates + "</span>" +
+              '<span class="fail-window__pct ' + (pass ? "is-pass" : "is-fail") + '">' + (pct != null ? pct + "%" : "—") + "</span>" +
+            "</li>"
+          );
+        }
+        return (
+          '<article class="fail-window fail-window--len-' + len + '">' +
+            '<header class="fail-window__head">' +
+              '<span class="fail-window__num">' + num + "</span>" +
+              '<span class="fail-window__range">从 <strong>' + startDay + "</strong> 起 → 到 <strong>" + endDay + "</strong> 止</span>" +
+              '<span class="fail-window__total">合计 ' + stats.pct + "%</span>" +
+            "</header>" +
+            '<ol class="fail-window__weeks">' + weekLines.join("") + "</ol>" +
+          "</article>"
+        );
+      }
+
+      function buildFailLengthSectionHtml(len, fails, weeks, results) {
+        var items = fails.map(function (p, idx) {
+          return buildFailWindowItemHtml(p, weeks, results, idx + 1, len);
+        }).join("");
+        return (
+          '<section class="fail-report__group fail-report__group--len-' + len + '">' +
+            '<h4 class="fail-report__group-title">连续 ' + len + " 周未达标<span class=\"fail-report__count\">" + fails.length + " 处</span></h4>" +
+            '<div class="fail-report__items">' + items + "</div>" +
+          "</section>"
+        );
+      }
+
+      function buildWeekPanelHtml() {
+        var data = getTripleDashboardData();
+        var weeks = data.weeks;
+        var results = data.results;
+        var sections = [];
+        var anyFail = false;
+        var len;
+
+        for (len = MAX_PERIOD; len >= 1; len--) {
+          var fails = findFailingPeriods(results, len);
+          if (!fails.length) continue;
+          anyFail = true;
+          sections.push(buildFailLengthSectionHtml(len, fails, weeks, results));
+        }
+
+        if (!anyFail) {
+          return (
+            '<h3 class="fail-report__title">未达标明细</h3>' +
+            '<p class="fail-report__empty">连续 1～' + MAX_PERIOD + " 周窗口全部达标</p>"
+          );
+        }
+
+        return (
+          '<h3 class="fail-report__title">未达标明细</h3>' +
+          '<p class="fail-report__hint">按<strong>连续周数</strong>分组，列出全部未达 40% 的窗口。每条写明从哪一天起、到哪一天止，以及区间内每一周的情况。</p>' +
+          sections.join("")
+        );
       }
 
       function getTripleDashboardData() {
@@ -1463,31 +1501,6 @@ permalink: /daka/
         var weeks = buildThreeMonthWeekSequence(state.anchorYear, state.anchorMonth);
         var results = weekResultsFromWeeks(weeks, halfAsFull);
         return { weeks: weeks, results: results, halfAsFull: halfAsFull };
-      }
-
-      function buildPeriodMatrixHtml(results, weeks) {
-        var rows = [];
-        for (var len = MAX_PERIOD; len >= 1; len--) {
-          var fails = findFailingPeriods(results, len);
-          var chips;
-          if (!fails.length) {
-            chips = '<span class="period-chip period-chip--ok">全部达标</span>';
-          } else {
-            chips = fails.map(function (p) {
-              var cls = "period-chip";
-              if (len === 5) cls += " period-chip--critical";
-              else if (len === 4) cls += " period-chip--warn";
-              return '<span class="' + cls + '">' + formatPeriodDateRange(p.start, p.end, weeks) + "</span>";
-            }).join("");
-          }
-          rows.push(
-            '<div class="period-matrix__row">' +
-              '<span class="period-matrix__label">' + len + "周</span>" +
-              '<div class="period-chips">' + chips + "</div>" +
-            "</div>"
-          );
-        }
-        return '<div class="period-matrix period-matrix--strip">' + rows.join("") + "</div>";
       }
 
       function buildMonthStripHtml(anchorY, anchorM) {
@@ -1519,134 +1532,6 @@ permalink: /daka/
             }).join("") +
           "</div>"
         );
-      }
-
-      function periodCombinedStats(results, start, end) {
-        var work = 0;
-        var check = 0;
-        for (var i = start; i <= end; i++) {
-          work += results[i].workDays;
-          check += results[i].checkin;
-        }
-        var ratio = work > 0 ? check / work : 0;
-        return {
-          work: work,
-          check: check,
-          ratio: ratio,
-          pct: Math.round(ratio * 1000) / 10
-        };
-      }
-
-      function getDisplaySpans(allSpans) {
-        if (!allSpans.length) return { spans: [], displayLen: 0 };
-        var targetLen = MAX_PERIOD;
-        var filtered = allSpans.filter(function (p) { return p.len === targetLen; });
-        while (!filtered.length && targetLen > 1) {
-          targetLen--;
-          filtered = allSpans.filter(function (p) { return p.len === targetLen; });
-        }
-        return { spans: filtered, displayLen: targetLen };
-      }
-
-      function buildWeekSpanMap(spans, n) {
-        var map = new Array(n);
-        for (var i = 0; i < n; i++) map[i] = null;
-        spans.forEach(function (p) {
-          for (var w = p.start; w <= p.end; w++) {
-            if (!map[w] || map[w].len < p.len) map[w] = { len: p.len };
-          }
-        });
-        return map;
-      }
-
-      function buildFailSpanColumnHtml(p, weeks, results, n) {
-        var stats = periodCombinedStats(results, p.start, p.end);
-        var col = (p.col || 0) + 1;
-        var rowStart = p.start + 1;
-        var rowEnd = p.end + 2;
-        var slots = [];
-        var i;
-        for (i = 0; i < n; i++) {
-          if (i < p.start || i > p.end) {
-            slots.push('<div class="fail-slot fail-slot--empty" style="grid-row:' + (i + 1) + '"></div>');
-            continue;
-          }
-          var pos = i - p.start + 1;
-          var r = results[i];
-          var dates = formatWeekShortDates(weeks[i].cells);
-          var pct = r.hasWork ? Math.round(r.ratio * 1000) / 10 : null;
-          var pass = r.hasWork && r.ratio >= THRESHOLD;
-          var isFirst = pos === 1;
-          var isLast = pos === p.len;
-          var idxLabel = isFirst ? "起·第1周" : isLast ? "止·第" + pos + "周" : "第" + pos + "周";
-          var totalHtml = isLast
-            ? '<span class="fail-slot__total">连续' + p.len + "周合计 " + stats.pct + "%</span>"
-            : "";
-          slots.push(
-            '<div class="fail-slot fail-slot--active" style="grid-row:' + (i + 1) + '" title="第' + pos + "周 · " + dates + '">' +
-              '<span class="fail-slot__idx">' + idxLabel + "</span>" +
-              '<span class="fail-slot__date">' + dates + "</span>" +
-              '<span class="fail-slot__pct' + (pass ? " is-pass" : " is-fail") + '">' + (pct != null ? pct + "%" : "—") + "</span>" +
-              totalHtml +
-            "</div>"
-          );
-        }
-        return (
-          '<div class="fail-span-col fail-span-col--len-' + p.len + '" style="grid-column:' + col + '">' +
-            '<span class="fail-span-col__stem" style="grid-row:' + rowStart + "/" + rowEnd + '"></span>' +
-            slots.join("") +
-          "</div>"
-        );
-      }
-
-      function buildWeekPanelHtml() {
-        var data = getTripleDashboardData();
-        var weeks = data.weeks;
-        var results = data.results;
-        var n = weeks.length;
-        var allSpans = collectFailingSpans(results).map(function (p) {
-          return { start: p.start, end: p.end, len: p.len };
-        });
-        var display = getDisplaySpans(allSpans);
-        var spans = display.spans;
-        var displayLen = display.displayLen;
-
-        if (!spans.length) {
-          return (
-            '<h3 class="fail-timeline__title">未达标区间</h3>' +
-            '<p class="fail-timeline__empty">连续 ' + MAX_PERIOD + " 周窗口全部达标</p>"
-          );
-        }
-
-        var colCount = packSpanCols(spans);
-        var spanMap = buildWeekSpanMap(spans, n);
-
-        var weekRows = weeks.map(function (wk, i) {
-          var dates = formatWeekShortDates(wk.cells);
-          var cls = "fail-timeline__row";
-          if (spanMap[i]) cls += " fail-timeline__row--hit fail-timeline__row--len-" + spanMap[i].len;
-          else cls += " fail-timeline__row--ok";
-          return '<div class="' + cls + '">' + dates + "</div>";
-        }).join("");
-
-        var bands = spans.map(function (p) {
-          return buildFailSpanColumnHtml(p, weeks, results, n);
-        }).join("");
-
-        return (
-          '<h3 class="fail-timeline__title">未达标区间</h3>' +
-          '<p class="fail-timeline__hint">每个区间按<strong>第1周→第' + displayLen + "周</strong>逐周列出；右侧数字为该周出勤率，底部为连续 " + displayLen + " 周合计。共 " + spans.length + " 处。</p>" +
-          '<div class="fail-timeline" style="--week-count:' + n + ";--band-cols:" + colCount + '">' +
-            '<div class="fail-timeline__weeks">' + weekRows + "</div>" +
-            '<div class="fail-timeline__track">' + bands + "</div>" +
-          "</div>"
-        );
-      }
-
-      function formatWeekShortDates(cells) {
-        var f = parseKey(cells[0].key);
-        var l = parseKey(cells[6].key);
-        return (f.getMonth() + 1) + "/" + f.getDate() + "–" + (l.getMonth() + 1) + "/" + l.getDate();
       }
 
       function buildPeriodSectionHtml() {
@@ -1684,7 +1569,6 @@ permalink: /daka/
               "</div>" +
               alertHtml +
               '<div class="period-stack">' +
-                buildPeriodMatrixHtml(results, weeks) +
                 '<div class="period-week-block">' + buildWeekPanelHtml() + "</div>" +
               "</div>" +
             "</div>" +
