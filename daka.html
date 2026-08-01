@@ -1811,12 +1811,18 @@ permalink: /daka/
         });
 
         weeks.forEach(function (wk) {
+          ["prev", "curr", "next"].forEach(function (slot) {
+            if (shown[slot]) return;
+            var hasFirst = wk.cells.some(function (cell) {
+              return cell.monthSlot === slot && parseKey(cell.key).getDate() === 1;
+            });
+            if (!hasFirst) return;
+            shown[slot] = true;
+            var bandCls = "cal__month-band" + (slot === "curr" ? " cal__month-band--curr" : "");
+            html += '<div class="' + bandCls + '">' + bands[slot] + "</div>";
+          });
+
           wk.cells.forEach(function (cell) {
-            if (cell.monthSlot && cell.monthSlot !== "edge" && !shown[cell.monthSlot]) {
-              shown[cell.monthSlot] = true;
-              var bandCls = "cal__month-band" + (cell.monthSlot === "curr" ? " cal__month-band--curr" : "");
-              html += '<div class="' + bandCls + '">' + bands[cell.monthSlot] + "</div>";
-            }
             var cls = ["cal__cell", cellClass(cell.key)];
             if (cell.monthSlot === "curr") cls.push("is-curr-month");
             else if (cell.monthSlot === "prev" || cell.monthSlot === "next") cls.push("is-adj-month");
