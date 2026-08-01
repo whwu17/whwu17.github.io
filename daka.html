@@ -1089,7 +1089,7 @@ permalink: /daka/
       var STORAGE_KEY = "daka-data-v1";
       var THRESHOLD = 0.4;
       var MAX_PERIOD = 5;
-      var WEEKDAYS = ["一", "二", "三", "四", "五", "六", "日"];
+      var WEEKDAYS = ["日", "一", "二", "三", "四", "五", "六"];
       var WEEKDAY_NAMES = ["日", "一", "二", "三", "四", "五", "六"];
 
       var CHECKIN_ACTIONS = [
@@ -1162,19 +1162,15 @@ permalink: /daka/
         var p = key.split("-");
         return new Date(+p[0], +p[1] - 1, +p[2]);
       }
-      function daysSinceMonday(date) {
-        return (date.getDay() + 6) % 7;
-      }
-
-      function startOfWeekMonday(date) {
+      function startOfWeekSunday(date) {
         var d = new Date(date);
-        d.setDate(d.getDate() - daysSinceMonday(d));
+        d.setDate(d.getDate() - d.getDay());
         return d;
       }
 
-      function endOfWeekSunday(date) {
+      function endOfWeekSaturday(date) {
         var d = new Date(date);
-        d.setDate(d.getDate() + (6 - daysSinceMonday(d)));
+        d.setDate(d.getDate() + (6 - d.getDay()));
         return d;
       }
 
@@ -1270,7 +1266,7 @@ permalink: /daka/
         return cells;
       }
 
-      function buildWeekFromMonday(weekStart, year, month) {
+      function buildWeekFromSunday(weekStart, year, month) {
         var cells = buildWeekCells(weekStart);
         if (year != null && month != null) {
           cells.forEach(function (c) {
@@ -1290,14 +1286,13 @@ permalink: /daka/
         var daysInMonth = new Date(year, month, 0).getDate();
         var firstOfMonth = new Date(year, month - 1, 1);
         var lastKey = dateKey(year, month, daysInMonth);
-        var cursor = startOfWeekMonday(firstOfMonth);
-        var lastKey = dateKey(year, month, daysInMonth);
+        var cursor = startOfWeekSunday(firstOfMonth);
         var weeks = [];
         var weekNum = 1;
         var seenLast = false;
 
         while (!seenLast) {
-          var wk = buildWeekFromMonday(new Date(cursor), year, month);
+          var wk = buildWeekFromSunday(new Date(cursor), year, month);
           if (wk.cells.some(function (c) { return c.inMonth; })) {
             wk.num = weekNum++;
             weeks.push(wk);
@@ -1314,17 +1309,17 @@ permalink: /daka/
         var core = buildMonthWeeks(year, month);
         if (!core.length) return [];
 
-        var firstMon = parseKey(core[0].cells[0].key);
-        var lastMon = parseKey(core[core.length - 1].cells[0].key);
-        var start = new Date(firstMon);
+        var firstSun = parseKey(core[0].cells[0].key);
+        var lastSun = parseKey(core[core.length - 1].cells[0].key);
+        var start = new Date(firstSun);
         start.setDate(start.getDate() - 7 * (MAX_PERIOD - 1));
-        var end = new Date(lastMon);
+        var end = new Date(lastSun);
         end.setDate(end.getDate() + 7 * (MAX_PERIOD - 1));
 
         var weeks = [];
         var cursor = new Date(start);
         while (cursor <= end) {
-          weeks.push(buildWeekFromMonday(new Date(cursor)));
+          weeks.push(buildWeekFromSunday(new Date(cursor)));
           cursor.setDate(cursor.getDate() + 7);
         }
         return weeks;
@@ -1392,12 +1387,12 @@ permalink: /daka/
         var daysInNext = new Date(next.year, next.month, 0).getDate();
         var lastOfNext = new Date(next.year, next.month - 1, daysInNext);
 
-        var cursor = startOfWeekMonday(firstOfPrev);
-        var end = endOfWeekSunday(lastOfNext);
+        var cursor = startOfWeekSunday(firstOfPrev);
+        var end = endOfWeekSaturday(lastOfNext);
 
         var weeks = [];
         while (cursor <= end) {
-          weeks.push(buildWeekFromMonday(new Date(cursor)));
+          weeks.push(buildWeekFromSunday(new Date(cursor)));
           cursor.setDate(cursor.getDate() + 7);
         }
         return weeks;
@@ -1649,7 +1644,7 @@ permalink: /daka/
         return (
           '<div class="week-block week-block--period">' +
             '<div class="week-block__title">周期达标 · ' + modeLabel + '</div>' +
-            '<div class="week-block__sub">连续 1–5 个自然周合并计算（周一–周日，可跨月）</div>' +
+            '<div class="week-block__sub">连续 1–5 个自然周合并计算（周日–周六，可跨月）</div>' +
             '<div class="period-lines">' + lines.join("") + '</div>' +
           '</div>'
         );
@@ -1690,7 +1685,7 @@ permalink: /daka/
         return (
           '<div class="week-block">' +
             '<div class="week-block__title">单周达标 · ' + modeLabel + '</div>' +
-            '<div class="week-block__sub">按完整自然周计算（周一–周日，含跨月日期）</div>' +
+            '<div class="week-block__sub">按完整自然周计算（周日–周六，含跨月日期）</div>' +
             '<div class="week-rows">' + rows + '</div>' +
           '</div>'
         );
