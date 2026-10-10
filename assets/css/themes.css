@@ -359,9 +359,34 @@ body.theme-beach .aurora {
   --theme-font-display: ui-monospace, "SF Mono", Menlo, monospace;
 }
 
+/* —— Travel: night-flight navy + runway amber —— */
+.theme-travel {
+  --theme-bg: linear-gradient(165deg, #0b1c33 0%, #16324f 58%, #1a3a4a 100%);
+  --theme-accent: #f59e0b;
+  --theme-accent-hover: #fbbf24;
+  --theme-ink: #f8fafc;
+  --theme-ink-muted: rgba(248, 250, 252, 0.78);
+  --theme-ink-subtle: rgba(248, 250, 252, 0.58);
+  --theme-surface: rgba(255, 255, 255, 0.12);
+  --theme-surface-raised: rgba(255, 255, 255, 0.18);
+  --theme-border: rgba(245, 158, 11, 0.24);
+  --theme-font-display: "Avenir Next", "SF Pro Display", system-ui, sans-serif;
+}
+.theme-travel .eyebrow .dot {
+  background: var(--theme-accent);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.5);
+}
+.theme-travel code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  color: var(--theme-accent);
+  white-space: nowrap;
+}
+
 /* Dark themed sections — glass over rich backgrounds */
 .theme-music,
-.theme-encrypt {
+.theme-encrypt,
+.theme-travel {
   --glass-fill: transparent;
   --glass-fill-subtle: transparent;
   --glass-blur-pill: blur(24px) saturate(140%);

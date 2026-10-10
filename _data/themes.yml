@@ -9,6 +9,7 @@ pages:
   notes: { class: theme-notes, mood: Sunny notebook }
   encrypt: { class: theme-encrypt, mood: Cool secure slate }
   music: { class: theme-music, mood: Vivid violet lounge }
+  travel: { class: theme-travel, mood: Night-flight navy + runway amber }
   novel: { class: theme-novel, mood: Warm literary linen }
   links_home: { class: theme-links, mood: Coastal sky + sand + sun }
   links_page: { class: theme-beach, mood: Beach airy chapters }
